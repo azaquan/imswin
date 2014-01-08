@@ -948,7 +948,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   61865987
+            Format          =   61800451
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1610,7 +1610,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   61865987
+            Format          =   61800451
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2184,7 +2184,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   61865987
+            Format          =   61800451
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -5335,7 +5335,8 @@ If (OptEmail.value = True Or OptFax.value = True) Then
             Call AddRecepient(txt_Recipient, , False)
 
             dgRecipientList.Refresh ' JCG 2008/07/30
-            
+
+
             txt_Recipient = ""
         'Else
         '    dgRecepients_DblClick
@@ -5347,7 +5348,6 @@ If (OptEmail.value = True Or OptFax.value = True) Then
     Exit Sub
 errorHandler:
     MsgBox "Error in cmd_Add_Click: " + Err.Description
-    
     
 End Sub
 
