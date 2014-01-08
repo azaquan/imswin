@@ -1,0 +1,95 @@
+SendPO
+sendOutlookEmailandFax : PDF is generated here
+WriteParameterFiles
+WriteParameterFileEmail
+WriteParameterEfax
+sendProcess
+==============
+
+
+'call store procedure to get warehouse distribution recordset
+
+Public Function GetWareHouseRecipients(NameSpace As String, _
+                                      cn As ADODB.Connection) As ADODB.Recordset
+Dim cmd As ADODB.Command
+
+
+    Set cmd = New ADODB.Command
+    
+    With cmd
+        Set .ActiveConnection = cn
+        .CommandType = adCmdStoredProc
+        .CommandText = "GetWareHouseDistribution"
+        
+        .parameters.Append .CreateParameter("NP", adVarChar, adParamInput, 5, NameSpace)
+        Set GetWareHouseRecipients = .Execute
+    End With
+    
+End Function
+
+========================================
+
+
+ 
+    If sMainfestNumber <> "" Then _
+        FMainfestNumber = sMainfestNumber
+'    If FRequestedQty <> "" Then _
+'        FRequestedQty = sRequestedQty
+        
+    If ((FConnection.State And adStateOpen) = adStateClosed) Then FConnection.Open
+    With cmd
+        .CommandText = ProcName
+        .CommandType = adCmdStoredProc
+        Set .ActiveConnection = FConnection
+        
+        .parameters.Append .CreateParameter("RT", adInteger, adParamReturnValue)
+        .parameters.Append .CreateParameter("@manfnumb", adVarChar, adParamInput, 15, FMainfestNumber)
+        .parameters.Append .CreateParameter("@npecode", adVarChar, adParamInput, 5, FNamespace)
+        .parameters.Append .CreateParameter("@manfsrl", adInteger, adParamInput, 4, FManiFestSerialNumb)
+        .parameters.Append .CreateParameter("@ponum", adVarChar, adParamInput, 15, FPoNumber)
+        .parameters.Append .CreateParameter("@liitnumb", adVarChar, adParamInput, 6, FLineNumber)
+        .parameters.Append .CreateParameter("@boxnumb", adInteger, adParamInput, 4, FBoxNumber)
+        .parameters.Append .CreateParameter("@reqdqty", adDouble, adParamInput, 10, FTobeship)
+        .parameters.Append .CreateParameter("@unitpric", adDouble, adParamInput, 10, FUnitPrice)
+        .parameters.Append .CreateParameter("@User", adVarChar, adParamInput, 20, FUser)
+        
+        Call .Execute(Options:=adExecuteNoRecords)
+    
+        SAVE = .parameters(0).Value = 0
+        
+    End With
+    
+    
+    Set cmd = Nothing
+    
+    Exit Function
+    
+    
+ErrHandler:
+    SAVE = False
+    MsgBox "Insert into Packing list details was failure"
+    Err.Raise Err.number, Err.source, Err.Description, Err.HelpFile, Err.HelpContext
+
+
+========================================================
+
+
+
+Dim cmd As ADODB.Command
+Dim rst As ADODB.Recordset
+    Set cmd = MakeCommand(deIms.cnIms, adCmdText)
+
+    With cmd
+        Set .ActiveConnection = cn
+        .CommandText = " SELECT forw_name, forw_adr1, "
+        .CommandText = .CommandText & " forw_adr2, forw_city, "
+        .CommandText = .CommandText & " forw_stat, forw_zipc, "
+        .CommandText = .CommandText & " forw_ctry, forw_phonnumb, "
+        .CommandText = .CommandText & " forw_faxnumb, forw_mail, "
+        .CommandText = .CommandText & " forw_telxnumb,forw_cont "
+        .CommandText = .CommandText & " From FORWARDER "
+        .CommandText = .CommandText & " WHERE forw_code =  '" & Code & "'"
+        .CommandText = .CommandText & " AND forw_npecode = '" & NameSpace & "'"
+
+        Set rst = .Execute
+    End With

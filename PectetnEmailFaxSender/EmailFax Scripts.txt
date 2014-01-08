@@ -1,0 +1,280 @@
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[EmailFax]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[EmailFax]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[EmailFaxConfig]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[EmailFaxConfig]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[EmailFaxConfigErrors]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[EmailFaxConfigErrors]
+GO
+CREATE TABLE [dbo].[EmailFax](
+	[rowid] [bigint] IDENTITY(1,1) NOT FOR REPLICATION NOT NULL,
+	[Subject] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Body] [varchar](8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AttachmentFile] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PDFFile] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Attempted] [int] NULL CONSTRAINT [DF_EmailFax_Attempted]  DEFAULT ((0)),
+	[Send] [datetime] NULL,
+	[RecepientStr] [varchar](8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ErrorDetails] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[creadate] [datetime] NOT NULL CONSTRAINT [DF_EmailFaxHeader_creadate]  DEFAULT (getdate()),
+	[creauser] [nvarchar](100) NOT NULL,
+	[modidate] [datetime] NOT NULL CONSTRAINT [DF_EmailFaxHeader_modidate]  DEFAULT (getdate()),
+	[modiuser] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_EmailFaxHeader] PRIMARY KEY CLUSTERED 
+(
+	[rowid] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[EmailFaxConfig] (
+	[rowid] [bigint] IDENTITY (1, 1) NOT FOR REPLICATION  NOT NULL ,
+	[FromEmail] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[FromName] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[password] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[SMTP] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[SendingPort] [int] NOT NULL ,
+	[orderindex] [int] NOT NULL 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[EmailFaxConfigErrors] (
+	[rowid] [int] IDENTITY (1, 1) NOT FOR REPLICATION  NOT NULL ,
+	[error] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[creadate] [datetime] NOT NULL 
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[EmailFax] WITH NOCHECK ADD 
+	CONSTRAINT [PK_EmailFaxHeader] PRIMARY KEY  CLUSTERED 
+	(
+		[rowid]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[EmailFaxConfig] WITH NOCHECK ADD 
+	CONSTRAINT [PK_EmailFaxConfig] PRIMARY KEY  CLUSTERED 
+	(
+		[rowid]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[EmailFaxConfigErrors] WITH NOCHECK ADD 
+	CONSTRAINT [PK_EmailFaxConfigErrors] PRIMARY KEY  CLUSTERED 
+	(
+		[rowid]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[EmailFax] ADD 
+	CONSTRAINT [DF_EmailFaxHeader_creadate] DEFAULT (getdate()) FOR [creadate],
+	CONSTRAINT [DF_EmailFaxHeader_modidate] DEFAULT (getdate()) FOR [modidate]
+GO
+
+ALTER TABLE [dbo].[EmailFaxConfigErrors] ADD 
+	CONSTRAINT [DF_EmailFaxConfigErrors_creadate] DEFAULT (getdate()) FOR [creadate]
+GO
+
+setuser
+GO
+
+EXEC sp_bindrule N'[dbo].[No_Empty_String]', N'[EmailFax].[creauser]'
+GO
+
+EXEC sp_bindefault N'[dbo].[CREATEUSERDEF]', N'[EmailFax].[creauser]'
+GO
+
+EXEC sp_bindrule N'[dbo].[No_Empty_String]', N'[EmailFax].[modiuser]'
+GO
+
+EXEC sp_bindefault N'[dbo].[CREATEUSERDEF]', N'[EmailFax].[modiuser]'
+GO
+
+setuser
+GO
+
+
+
+
+--===============
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[InsertEmailFax]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[InsertEmailFax]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[InsertEmailFaxConfigErrors]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[InsertEmailFaxConfigErrors]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[SelectEmailFax]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[SelectEmailFax]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[SelectEmailFaxconfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[SelectEmailFaxconfig]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[UpdateEmailFaxAttempted]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[UpdateEmailFaxAttempted]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[UpdateEmailFaxSendFlag]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[UpdateEmailFaxSendFlag]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+CREATE PROCEDURE [dbo].[INSERT_DISTRIBUTION](
+	@npecode CHAR(5),
+	@gender VARCHAR(5),
+	@ID VARCHAR(5),
+	@MAIL VARCHAR(59),
+	@FAXNUMB VARCHAR(50),
+	@ACTIVE VARCHAR(1) --JCG 2008-12-13
+) 
+
+AS BEGIN
+
+	INSERT INTO DISTRIBUTION ( 
+		dis_npecode, 
+		dis_gender, 
+		dis_id, 
+		dis_mail,  
+		dis_faxnumb,
+		dis_active
+	)
+	VALUES (
+		@npecode,
+		@gender,
+		@ID,
+		@MAIL,
+		@FAXNUMB,
+		@ACTIVE
+	)       
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[InsertEmailFax]    Script Date: 05/31/2010 15:20:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[InsertEmailFax]
+
+@Subject varchar(4000),                                                                                                                                                                                                                                                                                                           
+@Body varchar(8000),                                                                                                                                                                                                                                                            
+@AttachmentFile varchar(2000),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+@recepientStr varchar(8000),                                      
+@creauser  varchar(100)                      
+
+ AS
+Begin
+insert into Emailfax
+( Subject, Body, AttachmentFile,  RecepientStr, creauser, modiuser             )
+values
+( @Subject, @Body, @AttachmentFile, @recepientStr, @creauser, @creauser)
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[InsertEmailFaxConfigErrors]    Script Date: 05/31/2010 15:20:01 ******/
+SET ANSI_NULLS OFF
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[InsertEmailFaxConfigErrors]
+@error varchar(8000)
+
+as
+begin
+insert into emailfaxconfigerrors
+(error)
+values
+(@error)
+
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[SelectEmailFax]    Script Date: 05/31/2010 15:20:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SelectEmailFax]
+ AS
+Begin
+select rowid, Subject, Body, isnull(AttachmentFile,'') AttachmentFile , isnull(PDFFile,'')PDFFile, Attempted, Send, RecepientStr, ErrorDetails, creadate, creauser, modidate, modiuser
+from emailfax 
+where send is null and attempted <=20
+end
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[SelectEmailFaxconfig]    Script Date: 05/31/2010 15:20:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[SelectEmailFaxconfig]
+ AS
+Begin
+select * from EmailFaxConfig where orderindex = 0
+end
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateEmailFaxAttempted]    Script Date: 05/31/2010 15:20:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[UpdateEmailFaxAttempted]
+@rowid bigint
+ AS
+Begin
+update Emailfax set attempted=getdate(), modidate = getdate() where rowid = @rowid
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateEmailFaxSendFlag]    Script Date: 05/31/2010 15:20:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[UpdateEmailFaxSendFlag]
+@rowid bigint,
+@send datetime,
+@PDFFile varchar(2000),
+@ErrorDetails varchar(4000)
+AS
+Begin
+update Emailfax set send=@send, ErrorDetails = @ErrorDetails, PDFFile =@PDFFile , attempted = attempted + 1
+where rowid = @rowid
+end
+
+
+
+go
+
+
+insert into emailfaxconfig
+(FromEmail   ,FromName, password , SMTP,  SendingPort, orderindex  )
+values
+('pecten@groupgls.com','pecten@groupgls.com','pectendla4312','smtpout.secureserver.net','80', 0)

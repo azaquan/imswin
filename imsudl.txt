@@ -1,0 +1,1 @@
+Provider=SQLOLEDB.1;PASSWORD=0egxpx4;Persist security info=true;user id=sa;initial catalog=exxonTest;data source=BENOIT\SQLEXPRESS

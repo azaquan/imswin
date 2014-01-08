@@ -1,0 +1,9 @@
+Get the List of email fax Records
+Loop through each record
+Convert the document to PDF
+update DB with Attempt : FORGET THIS
+Send Email\ Fax 
+Update the DB 
+
+
+Location to export the PDF documents

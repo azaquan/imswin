@@ -1,0 +1,16 @@
+Module:             ims
+Routine:            frm_Load::Form_Load
+Error Number:       432
+Error Source:       IMS
+Error Description:  error launching Data Env
+Error Date:         04/05/2010 20:38:44
+
+
+Module:             ims
+Routine:            Main
+Error Number:       364
+Error Source:       IMS
+Error Description:  Object was unloaded
+Error Date:         04/05/2010 20:38:45
+
+

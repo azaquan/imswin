@@ -1,0 +1,130 @@
+[Version]
+Version=2.0.0.5196
+
+[imstest.exe <0009>]
+Dest=$(AppPath)
+Date=7/1/2008
+Time=22:30
+Version=2.0.0.5196
+CABFilename=imsdependency070408.CAB
+CABINFFile=imsdependency070408.INF
+Uses1=msvbvm60.dll
+Uses2=OLEAUT32.DLL
+Uses3=OLEPRO32.DLL
+Uses4=ASYCFILT.DLL
+Uses5=STDOLE2.TLB
+Uses6=COMCAT.DLL
+Uses7=MSDERUN.DLL
+Uses8=MSBIND.DLL
+Uses9=msado25.tlb
+Uses10=imsfiles.dll
+Uses11=lrsysinf.dll
+Uses12=imstools.dll
+Uses13=imsdlgX.dll
+Uses14=imsutilsX.dll
+Uses15=lrsmtpao.dll
+Uses16=ImsDataX.dll
+Uses17=Lock .dll
+Uses18=scrrun.dll
+Uses19=ImsSecX.dll
+Uses20=EXCEL.EXE
+Uses21=ImsStockMasterx1.dll
+Uses22=IMSPOx1.dll
+Uses23=imsWarehouse.dll
+Uses24=ssdw3bo.ocx
+Uses25=MSDATLST.OCX
+Uses26=MSDATGRD.OCX
+Uses27=TABCTL32.OCX
+Uses28=MSCOMCT2.OCX
+Uses29=COMDLG32.OCX
+Uses30=MSCOMCTL.OCX
+Uses31=Crystl32.OCX
+Uses32=MSHFLXGD.OCX
+Uses33=LRLabelsX.ocx
+Uses34=LRNavigatorsX.ocx
+Uses35=LRHyperLabelX.ocx
+Uses36=ImsMailVBX.ocx
+
+[imstools.dll <0009>]
+Dest=$(WinSysPath)
+Date=7/28/2000
+Time=21:46
+Version=1.0.0.1
+
+[imsdlgX.dll <0009>]
+Dest=$(WinSysPath)
+Date=4/20/2001
+Time=12:42
+Version=1.0.0.0
+
+[imsutilsX.dll <0009>]
+Dest=$(WinSysPath)
+Date=4/20/2001
+Time=12:40
+Version=1.0.0.0
+
+[ImsDataX.dll <0009>]
+Dest=$(WinSysPath)
+Date=9/5/2001
+Time=08:11
+Version=1.0.0.0
+
+[Lock .dll <0009>]
+Dest=$(WinSysPath)
+Date=3/12/2002
+Time=15:19
+Version=1.0.0.0
+
+[ImsSecX.dll <0009>]
+Dest=$(WinSysPath)
+Date=9/9/2002
+Time=11:43
+Version=1.0.0.10
+
+[EXCEL.EXE <0009>]
+Dest=$(AppPath)
+Date=8/23/2006
+Time=21:20
+Version=11.0.8105.0
+
+[ImsStockMasterx1.dll <0009>]
+Dest=$(WinSysPath)
+Date=9/8/2004
+Time=17:44
+Version=1.0.0.0
+
+[IMSPOx1.dll <0009>]
+Dest=$(WinSysPath)
+Date=9/14/2004
+Time=21:10
+Version=1.0.0.5
+
+[imsWarehouse.dll <0009>]
+Dest=$(WinSysPath)
+Date=12/28/2006
+Time=19:17
+Version=1.0.0.55
+
+[LRLabelsX.ocx <0009>]
+Dest=$(WinSysPath)
+Date=4/23/2001
+Time=12:39
+Version=0.0.0.7
+
+[LRNavigatorsX.ocx <0009>]
+Dest=$(WinSysPath)
+Date=3/31/2001
+Time=16:05
+Version=1.0.0.12
+
+[LRHyperLabelX.ocx <0009>]
+Dest=$(WinSysPath)
+Date=4/23/2001
+Time=11:31
+Version=0.0.0.8
+
+[ImsMailVBX.ocx <0009>]
+Dest=$(WinSysPath)
+Date=4/23/2001
+Time=12:39
+Version=1.0.0.1

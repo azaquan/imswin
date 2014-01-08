@@ -1,0 +1,10 @@
+[report]
+file=C:\Projects\VB\ims\CRreports\po.rpt
+
+[data]
+login=sa
+password=0egxpx4
+
+[params]
+namespace=HOUST
+ponumb=testcomp32

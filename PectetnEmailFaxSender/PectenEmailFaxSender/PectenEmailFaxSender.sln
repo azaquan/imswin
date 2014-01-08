@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PectenEmailFaxSender", "PectenEmailFaxSender\PectenEmailFaxSender.vbproj", "{1DDDC6FC-3D60-4414-A845-02BCE74BE4EC}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = PectenEmailFaxSender\\PectenEmailFaxSender.vbproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = PectenEmailFaxSender\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1DDDC6FC-3D60-4414-A845-02BCE74BE4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDDC6FC-3D60-4414-A845-02BCE74BE4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDDC6FC-3D60-4414-A845-02BCE74BE4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DDDC6FC-3D60-4414-A845-02BCE74BE4EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

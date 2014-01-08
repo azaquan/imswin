@@ -1,0 +1,7 @@
+cSubClass = 0, 0, 0, 0, C
+cTreeTips = 0, 0, 0, 0, C
+Warehouse = 0, 0, 0, 0, C
+mSubClass = 0, 0, 0, 0, C
+translator = 0, 0, 0, 0, C
+warehouses = 0, 0, 0, 0, C
+frmWarehouse = 44, 50, 792, 396, , 154, 203, 689, 655, C

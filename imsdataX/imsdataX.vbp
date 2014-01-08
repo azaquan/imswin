@@ -1,0 +1,58 @@
+Type=OleDll
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\WINNT\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00000201-0000-0010-8000-00AA006D2EA4}#2.1#0#..\..\..\..\Program Files\Common Files\System\ADO\msado21.tlb#Microsoft ActiveX Data Objects 2.1 Library
+Reference=*\G{74C08640-CEDB-11CF-8B49-00AA00B8A790}#1.0#0#..\..\..\..\WINNT\system32\comsvcs.dll#Microsoft Transaction Server Type Library
+Class=imsGetPOInfo; GetPOInfo.cls
+Class=imsGetSupplierInfo; GetSupplierInfo.cls
+Class=imsInvoiceDetl; InvoiceDetl.cls
+Class=imsInvoiceDetls; InvoiceDetls.cls
+Class=imsNav; imsNav.cls
+Class=imsspInt; StoredProcs.cls
+Class=imsWhareIssue; WhareIssue.cls
+Startup="(None)"
+HelpFile=""
+Title="Ims Data Access Module"
+ExeName32="ImsDataX.dll"
+Path32="..\..\..\ims\components"
+Command32=""
+Name="ImsDataX"
+HelpContextID="0"
+Description="Ims Data Module"
+CompatibleMode="2"
+CompatibleEXE32="..\Components\ImsDataX.dll"
+VersionCompatible32="1"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=1
+DllBaseAddress=&H3100000
+VersionCompanyName="IMS"
+VersionFileDescription="ims data access"
+VersionLegalCopyright="Copyright © 2000 - 2005 IMS inc"
+VersionLegalTrademarks="imswin is a regiastered  trademark ® of IMS inc."
+VersionProductName="ims Data Access"
+CondComp="DBUG = 0"
+CompilationType=0
+OptimizationType=0
+FavorPentiumPro(tm)=0
+CodeViewDebugInfo=0
+NoAliasing=0
+BoundsCheck=0
+OverflowCheck=0
+FlPointCheck=0
+FDIVCheck=0
+UnroundedFP=0
+StartMode=1
+Unattended=0
+Retained=0
+ThreadPerObject=0
+MaxNumberOfThreads=1
+ThreadingModel=1
+DebugStartupOption=0
+
+[MS Transaction Server]
+AutoRefresh=1
+
+[RVB]
+RVB_UniqueId=38955A200211

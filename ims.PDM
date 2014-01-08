@@ -1,0 +1,237 @@
+[Root]
+Most Recent Package=imsdependency070408
+
+
+[Package|imsdependency070408|Root]
+SubWizProgID=PDWizard.DepPkgSubWiz
+BuildFolder=C:\Projects\VB\ims
+
+[Package|imsdependency070408|Configure DAO ISAMs]
+Applicable=No
+
+[Package|imsdependency070408|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|imsdependency070408|Files Found]
+
+[Package|imsdependency070408|Files Released]
+u2LBAR.DLL=
+u25TOTAL.DLL=
+u25STORE.DLL=
+p2BBND.DLL=
+p2BBDE.DLL=
+Crystal=
+2=
+
+[Package|imsdependency070408|Missing Dependency Information]
+C:\Projects\VB\ims\Components\ImsMailVBX.ocx=
+C:\Projects\VB\ims\Components\LRHyperLabelX.ocx=
+C:\Projects\VB\ims\Components\LRNavigatorsX.ocx=
+C:\Projects\VB\ims\Components\LRLabelsX.ocx=
+C:\Juan's Desktop\imsWarehouse.dll=
+C:\Projects\VB\ims\ImspoX\IMSPOx1.dll=
+C:\Projects\VB\ims\ImsStockMaster\ImsStockMasterx1.dll=
+C:\Program Files\Microsoft Office\OFFICE11\EXCEL.EXE=
+C:\Projects\VB\ims\Components\ImsSecX.dll=
+C:\Projects\VB\ims\Components\Lock .dll=
+C:\Projects\VB\ims\Components\ImsDataX.dll=
+C:\Projects\VB\ims\Components\imsutilsX.dll=
+C:\Projects\VB\ims\Components\imsdlgX.dll=
+C:\Projects\VB\ims\Components\imstools.dll=
+
+[Package|imsdependency070408|Out-of-Date Dependency Information]
+C:\WINDOWS\system32\scrrun.dll=
+
+[Package|imsdependency070408|Files Added]
+
+[Package|imsdependency070408|Files Removed]
+
+[Package|imsdependency070408|Files In Project]
+C:\Projects\VB\ims\imstest.exe=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Program Files\Common Files\DESIGNER\MSDERUN.DLL=Yes
+C:\Program Files\Common Files\System\ado\msado15.dll=Yes
+C:\WINDOWS\system32\MSBIND.DLL=Yes
+C:\WINDOWS\system32\msstdfmt.dll=Yes
+C:\Program Files\Common Files\System\ado\msado25.tlb=Yes
+C:\Projects\VB\ims\Components\imsfiles.dll=Yes
+C:\Projects\VB\ims\Components\lrsysinf.dll=Yes
+C:\Projects\VB\ims\Components\imstools.dll=Yes
+C:\Projects\VB\ims\Components\imsdlgX.dll=Yes
+C:\Projects\VB\ims\Components\imsutilsX.dll=Yes
+C:\WINDOWS\system32\lrsmtpao.dll=Yes
+C:\Projects\VB\ims\Components\ImsDataX.dll=Yes
+C:\Projects\VB\ims\Components\Lock .dll=Yes
+C:\WINDOWS\system32\scrrun.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT.DLL=Yes
+C:\Projects\VB\ims\Components\ImsSecX.dll=Yes
+C:\Program Files\Microsoft Office\OFFICE11\EXCEL.EXE=Yes
+C:\Projects\VB\ims\ImsStockMaster\ImsStockMasterx1.dll=Yes
+C:\Projects\VB\ims\ImspoX\IMSPOx1.dll=Yes
+C:\Juan's Desktop\imsWarehouse.dll=Yes
+C:\Program Files\Infragistics\Data Widgets\ssdw3bo.ocx=Yes
+C:\WINDOWS\system32\mfc42.dll=Yes
+C:\Program Files\Infragistics\Data Widgets\ssmedt32.dll=Yes
+C:\Program Files\Infragistics\Data Widgets\ssprn32.dll=Yes
+C:\Program Files\Infragistics\Data Widgets\ssr2c.dll=Yes
+C:\WINDOWS\system32\MSDATLST.OCX=Yes
+C:\WINDOWS\system32\MSDATGRD.OCX=Yes
+C:\WINDOWS\system32\TABCTL32.OCX=Yes
+C:\WINDOWS\system32\MSCOMCT2.OCX=Yes
+C:\WINDOWS\system32\COMDLG32.OCX=Yes
+C:\WINDOWS\system32\MSCOMCTL.OCX=Yes
+C:\WINDOWS\system32\Crystl32.OCX=Yes
+C:\WINDOWS\system32\crpe32.dll=Yes
+C:\WINDOWS\system32\Implode.dll=Yes
+C:\WINDOWS\system32\Crpaig80.dll=Yes
+C:\WINDOWS\Crystal\Crxlat32.dll=Yes
+C:\WINDOWS\system32\p2bdao.dll=Yes
+C:\WINDOWS\Crystal\p2bxbse.dll=Yes
+C:\WINDOWS\system32\p2ctdao.dll=Yes
+C:\WINDOWS\system32\p2irdao.dll=Yes
+C:\WINDOWS\Crystal\p2sifmx.dll=Yes
+C:\WINDOWS\system32\P2smon.dll=Yes
+C:\WINDOWS\system32\p2sodbc.dll=Yes
+C:\WINDOWS\Crystal\p2sora7.dll=Yes
+C:\WINDOWS\Crystal\p2ssql.dll=Yes
+C:\WINDOWS\Crystal\p2ssyb10.dll=Yes
+C:\WINDOWS\Crystal\p2soledb.dll=Yes
+C:\WINDOWS\Crystal\u2ddisk.dll=Yes
+C:\WINDOWS\Crystal\u2dmapi.dll=Yes
+C:\WINDOWS\Crystal\u2dnotes.dll=Yes
+C:\WINDOWS\Crystal\u2dpost.dll=Yes
+C:\WINDOWS\Crystal\u2dvim.dll=Yes
+C:\WINDOWS\Crystal\u2dapp.dll=Yes
+C:\WINDOWS\Crystal\u2fcr.dll=Yes
+C:\WINDOWS\Crystal\u2fhtml.dll=Yes
+C:\WINDOWS\Crystal\u2fodbc.dll=Yes
+C:\WINDOWS\Crystal\u2frec.dll=Yes
+C:\WINDOWS\Crystal\u2frtf.dll=Yes
+C:\WINDOWS\Crystal\u2fsepv.dll=Yes
+C:\WINDOWS\Crystal\u2ftext.dll=Yes
+C:\WINDOWS\Crystal\u2fwks.dll=Yes
+C:\WINDOWS\Crystal\u2fwordw.dll=Yes
+C:\WINDOWS\Crystal\u2fxls.dll=Yes
+C:\WINDOWS\Crystal\u25dts.dll=Yes
+C:\WINDOWS\Crystal\u2l2000.dll=Yes
+C:\WINDOWS\Crystal\u2lcom.dll=Yes
+C:\WINDOWS\Crystal\u2ldts.dll=Yes
+C:\WINDOWS\Crystal\u2lsamp1.dll=Yes
+C:\WINDOWS\Crystal\u252000.dll=Yes
+\program files\seagate software\shared\SSCSDK80.DLL=Yes
+C:\WINDOWS\system32\MSHFLXGD.OCX=Yes
+C:\Projects\VB\ims\Components\LRLabelsX.ocx=Yes
+C:\Projects\VB\ims\Components\LRNavigatorsX.ocx=Yes
+C:\Projects\VB\ims\Components\LRHyperLabelX.ocx=Yes
+C:\Projects\VB\ims\Components\ImsMailVBX.ocx=Yes
+
+[Package|imsdependency070408|Configure Registry Files]
+Applicable=
+
+[Package|imsdependency070408|Configure Remote Servers]
+Applicable=
+
+[Package|imsdependency070408|Install Locations]
+C:\Projects\VB\ims\imstest.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Common Files\DESIGNER\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\System\ado\msado15.dll=$(CommonFilesSys)\ADO
+C:\WINDOWS\system32\MSBIND.DLL=$(WinSysPath)
+C:\WINDOWS\system32\msstdfmt.dll=$(WinSysPath)
+C:\Program Files\Common Files\System\ado\msado25.tlb=$(CommonFilesSys)\ADO
+C:\Projects\VB\ims\Components\imsfiles.dll=$(AppPath)
+C:\Projects\VB\ims\Components\lrsysinf.dll=$(AppPath)
+C:\Projects\VB\ims\Components\imstools.dll=$(WinSysPath)
+C:\Projects\VB\ims\Components\imsdlgX.dll=$(WinSysPath)
+C:\Projects\VB\ims\Components\imsutilsX.dll=$(WinSysPath)
+C:\WINDOWS\system32\lrsmtpao.dll=$(AppPath)
+C:\Projects\VB\ims\Components\ImsDataX.dll=$(WinSysPath)
+C:\Projects\VB\ims\Components\Lock .dll=$(WinSysPath)
+C:\WINDOWS\system32\scrrun.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT.DLL=$(WinSysPathSysFile)
+C:\Projects\VB\ims\Components\ImsSecX.dll=$(WinSysPath)
+C:\Program Files\Microsoft Office\OFFICE11\EXCEL.EXE=$(AppPath)
+C:\Projects\VB\ims\ImsStockMaster\ImsStockMasterx1.dll=$(WinSysPath)
+C:\Projects\VB\ims\ImspoX\IMSPOx1.dll=$(WinSysPath)
+C:\Juan's Desktop\imsWarehouse.dll=$(WinSysPath)
+C:\Program Files\Infragistics\Data Widgets\ssdw3bo.ocx=$(WinSysPath)
+C:\WINDOWS\system32\mfc42.dll=$(WinSysPathSysFile)
+C:\Program Files\Infragistics\Data Widgets\ssmedt32.dll=$(WinSysPath)
+C:\Program Files\Infragistics\Data Widgets\ssprn32.dll=$(WinSysPath)
+C:\Program Files\Infragistics\Data Widgets\ssr2c.dll=$(WinSysPath)
+C:\WINDOWS\system32\MSDATLST.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\TABCTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINDOWS\system32\Crystl32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\crpe32.dll=$(WinSysPath)
+C:\WINDOWS\system32\Implode.dll=$(AppPath)
+C:\WINDOWS\system32\Crpaig80.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\Crxlat32.dll=$(WinSysPath)
+C:\WINDOWS\system32\p2bdao.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2bxbse.dll=$(WinSysPath)
+C:\WINDOWS\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINDOWS\system32\p2irdao.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2sifmx.dll=$(WinSysPath)
+C:\WINDOWS\system32\P2smon.dll=$(WinSysPath)
+C:\WINDOWS\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2sora7.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2ssql.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2ssyb10.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\p2soledb.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2ddisk.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2dmapi.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2dnotes.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2dpost.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2dvim.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2dapp.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fcr.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fhtml.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fodbc.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2frec.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2frtf.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fsepv.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2ftext.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fwks.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fwordw.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2fxls.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u25dts.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2l2000.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2lcom.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2ldts.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u2lsamp1.dll=$(WinSysPath)
+C:\WINDOWS\Crystal\u252000.dll=$(WinSysPath)
+\program files\seagate software\shared\SSCSDK80.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\Projects\VB\ims\Components\LRLabelsX.ocx=$(WinSysPath)
+C:\Projects\VB\ims\Components\LRNavigatorsX.ocx=$(WinSysPath)
+C:\Projects\VB\ims\Components\LRHyperLabelX.ocx=$(WinSysPath)
+C:\Projects\VB\ims\Components\ImsMailVBX.ocx=$(WinSysPath)
+
+[Package|imsdependency070408|Configure Shared Files]
+Applicable=
+
+[Package|imsdependency070408|DepFile]
+DepCabFile=imsdependency070408.CAB
+DepCabRun=imsdependency070408.INF
+
+[Package|imsdependency070408|Package]
+PackageFolder=C:\Projects\VB\ims
+ProjectFolder=C:\Projects\VB\ims
+ServerSideCab=
+File1=C:\Projects\VB\ims\imstest.DEP
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz

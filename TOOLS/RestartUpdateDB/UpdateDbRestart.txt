@@ -1,0 +1,3 @@
+WaitTime=1
+ExeFullPath=c:\winnt\system32\calc.exe
+email=muzammil@ims-sys.com;

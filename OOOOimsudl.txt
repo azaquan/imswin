@@ -1,0 +1,1 @@
+Provider=SQLNCLI.1;Data Source=BENOIT\SQLEXPRESS;Initial catalog=pecten_dev ;User ID=sa;Password=pecten;

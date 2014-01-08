@@ -1,0 +1,230 @@
+[Root]
+Most Recent Package=Export to Cr11
+
+
+[Package|Export to Cr11|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Projects\VB\ims\NewReports\Package
+
+[Package|Export to Cr11|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Export to Cr11|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Export to Cr11|Files Found]
+
+[Package|Export to Cr11|Files Released]
+
+[Package|Export to Cr11|Missing Dependency Information]
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxdui.dll=
+
+[Package|Export to Cr11|Out-of-Date Dependency Information]
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxddrt.dll=
+
+[Package|Export to Cr11|Files Added]
+
+[Package|Export to Cr11|Files Removed]
+
+[Package|Export to Cr11|Files In Project]
+C:\Projects\VB\ims\NewReports\Project1.exe=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxdui.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\crystalreportviewers11\ActiveXControls\CRViewer.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxdrt.dll=Yes
+C:\WINDOWS\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.3352_x-ww_81af8e88\GdiPlus.dll=Yes
+C:\WINDOWS\system32\usp10.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxddrt.dll=Yes
+C:\WINDOWS\system32\cslibu-2-0-0.dll=Yes
+C:\WINDOWS\system32\msvcr71.dll=Yes
+C:\WINDOWS\system32\MFC71u.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\crtowords_en.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\ufmanager.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u2l2000.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u2lcom.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u2ldts.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u2lexch.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u2lfinra.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u252000.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u25dts.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\u25samp1.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\Implode.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\crqe.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crdb_ado.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crdb_dao.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crdb_odbc.dll=Yes
+C:\WINDOWS\system32\cxlibw-2-6.dll=Yes
+C:\WINDOWS\system32\libOCASecurityw-1-6.dll=Yes
+C:\WINDOWS\system32\ebus-3-3-2-4.dll=Yes
+C:\WINDOWS\system32\libOCAHelperw-2-13.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\querybuilder.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\sscsdk80.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\chartui.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\CRAnalyzer.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\p2ixbse.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\crdb_dictionary.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\filedialog.dll=Yes
+C:\Program Files\Common Files\Business Objects\3.0\bin\sacommoncontrols.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crxf_pdf.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\ExportModeller.dll=Yes
+\Program Files\Common Files\Business Objects\3.0\bin\crtslv.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crxf_rtf.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crxf_wordw.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crxf_xls.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2fcr.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2fsepv.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2ftext.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2fxml.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2ddisk.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2dpost.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\u2dapp.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\keycode.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crdeploy.reg=Yes
+\Program files\common files\Business Objects\3.0\bin\saxserialize.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\saxmlserialize.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\sacommlayer.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\prompt.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\ParameterDesigner.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\crlov.dll=Yes
+\Program files\common files\Business Objects\3.0\bin\xerces-c_2_1_0.dll=Yes
+C:\WINDOWS\system32\atl71.dll=Yes
+C:\WINDOWS\system32\etc-1-0-12-3.dll=Yes
+C:\WINDOWS\system32\msvcp71.dll=Yes
+C:\WINDOWS\system32\fssl-1-2-1-1.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|Export to Cr11|Configure Registry Files]
+Applicable=Yes
+\Program files\common files\Business Objects\3.0\bin\crdeploy.reg=Register
+
+[Package|Export to Cr11|Configure Remote Servers]
+Applicable=No
+
+[Package|Export to Cr11|Install Locations]
+C:\Projects\VB\ims\NewReports\Project1.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxdui.dll=$(WinSysPath)
+C:\Program Files\Common Files\Business Objects\3.0\crystalreportviewers11\ActiveXControls\CRViewer.dll=$(CommonFiles)\Business Objects\3.0\crystalreportviewers11\ActiveXControls
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxdrt.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\WINDOWS\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.3352_x-ww_81af8e88\GdiPlus.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\WINDOWS\system32\usp10.dll=$(WinSysPath)
+C:\Program Files\Common Files\Business Objects\3.0\bin\craxddrt.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\WINDOWS\system32\cslibu-2-0-0.dll=$(WinSysPath)
+C:\WINDOWS\system32\msvcr71.dll=$(WinSysPath)
+C:\WINDOWS\system32\MFC71u.dll=$(WinSysPath)
+\Program Files\Common Files\Business Objects\3.0\bin\crtowords_en.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\ufmanager.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u2l2000.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u2lcom.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u2ldts.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u2lexch.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u2lfinra.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u252000.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u25dts.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\u25samp1.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\Implode.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\crqe.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crdb_ado.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crdb_dao.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crdb_odbc.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\WINDOWS\system32\cxlibw-2-6.dll=$(WinSysPath)
+C:\WINDOWS\system32\libOCASecurityw-1-6.dll=$(WinSysPath)
+C:\WINDOWS\system32\ebus-3-3-2-4.dll=$(WinSysPath)
+C:\WINDOWS\system32\libOCAHelperw-2-13.dll=$(WinSysPath)
+\Program files\common files\Business Objects\3.0\bin\querybuilder.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\sscsdk80.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\chartui.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\CRAnalyzer.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\p2ixbse.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\crdb_dictionary.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\filedialog.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\Program Files\Common Files\Business Objects\3.0\bin\sacommoncontrols.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crxf_pdf.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\ExportModeller.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program Files\Common Files\Business Objects\3.0\bin\crtslv.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crxf_rtf.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crxf_wordw.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crxf_xls.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2fcr.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2fsepv.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2ftext.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2fxml.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2ddisk.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2dpost.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\u2dapp.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\keycode.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\saxserialize.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\saxmlserialize.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\sacommlayer.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\prompt.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\ParameterDesigner.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\crlov.dll=$(CommonFiles)\Business Objects\3.0\bin
+\Program files\common files\Business Objects\3.0\bin\xerces-c_2_1_0.dll=$(CommonFiles)\Business Objects\3.0\bin
+C:\WINDOWS\system32\atl71.dll=$(WinSysPath)
+C:\WINDOWS\system32\etc-1-0-12-3.dll=$(WinSysPath)
+C:\WINDOWS\system32\msvcp71.dll=$(WinSysPath)
+C:\WINDOWS\system32\fssl-1-2-1-1.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+
+[Package|Export to Cr11|Configure Shared Files]
+Applicable=Yes
+C:\Projects\VB\ims\NewReports\Project1.exe=No
+
+[Package|Export to Cr11|Distribution]
+Type=multi
+Size=1.44 MB
+Title=ExportToCR11
+
+[Package|Export to Cr11|IconGroups]
+Group0=ExportToCR11
+PrivateGroup0=-1
+Parent0=$(Programs)
+
+[Package|Export to Cr11|ExportToCR11]
+Icon1=Project1.EXE
+Title1=ExportToCR11
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Export to Cr11|Package]
+PackageFolder=C:\Projects\VB\ims\NewReports\Package
+ProjectFolder=C:\Projects\VB\ims\NewReports
+ServerSideCab=
+File1=C:\Projects\VB\ims\NewReports\Package\setup.exe
+File2=C:\Projects\VB\ims\NewReports\Package\Setup.Lst
+File3=C:\Projects\VB\ims\NewReports\Package\Projec1.CAB
+File4=C:\Projects\VB\ims\NewReports\Package\Projec2.CAB
+File5=C:\Projects\VB\ims\NewReports\Package\Projec3.CAB
+File6=C:\Projects\VB\ims\NewReports\Package\Projec4.CAB
+File7=C:\Projects\VB\ims\NewReports\Package\Projec5.CAB
+File8=C:\Projects\VB\ims\NewReports\Package\Projec6.CAB
+File9=C:\Projects\VB\ims\NewReports\Package\Projec7.CAB
+File10=C:\Projects\VB\ims\NewReports\Package\Projec8.CAB
+File11=C:\Projects\VB\ims\NewReports\Package\Projec9.CAB
+File12=C:\Projects\VB\ims\NewReports\Package\Projec10.CAB
+File13=C:\Projects\VB\ims\NewReports\Package\Projec11.CAB
+File14=C:\Projects\VB\ims\NewReports\Package\Projec12.CAB
+File15=C:\Projects\VB\ims\NewReports\Package\Projec13.CAB
+File16=C:\Projects\VB\ims\NewReports\Package\Projec14.CAB
+File17=C:\Projects\VB\ims\NewReports\Package\Projec15.CAB
+File18=C:\Projects\VB\ims\NewReports\Package\Projec16.CAB
+Handler1=PDWizard.FloppyDplySubWiz
+Handler2=PDWizard.FolderDplySubWiz
+Handler3=PDWizard.WebPostDplySubWiz

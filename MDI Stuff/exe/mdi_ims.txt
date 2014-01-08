@@ -1,0 +1,23 @@
+Public Sub OpenDLLChild()
+Dim DLL_link As TestMDIActiveX
+
+   Set DLL_link = New TestMDIActiveX
+   DLL_link.ShowForm1
+
+End Sub
+
+Private Sub dllform_Click()
+ OpenDLLChild
+End Sub
+
+
+Private Sub frmPrintDialog_Click()
+ OpenDLLChild2
+End Sub
+Public Sub OpenDLLChild2()
+Dim DLL_link2 As TestMDIActiveX
+
+   Set DLL_link2 = New TestMDIActiveX
+   DLL_link2.ShowForm2
+
+End Sub
