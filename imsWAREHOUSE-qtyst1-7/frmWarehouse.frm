@@ -14,6 +14,19 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.PictureBox treeFrame 
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   2895
+      Left            =   1200
+      ScaleHeight     =   2895
+      ScaleWidth      =   4815
+      TabIndex        =   97
+      Top             =   4080
+      Width           =   4815
+   End
    Begin VB.TextBox emailRecepient 
       Height          =   375
       Left            =   3000
@@ -685,7 +698,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   61276163
+      Format          =   66387971
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1676,7 +1689,13 @@ If isEditionActive = False Then Exit Sub
         '20 "Original Condition Code"
         '21 "Secundary Qty"
         '25 "ratio"
+       
         Tree.width = frmWarehouse.detailHEADER.width
+         'Juan 2014-01-12, resizing treeFrame ------
+        treeFrame.Left = detailHEADER.ColWidth(0) + 5200
+        treeFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
+        treeFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
+        ' ------------
         Tree.Nodes.Clear
         StockNumber = .TextMatrix(r, 1)
         QTYpo = 0
@@ -2063,7 +2082,7 @@ Private Sub quantity2BOX_LostFocus(Index As Integer)
     If Index <> totalNode Then quantity2BOX(Index).backcolor = vbWhite
 End Sub
 
-Private Sub quantity2BOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub quantity2BOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -3021,6 +3040,16 @@ Dim i, col, c, dark As Integer
         .TextMatrix(0, 0) = "quantities array"
         .TextMatrix(0, 1) = "from sublocations array"
     End With
+    
+    
+    'Juan 2014-01-12, resizing treeFrame ------
+    With treeFrame
+        .Left = detailHEADER.ColWidth(0) + Tree.Left
+        .width = detailHEADER.width - .Left - 800
+        .Top = detailHEADER.Top + detailHEADER.Height + 300
+        .Height = Tree.Height - 420
+    End With
+    ' ------------
 End Sub
 
 
@@ -3466,7 +3495,7 @@ Private Sub priceBOX_LostFocus(Index As Integer)
     End If
 End Sub
 
-Private Sub priceBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub priceBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -5274,7 +5303,7 @@ Private Sub logicBOX_LostFocus(Index As Integer)
 End Sub
 
 
-Private Sub logicBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub logicBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -5298,7 +5327,7 @@ Private Sub NEWconditionBOX_LostFocus(Index As Integer)
     grid(0).Visible = False
 End Sub
 
-Private Sub NEWconditionBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub NEWconditionBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -5340,7 +5369,7 @@ Private Sub quantityBOX_LostFocus(Index As Integer)
 End Sub
 
 
-Private Sub quantityBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub quantityBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -5510,7 +5539,7 @@ Private Sub repairBOX_LostFocus(Index As Integer)
     End If
 End Sub
 
-Private Sub repairBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub repairBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -5847,7 +5876,7 @@ Private Sub sublocaBOX_LostFocus(Index As Integer)
 End Sub
 
 
-Private Sub sublocaBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub sublocaBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     If Index > 0 And Index <> totalNode Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
@@ -6681,7 +6710,7 @@ Private Sub Tree_LostFocus()
 End Sub
 
 
-Private Sub Tree_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Tree_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 On Error Resume Next
     With Tree
         nodeSEL = .SelectedItem.Index
@@ -6696,19 +6725,19 @@ On Error Resume Next
     End With
 End Sub
 
-Private Sub Tree_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Tree_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If currentBOX > 0 Then
         Call whitening
         currentBOX = 0
     End If
 End Sub
 
-Private Sub Tree_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Tree_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 On Error GoTo getOUT
 Dim nody As Node
     If newBUTTON.Enabled Then Exit Sub
     If Button = 2 Then
-        Set nody = Tree.HitTest(x, Y)
+        Set nody = Tree.HitTest(x, y)
         If nody.Image = "thing" Then
             deleteITEM.Enabled = False
         Else

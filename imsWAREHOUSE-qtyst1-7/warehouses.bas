@@ -186,10 +186,105 @@ Next crxDatabaseTable
 End Function
         
 
+Sub rePositionThings(yPosition As Integer) 'Juan 2014-01-29, for scrolling placement
+Dim c As textBOX
+Dim i, size, newY
+On Error Resume Next
+
+With frmWarehouse
+    size = .Tree.Nodes.Count
+    If size > 0 Then
+        For i = 2 To size
+            newY = topNODE(yPosition)
+            Err.Clear
+            .quantity(i).Top = .quantity(i).Top - newY
+            If Err.Number = 0 Then
+                .poItemBox(i).Top = topNODE(i) - newY
+                .positionBox(i).Top = topNODE(i) - newY
+                .quantity(i).Top = topNODE(i) - newY
+                .logicBOX(i).Top = topNODE(i) - newY
+                .sublocaBOX(i).Top = topNODE(i) - newY
+                .quantityBOX(i).Top = topNODE(i) - newY
+                .quantity2BOX(i).Top = topNODE(i) - newY
+                .balanceBOX(i).Top = topNODE(i) - newY
+                .NEWconditionBOX(i).Top = topNODE(i) - newY
+                .priceBOX(i).Top = topNODE(i) - newY
+                .unitBOX(i).Top = topNODE(i) - newY
+                .unit2BOX(i).Top = topNODE(i) - newY
+                .repairBOX(i).Top = topNODE(i) - newY
+            End If
+        Next
+    End If
+End With
+Err.Clear
+End Sub
+
+Sub putThingsInside() 'Juan 2014-01-12, putting inside the tree container the controls
+Dim c As textBOX
+Dim i, size, distance
+Dim firstTime As Boolean
+firstTime = True
+On Error Resume Next
+
+With frmWarehouse
+    size = .Tree.Nodes.Count
+    If size > 0 Then
+        For i = 2 To size
+            Err.Clear
+            Set .quantity(i).Container = .treeFrame
+            If Err.Number = 0 Then
+                Set .poItemBox(i).Container = .treeFrame
+                Set .positionBox(i).Container = .treeFrame
+                distance = .Tree.Top + 320
+                If firstTime Then
+                    firstTime = False
+                    'distance = .Tree.Top + topNODE(i)
+                End If
+                .quantity(i).Left = 40
+                .quantity(i).Top = topNODE(i) - distance
+                If i = 1 Then .quantity(i).backcolor = vbGreen
+                Set .logicBOX(i).Container = .treeFrame
+                .logicBOX(i).Left = .detailHEADER.ColWidth(1)
+               .logicBOX(i).Top = topNODE(i) - distance
+                Set .sublocaBOX(i).Container = .treeFrame
+                .sublocaBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2)
+                .sublocaBOX(i).Top = topNODE(i) - distance
+                Set .quantityBOX(i).Container = .treeFrame
+                .quantityBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2) + .detailHEADER.ColWidth(3)
+                .quantityBOX(i).Top = topNODE(i) - distance
+                Set .quantity2BOX(i).Container = .treeFrame
+                .quantity2BOX(i).Left = .quantity2BOX(i).Left - .treeFrame.Left
+                .quantity2BOX(i).Top = topNODE(i) - distance
+                
+                Set .balanceBOX(i).Container = .treeFrame
+                .balanceBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2) + .detailHEADER.ColWidth(3) + .detailHEADER.ColWidth(4)
+                .balanceBOX(i).Top = topNODE(i) - distance
+                Set .NEWconditionBOX(i).Container = .treeFrame
+                .NEWconditionBOX(i).Left = .NEWconditionBOX(i).Left - .treeFrame.Left
+                .NEWconditionBOX(i).Top = topNODE(i) - distance
+
+                Set .priceBOX(i).Container = .treeFrame
+                .priceBOX(i).Left = .priceBOX(i).Left - .treeFrame.Left
+                .priceBOX(i).Top = topNODE(i) - distance
+                Set .unitBOX(i).Container = .treeFrame
+                .unitBOX(i).Left = .unitBOX(i).Left - .treeFrame.Left
+                .unitBOX(i).Top = topNODE(i) - distance
+                Set .unit2BOX(i).Container = .treeFrame
+                .unit2BOX(i).Left = .unit2BOX(i).Left - .treeFrame.Left
+                .unit2BOX(i).Top = topNODE(i) - distance
+                Set .repairBOX(i).Container = .treeFrame
+                .repairBOX(i).Left = .repairBOX(i).Left - .treeFrame.Left
+                .repairBOX(i).Top = topNODE(i) - distance
+            End If
+        Next
+    End If
+End With
+Err.Clear
+End Sub
 Public Function WriteParameterFiles(Recepients As String, sender As String, Attachments() As String, subject As String, attention As String)
 Dim l
 Dim x
-Dim Y
+Dim y
 Dim i
 Dim Email As String
 Dim fax() As String
@@ -569,6 +664,7 @@ On Error Resume Next
         n = 0
         For i = 1 To lastLine
             Load .linesV(i)
+            Set .linesV(n).Container = .treeFrame 'Juan 2014-01-12, putting inside the tree container the controls
             If Err.Number = 360 Then Err.Clear
             If i = thick Then
                 .linesV(i).width = 40
@@ -699,6 +795,7 @@ On Error GoTo ErrHandler:
         Load .quantity(n)
         Call putBOX(.quantity(n), .detailHEADER.ColWidth(0) + 140, topNODE(n), .detailHEADER.ColWidth(1) - 40, vbWhite)
         Load .balanceBOX(n)
+
         .balanceBOX(n) = Format(.quantity(n), "0.00")
         Load .quantityBOX(n)
         .quantityBOX(n).tabindex = tabindex + 2
@@ -708,8 +805,8 @@ On Error GoTo ErrHandler:
         Load .NEWconditionBOX(n)
         Load .positionBox(n)
         .positionBox(n).text = .SUMMARYlist.row
-        
         Load .logicBOX(n)
+        
         .logicBOX(n).tabindex = tabindex
         Load .sublocaBOX(n)
         .sublocaBOX(n).tabindex = tabindex + 1
@@ -746,8 +843,10 @@ On Error GoTo ErrHandler:
                     .quantity2BOX(n) = qty2
                 End If
                 Load .repairBOX(n)
+                Set .repairBOX(n).Container = .treeFrame 'Juan 2014-01-12, putting inside the tree container the controls
                 .repairBOX(n) = poItem
                 Load .poItemBox(n)
+                Set .poItemBox(n).Container = .treeFrame 'Juan 2014-01-12, putting inside the tree container the controls
                 'Juan 2010-9-25 This was a bug because it was not giving the correct row from the stocklist so now it comes from the poItemBox directly
                 '.poItemBox(n) = frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 8)
                 .poItemBox(n) = .SUMMARYlist.TextMatrix(row, 22)
@@ -935,6 +1034,7 @@ On Error GoTo ErrHandler:
         .NEWconditionBOX(n) = .NEWconditionBOX(n).tag
         
         Load .poItemBox(n)
+
         'WarehouseReceipt
         If .tag = "02040100" Then
             .poItemBox(n) = datax!poItem
@@ -944,10 +1044,10 @@ On Error GoTo ErrHandler:
         End If
         
         Load .positionBox(n)
-        
         Load .logicBOX(n)
         .logicBOX(n).tabindex = tabindex
         Load .sublocaBOX(n)
+
         .sublocaBOX(n).tabindex = tabindex + 1
         If summaryPOSITION = 0 Then
             If .newBUTTON.Enabled Then
@@ -2219,8 +2319,8 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 325
             spaceFactor = 80
         Case "02040200" 'WarehouseIssue
-            heightFactor = 325
-            spaceFactor = 40
+            heightFactor = 240
+            spaceFactor = 80
         Case "02040500" 'WellToWell
             heightFactor = 325
             spaceFactor = 80
@@ -2603,7 +2703,9 @@ On Error Resume Next
                                                 '---------------------
                                         End Select
                                     End If
+                                    Call putThingsInside 'Juan 2014-01-19
                             End Select
+                            
                         Else
                             Err.Clear
                         End If

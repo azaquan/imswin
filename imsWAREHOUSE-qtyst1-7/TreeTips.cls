@@ -83,13 +83,14 @@ Dim Flag As Long
     If hItem = 0 Then
         Exit Function
     End If
-    
+
     rc.Left = hItem
     fItemRect = 1
     
     ret = SendMessageAny(mTree.hWnd, TVM_GETITEMRECT, ByVal fItemRect, rc)
     If ret Then
         Set GetFirstVisibleNode = mTree.HitTest((rc.Left) * Screen.TwipsPerPixelX, (rc.Top) * Screen.TwipsPerPixelY)
+       
     End If
 End Function
 
@@ -110,7 +111,8 @@ Dim TipText As String
             End Select
         End If
         If nodeONtop <> nodX.Index Then
+            rePositionThings (nodeONtop) 'Juan 2014-01-29, for re-position after scrolling
             nodeONtop = nodX.Index
-            Call workBOXESlist("FIX")
+            'Call workBOXESlist("FIX")
         End If
 End Sub
