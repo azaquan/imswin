@@ -83,14 +83,11 @@ Dim Flag As Long
     If hItem = 0 Then
         Exit Function
     End If
-
     rc.Left = hItem
     fItemRect = 1
-    
     ret = SendMessageAny(mTree.hWnd, TVM_GETITEMRECT, ByVal fItemRect, rc)
     If ret Then
         Set GetFirstVisibleNode = mTree.HitTest((rc.Left) * Screen.TwipsPerPixelX, (rc.Top) * Screen.TwipsPerPixelY)
-       
     End If
 End Function
 
@@ -103,16 +100,19 @@ Dim TipText As String
         If Msg = WM_VSCROLL Then
             Select Case LowWord(wParam)
                 'Drag na scrollbar
-                Case SB_THUMBTRACK, 1
+                Case SB_THUMBTRACK, 1, SB_ENDSCROLL
                     Set nodX = GetFirstVisibleNode()
+                    'frmWarehouse.logLabel.Caption = "node=" + Format(nodX.index) 'Juan 2014-02-02, for debugging
+                    nodeONtop = nodX.index + 1
+            rePositionThings (nodeONtop) 'Juan 2014-01-29, for re-position after scrolling
+            
                     If Not nodX Is Nothing Then
                         TipText = nodX.key
                     End If
             End Select
         End If
-        If nodeONtop <> nodX.Index Then
-            rePositionThings (nodeONtop) 'Juan 2014-01-29, for re-position after scrolling
-            nodeONtop = nodX.Index
+        If nodeONtop <> nodX.index Then
+
             'Call workBOXESlist("FIX")
         End If
 End Sub

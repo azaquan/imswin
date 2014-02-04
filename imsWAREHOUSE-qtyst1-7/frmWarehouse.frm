@@ -698,7 +698,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   20316163
+      Format          =   61734915
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1225,6 +1225,16 @@ Begin VB.Form frmWarehouse
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+   End
+   Begin VB.Label logLabel 
+      BackColor       =   &H0080FF80&
+      Caption         =   "Label5"
+      Height          =   255
+      Left            =   10560
+      TabIndex        =   98
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   1335
    End
    Begin VB.Label serialLabel 
       Appearance      =   0  'Flat

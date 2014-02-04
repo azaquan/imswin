@@ -188,14 +188,16 @@ End Function
 
 Sub rePositionThings(yPosition As Integer) 'Juan 2014-01-29, for scrolling placement
 Dim c As textBOX
-Dim i, size, newY
+Dim i, size, newY, distance
 On Error Resume Next
 
 With frmWarehouse
+    
     size = .Tree.Nodes.Count
     If size > 0 Then
+        distance = .Tree.Top + 320
         For i = 2 To size
-            newY = topNODE(yPosition)
+            newY = topNODE(yPosition) '+ distance
             Err.Clear
             .quantity(i).Top = .quantity(i).Top - newY
             If Err.Number = 0 Then
@@ -240,25 +242,20 @@ End Sub
 Sub putThingsInside() 'Juan 2014-01-12, putting inside the tree container the controls
 Dim c As textBOX
 Dim i, size, distance
-Dim firstTime As Boolean
-firstTime = True
 On Error Resume Next
 
 With frmWarehouse
     size = .Tree.Nodes.Count
     If size > 0 Then
+        '.logLabel.Visible = True
         Call putThingsInsideExtension(1)
+        distance = .Tree.Top + 320
         For i = 2 To size
             Err.Clear
             Set .quantity(i).Container = .treeFrame
             If Err.Number = 0 Then
                 Set .poItemBox(i).Container = .treeFrame
                 Set .positionBox(i).Container = .treeFrame
-                distance = .Tree.Top + 320
-                If firstTime Then
-                    firstTime = False
-                    'distance = .Tree.Top + topNODE(i)
-                End If
                 .quantity(i).Left = 40
                 .quantity(i).Top = topNODE(i) - distance
                 If i = 1 Then .quantity(i).backcolor = vbGreen

@@ -1,7 +1,7 @@
-cSubClass = 54, 101, 950, 518, C
-cTreeTips = 44, 44, 632, 458, 
-Warehouse = 188, 79, 863, 591, C
-mSubClass = -187, 181, 849, 495, C
+cSubClass = 54, 101, 950, 518, 
+cTreeTips = 29, 42, 839, 506, 
+Warehouse = 188, 79, 863, 591, 
+mSubClass = 6, 123, 806, 437, 
 translator = 0, 0, 1133, 408, C
 warehouses = 82, 18, 977, 586, 
 frmWarehouse = 16, 189, 692, 563, , 39, 35, 980, 592, C
