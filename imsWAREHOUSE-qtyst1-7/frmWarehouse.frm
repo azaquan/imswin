@@ -698,7 +698,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   61734915
+      Format          =   62193667
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -3227,11 +3227,13 @@ Dim n
             Else
                 .Left = box.Left
             End If
-            If (box.Top + box.Height + 10) < (frmWarehouse.Height - 40) Then
+            .Left = .Left + treeFrame.Left 'Juan 2014-02-04, to move cell
+            If (box.Top) < (treeFrame.Height - .Height - 800) Then
                 .Top = box.Top + box.Height + 10
             Else
                 .Top = box.Top - .Height - 10
             End If
+            .Top = .Top + treeFrame.Top + (80 * index) 'Juan 2014-02-04, to move cell
             .ZOrder
             .Visible = True
         End If

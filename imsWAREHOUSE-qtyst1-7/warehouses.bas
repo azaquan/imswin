@@ -247,6 +247,10 @@ On Error Resume Next
 With frmWarehouse
     size = .Tree.Nodes.Count
     If size > 0 Then
+        For i = 0 To 5
+            .cell(i).Container = .treeFrame
+            Err.Clear
+        Next
         '.logLabel.Visible = True
         Call putThingsInsideExtension(1)
         distance = .Tree.Top + 320
