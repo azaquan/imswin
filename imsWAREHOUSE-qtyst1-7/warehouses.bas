@@ -254,6 +254,19 @@ With frmWarehouse
         '.logLabel.Visible = True
         Call putThingsInsideExtension(1)
         distance = .Tree.Top + 320
+        Select Case .tag
+            Case "02040400" 'ReturnFromRepair
+            Case "02050200" 'AdjustmentEntry
+            Case "02040200" 'WarehouseIssue
+            Case "02040500" 'WellToWell
+            Case "02040700" 'InternalTransfer
+            Case "02050300" 'AdjustmentIssue
+                
+            Case "02040600" 'WarehouseToWarehouse
+            Case "02040100" 'WarehouseReceipt
+            Case "02050400" 'Sales
+            Case "02040300" 'Return from Repair
+        End Select
         For i = 2 To size
             Err.Clear
             Set .quantity(i).Container = .treeFrame
@@ -544,8 +557,8 @@ End Sub
 
 
 
-Sub bottomLine(totalNode, total, pool As Boolean, StockNumber, doRecalculate As Boolean)
-Dim lastLine, thick
+Sub bottomLine(totalNode, total, pool As Boolean, StockNumber, doRecalculate As Boolean, lastLine)
+Dim thick
 On Error Resume Next
 'Scrolling stuff
 With cTT
@@ -661,7 +674,9 @@ With frmWarehouse
             .linesV(lastLine).Visible = False
             .Tree.Nodes(1).EnsureVisible
         End If
+        
 End With
+
 End Sub
 
 Function controlExists(controlNAME As String, controlIndex As Integer) As Boolean
@@ -1079,14 +1094,14 @@ On Error GoTo ErrHandler:
             End If
         Else
             .logicBOX(n) = .SUMMARYlist.TextMatrix(summaryPOSITION, 11)
-            .logicBOX(n).tag = .logicBOX(n)
             .sublocaBOX(n) = .SUMMARYlist.TextMatrix(summaryPOSITION, 12)
-            .sublocaBOX(n).tag = .sublocaBOX(n)
             .grid(2).Visible = False
             .logicBOX(n).ToolTipText = getWAREHOUSEdescription(.logicBOX(n))
             .sublocaBOX(n).ToolTipText = getSUBLOCATIONdescription(.sublocaBOX(n))
         End If
-        
+        .logicBOX(n).tag = .logicBOX(n)
+        .sublocaBOX(n).tag = .sublocaBOX(n)
+                        
         Load .unitBOX(n)
         Load .unit2BOX(n)
         .unitBOX(n).Enabled = False
@@ -1672,8 +1687,12 @@ On Error GoTo ErrHandler
             .Nodes("Total").Bold = True
             .Nodes("Total").backcolor = &HC0C0C0
             originalQty = total
-            Call bottomLine(totalNode, total, pool, StockNumber, False)
-            frmWarehouse.sublocaBOX(frmWarehouse.sublocaBOX.Count).backcolor = &H80FFFF
+            Call bottomLine(totalNode, total, pool, StockNumber, False, lastLine)
+        End With
+        With frmWarehouse
+            .linesH(0).Height = 240
+            .linesH(0).Top = .quantity(totalNode).Top
+            .linesH(0).Visible = True
         End With
     End If
     directCLICK = False
@@ -2722,8 +2741,9 @@ On Error Resume Next
                                                 Call putBOX(.quantity2BOX(i), .linesV(7 + point).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(7 + point) - 50, vbWhite)
                                                 '---------------------
                                         End Select
+                                        Call putThingsInside 'Juan 2014-01-19
                                     End If
-                                    Call putThingsInside 'Juan 2014-01-19
+                                    
                             End Select
                             
                         Else
