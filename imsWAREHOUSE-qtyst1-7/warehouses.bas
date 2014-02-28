@@ -586,6 +586,7 @@ With frmWarehouse
                 '--------------------
             Case "02040200" 'WarehouseIssue
                 If Not .newBUTTON.Enabled Then .Tree.Nodes("Total").text = .Tree.Nodes("Total").text + Space(57) + "Total to Issue:"
+                lastLine = 6
             Case "02040500" 'WellToWell
                 If Not .newBUTTON.Enabled Then .Tree.Nodes("Total").text = .Tree.Nodes("Total").text + Space(53) + "Total to Transfer:"
             Case "02040700" 'InternalTransfer
@@ -1133,7 +1134,7 @@ On Error GoTo ErrHandler:
         Select Case .tag
             Case "02040200", "02040500" 'WarehouseIssue, WellToWell
                 If Not .newBUTTON.Enabled Then
-                    .logicBOX(n).Enabled = False
+                    .logicBOX(n).Enabled = True
                     '.sublocaBOX(n).Enabled = False
                     .sublocaBOX(n).Enabled = True
                 End If
@@ -1178,7 +1179,7 @@ On Error GoTo ErrHandler:
             .quantity2BOX(n).Enabled = False
             .priceBOX(n).Enabled = False
             .NEWconditionBOX(n).Enabled = False
-            .logicBOX(n).Enabled = False
+            .logicBOX(n).Enabled = True
             .sublocaBOX(n).Enabled = False
             .repairBOX(n).Enabled = False
         Else
@@ -1691,7 +1692,7 @@ On Error GoTo ErrHandler
         End With
         With frmWarehouse
             .linesH(0).Height = 240
-            .linesH(0).Top = .quantity(totalNode).Top
+            .linesH(0).Top = .quantityBOX(totalNode).Top
             .linesH(0).Visible = True
         End With
     End If
@@ -2741,7 +2742,7 @@ On Error Resume Next
                                                 Call putBOX(.quantity2BOX(i), .linesV(7 + point).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(7 + point) - 50, vbWhite)
                                                 '---------------------
                                         End Select
-                                        Call putThingsInside 'Juan 2014-01-19
+                                        
                                     End If
                                     
                             End Select
@@ -2751,6 +2752,7 @@ On Error Resume Next
                         End If
                 End If
             Next
+            Call putThingsInside 'Juan 2014-01-19
         End If
     End With
 'errHandler:
