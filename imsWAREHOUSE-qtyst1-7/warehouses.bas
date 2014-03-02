@@ -197,7 +197,7 @@ With frmWarehouse
     If size > 0 Then
         distance = .Tree.Top + 320
         For i = 2 To size
-            newY = topNODE(yPosition) '+ distance
+            newY = topNODE(yPosition) + distance 'for moving check if + distance is necessary, otherwise  comment it back
             Err.Clear
             .quantity(i).Top = .quantity(i).Top - newY
             If Err.Number = 0 Then
@@ -253,19 +253,28 @@ With frmWarehouse
         Next
         '.logLabel.Visible = True
         Call putThingsInsideExtension(1)
-        distance = .Tree.Top + 320
+        distance = .Tree.Top
         Select Case .tag
             Case "02040400" 'ReturnFromRepair
+                distance = distance + 320
             Case "02050200" 'AdjustmentEntry
+                distance = distance + 320
             Case "02040200" 'WarehouseIssue
+                distance = distance + 320
             Case "02040500" 'WellToWell
+                distance = distance + 320
             Case "02040700" 'InternalTransfer
+                 distance = distance + 320
             Case "02050300" 'AdjustmentIssue
-                
+                distance = distance + 320
             Case "02040600" 'WarehouseToWarehouse
+                distance = distance + 320
             Case "02040100" 'WarehouseReceipt
+                distance = distance + 320
             Case "02050400" 'Sales
-            Case "02040300" 'Return from Repair
+                distance = distance + 320
+            Case "02040300" 'Return from Well
+                distance = distance + 320
         End Select
         For i = 2 To size
             Err.Clear
@@ -1690,12 +1699,26 @@ On Error GoTo ErrHandler
             originalQty = total
             Call bottomLine(totalNode, total, pool, StockNumber, False, lastLine)
         End With
+        'Juan 2014-02-28, horizontal line stuff
         With frmWarehouse
             .linesH(0).Height = 240
             .linesH(0).Top = .quantityBOX(totalNode).Top
+            Select Case .tag
+                Case "02040400" 'ReturnFromRepair
+                Case "02050200" 'AdjustmentEntry
+                Case "02040200" 'WarehouseIssue
+                Case "02040500" 'WellToWell
+                Case "02040700" 'InternalTransfer
+                Case "02050300" 'AdjustmentIssue
+                Case "02040600" 'WarehouseToWarehouse
+                Case "02040100" 'WarehouseReceipt
+                Case "02050400" 'Sales
+                Case "02040300" 'Return from Well
+            End Select
             .linesH(0).Visible = True
         End With
     End If
+    '--------------------------------------------------
     directCLICK = False
     Screen.MousePointer = 0
     frmWarehouse.MousePointer = 0
@@ -2353,32 +2376,32 @@ Dim heightFactor, spaceFactor As Integer
     heightFactor = 265
     Select Case frmWarehouse.tag
         Case "02040400" 'ReturnFromRepair
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02050200" 'AdjustmentEntry
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02040200" 'WarehouseIssue
             heightFactor = 240
             spaceFactor = 80
         Case "02040500" 'WellToWell
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02040700" 'InternalTransfer
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02050300" 'AdjustmentIssue
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02040600" 'WarehouseToWarehouse
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02040100" 'WarehouseReceipt
         Case "02050400" 'Sales
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
         Case "02040300" 'Return from Well
-            heightFactor = 325
+            heightFactor = 240
             spaceFactor = 80
     End Select
     topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop))
@@ -2663,7 +2686,7 @@ On Error Resume Next
                 topvalue2 = 90
             Case "02050400" 'Sales
                 topvalue = topvalue - 120
-            Case "02040300" 'Return from Repair
+            Case "02040300" 'Return from Well
                 topvalue = topvalue - 160
         End Select
         If size > 0 Then
