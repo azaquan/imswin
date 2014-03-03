@@ -932,7 +932,7 @@ On Error GoTo ErrHandler:
         
         Select Case .tag
             Case "02040200", "02040500" 'WarehouseIssue, WellToWell
-                .logicBOX(n).Enabled = False
+                .logicBOX(n).Enabled = True
                 .sublocaBOX(n).Enabled = True
                 .grid(2).Visible = False
             Case "02040400" 'ReturnFromRepair
@@ -963,6 +963,8 @@ On Error GoTo ErrHandler:
 '                    End If
 '                End If
             Case "02040100" 'WarehouseReceipt
+            Case "02040700" 'InternalTransfer
+                .logicBOX(n).Enabled = False
             Case Else
                 .NEWconditionBOX(n).Enabled = True
                 .logicBOX(n).Enabled = True
@@ -1175,6 +1177,8 @@ On Error GoTo ErrHandler:
                     End If
                 End If
             Case "02040100" 'WarehouseReceipt
+            Case "02040700" 'InternalTransfer
+                .logicBOX(n).Enabled = False
             Case Else
                 If Not .newBUTTON.Enabled Then
                     .NEWconditionBOX(n).Enabled = True
@@ -1509,6 +1513,10 @@ On Error GoTo ErrHandler
                         currentSUBloca = Trim(datax!subloca)
                     End If
                 End If
+                'Juan 2014-03-13, to get a real logicname
+                 sublocaname = getSUBLOCATIONdescription(currentSUBloca)
+                 logicname = gettLOGICdescription(currentLOGIC)
+                 '----------------------------------------------
                 Select Case frmWarehouse.tag
                     Case "02050200" 'AdjustmentEntry
                         pool = IIf(datax!stk_poolspec = True, True, False)
@@ -1539,7 +1547,8 @@ On Error GoTo ErrHandler
                         If loca <> currentLOGIC Then
                             loca = currentLOGIC
                             subloca = ""
-                            .Nodes.Add "@" + cond, tvwChild, cond + "{{" + loca, "Logical Warehouse: " + datax!logicname, "thing 0"
+                            '.Nodes.Add "@" + cond, tvwChild, cond + "{{" + loca, "Logical Warehouse: " + datax!logicname, "thing 0"
+                            .Nodes.Add "@" + cond, tvwChild, cond + "{{" + loca, "Logical Warehouse: " + logicname, "thing 0"
                         End If
                         'muzammil 10/20/2005    'BUG1
                         'commented this IF line of code and added the IF after this one.
@@ -1559,8 +1568,10 @@ On Error GoTo ErrHandler
                             Select Case frmWarehouse.tag
                                 Case "02040400", "02040500", "02040300", "02050200", "02050300", "02050400", "02040700", "02040200"
                                     subloca = currentSUBloca
-                                    logicname = IIf(IsNull(datax!logicname), "", datax!logicname)
-                                    sublocaname = IIf(IsNull(datax!sublocaname), "", datax!sublocaname)
+                                    '2014-03-02, no need anymore
+                                    'logicname = IIf(IsNull(datax!logicname), "", datax!logicname)
+                                    'sublocaname = IIf(IsNull(datax!sublocaname), "", datax!sublocaname)
+                                    '--------------------------------------
                                     key = cond + "-" + condName + "{{" + loca + "{{" + subloca
                                     qtyArray(r) = datax!qty
                                     subLocationArray(r) = subloca
@@ -2267,6 +2278,20 @@ frmWarehouse.Refresh
     Next
 Screen.MousePointer = 0
 End Sub
+Function gettLOGICdescription(logic) As String
+Dim sql
+Dim datax As New ADODB.Recordset
+    sql = "select lw_desc as Description from LOGWAR WHERE " _
+        & "lw_npecode = '" + nameSP + "' AND " _
+        & "lw_code = '" + logic + "'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenForwardOnly
+    If datax.RecordCount > 0 Then
+        gettLOGICdescription = datax!description
+    Else
+        gettLOGICdescription = ""
+    End If
+End Function
 Function getSUBLOCATIONdescription(sublocation) As String
 Dim sql
 Dim datax As New ADODB.Recordset
