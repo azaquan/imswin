@@ -285,22 +285,23 @@ With frmWarehouse
                 .quantity(i).Left = 40
                 .quantity(i).Top = topNODE(i) - distance
                 If i = 1 Then .quantity(i).backcolor = vbGreen
+                
                 Set .logicBOX(i).Container = .treeFrame
                 .logicBOX(i).Left = .detailHEADER.ColWidth(1)
                .logicBOX(i).Top = topNODE(i) - distance
+               
                 Set .sublocaBOX(i).Container = .treeFrame
-                .sublocaBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2)
+                .sublocaBOX(i).Left = .sublocaBOX(i).Left - .treeFrame.Left
                 .sublocaBOX(i).Top = topNODE(i) - distance
+                
                 Set .quantityBOX(i).Container = .treeFrame
-                .quantityBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2) + .detailHEADER.ColWidth(3)
+                .quantityBOX(i).Left = .quantityBOX(i).Left - .treeFrame.Left
                 .quantityBOX(i).Top = topNODE(i) - distance
+                
                 Set .quantity2BOX(i).Container = .treeFrame
                 .quantity2BOX(i).Left = .quantity2BOX(i).Left - .treeFrame.Left
                 .quantity2BOX(i).Top = topNODE(i) - distance
                 
-                Set .balanceBOX(i).Container = .treeFrame
-                .balanceBOX(i).Left = .detailHEADER.ColWidth(1) + .detailHEADER.ColWidth(2) + .detailHEADER.ColWidth(3) + .detailHEADER.ColWidth(4)
-                .balanceBOX(i).Top = topNODE(i) - distance
                 Set .NEWconditionBOX(i).Container = .treeFrame
                 .NEWconditionBOX(i).Left = .NEWconditionBOX(i).Left - .treeFrame.Left
                 .NEWconditionBOX(i).Top = topNODE(i) - distance
@@ -308,15 +309,23 @@ With frmWarehouse
                 Set .priceBOX(i).Container = .treeFrame
                 .priceBOX(i).Left = .priceBOX(i).Left - .treeFrame.Left
                 .priceBOX(i).Top = topNODE(i) - distance
+                
                 Set .unitBOX(i).Container = .treeFrame
                 .unitBOX(i).Left = .unitBOX(i).Left - .treeFrame.Left
                 .unitBOX(i).Top = topNODE(i) - distance
+                
                 Set .unit2BOX(i).Container = .treeFrame
                 .unit2BOX(i).Left = .unit2BOX(i).Left - .treeFrame.Left
                 .unit2BOX(i).Top = topNODE(i) - distance
+                
                 Set .repairBOX(i).Container = .treeFrame
                 .repairBOX(i).Left = .repairBOX(i).Left - .treeFrame.Left
                 .repairBOX(i).Top = topNODE(i) - distance
+                
+                Set .balanceBOX(i).Container = .treeFrame
+                .balanceBOX(i).Left = .balanceBOX(i).Left - .treeFrame.Left
+                .balanceBOX(i).Top = topNODE(i) - distance
+                .treeFrame.width = .balanceBOX(i).Left + .balanceBOX(i).width + 20
             End If
         Next
     End If
@@ -976,7 +985,7 @@ On Error GoTo ErrHandler:
             .quantity2BOX(n).Enabled = False
         Else
             .quantityBOX(n).Enabled = True
-            .quantity2BOX(n).Enabled = True
+            .quantity2BOX(n).Enabled = False 'Juan 2014-03-06, changed to false because is what Alain wants
         End If
         .priceBOX(n).Enabled = True
     End With
@@ -1215,7 +1224,7 @@ On Error GoTo ErrHandler:
                         .quantity2BOX(n).Enabled = False
                     Case Else
                         .quantityBOX(n).Enabled = True
-                        .quantity2BOX(n).Enabled = True
+                        .quantity2BOX(n).Enabled = False 'Juan 2014-03-06, changed to false because is what Alain wants
                 End Select
             End If
             '---------------------
@@ -1723,6 +1732,7 @@ On Error GoTo ErrHandler
                 Case "02050300" 'AdjustmentIssue
                 Case "02040600" 'WarehouseToWarehouse
                 Case "02040100" 'WarehouseReceipt
+                    .linesH(0).Top = .linesH(0).Top - 20
                 Case "02050400" 'Sales
                 Case "02040300" 'Return from Well
             End Select
