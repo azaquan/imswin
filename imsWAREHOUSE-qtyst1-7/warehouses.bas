@@ -195,7 +195,7 @@ With frmWarehouse
     
     size = .Tree.Nodes.Count
     If size > 0 Then
-        distance = .Tree.Top + 320
+        distance = 0 ' .Tree.Top + 320
         For i = 2 To size
             newY = topNODE(yPosition) + distance 'for moving check if + distance is necessary, otherwise  comment it back
             Err.Clear
@@ -214,6 +214,7 @@ With frmWarehouse
                 .unitBOX(i).Top = topNODE(i) - newY
                 .unit2BOX(i).Top = topNODE(i) - newY
                 .repairBOX(i).Top = topNODE(i) - newY
+                .linesH(0).Top = .quantityBOX(totalNode).Top
             End If
         Next
     End If

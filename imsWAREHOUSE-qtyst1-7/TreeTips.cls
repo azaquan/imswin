@@ -104,7 +104,7 @@ Dim TipText As String
                     Set nodX = GetFirstVisibleNode()
                     'frmWarehouse.logLabel.Caption = "node=" + Format(nodX.index) 'Juan 2014-02-02, for debugging
                     nodeONtop = nodX.index + 1
-            rePositionThings (nodeONtop) 'Juan 2014-01-29, for re-position after scrolling
+                    rePositionThings (nodeONtop) 'Juan 2014-01-29, for re-position after scrolling
             
                     If Not nodX Is Nothing Then
                         TipText = nodX.key
