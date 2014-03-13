@@ -1208,7 +1208,7 @@ On Error GoTo ErrHandler:
         Else
             'Juan 2010-5-17
             If serialPool = "SERIAL" Then
-                If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Then  'Return from Well, 'WarehouseIssue
+                If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Or frmWarehouse.tag = "02050300" Then  'Return from Well, 'WarehouseIssue, Adjustment Issue 'Juan 2014-3-13
 
                 Else
                     '.quantityBOX(n) = "1.00"
@@ -2273,8 +2273,8 @@ frmWarehouse.Refresh
             If .name = frmWarehouse.STOCKlist.name Then
                 Call PREdetails
             Else
-                'AdjustmentIssue juan 2012--3-24 to add serial
-                If frmWarehouse.tag = "02040200" Then
+                'Issue + AdjustmentIssue juan 2012--3-24 to add serial + 2014-3-13
+                If frmWarehouse.tag = "02040200" Or frmWarehouse.tag = "02050300" Then
                    Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row)
                 Else
                     Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 2), .row)
