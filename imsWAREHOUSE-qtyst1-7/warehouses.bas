@@ -285,10 +285,16 @@ With frmWarehouse
                 Set .positionBox(i).Container = .treeFrame
                 .quantity(i).Left = 40
                 .quantity(i).Top = topNODE(i) - distance
-                If i = 1 Then .quantity(i).backcolor = vbGreen
                 
                 Set .logicBOX(i).Container = .treeFrame
-                .logicBOX(i).Left = .detailHEADER.ColWidth(1)
+                'Juan 2014-4-13, added for fix the logicwh placing
+                Select Case .tag
+                    Case "02050200" 'AdjustmentEntry
+                        .logicBOX(i).Left = 40 'new
+                    Case Else
+                        .logicBOX(i).Left = .detailHEADER.ColWidth(1)
+                End Select
+                '----------------------------------------
                .logicBOX(i).Top = topNODE(i) - distance
                
                 Set .sublocaBOX(i).Container = .treeFrame
@@ -974,7 +980,10 @@ On Error GoTo ErrHandler:
 '                End If
             Case "02040100" 'WarehouseReceipt
             Case "02040700" 'InternalTransfer
-                .logicBOX(n).Enabled = False
+                'Juan 2014-4-13, make it enabled
+                '.logicBOX(n).Enabled = False
+                .logicBOX(n).Enabled = True
+                '----------------------
             Case Else
                 .NEWconditionBOX(n).Enabled = True
                 .logicBOX(n).Enabled = True
@@ -1203,7 +1212,10 @@ On Error GoTo ErrHandler:
             .priceBOX(n).Enabled = False
             .NEWconditionBOX(n).Enabled = False
             .logicBOX(n).Enabled = True
-            .sublocaBOX(n).Enabled = False
+            'Juan 2013-4-13: enable sublocation selection
+            '.sublocaBOX(n).Enabled = False
+            .sublocaBOX(n).Enabled = True
+            '---------------------------------------
             .repairBOX(n).Enabled = False
         Else
             'Juan 2010-5-17
@@ -1412,7 +1424,10 @@ On Error GoTo ErrHandler
                     End If
                     
                     If docTYPE!doc_invcreqd Then
-                        Set datax = getDATA("statusINVOICE", Array(nameSP, Format(.cell(4)), Format(StockNumber)))
+                    'Juan 2014-03-29: fixing bug replacing parameter stocknumber by item#
+                        'Set datax = getDATA("statusINVOICE", Array(nameSP, Format(.cell(4)), Format(StockNumber)))
+                        Set datax = getDATA("statusINVOICE", Array(nameSP, Format(.cell(4)), .STOCKlist.TextMatrix(stockListRow, 8)))
+                        '----------------------------------------------------------
                         If datax.RecordCount = 0 Then
                             Screen.MousePointer = 0
                             MsgBox "Error on Warehouse Module referent to a non existing invoice"
@@ -2030,7 +2045,8 @@ Dim n, rec, i, qty2Value
                     poItem = Format(!poItem)
                     rec = rec + Format(!poItem) + vbTab
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
-                    rec = rec + Format(toBeReceived2, "0.00")
+                    rec = rec + Format(toBeReceived2, "0.00") + vbTab
+                    rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00"))
             End Select
             frmWarehouse.STOCKlist.addITEM rec
             If n = 20 Then
@@ -2392,7 +2408,7 @@ Sub putBOX(box As textBOX, Left, Top, width, backcolor)
         Select Case frmWarehouse.tag
             Case "02040400" 'ReturnFromRepair
             Case "02050200" 'AdjustmentEntry
-                'If .name = "quantity" Then .Visible = False
+                If .name = "quantity" Then .Visible = False
                 If .name = "balanceBOX" Then .Visible = False
             Case "02040200" 'WarehouseIssue
             Case "02040500" 'WellToWell
