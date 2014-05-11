@@ -1260,7 +1260,7 @@ ErrHandler:
 End Sub
 
 
-Sub fillDETAILlist(StockNumber, description, unit, Optional QTYpo, Optional stockListRow, Optional serialNum)
+Sub fillDETAILlist(StockNumber, description, unit, Optional QTYpo, Optional stockListRow, Optional serialNum, Optional hasInvoice As Boolean)
 Dim i, n, sql, rec, cond, loca, subloca, stock, total, key, lastLine, thick, condName, currentLOGIC, currentSUBloca
 Dim sublocaname, logicname, currentCOND
 Dim pool As Boolean
@@ -1280,8 +1280,12 @@ On Error GoTo ErrHandler
     
         'juan 2012-1-3 need to validate if the stocknumber already taken into the list
         If .tag = "02040100" Or .tag = "02050200" Then 'receipt 2012-3-8, added to allow receipt to be re entered; Juan 2013-12-29 also adde AE
-            If summaryQTYshort(StockNumber) > 0 Then
-                multipleLine = True
+            If summaryQTYshort(StockNumber, .STOCKlist.TextMatrix(.STOCKlist.row, 12)) > 0 Then
+                If hasInvoice Then
+                    multipleLine = True
+                Else
+                    multipleLine = False
+                End If
             End If
         Else
             If summaryQTYshort(StockNumber) > 0 Then Exit Sub
@@ -1448,8 +1452,17 @@ On Error GoTo ErrHandler
                                         Exit Sub
                                     End If
                                 End If
+                            Else
+                                'Juan 2014-5-1
+                                .invoiceLabel.Visible = True
+                                .invoiceNumberLabel.Caption = .STOCKlist.TextMatrix(.STOCKlist.row, 12)
+                                .invoiceNumberLabel.Visible = True
+                                '-----------------------
                             End If
                         End If
+                    Else
+                        .invoiceLabel.Visible = False
+                        .invoiceNumberLabel.Visible = False
                     End If
                     'sql = "SELECT TOP 1 * FROM StockInfoPO WHERE " _
                       '  & "NameSpace = '" + nameSP + "' AND " _
@@ -1461,12 +1474,15 @@ On Error GoTo ErrHandler
                         'it would get any po lineitem record with this stockno with ths line item.
                         'and usually these were reqs. with unitprice 0 and so some of the receipts would have up as 0
                         'for some pos
-                    sql = "SELECT TOP 1 * FROM StockInfoPO WHERE " _
-                        & "NameSpace = '" + nameSP + "' AND " _
-                        & "StockNumber = '" + StockNumber + "' AND " _
-                        & "PO = '" + .cell(4).text + "' AND  " _
-                        & "POitem = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 8) + "' " _
-                        & "ORDER BY curd_creadate Desc"
+                        sql = "SELECT TOP 1 * FROM StockInfoPO WHERE " _
+                            & "NameSpace = '" + nameSP + "' AND " _
+                            & "StockNumber = '" + StockNumber + "' AND " _
+                            & "PO = '" + .cell(4).text + "' AND  " _
+                            & "POitem = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 8) + "'  "
+                            If hasInvoice Then
+                                sql = sql + "AND invoice = '" + .invoiceNumberLabel + "'  " 'Juan 2014-5-4
+                            End If
+                            sql = sql + "ORDER BY curd_creadate Desc"
                         'Juan 2010-5-2010
                         '& "POitem = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 6) + "'"
                         '-----------------
@@ -1967,7 +1983,11 @@ Sub drawLINEcol(ByVal grid As MSHFlexGrid, col As Integer)
 End Sub
 Sub fillSTOCKlist(datax As ADODB.Recordset)
 On errror GoTo errorHandler
-Dim n, rec, i, qty2Value
+Dim n, rec, i, qty2Value, lineNumber
+Dim firstTime As Boolean
+firstTime = True
+lineNumber = 0
+
     With datax
         n = 0
         'Juan 2010-5-21
@@ -2009,6 +2029,25 @@ Dim n, rec, i, qty2Value
                 Case "02040100" 'WarehouseReceipt
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
                     rec = Format(!poItem) + vbTab
+                    If !linesTotal > 1 Then
+                        If firstTime Then
+                            lineNumber = !poItem
+                            rec = rec + Trim(!StockNumber) + vbTab
+                            rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
+                            frmWarehouse.STOCKlist.addITEM rec
+                            frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
+                            For i = 0 To frmWarehouse.STOCKlist.cols - 1
+                                frmWarehouse.STOCKlist.col = i
+                                frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
+                            Next
+                        Else
+                            If !poItem <> lineNumber Then
+                                firstTime = True
+                                lineNumber = 0
+                            End If
+                        End If
+                    End If
+                    rec = Format(!poItem) + vbTab
                     rec = rec + Trim(!StockNumber) + vbTab
                     rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
                     'Juan 2010-9-19
@@ -2018,7 +2057,7 @@ Dim n, rec, i, qty2Value
                         toBeReceived = !qty1
                     Else
                         If !QTY1_invoice > 0 Then
-                            toBeReceived = !QTY1_invoice
+                            toBeReceived = !QTY1_invoice - IIf(IsNull(!QTY1_receivedInvoice), 0, !QTY1_receivedInvoice) 'Juan 2014-5-3
                         Else
                             toBeReceived = !qty1
                         End If
@@ -2033,7 +2072,7 @@ Dim n, rec, i, qty2Value
                         toBeReceived2 = !qty2
                     Else
                         If !QTY2_invoice > 0 Then
-                            toBeReceived2 = !QTY2_invoice
+                            toBeReceived2 = !QTY2_invoice - IIf(IsNull(!QTY2_receivedInvoice), 0, !QTY2_receivedInvoice) 'Juan 2014-5-3
                         Else
                             toBeReceived2 = !qty2
                         End If
@@ -2046,9 +2085,23 @@ Dim n, rec, i, qty2Value
                     rec = rec + Format(!poItem) + vbTab
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
-                    rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00"))
+                    rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00")) + vbTab
+                    rec = rec + IIf(IsNull(!invoice), "", !invoice)
             End Select
             frmWarehouse.STOCKlist.addITEM rec
+            
+            If !linesTotal > 1 Then
+                If firstTime Then
+                    firstTime = False
+                End If
+                frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
+                'frmWarehouse.STOCKlist.col = 0
+                'frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
+                For i = 1 To 2
+                    frmWarehouse.STOCKlist.col = i
+                    frmWarehouse.STOCKlist.CellForeColor = vbWhite
+                Next
+            End If
             If n = 20 Then
                 DoEvents
                 frmWarehouse.STOCKlist.Refresh
@@ -2652,13 +2705,20 @@ errPutReturnData:
     MsgBox Err.description: Err.Clear
 End Function
 
-Function summaryQTYshort(StockNumber) As Integer
+Function summaryQTYshort(StockNumber, Optional invoice As String) As Integer
 summaryQTYshort = 0
-    With frmWarehouse.SUMMARYlist
-        For i = 1 To .Rows - 1
-            If Trim(.TextMatrix(i, 1)) = Trim(StockNumber) Then
-                summaryQTYshort = 1
-                Exit Function
+    With frmWarehouse
+        For i = 1 To .SUMMARYlist.Rows - 1
+            If Trim(.SUMMARYlist.TextMatrix(i, 1)) = Trim(StockNumber) Then
+                If invoice = "" Then
+                    summaryQTYshort = 1
+                    Exit Function
+                Else
+                    If Trim(.summaryValues.TextMatrix(i, 2)) = Trim(invoice) Then
+                        summaryQTYshort = 1
+                        Exit Function
+                    End If
+                End If
             End If
         Next
     End With
@@ -3392,7 +3452,19 @@ Screen.MousePointer = 11
             Case "02040200"
                 Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row)
             Case "02040100" 'WarehouseReceipt
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 7), .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row)
+                Dim hasInvoice As Boolean
+                Dim goAhead As Boolean
+                goAhead = True
+                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = "" Then
+                    If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 3) = "" Then
+                        goAhead = False
+                    Else
+                        hasInvoice = False
+                    End If
+                Else
+                    hasInvoice = True
+                End If
+                If goAhead Then Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 7), .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row, , hasInvoice)
             Case "02050200" 'AdjustmentEntry
                 Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), -1, .row)
         End Select
