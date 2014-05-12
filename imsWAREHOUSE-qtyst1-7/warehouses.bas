@@ -2028,18 +2028,11 @@ lineNumber = 0
                     rec = rec + IIf(IsNull(!unit), "", !unit)
                 Case "02040100" 'WarehouseReceipt
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
-                    rec = Format(!poItem) + vbTab
+                    'rec = Format(!poItem) + vbTab
                     If !linesTotal > 1 Then
+                        lineNumber = !poItem
                         If firstTime Then
-                            lineNumber = !poItem
-                            rec = rec + Trim(!StockNumber) + vbTab
-                            rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
-                            frmWarehouse.STOCKlist.addITEM rec
-                            frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
-                            For i = 0 To frmWarehouse.STOCKlist.cols - 1
-                                frmWarehouse.STOCKlist.col = i
-                                frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
-                            Next
+ 
                         Else
                             If !poItem <> lineNumber Then
                                 firstTime = True
@@ -2064,7 +2057,7 @@ lineNumber = 0
                     End If
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit), "", !unit) + vbTab
-                    
+
                     'Dim qty2
                     ' qty2 = Format(!qty2, "0.00")
                     ' rec = rec + qty2 + vbTab
@@ -2080,12 +2073,14 @@ lineNumber = 0
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit2), "", !unit2) + vbTab
                     '-----------------------
+
                     rec = rec + IIf(IsNull(!description), "", !description) + vbTab
                     poItem = Format(!poItem)
                     rec = rec + Format(!poItem) + vbTab
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00")) + vbTab
+
                     rec = rec + IIf(IsNull(!invoice), "", !invoice)
             End Select
             frmWarehouse.STOCKlist.addITEM rec
@@ -2093,14 +2088,27 @@ lineNumber = 0
             If !linesTotal > 1 Then
                 If firstTime Then
                     firstTime = False
+                    frmWarehouse.STOCKlist.addITEM rec
+                    frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 2
+                    For i = 1 To frmWarehouse.STOCKlist.cols - 1
+                        frmWarehouse.STOCKlist.col = i
+                        frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
+                    Next
+                    For i = 3 To 6
+                        frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, i) = ""
+                    Next
+                    frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = !poi_unitprice
                 End If
                 frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
                 'frmWarehouse.STOCKlist.col = 0
                 'frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
+                
                 For i = 1 To 2
                     frmWarehouse.STOCKlist.col = i
                     frmWarehouse.STOCKlist.CellForeColor = vbWhite
                 Next
+                frmWarehouse.STOCKlist.col = 7
+                frmWarehouse.STOCKlist.CellForeColor = vbWhite
             End If
             If n = 20 Then
                 DoEvents
