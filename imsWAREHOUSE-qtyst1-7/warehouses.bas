@@ -2084,7 +2084,7 @@ lineNumber = 0
                     rec = rec + IIf(IsNull(!invoice), "", !invoice)
             End Select
             frmWarehouse.STOCKlist.addITEM rec
-            
+            'Juan 2014-5-13
             If !linesTotal > 1 Then
                 If firstTime Then
                     firstTime = False
@@ -2097,7 +2097,8 @@ lineNumber = 0
                     For i = 3 To 6
                         frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, i) = ""
                     Next
-                    frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = !poi_unitprice
+                     frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
+                    frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
                 End If
                 frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
                 'frmWarehouse.STOCKlist.col = 0
@@ -2110,6 +2111,7 @@ lineNumber = 0
                 frmWarehouse.STOCKlist.col = 7
                 frmWarehouse.STOCKlist.CellForeColor = vbWhite
             End If
+            '----------------------------
             If n = 20 Then
                 DoEvents
                 frmWarehouse.STOCKlist.Refresh
@@ -2342,13 +2344,19 @@ frmWarehouse.Refresh
                 .col = 0
                 '------
             Else
-                .CellFontName = "Wingdings 3"
-                .CellFontSize = 10
-                .text = "Æ"
+                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = "" Then
+                Else
+                    .CellFontName = "Wingdings 3"
+                    .CellFontSize = 10
+                    .text = "Æ"
+                End If
             End If
 
             If .name = frmWarehouse.STOCKlist.name Then
-                Call PREdetails
+                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = "" Then
+                Else
+                    Call PREdetails
+                End If
             Else
                 'Issue + AdjustmentIssue juan 2012--3-24 to add serial + 2014-3-13
                 If frmWarehouse.tag = "02040200" Or frmWarehouse.tag = "02050300" Then
@@ -3232,6 +3240,8 @@ End Sub
 
 Function findSTUFF(toFIND, grid As MSHFlexGrid, col, Optional toFIND2, Optional col2 As Integer) As Integer
 Dim i
+Dim invoice
+invoice = frmWarehouse.invoiceNumberLabel
 Dim findIT As Boolean
     findSTUFF = 0
     With grid
@@ -3252,8 +3262,15 @@ Dim findIT As Boolean
                         Exit For
                     Else
                          If UCase(Trim(.TextMatrix(i, col2))) = UCase(Trim(toFIND2)) Then
-                            findSTUFF = i
-                            Exit For
+                            If invoice = "" Then
+                                findSTUFF = i
+                                Exit For
+                            Else
+                                If UCase(Trim(.TextMatrix(i, 12))) = UCase(Trim(invoice)) Then
+                                    findSTUFF = i
+                                    Exit For
+                                End If
+                            End If
                          Else
                          End If
                     End If
@@ -3464,7 +3481,7 @@ Screen.MousePointer = 11
                 Dim goAhead As Boolean
                 goAhead = True
                 If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = "" Then
-                    If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 3) = "" Then
+                    If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = "" Then
                         goAhead = False
                     Else
                         hasInvoice = False

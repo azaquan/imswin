@@ -25,7 +25,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       QuoteChar       =   34
       SeparatorChar   =   46
    EndProperty
-   NumRecordsets   =   105
+   NumRecordsets   =   106
    BeginProperty Recordset1 
       CommandName     =   "BILLTO"
       CommDispId      =   1340
@@ -10642,7 +10642,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       AggregateCount  =   0
    EndProperty
    BeginProperty Recordset103 
-      CommandName     =   "INVTRECEIPTDETL_INSERT"
+      CommandName     =   "INVTRECEIPTDETL_INSERT_old"
       CommDispId      =   3377
       RsDispId        =   -1
       CommandText     =   "dbo.INVTRECEIPTDETL_INSERT"
@@ -11079,6 +11079,19 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
          HostType        =   8
          Required        =   -1  'True
       EndProperty
+      RelationCount   =   0
+      AggregateCount  =   0
+   EndProperty
+   BeginProperty Recordset106 
+      CommandName     =   "INVTRECEIPTDETL_INSERT"
+      CommDispId      =   3476
+      RsDispId        =   -1
+      CommandText     =   "dbo.INVTRECEIPTDETL_INSERT"
+      ActiveConnectionName=   "cnIms"
+      CallSyntax      =   "{ CALL dbo.INVTRECEIPTDETL_INSERT }"
+      NumFields       =   0
+      NumGroups       =   0
+      ParamCount      =   0
       RelationCount   =   0
       AggregateCount  =   0
    EndProperty
