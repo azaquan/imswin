@@ -2030,9 +2030,9 @@ lineNumber = 0
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
                     'rec = Format(!poItem) + vbTab
                     If !linesTotal > 1 Then
-                        lineNumber = !poItem
                         If firstTime Then
- 
+                            lineNumber = !poItem
+                            'firstTime = False
                         Else
                             If !poItem <> lineNumber Then
                                 firstTime = True
@@ -2085,33 +2085,37 @@ lineNumber = 0
             End Select
             frmWarehouse.STOCKlist.addITEM rec
             'Juan 2014-5-13
-            If !linesTotal > 1 Then
-                If firstTime Then
-                    firstTime = False
-                    frmWarehouse.STOCKlist.addITEM rec
-                    frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 2
-                    For i = 1 To frmWarehouse.STOCKlist.cols - 1
-                        frmWarehouse.STOCKlist.col = i
-                        frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
-                    Next
-                    For i = 3 To 6
-                        frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, i) = ""
-                    Next
-                     frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
-                    frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
-                End If
-                frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
-                'frmWarehouse.STOCKlist.col = 0
-                'frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
-                
-                For i = 1 To 2
-                    frmWarehouse.STOCKlist.col = i
-                    frmWarehouse.STOCKlist.CellForeColor = vbWhite
-                Next
-                frmWarehouse.STOCKlist.col = 7
-                frmWarehouse.STOCKlist.CellForeColor = vbWhite
-            End If
-            '----------------------------
+            Select Case frmWarehouse.tag
+                Case "02040100" 'WarehouseReceipt
+                    If !linesTotal > 1 Then
+                        If firstTime Then
+                            firstTime = False
+                            frmWarehouse.STOCKlist.addITEM rec
+                            frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 2
+                            For i = 1 To frmWarehouse.STOCKlist.cols - 1
+                                frmWarehouse.STOCKlist.col = i
+                                frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
+                            Next
+                            For i = 3 To 6
+                                frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, i) = ""
+                            Next
+                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
+                        End If
+                        frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
+                        'frmWarehouse.STOCKlist.col = 0
+                        'frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
+                        
+                        frmWarehouse.STOCKlist.col = 1
+                        frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
+                        frmWarehouse.STOCKlist.col = 2
+                        frmWarehouse.STOCKlist.CellForeColor = vbWhite
+
+                        frmWarehouse.STOCKlist.col = 7
+                        frmWarehouse.STOCKlist.CellForeColor = vbWhite
+                    End If
+                    '----------------------------
+                End Select
             If n = 20 Then
                 DoEvents
                 frmWarehouse.STOCKlist.Refresh
@@ -2969,7 +2973,8 @@ Dim once As Boolean
 Dim originalQty As Double
 once = True
 balanceTotal = 0
-
+Dim goAhead As Boolean
+goAhead = False
 'This applies to reciept only
 'balance and balance2 are meant to store the difference between the PO qty to be recieved and what is being recieved.
 'that is for primary and secondary qty's
@@ -3066,17 +3071,27 @@ On Error Resume Next
                         Else
                             position = 0
                         End If
+                        
                         For j = 1 To .SUMMARYlist.Rows - 1
                             'The reason for this select case is to manage if there is difrerences on
-                            If .SUMMARYlist.TextMatrix(j, 1) = .commodityLABEL.Caption Then
-                                If position = j Then 'This leaves the current line without summarizing
-                                Else
-                                    If IsNumeric(.SUMMARYlist.TextMatrix(j, colRef2)) Then
-                                        lineQty = CDbl(.SUMMARYlist.TextMatrix(j, colRef2))
+                            If frmWarehouse.invoiceNumberLabel = "" Then
+                                goAhead = True
+                            Else
+                                If frmWarehouse.invoiceNumberLabel = .SUMMARYlist.TextMatrix(j, 12) Then
+                                    goAhead = True
+                                End If
+                            End If
+                            If goAhead Then
+                                If .SUMMARYlist.TextMatrix(j, 1) = .commodityLABEL.Caption Then
+                                    If position = j Then 'This leaves the current line without summarizing
                                     Else
-                                        lineQty = 0
+                                        If IsNumeric(.SUMMARYlist.TextMatrix(j, colRef2)) Then
+                                            lineQty = CDbl(.SUMMARYlist.TextMatrix(j, colRef2))
+                                        Else
+                                            lineQty = 0
+                                        End If
+                                        subTot = subTot + lineQty
                                     End If
-                                    subTot = subTot + lineQty
                                 End If
                             End If
                         Next
@@ -3257,6 +3272,11 @@ Dim findIT As Boolean
         If findIT Then
             For i = 1 To .Rows - 1
                 If UCase(Trim(.TextMatrix(i, col))) = UCase(Trim(toFIND)) Then
+                    If frmWarehouse.invoiceNumberLabel = "" Then
+                    Else
+                        If frmWarehouse.invoiceNumberLabel = .TextMatrix(i, 12) Then
+                        End If
+                    End If
                     If IsMissing(toFIND2) Or IsMissing(col2) Then
                         findSTUFF = i
                         Exit For
