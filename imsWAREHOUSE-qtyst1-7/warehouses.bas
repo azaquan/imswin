@@ -2030,14 +2030,9 @@ lineNumber = 0
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
                     'rec = Format(!poItem) + vbTab
                     If !linesTotal > 1 Then
-                        If firstTime Then
+                        If !poItem <> lineNumber Then
+                            firstTime = True
                             lineNumber = !poItem
-                            'firstTime = False
-                        Else
-                            If !poItem <> lineNumber Then
-                                firstTime = True
-                                lineNumber = 0
-                            End If
                         End If
                     End If
                     rec = Format(!poItem) + vbTab
@@ -2047,12 +2042,12 @@ lineNumber = 0
                     ' rec = rec + Format(!qty1, "0.00") + vbTab
                     Dim toBeReceived, toBeReceived2 As Double
                     If Null = !QTY1_invoice Then
-                        toBeReceived = !qty1
+                        toBeReceived = !QTYpo
                     Else
                         If !QTY1_invoice > 0 Then
                             toBeReceived = !QTY1_invoice - IIf(IsNull(!QTY1_receivedInvoice), 0, !QTY1_receivedInvoice) 'Juan 2014-5-3
                         Else
-                            toBeReceived = !qty1
+                            toBeReceived = !QTYpo
                         End If
                     End If
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
@@ -3274,7 +3269,9 @@ Dim findIT As Boolean
                 If UCase(Trim(.TextMatrix(i, col))) = UCase(Trim(toFIND)) Then
                     If frmWarehouse.invoiceNumberLabel = "" Then
                     Else
-                        If frmWarehouse.invoiceNumberLabel = .TextMatrix(i, 12) Then
+                        If .cols > 11 Then
+                            If frmWarehouse.invoiceNumberLabel = .TextMatrix(i, 12) Then
+                            End If
                         End If
                     End If
                     If IsMissing(toFIND2) Or IsMissing(col2) Then
