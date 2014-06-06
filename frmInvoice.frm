@@ -613,7 +613,7 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   60030979
+         Format          =   60686339
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
@@ -1060,7 +1060,7 @@ Option Explicit
 
 Dim Form As FormMode
 Dim readyFORsave As Boolean
-Dim Rs As ADODB.Recordset, rsReceptList As ADODB.Recordset
+Dim rs As ADODB.Recordset, rsReceptList As ADODB.Recordset
 Dim colorsROW(12)
 Dim SaveEnabled As Boolean
 Dim forceNAV As Boolean
@@ -1721,7 +1721,8 @@ Dim qty As Double
             If lineITEM > 0 Then
                 Sql = Sql + "AND lineItem = " + Format(lineITEM) + " "
             End If
-            Sql = Sql + "ORDER BY PO, CONVERT(integer, LineItem)"
+            Sql = Sql + "ORDER BY PO, CONVERT(integer, LineItem) "
+            Sql = Sql + ", sequence" 'Juan 2014-06-05
     Else
         Invoice = Trim(Invoice)
         Sql = "SELECT * from Invoice_Details WHERE NameSpace = '" + deIms.NameSpace + "' " _
@@ -2168,7 +2169,7 @@ Private Sub cell_Change(Index As Integer)
         With cell(Index)
             Select Case Index
                 Case 0
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If cell(Index) = "" Then
                             Call clearDOCUMENT
                             NavBar1.NewEnabled = False
@@ -2184,7 +2185,7 @@ Private Sub cell_Change(Index As Integer)
                         End If
                     End If
                 Case 1
-                    If Form <> mdVisualization Then
+                    If Form <> mdvisualization Then
                         If Index = 1 Then Exit Sub
                         If cell(Index) <> "" Then Call alphaSEARCH(cell(Index), InvoiceComboList, 0)
                     
@@ -2204,13 +2205,13 @@ End Sub
 Private Sub cell_Click(Index As Integer)
     Select Case Index
         Case 0
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 Call showLIST(POComboList)
             Else
                 POComboList.Visible = False
             End If
         Case 1
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 Call showLIST(InvoiceComboList)
             Else
                 InvoiceComboList.Visible = False
@@ -2227,7 +2228,7 @@ Private Sub cell_GotFocus(Index As Integer)
             .Tag = .Text
             Select Case Index
                 Case 0
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If POComboList.Visible Then
                             POComboList.Visible = False
                         Else
@@ -2235,7 +2236,7 @@ Private Sub cell_GotFocus(Index As Integer)
                         End If
                     End If
                 Case 1
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If InvoiceComboList.Visible Then
                             InvoiceComboList.Visible = False
                         Else
@@ -2244,7 +2245,7 @@ Private Sub cell_GotFocus(Index As Integer)
                     End If
                 Case 3
                     If IsDate(cell(Index)) Then DTPicker1.value = CDate(cell(Index))
-                    If Form <> mdVisualization Then
+                    If Form <> mdvisualization Then
                         If .Text = "" Then
                             DTPicker1.value = Now
                         Else
@@ -2262,7 +2263,7 @@ Dim activeARROWS As Boolean
     With cell(Index)
         If Not .locked Then
             activeARROWS = False
-            If Index <= 2 And Form = mdVisualization Then activeARROWS = True
+            If Index <= 2 And Form = mdvisualization Then activeARROWS = True
             If activeARROWS Then
                 Select Case KeyCode
                     Case 40
@@ -2284,7 +2285,7 @@ Private Sub cell_KeyPress(Index As Integer, KeyAscii As Integer)
                             Case 0
                                 If KeyAscii = 13 Then
                                     Select Case Form
-                                        Case mdVisualization
+                                        Case mdvisualization
                                             cell(0) = POComboList
                                             POComboList.Visible = False
                                             Call getINVOICE("*")
@@ -2297,7 +2298,7 @@ Private Sub cell_KeyPress(Index As Integer, KeyAscii As Integer)
                             Case 1
                                 If KeyAscii = 13 Then
                                     Select Case Form
-                                        Case mdVisualization
+                                        Case mdvisualization
                                             If cell(1) <> "" Then
                                                 Call getINVOICE("*")
                                             End If
@@ -2339,7 +2340,7 @@ On Error Resume Next
             Select Case Index
                 Case 0
                     Select Case Form
-                        Case mdVisualization
+                        Case mdvisualization
                             If cell(0) = Right(invoiceLABEL, Len(cell(0))) Then Exit Sub
                         Case mdCreation
                             POComboList.Visible = False
@@ -2347,7 +2348,7 @@ On Error Resume Next
                     End Select
                 Case 1
                     Select Case Form
-                        Case mdVisualization
+                        Case mdvisualization
 
                             If InvoiceComboList.Visible Then
                                 InvoiceComboList.Visible = False
@@ -2386,7 +2387,7 @@ End Sub
 
 
 Public Sub cell_Validate(Index As Integer, Cancel As Boolean)
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         With cell(Index)
             If Not .locked Then
                 If .Text <> "" Then
@@ -2435,19 +2436,19 @@ End Sub
 
 
 Private Sub Command1_Click()
-Dim showALL As Boolean
+Dim showAll As Boolean
 Dim i As Integer
     If Command1.Caption = "&Show Only Selection" Then
         Command1.Caption = "&Show All Records"
-        showALL = False
+        showAll = False
     Else
         Command1.Caption = "&Show Only Selection"
-        showALL = True
+        showAll = True
     End If
     
     With POlist
         .Col = 0
-        If showALL Then
+        If showAll Then
             .RowHeightMin = 50
             .RowHeight(-1) = 240
         Else
@@ -2473,7 +2474,7 @@ Dim i As Integer
                 End If
             End If
 
-            If showALL Then
+            If showAll Then
                 If val(.TextMatrix(i, 13)) = 50 Then .RowHeight(i) = 50
             Else
                 If .TextMatrix(i, 0) <> "" And Not IsNumeric(.TextMatrix(i, 1)) Then
@@ -2546,7 +2547,7 @@ Dim rights
     frmInvoice.Left = Int((MDI_IMS.Width - frmInvoice.Width) / 2)
     frmInvoice.Top = Int((MDI_IMS.Height - frmInvoice.Height) / 2) - 500
 
-    If Form = mdVisualization Then
+    If Form = mdvisualization Then
         NavBar1.SaveEnabled = False
         NavBar1.CancelEnabled = False
         NavBar1.NewEnabled = False
@@ -2570,21 +2571,21 @@ Dim rights
     Imsmail1.Language = Language
     NavBar1.Language = Language
     Call begining
-    Form = mdVisualization
+    Form = mdvisualization
     Screen.MousePointer = 11
     SSTab1.Tab = 0
     Call lockDOCUMENT(True)
-    FormMode = mdVisualization
+    FormMode = mdvisualization
     
     SSGrdFQA.StyleSets.Add ("CellBeingModified")
     SSGrdFQA.StyleSets("CellBeingModified").BackColor = vbYellow
-    SSGrdFQA.ActiveCell.StyleSet = "CellBeingModified"
+    SSGrdFQA.activeCELL.StyleSet = "CellBeingModified"
     
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 Dim closing
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         closing = MsgBox("Do you really want to close and lose your last record?", vbYesNo)
         If closing = vbNo Then
             Cancel = True
@@ -2705,7 +2706,7 @@ Screen.MousePointer = 11
         
         Call SAVE
 
-        Call ChangeMode(mdVisualization)
+        Call ChangeMode(mdvisualization)
         Call getPOComboList
         Call getInvoiceComboList
         Call getINVOICE(cell(0))
@@ -2746,7 +2747,7 @@ Select Case SSTab1.Tab
     If response = vbYes Then
         With NavBar1
             cell(0).locked = False
-            Call ChangeMode(mdVisualization)
+            Call ChangeMode(mdvisualization)
             If SSTab1.Tab > 0 Then SSTab1.Tab = 0
             Call lockDOCUMENT(True)
             Call clearDOCUMENT
@@ -2842,7 +2843,7 @@ Select Case SSTab1.Tab
 Case 0
 
 If locked = True Then                                        'sets locked = true because another user has this record open in edit mode
-FormMode = ChangeModeOfForm(lblStatu, mdVisualization)
+FormMode = ChangeModeOfForm(lblStatu, mdvisualization)
 NavBar1.SaveEnabled = False
 Exit Sub                                                     'Exit Edit sub because theres nothing the user can do
 Else
@@ -2918,7 +2919,7 @@ On Error Resume Next
             lblStatu.Caption = IIf(msg1 = "", "Creation", msg1)
             lblStatu.Tag = "Creation"
             ChangeMode = True
-        Case mdVisualization
+        Case mdvisualization
             lblStatu.ForeColor = vbGreen
             msg1 = translator.Trans("L00092") 'J added
             lblStatu.Caption = IIf(msg1 = "", "Visualization", msg1) 'J modified
@@ -3094,7 +3095,7 @@ End Sub
 
 Private Sub POComboList_Click()
     Select Case Form
-        Case mdVisualization
+        Case mdvisualization
             POComboList.Tag = POComboList.row
             cell(0) = Trim(POComboList)
             If Left(cell(0), 1) = "(" And Right(cell(0), 1) = ")" Then
@@ -3117,7 +3118,7 @@ Private Sub POComboList_KeyPress(KeyAscii As Integer)
         Select Case KeyAscii
             Case 13
                 Select Case Form
-                    Case mdVisualization
+                    Case mdvisualization
                         cell(0) = .Text
                         Call getINVOICE("*")
                         Call getInvoiceComboList
@@ -3142,7 +3143,7 @@ End Sub
 
 Public Sub POlist_Click()
 Dim i, currentCOL, pointerCOL As Integer
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         With POlist
             If .TextMatrix(.row, 1) <> "" Then
                 If .row > 0 Then
@@ -3200,7 +3201,7 @@ End Sub
 
 Private Sub POlist_EnterCell()
 Dim changeCOLORS As Boolean
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         Dim i, currentCOL As Integer
         With POlist
             currentCOL = .Col
@@ -3313,7 +3314,7 @@ Dim row, Col As Integer
 End Sub
 
 Private Sub POlist_Scroll()
-    If Form <> mdVisualization Then TextLINE.Visible = False
+    If Form <> mdvisualization Then TextLINE.Visible = False
     If POlist.leftCOL > 0 Then
         Call fixPOtitles(POlist.leftCOL)
     End If
@@ -3321,7 +3322,7 @@ End Sub
 
 Private Sub POlist_SelChange()
     With POlist
-        If Form <> mdVisualization Then
+        If Form <> mdvisualization Then
             If .TextMatrix(.row, 1) <> "" Then
                 If .RowHeight(POlist.row) > 240 Then
                     .TextMatrix(POlist.row, 13) = .RowHeight(POlist.row)
@@ -3333,7 +3334,7 @@ End Sub
 
 Private Sub InvoiceComboList_Click()
     Select Case Form
-        Case mdVisualization
+        Case mdvisualization
             InvoiceComboList.Tag = InvoiceComboList.row
             cell(1) = Trim(InvoiceComboList)
             If Left(cell(0), 1) = "(" And Right(cell(0), 1) = ")" Then
@@ -3405,7 +3406,7 @@ End Sub
 
 Private Sub SSGrdFQA_BeforeRowColChange(Cancel As Integer)
 
-If Form = mdVisualization Then Exit Sub
+If Form = mdvisualization Then Exit Sub
 
 Select Case SSGrdFQA.Col
 Case 0
@@ -3520,7 +3521,7 @@ End Sub
 
 Private Sub SSGrdFQA_RowColChange(ByVal LastRow As Variant, ByVal LastCol As Integer)
 
-If Form = mdVisualization Then Exit Sub
+If Form = mdvisualization Then Exit Sub
 
 Select Case CInt(CStr(LastCol))
 Case 0
@@ -3558,10 +3559,10 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
             If cell(0) = "" Then
                 SSTab1.Tab = 0
             Else
-                If NavBar1.CancelEnabled Or Form = mdVisualization Then
+                If NavBar1.CancelEnabled Or Form = mdvisualization Then
                     invoiceLABEL = "Transaction # " + cell(0)
                     currencyLABEL = "Currency: " + cell(5)
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         Command1.Enabled = False
                     Else
                         Command1.Enabled = True
@@ -3593,7 +3594,7 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
           If FPopulateFQACombos = False Then FPopulateFQACombos = PopulateCombosWithFQA(deIms.NameSpace)
          ' Call CalculateInvoicecharges
          
-         If (Trim(cell(0)) <> FPonumb Or Trim(cell(1)) <> FInvoiceno) And Form = mdVisualization Then
+         If (Trim(cell(0)) <> FPonumb Or Trim(cell(1)) <> FInvoiceno) And Form = mdvisualization Then
          
              FPonumb = cell(0)
              FInvoiceno = cell(1)
@@ -3613,14 +3614,14 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
         Select Case SSTab1.Tab
         
         Case 0
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = SaveEnabled
             Else
                 .SaveEnabled = True
             End If
         Case 1
         
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = False
                 .SaveEnabled = False
             Else
@@ -3629,7 +3630,7 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
             End If
         Case 3  'M
         
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = False
                 .SaveEnabled = False
             Else
@@ -3963,7 +3964,7 @@ Public Function CalculateInvoicecharges() As Boolean
             
         Next
     
-    ElseIf FormMode = mdVisualization Then
+    ElseIf FormMode = mdvisualization Then
     
         
         Rsinvoice.Source = " select invd_totapric from invoicedetl where invd_ponumb='" & cell(0) & "' and invd_invcnumb='" & cell(1) & "' and invd_npecode='" & deIms.NameSpace & "'"
@@ -4150,13 +4151,13 @@ Err.Clear
 End Function
 
 Public Function ArrangeMiscChargesLineNo() As Boolean
-Dim count As Integer
+Dim Count As Integer
 Dim i As Integer
 On Error GoTo ErrHand
 
-count = SSGrdFQA.Rows
-If count = 0 Then Exit Function
-For i = 0 To count - 1
+Count = SSGrdFQA.Rows
+If Count = 0 Then Exit Function
+For i = 0 To Count - 1
 
     SSGrdFQA.row = i
     SSGrdFQA.Columns("lineno").value = i + 1
