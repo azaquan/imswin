@@ -2029,7 +2029,7 @@ lineNumber = 0
                 Case "02040100" 'WarehouseReceipt
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
                     'rec = Format(!poItem) + vbTab
-                    If !linesTotal > 1 Then
+                    If !linesTotal >= 1 Then
                         If !poItem <> lineNumber Then
                             firstTime = True
                             lineNumber = !poItem
@@ -2037,17 +2037,17 @@ lineNumber = 0
                     End If
                     rec = Format(!poItem) + vbTab
                     rec = rec + Trim(!StockNumber) + vbTab
-                    rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
+                    rec = rec + IIf(IsNull(!qty1), "0.00", Format(!qty1, "0.00")) + vbTab
                     'Juan 2010-9-19
                     ' rec = rec + Format(!qty1, "0.00") + vbTab
                     Dim toBeReceived, toBeReceived2 As Double
-                    If Null = !QTY1_invoice Then
-                        toBeReceived = !QTYpo
+                    If IsNull(!qty1_invoice) Then
+                        toBeReceived = !qty1
                     Else
-                        If !QTY1_invoice > 0 Then
-                            toBeReceived = !QTY1_invoice - IIf(IsNull(!QTY1_receivedInvoice), 0, !QTY1_receivedInvoice) 'Juan 2014-5-3
+                        If !qty1_invoice > 0 Then
+                            toBeReceived = !qty1_invoice - IIf(IsNull(!QTY1_receivedWithInvoice), 0, !QTY1_receivedWithInvoice) 'Juan 2014-5-3
                         Else
-                            toBeReceived = !QTYpo
+                            toBeReceived = !qty1_invoice
                         End If
                     End If
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
@@ -2056,13 +2056,13 @@ lineNumber = 0
                     'Dim qty2
                     ' qty2 = Format(!qty2, "0.00")
                     ' rec = rec + qty2 + vbTab
-                    If Null = !QTY2_invoice Then
+                    If IsNull(!qty2_invoice) Then
                         toBeReceived2 = !qty2
                     Else
-                        If !QTY2_invoice > 0 Then
-                            toBeReceived2 = !QTY2_invoice - IIf(IsNull(!QTY2_receivedInvoice), 0, !QTY2_receivedInvoice) 'Juan 2014-5-3
+                        If !qty2_invoice > 0 Then
+                            toBeReceived2 = !qty2_invoice - IIf(IsNull(!QTY2_receivedWithInvoice), 0, !QTY2_receivedWithInvoice) 'Juan 2014-5-3
                         Else
-                            toBeReceived2 = !qty2
+                            toBeReceived2 = !qty2_invoice
                         End If
                     End If
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
@@ -2082,7 +2082,7 @@ lineNumber = 0
             'Juan 2014-5-13
             Select Case frmWarehouse.tag
                 Case "02040100" 'WarehouseReceipt
-                    If !linesTotal > 1 Then
+                    If !linesTotal >= 1 Then
                         If firstTime Then
                             firstTime = False
                             frmWarehouse.STOCKlist.addITEM rec

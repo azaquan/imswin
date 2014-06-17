@@ -94,34 +94,34 @@ Begin VB.Form frmInvoice
       TabCaption(1)   =   "Line Item List"
       TabPicture(1)   =   "frmInvoice.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "nomPicture(1)"
-      Tab(1).Control(1)=   "nomPicture(0)"
-      Tab(1).Control(2)=   "Command1"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "TextLINE"
-      Tab(1).Control(4)=   "POlist"
-      Tab(1).Control(5)=   "POtitles"
-      Tab(1).Control(6)=   "currencyLABEL"
-      Tab(1).Control(7)=   "nomLabel(1)"
-      Tab(1).Control(8)=   "nomLabel(0)"
-      Tab(1).Control(9)=   "invoiceLABEL"
+      Tab(1).Control(0)=   "invoiceLABEL"
+      Tab(1).Control(1)=   "nomLabel(0)"
+      Tab(1).Control(2)=   "nomLabel(1)"
+      Tab(1).Control(3)=   "currencyLABEL"
+      Tab(1).Control(4)=   "POtitles"
+      Tab(1).Control(5)=   "POlist"
+      Tab(1).Control(6)=   "TextLINE"
+      Tab(1).Control(7)=   "Command1"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "nomPicture(0)"
+      Tab(1).Control(9)=   "nomPicture(1)"
       Tab(1).ControlCount=   10
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmd_Add"
-      Tab(2).Control(1)=   "cmd_Remove"
+      Tab(2).Control(0)=   "lbl_Recipients"
+      Tab(2).Control(1)=   "Imsmail1"
       Tab(2).Control(2)=   "RecipientList"
-      Tab(2).Control(3)=   "Imsmail1"
-      Tab(2).Control(4)=   "lbl_Recipients"
+      Tab(2).Control(3)=   "cmd_Remove"
+      Tab(2).Control(4)=   "cmd_Add"
       Tab(2).ControlCount=   5
       TabCaption(3)   =   "Misc. Charges"
       TabPicture(3)   =   "frmInvoice.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label(10)"
-      Tab(3).Control(1)=   "TxtMiscTranno"
-      Tab(3).Control(2)=   "SSGrdFQA"
-      Tab(3).Control(3)=   "FrmSummary"
+      Tab(3).Control(0)=   "FrmSummary"
+      Tab(3).Control(1)=   "SSGrdFQA"
+      Tab(3).Control(2)=   "TxtMiscTranno"
+      Tab(3).Control(3)=   "Label(10)"
       Tab(3).ControlCount=   4
       Begin VB.Frame FrmSummary 
          Caption         =   "Supplier Invoice Summary"
@@ -1307,7 +1307,7 @@ Dim i, w As Integer
             End Select
         Next
         .TextMatrix(0, 0) = "General"
-        .TextMatrix(0, 2) = "Transaction"
+        .TextMatrix(0, 2) = "Purchase Order"
         .TextMatrix(0, 4) = "Supplier Invoice"
         If diff > 2 Then
             .ColWidth(0) = POlist.ColWidth(0)
