@@ -2037,7 +2037,7 @@ lineNumber = 0
                     End If
                     rec = Format(!poItem) + vbTab
                     rec = rec + Trim(!StockNumber) + vbTab
-                    rec = rec + IIf(IsNull(!qty1), "0.00", Format(!qty1, "0.00")) + vbTab
+                    rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
                     'Juan 2010-9-19
                     ' rec = rec + Format(!qty1, "0.00") + vbTab
                     Dim toBeReceived, toBeReceived2 As Double
