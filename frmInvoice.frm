@@ -29,51 +29,33 @@ Begin VB.Form frmInvoice
       _Version        =   393216
       Style           =   1
       Tabs            =   4
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Header"
       TabPicture(0)   =   "frmInvoice.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label5"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label(0)"
-      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Label(1)"
-      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Label(2)"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Label(3)"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "Label(4)"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "Label(5)"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "Label(6)"
-      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "Label(7)"
-      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "Label(8)"
-      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "Label(9)"
-      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "Shape1"
-      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "POComboList"
-      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).Control(13)=   "InvoiceComboList"
-      Tab(0).Control(13).Enabled=   0   'False
       Tab(0).Control(14)=   "remark"
-      Tab(0).Control(14).Enabled=   0   'False
       Tab(0).Control(15)=   "DTPicker1"
-      Tab(0).Control(15).Enabled=   0   'False
       Tab(0).Control(16)=   "cell(0)"
-      Tab(0).Control(16).Enabled=   0   'False
       Tab(0).Control(17)=   "cell(1)"
-      Tab(0).Control(17).Enabled=   0   'False
       Tab(0).Control(18)=   "cell(2)"
       Tab(0).Control(18).Enabled=   0   'False
       Tab(0).Control(19)=   "cell(3)"
-      Tab(0).Control(19).Enabled=   0   'False
       Tab(0).Control(20)=   "cell(4)"
       Tab(0).Control(20).Enabled=   0   'False
       Tab(0).Control(21)=   "cell(5)"
@@ -87,25 +69,36 @@ Begin VB.Form frmInvoice
       Tab(0).Control(25)=   "cell(9)"
       Tab(0).Control(25).Enabled=   0   'False
       Tab(0).Control(26)=   "supplierDATA"
-      Tab(0).Control(26).Enabled=   0   'False
       Tab(0).Control(27)=   "Picture1"
-      Tab(0).Control(27).Enabled=   0   'False
       Tab(0).ControlCount=   28
       TabCaption(1)   =   "Line Item List"
       TabPicture(1)   =   "frmInvoice.frx":001C
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "invoiceLABEL"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "nomLabel(0)"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "nomLabel(1)"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "currencyLABEL"
-      Tab(1).Control(4)=   "POtitles"
-      Tab(1).Control(5)=   "POlist"
-      Tab(1).Control(6)=   "TextLINE"
-      Tab(1).Control(7)=   "Command1"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "nomLabel(2)"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "POtitles"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "POlist"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "TextLINE"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "nomPicture(0)"
-      Tab(1).Control(9)=   "nomPicture(1)"
-      Tab(1).ControlCount=   10
+      Tab(1).Control(8)=   "Command1"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "nomPicture(0)"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "nomPicture(1)"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "nomPicture(2)"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).ControlCount=   12
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
       Tab(2).ControlEnabled=   0   'False
@@ -123,6 +116,19 @@ Begin VB.Form frmInvoice
       Tab(3).Control(2)=   "TxtMiscTranno"
       Tab(3).Control(3)=   "Label(10)"
       Tab(3).ControlCount=   4
+      Begin VB.PictureBox nomPicture 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
+         ForeColor       =   &H80000008&
+         Height          =   255
+         Index           =   2
+         Left            =   8760
+         ScaleHeight     =   225
+         ScaleWidth      =   225
+         TabIndex        =   66
+         Top             =   980
+         Width           =   255
+      End
       Begin VB.Frame FrmSummary 
          Caption         =   "Supplier Invoice Summary"
          Height          =   2055
@@ -373,7 +379,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          ForeColor       =   &H80000008&
          Height          =   1695
-         Left            =   4680
+         Left            =   -70320
          ScaleHeight     =   1665
          ScaleWidth      =   2865
          TabIndex        =   44
@@ -406,7 +412,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   1
-         Left            =   -66600
+         Left            =   7560
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   41
@@ -419,7 +425,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   0
-         Left            =   -68280
+         Left            =   6360
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   39
@@ -445,7 +451,7 @@ Begin VB.Form frmInvoice
       Begin VB.CommandButton Command1 
          Caption         =   "&Show Only Selection"
          Height          =   375
-         Left            =   -65040
+         Left            =   9960
          TabIndex        =   30
          TabStop         =   0   'False
          Top             =   900
@@ -457,7 +463,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          BorderStyle     =   0  'None
          Height          =   285
-         Left            =   -64320
+         Left            =   10680
          TabIndex        =   29
          Top             =   660
          Visible         =   0   'False
@@ -465,7 +471,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid supplierDATA 
          Height          =   2055
-         Left            =   8040
+         Left            =   -66960
          TabIndex        =   28
          Top             =   1020
          Width           =   3975
@@ -489,7 +495,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   9
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   25
          TabStop         =   0   'False
@@ -501,7 +507,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   8
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   23
@@ -514,7 +520,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   7
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   21
          TabStop         =   0   'False
@@ -526,7 +532,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   6
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   19
          TabStop         =   0   'False
@@ -538,7 +544,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   5
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   17
@@ -551,7 +557,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   4
-         Left            =   1920
+         Left            =   -73080
          Locked          =   -1  'True
          MaxLength       =   20
          TabIndex        =   15
@@ -563,7 +569,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   3
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   13
          Top             =   2340
          Width           =   1815
@@ -573,7 +579,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   2
-         Left            =   1920
+         Left            =   -73080
          Locked          =   -1  'True
          TabIndex        =   11
          TabStop         =   0   'False
@@ -584,7 +590,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   1
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   9
          Top             =   1380
          Width           =   1815
@@ -593,7 +599,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   0
-         Left            =   1920
+         Left            =   -73080
          MaxLength       =   15
          TabIndex        =   7
          Top             =   1020
@@ -602,7 +608,7 @@ Begin VB.Form frmInvoice
       Begin MSComCtl2.DTPicker DTPicker1 
          CausesValidation=   0   'False
          Height          =   285
-         Left            =   480
+         Left            =   -74520
          TabIndex        =   5
          TabStop         =   0   'False
          Top             =   6180
@@ -613,12 +619,12 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   60686339
+         Format          =   20250627
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
          Height          =   3675
-         Left            =   240
+         Left            =   -74760
          MaxLength       =   1000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
@@ -628,7 +634,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid InvoiceComboList 
          Height          =   975
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   27
          Top             =   1650
          Visible         =   0   'False
@@ -648,7 +654,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POComboList 
          Height          =   975
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   6
          Top             =   1290
          Visible         =   0   'False
@@ -667,7 +673,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POlist 
          Height          =   5720
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   31
          Top             =   1740
          Width           =   11775
@@ -687,7 +693,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POtitles 
          Height          =   450
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   32
          Top             =   1440
          Width           =   11775
@@ -798,6 +804,15 @@ Begin VB.Form frmInvoice
          _StockProps     =   79
          Caption         =   "Miscellaneous Charges"
       End
+      Begin VB.Label nomLabel 
+         Caption         =   "Not invoiced"
+         Height          =   375
+         Index           =   2
+         Left            =   9120
+         TabIndex        =   67
+         Top             =   840
+         Width           =   735
+      End
       Begin VB.Label TxtMiscTranno 
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -844,7 +859,7 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   -71760
+         Left            =   3240
          TabIndex        =   43
          Top             =   1020
          Width           =   3375
@@ -853,16 +868,16 @@ Begin VB.Form frmInvoice
          Caption         =   "Already Invoiced"
          Height          =   375
          Index           =   1
-         Left            =   -66240
+         Left            =   7920
          TabIndex        =   42
-         Top             =   900
-         Width           =   975
+         Top             =   840
+         Width           =   735
       End
       Begin VB.Label nomLabel 
          Caption         =   "Purchase Unit"
          Height          =   375
          Index           =   0
-         Left            =   -67920
+         Left            =   6720
          TabIndex        =   40
          Top             =   900
          Width           =   855
@@ -886,14 +901,14 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   33
          Top             =   1020
          Width           =   3015
       End
       Begin VB.Shape Shape1 
          Height          =   1935
-         Left            =   240
+         Left            =   -74760
          Top             =   1020
          Width           =   15
       End
@@ -902,7 +917,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Telephone"
          Height          =   255
          Index           =   9
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   26
          Top             =   2745
          Width           =   1455
@@ -912,7 +927,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Buyer"
          Height          =   255
          Index           =   8
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   24
          Top             =   2385
          Width           =   1455
@@ -922,7 +937,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Requested"
          Height          =   255
          Index           =   7
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   22
          Top             =   1785
          Width           =   1455
@@ -932,7 +947,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Issued"
          Height          =   255
          Index           =   6
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   20
          Top             =   1425
          Width           =   1455
@@ -942,7 +957,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Currency"
          Height          =   255
          Index           =   5
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   18
          Top             =   1065
          Width           =   1455
@@ -952,7 +967,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Created"
          Height          =   255
          Index           =   4
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   16
          Top             =   2745
          Width           =   1575
@@ -962,7 +977,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date of Invoice"
          Height          =   255
          Index           =   3
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   14
          Top             =   2385
          Width           =   1575
@@ -972,7 +987,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Created By"
          Height          =   255
          Index           =   2
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   12
          Top             =   2025
          Width           =   1575
@@ -982,7 +997,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Vendor Invoice"
          Height          =   255
          Index           =   1
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   10
          Top             =   1425
          Width           =   1575
@@ -992,7 +1007,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Transaction #"
          Height          =   255
          Index           =   0
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   8
          Top             =   1065
          Width           =   1575
@@ -1000,7 +1015,7 @@ Begin VB.Form frmInvoice
       Begin VB.Label Label5 
          Caption         =   "Remarks"
          Height          =   255
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   4
          Top             =   3420
          Width           =   4455
@@ -1267,7 +1282,7 @@ Dim Col As Integer
         currentROW = POlist.row
         POlist.row = row
         If (d2 - d1) >= 0 Then
-            POlist.CellForeColor = vbBlack
+            'POlist.CellForeColor = vbBlack
         Else
             POlist.CellForeColor = vbRed
         End If
@@ -1743,7 +1758,7 @@ Dim qty As Double
                 rowTEXT = rowTEXT + "" + vbTab 'Line
                 
                 'Purchase
-                rowTEXT = rowTEXT + FormatNumber(!Quantity1, 2) + vbTab 'Primary Quantity
+                rowTEXT = rowTEXT + FormatNumber(!poi_primreqdqty, 2) + vbTab 'Primary Quantity
                 rowTEXT = rowTEXT + IIf(IsNull(!unit1), "", Trim(!unit1)) + vbTab 'Primary Unit
                 rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!unitprice1), 0, !unitprice1), 2) + vbTab 'Primary Unit Price
                 
@@ -1755,7 +1770,7 @@ Dim qty As Double
                     Else
                         qty = 0
                     End If
-                    Q = IIf(qty = 0, "", FormatNumber(qty, 2))
+                    Q = IIf(!Quantity1 = 0, "", FormatNumber(!Quantity1, 2))
                     U = IIf(IsNull(!unit1), "", Trim(!unit1))
                     P = IIf(IsNull(!SumUnitPrice1), "", FormatNumber(!SumUnitPrice1, 2))
                     rowTEXT = rowTEXT + Q + vbTab   'Sumary Primary Quantity
@@ -1787,6 +1802,12 @@ Dim qty As Double
                 POlist.TextMatrix(POlist.row, 16) = !Unit1Code
                 POlist.TextMatrix(POlist.row, 17) = IIf(IsNull(!invoices), 0, !invoices)
                 If lineITEM = 0 Then Call colorCOLS(Invoice = "*")
+                If (Not IsNull(!invoices)) Then
+                    For i = 1 To POlist.Cols - 1
+                        POlist.Col = i
+                        POlist.CellForeColor = &H80000010   'gray
+                    Next
+                End If
                 Call differences(POlist.row)
                 If !unit1 = !unit2 Then
                     POlist.TextMatrix(POlist.row, 15) = ""
@@ -1801,7 +1822,7 @@ Dim qty As Double
                     'Purchase
                     rowTEXT = rowTEXT + FormatNumber(!Quantity2, 2) + vbTab 'Secundary Quantity
                     rowTEXT = rowTEXT + IIf(IsNull(!unit2), "", Trim(!unit2)) + vbTab 'Secundary Unit
-                    rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPrice2), 0, !UnitPrice2), 2) + vbTab 'Secundary Unit Price
+                    rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!unitprice2), 0, !unitprice2), 2) + vbTab 'Secundary Unit Price
                     
                     'Invoice
                     rowTEXT = rowTEXT + "" + vbTab 'Line
@@ -1839,7 +1860,14 @@ Dim qty As Double
                         POlist.TextMatrix(POlist.row, 9) = U 'Primary Unit
                         POlist.TextMatrix(POlist.row, 10) = P 'Primary Unit Price
                     End If
-                                        
+
+                If (Not IsNull(!invoices)) Then
+                    For i = 1 To POlist.Cols - 1
+                        POlist.Col = i
+                        POlist.CellForeColor = &H80000010   'gray
+                    Next
+                End If
+
                     POlist.TextMatrix(POlist.row, 15) = !UnitSwitch
                     POlist.TextMatrix(POlist.row, 16) = !Unit2Code
                     POlist.TextMatrix(POlist.row, 17) = IIf(IsNull(!invoices), 0, !invoices)
