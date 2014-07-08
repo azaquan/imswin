@@ -50,6 +50,7 @@ Global qtyArray() As Double
 Global subLocationArray() As String
 Global latestStockNumberQty As String
 Global isFirstSubmit As Boolean
+Global doCalculations As Boolean
 Global sqlKey As String
 Global uid As String
 Global pwd As String
@@ -59,8 +60,25 @@ Global emailOutFolder As String
 Global skipAlphaSearch As Boolean
 Global skipExistance As Boolean
 Global originalQty
+Global mainItemRow
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
+Sub calculateMainItem(stockReference)   'Juan 2014-7-5
+mainItemToReceive = 0
+subTot = 0
+With frmWarehouse.STOCKlist
+    If mainItemRow > 0 Then
+        For i = mainItemRow + 1 To .Rows - 1
+            If .TextMatrix(i, 1) <> stockReference Then Exit For
+            If IsNumeric(.TextMatrix(i, 3)) Then subTot = .TextMatrix(i, 3)
+            mainItemToReceive = mainItemToReceive + subTot
+        Next
+        .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
+        .TextMatrix(mainItemRow, 9) = .TextMatrix(mainItemRow, 3)
+    End If
+End With
+End Sub
+
 Public Function generateattachmentswithCR11(fileName As String, reportCaption As String, ParamsForCrystalReport() As String, reportName As String, path As String) As String()
 Dim Attachments(0) As String
 Dim IFile As IMSFile
@@ -489,10 +507,11 @@ On Error GoTo errorHandler
                 balance2(i) = balance1(i)
             End If
         Next
-
+        
+        mainItemRow = 0
         For i = 1 To .STOCKlist.Rows - 1
             StockNumber = .STOCKlist.TextMatrix(i, 1)
-            For j = 1 To .SUMMARYlist.Rows - 1
+            'For j = 1 To .SUMMARYlist.Rows - 1
                 'Look for possible movements within summary list
 '                If StockNumber = .SUMMARYlist.TextMatrix(j, 1) Then
 '                    balance1(i) = balance1(i) - .SUMMARYlist.TextMatrix(j, colRef2)
@@ -504,9 +523,12 @@ On Error GoTo errorHandler
 '                Else
                 If Not IsMissing(selectedStockNumber) Then
                     If StockNumber = selectedStockNumber Then
+                        If mainItemRow = 0 Then mainItemRow = i
                         If IsNumeric(.Tree.Nodes.Count) Then
-                            balance1(i) = originalQty
-                            balance2(i) = balance1(i)
+                            balance1(i) = .STOCKlist.TextMatrix(i, colRef)
+                            If IsNumeric(.STOCKlist.TextMatrix(i, colRef + 1)) Then
+                                balance2(i) = .STOCKlist.TextMatrix(i, colRef + 1)
+                            End If
                         End If
                     End If
                 End If
@@ -518,9 +540,9 @@ On Error GoTo errorHandler
                     .STOCKlist.TextMatrix(i, colTot + 2) = Format(balance2(i), "0.00")
                 Else
                 End If
-                
-            Next
+            'Next
         Next
+        Call calculateMainItem(StockNumber)
     End With
     Exit Sub
 errorHandler:
@@ -1033,6 +1055,7 @@ On Error GoTo ErrHandler:
         Load .priceBOX(n)
         Load .NEWconditionBOX(n)
         
+        Load .invoiceBOX(n)
         Select Case .tag
             'ReturnFromRepair WarehouseIssue,WellToWell,InternalTransfer,
             'AdjustmentIssue,WarehouseToWarehouse,Sales,ReturnFromWell, AdjustmentEntry
@@ -1096,6 +1119,7 @@ On Error GoTo ErrHandler:
                 .NEWconditionBOX(n).tag = newCOND
                 Load .repairBOX(n)
                 .repairBOX(n) = Format(datax!poItem)
+                
         End Select
         .NEWconditionBOX(n) = .NEWconditionBOX(n).tag
         
@@ -1105,6 +1129,8 @@ On Error GoTo ErrHandler:
         If .tag = "02040100" Then
             .poItemBox(n) = datax!poItem
             .poItemLabel = datax!poItem
+            
+             .invoiceBOX(n) = .invoiceNumberLabel.Caption
         Else
             .poItemBox(n) = .poItemLabel
         End If
@@ -1320,6 +1346,7 @@ On Error GoTo ErrHandler
         End If
  
        isFirstSubmit = True
+       doCalculations = False
        directCLICK = True
         Select Case .tag
             Case "02040400" 'ReturnFromRepair
@@ -1985,8 +2012,11 @@ Sub fillSTOCKlist(datax As ADODB.Recordset)
 On errror GoTo errorHandler
 Dim n, rec, i, qty2Value, lineNumber
 Dim firstTime As Boolean
+'Dim mainItemRow, mainItemToReceive
+stockReference = ""
 firstTime = True
 lineNumber = 0
+
 
     With datax
         n = 0
@@ -1996,6 +2026,7 @@ lineNumber = 0
         frmWarehouse.STOCKlist.row = 1
         frmWarehouse.STOCKlist.col = 0
         frmWarehouse.STOCKlist.CellFontName = "MS Sans Serif"
+        mainItemRow = 0
         Do While Not .EOF
             Select Case frmWarehouse.tag
                 'ReturnFromRepair, AdjustmentEntry,WellToWell,InternalTransfer,
@@ -2028,13 +2059,21 @@ lineNumber = 0
                     rec = rec + IIf(IsNull(!unit), "", !unit)
                 Case "02040100" 'WarehouseReceipt
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
+                    frmWarehouse.STOCKlist.ColAlignment(5) = 7
+                    frmWarehouse.STOCKlist.ColAlignment(6) = 4
                     'rec = Format(!poItem) + vbTab
                     If !linesTotal >= 1 Then
-                        If !poItem <> lineNumber Then
-                            firstTime = True
-                            lineNumber = !poItem
+                        If lineNumber = 0 Then
+                             lineNumber = !poItem
+                        Else
+                            If !poItem <> lineNumber Then
+                                Call calculateMainItem(stockReference)
+                                firstTime = True
+                                lineNumber = !poItem
+                            End If
                         End If
                     End If
+                    stockReference = Trim(!StockNumber)
                     rec = Format(!poItem) + vbTab
                     rec = rec + Trim(!StockNumber) + vbTab
                     rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
@@ -2087,6 +2126,8 @@ lineNumber = 0
                             firstTime = False
                             frmWarehouse.STOCKlist.addITEM rec
                             frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 2
+                            mainItemRow = frmWarehouse.STOCKlist.row
+                            mainItemToReceive = 0
                             For i = 1 To frmWarehouse.STOCKlist.cols - 1
                                 frmWarehouse.STOCKlist.col = i
                                 frmWarehouse.STOCKlist.CellBackColor = vbButtonFace
@@ -2094,8 +2135,10 @@ lineNumber = 0
                             For i = 3 To 6
                                 frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, i) = ""
                             Next
-                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 10) = ""
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
+                            mainItemRow = frmWarehouse.STOCKlist.row
                         End If
                         frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
                         'frmWarehouse.STOCKlist.col = 0
@@ -2108,6 +2151,11 @@ lineNumber = 0
 
                         frmWarehouse.STOCKlist.col = 7
                         frmWarehouse.STOCKlist.CellForeColor = vbWhite
+                        'Juan 2014-07-03
+                        If toBeReceived = 0 Then frmWarehouse.STOCKlist.RemoveItem (frmWarehouse.STOCKlist.Rows - 1)
+                        'Juan 2014-07-05
+                        'mainItemToReceive = mainItemToReceive + toBeReceived
+                        'frmWarehouse.STOCKlist.TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
                     End If
                     '----------------------------
                 End Select
@@ -2117,6 +2165,7 @@ lineNumber = 0
             End If
             .MoveNext
         Loop
+        Call calculateMainItem(stockReference)
         If frmWarehouse.STOCKlist.Rows > 2 Then frmWarehouse.STOCKlist.RemoveItem (1)
         frmWarehouse.STOCKlist.RowHeightMin = 240
         frmWarehouse.STOCKlist.row = 0
@@ -3009,14 +3058,15 @@ On Error Resume Next
 '            .STOCKlist.TextMatrix(i, colTot + 2) = .STOCKlist.TextMatrix(i, colRef + 1)
 '        Next
         'WarehouseReceipt
+        r = 0
         If .tag = "02040100" Then
             r = findSTUFF(.commodityLABEL, .STOCKlist, 1, .poItemLabel, 8)
         Else
             r = findSTUFF(.commodityLABEL, .STOCKlist, 1)
         End If
+        
         If r > 0 Then
             'When isDynamic variable is false means we are taking the values from the stockList
-            
             If isDynamic Then
             Else
                 If IsNumeric(.STOCKlist.TextMatrix(r, colRef)) Then
@@ -3117,7 +3167,13 @@ On Error Resume Next
         Else
             balance2 = balance
         End If
-        If updateStockList Then .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
+        If updateStockList Then
+            .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
+            stockReference = .STOCKlist.TextMatrix(mainItemRow, 1)
+            'Juan 2014-07-05 it does calculate the total to be received for the main item
+            Call calculateMainItem(stockReference)  'r before next
+            '----------------------
+        End If
         Select Case .tag
             Case "02040400" 'ReturnFromRepair
             Case "02050200" 'AdjustmentEntry
@@ -3254,6 +3310,7 @@ Dim invoice
 invoice = frmWarehouse.invoiceNumberLabel
 Dim findIT As Boolean
     findSTUFF = 0
+    mainItemRow = 0
     With grid
         If .Rows < 3 Then
             If .TextMatrix(1, 0) = "" Then
@@ -3279,6 +3336,7 @@ Dim findIT As Boolean
                         Exit For
                     Else
                          If UCase(Trim(.TextMatrix(i, col2))) = UCase(Trim(toFIND2)) Then
+                            If mainItemRow = 0 Then mainItemRow = i
                             If invoice = "" Then
                                 findSTUFF = i
                                 Exit For

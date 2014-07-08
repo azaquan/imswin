@@ -619,7 +619,7 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   20250627
+         Format          =   61603843
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
@@ -680,13 +680,13 @@ Begin VB.Form frmInvoice
          _ExtentX        =   20770
          _ExtentY        =   10081
          _Version        =   393216
-         Cols            =   18
+         Cols            =   19
          RowHeightMin    =   285
          GridColorFixed  =   0
          HighLight       =   0
          AllowUserResizing=   2
          _NumberOfBands  =   1
-         _Band(0).Cols   =   18
+         _Band(0).Cols   =   19
          _Band(0).GridLinesBand=   1
          _Band(0).TextStyleBand=   0
          _Band(0).TextStyleHeader=   0
@@ -1574,12 +1574,14 @@ Dim response
                     End If
                 Else
                     If i = 1 Then
-                        .TextMatrix(.row, 8) = .TextMatrix(.row, 4)
+                        'Juan 2014-07-01 Now it should not be replaced
+                       ' .TextMatrix(.row, 8) = .TextMatrix(.row, 4)
                     Else
                         .TextMatrix(.row, 10) = .TextMatrix(.row, 6)
                         .TextMatrix(.row, 12) = "00.0"
                     End If
                 End If
+                .Col = 8
             Else
                 .Text = ""
                 If val(.TextMatrix(.row, 17)) < 1 Then
@@ -1799,6 +1801,9 @@ Dim qty As Double
                     POlist.TextMatrix(POlist.row, 10) = P 'Primary Unit Price
                 End If
                 
+                'Juan 2014-07-01
+                POlist.TextMatrix(POlist.row, 17) = !sequence
+                
                 POlist.TextMatrix(POlist.row, 16) = !Unit1Code
                 POlist.TextMatrix(POlist.row, 17) = IIf(IsNull(!invoices), 0, !invoices)
                 If lineITEM = 0 Then Call colorCOLS(Invoice = "*")
@@ -1860,6 +1865,9 @@ Dim qty As Double
                         POlist.TextMatrix(POlist.row, 9) = U 'Primary Unit
                         POlist.TextMatrix(POlist.row, 10) = P 'Primary Unit Price
                     End If
+                    
+                'Juan 2014-07-01
+                POlist.TextMatrix(POlist.row, 17) = !sequence
 
                 If (Not IsNull(!invoices)) Then
                     For i = 1 To POlist.Cols - 1
@@ -2041,7 +2049,7 @@ Dim i, Col As Integer
         .TextMatrix(0, 12) = "Unit Price Difference"
         
         'Invisible columns
-        For i = 13 To 17
+        For i = 13 To 18
             .ColWidth(i) = 0
         Next
         .TextMatrix(0, 13) = "Real Height"
@@ -2049,6 +2057,7 @@ Dim i, Col As Integer
         .TextMatrix(0, 15) = "Switch"
         .TextMatrix(0, 16) = "Unit of Mesure Code"
         .TextMatrix(0, 17) = "Invoices"
+        .TextMatrix(0, 17) = "Sequence"
         .row = 1
         .Col = 1
         .RowHeight(0) = 500
@@ -3188,6 +3197,10 @@ Dim i, currentCOL, pointerCOL As Integer
                                 multiMARKED = False
                             Else
                                 Call markROW
+                                If .Col = 8 Then
+                                    Call POlist_EnterCell
+                                    Call showTEXTline
+                                End If
                             End If
                         Case 8, 10
                             Call showTEXTline
@@ -3278,6 +3291,7 @@ Dim changeCOLORS As Boolean
                                 .CellBackColor = &HFFC0C0 'Very Light Blue
                         End Select
                     Next
+                    .Col = currentCOL
                     Select Case .Col
                         Case 8, 10
                             Call showTEXTline
@@ -3749,7 +3763,7 @@ Dim i, Col, row As Integer
 Dim qty, switch, Sql, t As String
 Dim newPRICE, qty1, qty2, uPRICE1, uPRICE2, sumQTY, sumPRICE As Double
 Dim newPRICEok As Boolean
-Dim answer
+Dim answer, sequence
 Dim dataLINE As New ADODB.Recordset
 
     With TextLINE
@@ -3767,8 +3781,9 @@ Dim dataLINE As New ADODB.Recordset
                             Exit Sub
                         End If
                     End If
+                    sequence = POlist.TextMatrix(t, 18)
                     Sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
-                        & "AND PO = '" + cell(0) + "' AND lineItem = " + t
+                        & "AND PO = '" + cell(0) + "' AND lineItem = " + t + " AND sequence = '" + sequence + "' "
                     Set dataLINE = New ADODB.Recordset
                     dataLINE.Open Sql, deIms.cnIms, adOpenForwardOnly
                     If dataLINE.RecordCount > 0 Then
@@ -3787,7 +3802,7 @@ Dim dataLINE As New ADODB.Recordset
                         Case 8
                             If IsNumeric(CDbl(POlist.TextMatrix(currentROW, 4))) Then
                                 If sumQTY > CDbl(POlist.TextMatrix(currentROW, 4)) Then
-                                    answer = MsgBox("This line item is being over invoice.  Do you want to continue?", vbYesNo)
+                                    answer = MsgBox("This line item is being over invoiced.  Do you want to continue?", vbYesNo)
                                     If answer = vbNo Then
                                         .Text = FormatNumber(CDbl(POlist.TextMatrix(currentROW, 4)) - (sumQTY - CDbl(.Text)), 2)
                                         Exit Sub
@@ -3797,7 +3812,7 @@ Dim dataLINE As New ADODB.Recordset
                         Case 10
                             If IsNumeric(CDbl(POlist.TextMatrix(currentROW, 6))) Then
                                 If sumPRICE > CDbl(POlist.TextMatrix(currentROW, 6)) Then
-                                    answer = MsgBox("This line item is over price.  Do you want to continue?", vbYesNo)
+                                    answer = MsgBox("This line item is over priced.  Do you want to continue?", vbYesNo)
                                     If answer = vbNo Then
                                         .Text = FormatNumber(POlist.TextMatrix(currentROW, 6) - (sumPRICE - CDbl(.Text)), 2)
                                         Exit Sub
