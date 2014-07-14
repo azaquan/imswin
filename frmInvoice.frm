@@ -102,19 +102,19 @@ Begin VB.Form frmInvoice
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lbl_Recipients"
-      Tab(2).Control(1)=   "Imsmail1"
+      Tab(2).Control(0)=   "cmd_Add"
+      Tab(2).Control(1)=   "cmd_Remove"
       Tab(2).Control(2)=   "RecipientList"
-      Tab(2).Control(3)=   "cmd_Remove"
-      Tab(2).Control(4)=   "cmd_Add"
+      Tab(2).Control(3)=   "Imsmail1"
+      Tab(2).Control(4)=   "lbl_Recipients"
       Tab(2).ControlCount=   5
       TabCaption(3)   =   "Misc. Charges"
       TabPicture(3)   =   "frmInvoice.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "FrmSummary"
-      Tab(3).Control(1)=   "SSGrdFQA"
-      Tab(3).Control(2)=   "TxtMiscTranno"
-      Tab(3).Control(3)=   "Label(10)"
+      Tab(3).Control(0)=   "Label(10)"
+      Tab(3).Control(1)=   "TxtMiscTranno"
+      Tab(3).Control(2)=   "SSGrdFQA"
+      Tab(3).Control(3)=   "FrmSummary"
       Tab(3).ControlCount=   4
       Begin VB.PictureBox nomPicture 
          Appearance      =   0  'Flat
@@ -619,7 +619,7 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   61603843
+         Format          =   61276163
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
@@ -1559,10 +1559,14 @@ Dim response
         
         .Col = 0
         For i = 1 To 2
+            .Col = 0
             .CellFontName = "Wingdings 3"
             .CellFontSize = 10
             If .Text = "" Then
                 .Text = "Æ"
+                .Col = 8
+                .CellFontName = "MS Sans Serif"
+                .CellFontSize = 8.5
                 .TextMatrix(.row, 9) = .TextMatrix(.row, 5)
                 purchaseUNIT = Trim(.TextMatrix(.row, 15))
                 If purchaseUNIT = "P" Or purchaseUNIT = "" Then
@@ -1581,7 +1585,6 @@ Dim response
                         .TextMatrix(.row, 12) = "00.0"
                     End If
                 End If
-                .Col = 8
             Else
                 .Text = ""
                 If val(.TextMatrix(.row, 17)) < 1 Then
@@ -1725,7 +1728,7 @@ End Sub
 Sub getLINEitems(Invoice As String, Optional lineITEM As Integer)
 Dim dataPO As New ADODB.Recordset
 Dim Sql, rowTEXT, stock As String
-Dim Q, U, P
+Dim Q, U, P, qtyValue
 Dim i As Integer
 Dim qty As Double
 
@@ -1760,7 +1763,12 @@ Dim qty As Double
                 rowTEXT = rowTEXT + "" + vbTab 'Line
                 
                 'Purchase
-                rowTEXT = rowTEXT + FormatNumber(!poi_primreqdqty, 2) + vbTab 'Primary Quantity
+                If IsNull(!poi_primreqdqty) Then
+                    qtyValue = !QuantityI1
+                Else
+                    qtyValue = !poi_primreqdqty
+                End If
+                rowTEXT = rowTEXT + FormatNumber(qtyValue, 2) + vbTab 'Primary Quantity
                 rowTEXT = rowTEXT + IIf(IsNull(!unit1), "", Trim(!unit1)) + vbTab 'Primary Unit
                 rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!unitprice1), 0, !unitprice1), 2) + vbTab 'Primary Unit Price
                 

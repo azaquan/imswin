@@ -50,6 +50,7 @@ Global qtyArray() As Double
 Global subLocationArray() As String
 Global latestStockNumberQty As String
 Global isFirstSubmit As Boolean
+Global onDetailListInProcess As Boolean
 Global doCalculations As Boolean
 Global sqlKey As String
 Global uid As String
@@ -692,11 +693,13 @@ With frmWarehouse
         .balanceBOX(totalNode).Enabled = True
         
         If isFirstSubmit Then
-            If pool Then
-                Call calculations(True)
-            Else
-                Call calculations(False)
-            End If
+    
+                If pool Then
+                    Call calculations(True)
+                Else
+                    Call calculations(False, , False)
+                End If
+
         Else
             Call calculations2(.SUMMARYlist.row, .Tree.Nodes(.Tree.Nodes.Count - 1), .Tree.Nodes.Count - 1)
         End If
@@ -1108,7 +1111,7 @@ On Error GoTo ErrHandler:
                     If serialPool = "SERIAL" Then 'Juan 2010-5-17
                         .quantityBOX(n) = "1.00"
                         .quantity2BOX(n) = "1.00"
-                        Call calculations(True, True) ' juan 2012-3-9
+                        Call calculations(True, True, False) ' juan 2012-3-9
                     Else 'Juan 2010-5-17
                         .quantityBOX(n) = Format(summaryQTY(Trim(datax!StockNumber), "01", "unique", "unique", serialPool, n), "0.00")
                         .quantity2BOX(n) = Format(summaryQTY(Trim(datax!StockNumber), "01", "unique", "unique", serialPool, n), "0.00")
@@ -2016,7 +2019,7 @@ Dim firstTime As Boolean
 stockReference = ""
 firstTime = True
 lineNumber = 0
-
+onDetailListInProcess = True
 
     With datax
         n = 0
@@ -2392,7 +2395,7 @@ frmWarehouse.Refresh
                 .col = 0
                 '------
             Else
-                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = "" Then
+                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 1) = "" Then
                 Else
                     .CellFontName = "Wingdings 3"
                     .CellFontSize = 10
@@ -2401,7 +2404,7 @@ frmWarehouse.Refresh
             End If
 
             If .name = frmWarehouse.STOCKlist.name Then
-                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = "" Then
+                If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 1) = "" Then
                 Else
                     Call PREdetails
                 End If
@@ -3010,7 +3013,7 @@ getOUT:
     Exit Sub
 End Sub
 
-Sub calculations(updateStockList As Boolean, Optional isDynamic As Boolean)
+Sub calculations(updateStockList As Boolean, Optional isDynamic As Boolean, Optional isPool As Boolean)
 Dim this, r, summary, balance, balance2, balanceTotal, col
 Dim i As Integer
 Dim once As Boolean
@@ -3045,8 +3048,14 @@ On Error Resume Next
             Case "02050300" 'AdjustmentIssue
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
-                colRef = 9
-                colTot = 3
+                If IsMissing(isPool) Then isPool = True
+                    If isPool Then
+                        colRef = 9
+                        colTot = 3
+                    Else
+                        colRef = 3
+                        colTot = 3
+                    End If
                 isDynamic = False
                 fromStockList = True
             Case "02050400" 'Sales
