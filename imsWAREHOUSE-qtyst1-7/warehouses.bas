@@ -697,7 +697,7 @@ With frmWarehouse
                 If pool Then
                     Call calculations(True)
                 Else
-                    Call calculations(False, , False)
+                    Call calculations(True, False, True)
                 End If
 
         Else
@@ -1111,7 +1111,7 @@ On Error GoTo ErrHandler:
                     If serialPool = "SERIAL" Then 'Juan 2010-5-17
                         .quantityBOX(n) = "1.00"
                         .quantity2BOX(n) = "1.00"
-                        Call calculations(True, True, False) ' juan 2012-3-9
+                        'Call calculations(True, True, False) ' juan 2012-3-9
                     Else 'Juan 2010-5-17
                         .quantityBOX(n) = Format(summaryQTY(Trim(datax!StockNumber), "01", "unique", "unique", serialPool, n), "0.00")
                         .quantity2BOX(n) = Format(summaryQTY(Trim(datax!StockNumber), "01", "unique", "unique", serialPool, n), "0.00")

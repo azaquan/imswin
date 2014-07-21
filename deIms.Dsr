@@ -11,7 +11,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
    TypeInfoGuid    =   "{EA8BA48F-3E87-11D3-A2AC-00105A9E2DAA}"
    TypeInfoCookie  =   0
    Version         =   4
-   NumConnections  =   1
+   NumConnections  =   2
    BeginProperty Connection1 
       ConnectionName  =   "cnIms"
       ConnDispId      =   1339
@@ -25,7 +25,14 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       QuoteChar       =   34
       SeparatorChar   =   46
    EndProperty
-   NumRecordsets   =   106
+   BeginProperty Connection2 
+      ConnectionName  =   "Connection1"
+      ConnDispId      =   3478
+      SourceOfData    =   3
+      QuoteChar       =   34
+      SeparatorChar   =   46
+   EndProperty
+   NumRecordsets   =   107
    BeginProperty Recordset1 
       CommandName     =   "BILLTO"
       CommDispId      =   1340
@@ -5163,13 +5170,14 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
    BeginProperty Recordset56 
       CommandName     =   "LOGWAR"
       CommDispId      =   1933
-      RsDispId        =   3090
+      RsDispId        =   3513
       CommandText     =   $"deIms.dsx":1544
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
+      Expanded        =   -1  'True
       IsRSReturning   =   -1  'True
-      NumFields       =   8
+      NumFields       =   9
       BeginProperty Field1 
          Precision       =   0
          Size            =   10
@@ -5234,6 +5242,14 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
          Name            =   "lw_creadate"
          Caption         =   "lw_creadate"
       EndProperty
+      BeginProperty Field9 
+         Precision       =   0
+         Size            =   20
+         Scale           =   0
+         Type            =   200
+         Name            =   "lw_type"
+         Caption         =   "lw_type"
+      EndProperty
       NumGroups       =   0
       ParamCount      =   1
       BeginProperty P1 
@@ -5253,7 +5269,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "GROUPE"
       CommDispId      =   1935
       RsDispId        =   3051
-      CommandText     =   $"deIms.dsx":15E0
+      CommandText     =   $"deIms.dsx":15E9
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -5423,7 +5439,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "GetItemCount"
       CommDispId      =   2007
       RsDispId        =   2492
-      CommandText     =   $"deIms.dsx":1694
+      CommandText     =   $"deIms.dsx":169D
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Prepared        =   -1  'True
@@ -6103,7 +6119,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "INVENTORYLOCATION"
       CommDispId      =   2220
       RsDispId        =   2676
-      CommandText     =   $"deIms.dsx":1755
+      CommandText     =   $"deIms.dsx":175E
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -6371,7 +6387,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "TermDelivery"
       CommDispId      =   2260
       RsDispId        =   2945
-      CommandText     =   $"deIms.dsx":1816
+      CommandText     =   $"deIms.dsx":181F
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -6460,7 +6476,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "TermCondition"
       CommDispId      =   2321
       RsDispId        =   2955
-      CommandText     =   $"deIms.dsx":18CA
+      CommandText     =   $"deIms.dsx":18D3
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -6605,7 +6621,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "CHRONO"
       CommDispId      =   2438
       RsDispId        =   3170
-      CommandText     =   $"deIms.dsx":198C
+      CommandText     =   $"deIms.dsx":1995
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -6728,7 +6744,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       RsDispId        =   -1
       CommandText     =   "dbo.POINSERT_SP"
       ActiveConnectionName=   "cnIms"
-      CallSyntax      =   $"deIms.dsx":1A56
+      CallSyntax      =   $"deIms.dsx":1A5F
       NumFields       =   0
       NumGroups       =   0
       ParamCount      =   38
@@ -7121,7 +7137,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       RsDispId        =   -1
       CommandText     =   "dbo.POUPDATE_SP"
       ActiveConnectionName=   "cnIms"
-      CallSyntax      =   $"deIms.dsx":1AE5
+      CallSyntax      =   $"deIms.dsx":1AEE
       NumFields       =   0
       NumGroups       =   0
       ParamCount      =   38
@@ -7514,7 +7530,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       RsDispId        =   -1
       CommandText     =   "dbo.POITEMINSERT_SP"
       ActiveConnectionName=   "cnIms"
-      CallSyntax      =   $"deIms.dsx":1B74
+      CallSyntax      =   $"deIms.dsx":1B7D
       NumFields       =   0
       NumGroups       =   0
       ParamCount      =   37
@@ -8499,7 +8515,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "Destination"
       CommDispId      =   2486
       RsDispId        =   2755
-      CommandText     =   $"deIms.dsx":1C04
+      CommandText     =   $"deIms.dsx":1C0D
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   4
@@ -8847,7 +8863,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       RsDispId        =   -1
       CommandText     =   "dbo.POITEMUPDATE_SP"
       ActiveConnectionName=   "cnIms"
-      CallSyntax      =   $"deIms.dsx":1CC7
+      CallSyntax      =   $"deIms.dsx":1CD0
       NumFields       =   0
       NumGroups       =   0
       ParamCount      =   37
@@ -9440,7 +9456,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "TR_MESSAGES"
       CommDispId      =   2723
       RsDispId        =   2727
-      CommandText     =   $"deIms.dsx":1D57
+      CommandText     =   $"deIms.dsx":1D60
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -9486,7 +9502,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "TR_CONTROLS"
       CommDispId      =   2725
       RsDispId        =   2730
-      CommandText     =   $"deIms.dsx":1E25
+      CommandText     =   $"deIms.dsx":1E2E
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -9606,7 +9622,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "LocalSupplier"
       CommDispId      =   2760
       RsDispId        =   2768
-      CommandText     =   $"deIms.dsx":1EE4
+      CommandText     =   $"deIms.dsx":1EED
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -9766,7 +9782,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "INtSupplier"
       CommDispId      =   2769
       RsDispId        =   3474
-      CommandText     =   $"deIms.dsx":1FF6
+      CommandText     =   $"deIms.dsx":1FFF
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -9967,7 +9983,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "INTSUPPLIERLOOKUP"
       CommDispId      =   2777
       RsDispId        =   2785
-      CommandText     =   $"deIms.dsx":2149
+      CommandText     =   $"deIms.dsx":2152
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -10040,7 +10056,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "CompanyLocations"
       CommDispId      =   3184
       RsDispId        =   3187
-      CommandText     =   $"deIms.dsx":21E1
+      CommandText     =   $"deIms.dsx":21EA
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -10088,7 +10104,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "ActiveCompany"
       CommDispId      =   3188
       RsDispId        =   3191
-      CommandText     =   $"deIms.dsx":2299
+      CommandText     =   $"deIms.dsx":22A2
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -10128,7 +10144,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "ActiveSupplier"
       CommDispId      =   3192
       RsDispId        =   3291
-      CommandText     =   $"deIms.dsx":22FA
+      CommandText     =   $"deIms.dsx":2303
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       IsRSReturning   =   -1  'True
@@ -10264,7 +10280,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "LocSupplier"
       CommDispId      =   3199
       RsDispId        =   3206
-      CommandText     =   $"deIms.dsx":23B5
+      CommandText     =   $"deIms.dsx":23BE
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -10449,7 +10465,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "LOCSUPPLIERLOOKUP"
       CommDispId      =   3207
       RsDispId        =   3211
-      CommandText     =   $"deIms.dsx":24EE
+      CommandText     =   $"deIms.dsx":24F7
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   3
@@ -11021,7 +11037,7 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       CommandName     =   "SHIPTERM2"
       CommDispId      =   3450
       RsDispId        =   3455
-      CommandText     =   $"deIms.dsx":2586
+      CommandText     =   $"deIms.dsx":258F
       ActiveConnectionName=   "cnIms"
       CommandType     =   1
       Locktype        =   4
@@ -11092,6 +11108,55 @@ Begin {C0E45035-5775-11D0-B388-00A0C9055D8E} deIms
       NumFields       =   0
       NumGroups       =   0
       ParamCount      =   0
+      RelationCount   =   0
+      AggregateCount  =   0
+   EndProperty
+   BeginProperty Recordset107 
+      CommandName     =   "logwar_type"
+      CommDispId      =   3528
+      RsDispId        =   3533
+      CommandText     =   "select * from logwar_type where (namespace = ?) "
+      ActiveConnectionName=   "cnIms"
+      CommandType     =   1
+      Expanded        =   -1  'True
+      IsRSReturning   =   -1  'True
+      NumFields       =   3
+      BeginProperty Field1 
+         Precision       =   0
+         Size            =   5
+         Scale           =   0
+         Type            =   200
+         Name            =   "namespace"
+         Caption         =   "namespace"
+      EndProperty
+      BeginProperty Field2 
+         Precision       =   0
+         Size            =   30
+         Scale           =   0
+         Type            =   200
+         Name            =   "type_code"
+         Caption         =   "type_code"
+      EndProperty
+      BeginProperty Field3 
+         Precision       =   0
+         Size            =   50
+         Scale           =   0
+         Type            =   200
+         Name            =   "description"
+         Caption         =   "description"
+      EndProperty
+      NumGroups       =   0
+      ParamCount      =   1
+      BeginProperty P1 
+         RealName        =   "Param1"
+         Direction       =   1
+         Precision       =   255
+         Scale           =   255
+         Size            =   5
+         DataType        =   200
+         HostType        =   8
+         Required        =   -1  'True
+      EndProperty
       RelationCount   =   0
       AggregateCount  =   0
    EndProperty

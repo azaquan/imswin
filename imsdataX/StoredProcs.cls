@@ -627,7 +627,7 @@ Public Function Quantity_In_stock6_Insert(NameSpace As String, CompanyCode As St
         .Parameters.Append .CreateParameter("LW", adVarChar, adParamInput, 10, LogicalWareHouse)
         .Parameters.Append .CreateParameter("SubLoc", adVarChar, adParamInput, 10, SubLocation)
         .Parameters.Append .CreateParameter("Condition", adChar, adParamInput, 2, ConditionCode)
-        .Parameters.Append .CreateParameter("Serial", adVarChar, adParamInput, 15, Serial)
+        .Parameters.Append .CreateParameter("Serial", adVarChar, adParamInput, 30, Serial)
         .Parameters.Append .CreateParameter("User", adVarChar, adParamInput, 20, User)
         
 
@@ -679,7 +679,7 @@ Public Function Quantity_In_stock7_Insert(NameSpace As String, CompanyCode As St
         .Parameters.Append .CreateParameter("TTranComp", adVarChar, adParamInput, 10, TTransComp)
         .Parameters.Append .CreateParameter("tranLineNumb", adInteger, adParamInput, , TransLineNumb)
         .Parameters.Append .CreateParameter("FromTo", adVarChar, adParamInput, 10, FromTo)
-        .Parameters.Append .CreateParameter("Serial", adVarChar, adParamInput, 15, Serial)
+        .Parameters.Append .CreateParameter("Serial", adVarChar, adParamInput, 30, Serial)
         .Parameters.Append .CreateParameter("User", adVarChar, adParamInput, 20, User)
 
         Call .Execute(Options:=adExecuteNoRecords)

@@ -7,13 +7,44 @@ Begin VB.Form frm_Logicals
    ClientHeight    =   4305
    ClientLeft      =   30
    ClientTop       =   330
-   ClientWidth     =   7275
+   ClientWidth     =   9180
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    ScaleHeight     =   4305
-   ScaleWidth      =   7275
+   ScaleWidth      =   9180
    Tag             =   "01030500"
+   Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown logicalType 
+      Bindings        =   "frm_Logicals.frx":0000
+      Height          =   615
+      Left            =   4920
+      TabIndex        =   4
+      Top             =   0
+      Width           =   3135
+      DataFieldList   =   "type_code"
+      ListAutoValidate=   0   'False
+      _Version        =   196617
+      RowHeight       =   423
+      ExtraHeight     =   185
+      Columns.Count   =   2
+      Columns(0).Width=   1111
+      Columns(0).Caption=   "id"
+      Columns(0).Name =   "id"
+      Columns(0).DataField=   "type_code"
+      Columns(0).DataType=   8
+      Columns(0).FieldLen=   256
+      Columns(1).Width=   4366
+      Columns(1).Caption=   "description"
+      Columns(1).Name =   "description"
+      Columns(1).DataField=   "description"
+      Columns(1).DataType=   8
+      Columns(1).FieldLen=   256
+      _ExtentX        =   5530
+      _ExtentY        =   1085
+      _StockProps     =   77
+      DataMember      =   "logwar_type"
+      DataFieldToDisplay=   "description"
+   End
    Begin LRNavigators.LROleDBNavBar NavBar1 
       Height          =   375
       Left            =   120
@@ -22,26 +53,19 @@ Begin VB.Form frm_Logicals
       Width           =   3525
       _ExtentX        =   6218
       _ExtentY        =   661
-      AllowCustomize  =   0   'False
-      EMailEnabled    =   0   'False
       NewEnabled      =   -1  'True
-      AllowAddNew     =   0   'False
-      AllowUpdate     =   0   'False
-      AllowCancel     =   0   'False
-      AllowDelete     =   0   'False
       CommandType     =   8
       EditEnabled     =   0   'False
       EditVisible     =   0   'False
       CancelToolTipText=   "Undo the changes made to the current Screen"
-      DeleteToolTipText=   ""
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSDBLogical 
-      Bindings        =   "frm_Logicals.frx":0000
+      Bindings        =   "frm_Logicals.frx":0014
       Height          =   2775
       Left            =   120
       TabIndex        =   1
       Top             =   600
-      Width           =   6315
+      Width           =   8835
       _Version        =   196617
       BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -66,7 +90,7 @@ Begin VB.Form frm_Logicals
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "frm_Logicals.frx":0014
+      stylesets(0).Picture=   "frm_Logicals.frx":0028
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -79,7 +103,7 @@ Begin VB.Form frm_Logicals
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "frm_Logicals.frx":0030
+      stylesets(1).Picture=   "frm_Logicals.frx":0044
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -96,7 +120,7 @@ Begin VB.Form frm_Logicals
       BackColorEven   =   16771818
       BackColorOdd    =   16777215
       RowHeight       =   423
-      Columns.Count   =   8
+      Columns.Count   =   9
       Columns(0).Width=   1693
       Columns(0).Caption=   "Code"
       Columns(0).Name =   "Code"
@@ -114,48 +138,54 @@ Begin VB.Form frm_Logicals
       Columns(2).Visible=   0   'False
       Columns(2).Caption=   "NP"
       Columns(2).Name =   "NP"
-      Columns(2).DataField=   "lw_npecode"
+      Columns(2).DataField=   "lw_type"
       Columns(2).FieldLen=   256
-      Columns(3).Width=   1588
-      Columns(3).Caption=   "Active"
-      Columns(3).Name =   "Active"
-      Columns(3).Alignment=   1
-      Columns(3).CaptionAlignment=   0
-      Columns(3).DataField=   "lw_actvflag"
-      Columns(3).DataType=   11
+      Columns(3).Width=   4366
+      Columns(3).Caption=   "Type"
+      Columns(3).Name =   "TYPE"
+      Columns(3).DataField=   "lw_type"
+      Columns(3).DataType=   8
       Columns(3).FieldLen=   256
-      Columns(3).Style=   2
-      Columns(3).HeadStyleSet=   "ColHeader"
-      Columns(3).StyleSet=   "ColHeader"
-      Columns(4).Width=   5292
-      Columns(4).Visible=   0   'False
-      Columns(4).Caption=   "modify_date"
-      Columns(4).Name =   "modify_date"
-      Columns(4).DataField=   "lw_modidate"
-      Columns(4).DataType=   135
+      Columns(4).Width=   1588
+      Columns(4).Caption=   "Active"
+      Columns(4).Name =   "Active"
+      Columns(4).Alignment=   1
+      Columns(4).CaptionAlignment=   0
+      Columns(4).DataField=   "lw_actvflag"
+      Columns(4).DataType=   11
       Columns(4).FieldLen=   256
+      Columns(4).Style=   2
+      Columns(4).HeadStyleSet=   "ColHeader"
+      Columns(4).StyleSet=   "ColHeader"
       Columns(5).Width=   5292
       Columns(5).Visible=   0   'False
-      Columns(5).Caption=   "modify_user"
-      Columns(5).Name =   "modify_user"
-      Columns(5).DataField=   "lw_modiuser"
-      Columns(5).DataType=   8
+      Columns(5).Caption=   "modify_date"
+      Columns(5).Name =   "modify_date"
+      Columns(5).DataField=   "lw_modidate"
+      Columns(5).DataType=   135
       Columns(5).FieldLen=   256
       Columns(6).Width=   5292
       Columns(6).Visible=   0   'False
-      Columns(6).Caption=   "create_date"
-      Columns(6).Name =   "create_date"
-      Columns(6).DataField=   "lw_creadate"
-      Columns(6).DataType=   135
+      Columns(6).Caption=   "modify_user"
+      Columns(6).Name =   "modify_user"
+      Columns(6).DataField=   "lw_modiuser"
+      Columns(6).DataType=   8
       Columns(6).FieldLen=   256
       Columns(7).Width=   5292
       Columns(7).Visible=   0   'False
-      Columns(7).Caption=   "create_user"
-      Columns(7).Name =   "create_user"
-      Columns(7).DataField=   "lw_creauser"
-      Columns(7).DataType=   8
+      Columns(7).Caption=   "create_date"
+      Columns(7).Name =   "create_date"
+      Columns(7).DataField=   "lw_creadate"
+      Columns(7).DataType=   135
       Columns(7).FieldLen=   256
-      _ExtentX        =   11139
+      Columns(8).Width=   5292
+      Columns(8).Visible=   0   'False
+      Columns(8).Caption=   "create_user"
+      Columns(8).Name =   "create_user"
+      Columns(8).DataField=   "lw_creauser"
+      Columns(8).DataType=   8
+      Columns(8).FieldLen=   256
+      _ExtentX        =   15584
       _ExtentY        =   4895
       _StockProps     =   79
       DataMember      =   "LOGWAR"
@@ -193,7 +223,7 @@ Begin VB.Form frm_Logicals
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   4440
+      Left            =   6480
       TabIndex        =   3
       Top             =   3600
       Width           =   2460
@@ -244,7 +274,7 @@ Dim x As Boolean
 validate_fields = True
 If SSDBLogical.IsAddRow Then
    If colnum = 0 Or colnum = 1 Then
-      x = NotValidLen(SSDBLogical.Columns(colnum).text)
+      x = NotValidLen(SSDBLogical.Columns(colnum).Text)
       If x = True Then
          RecSaved = False
          msg1 = translator.Trans("M00702")
@@ -256,14 +286,14 @@ If SSDBLogical.IsAddRow Then
       End If
     End If
       If colnum = 0 Then
-        x = CheckDesCode(SSDBLogical.Columns(0).text)
+        x = CheckDesCode(SSDBLogical.Columns(0).Text)
         If x <> False Then
              RecSaved = False
              msg1 = translator.Trans("M00703")
              MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)
              SSDBLogical.SetFocus
              SSDBLogical.Col = 0
-             SSDBLogical.Columns(0).text = ""
+             SSDBLogical.Columns(0).Text = ""
             validate_fields = False
          End If
     End If
@@ -297,11 +327,25 @@ Dim ctl As Control
         Call gsb_fade_to_black(ctl)
     Next ctl
     'Call deIms.Destination(deIms.NameSpace)
+
     deIms.rsLOGWAR.Close
+
      Call deIms.LOGWAR(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
+
     Set SSDBLogical.DataSource = deIms
     
+    
+    'Juan 2014-07-16
+    If deIms.rslogwar_type.State > 0 Then
+        deIms.rslogwar_type.Close
+    End If
+    Call deIms.logwar_type(deIms.NameSpace)
+    Set logicalType.DataSource = deIms
+    SSDBLogical.Columns(3).Style = ssStyleComboBox
+    SSDBLogical.Columns(3).DropDownHwnd = logicalType.HWND
+    logicalType.Columns(0).Visible = False
+    '-------------------------
     
     Visible = True
     Screen.MousePointer = vbDefault
@@ -353,8 +397,9 @@ On Error Resume Next
  SSDBLogical.Update
  If RecSaved = True Then
     Hide
+
     deIms.rsLOGWAR.Close
-    
+
     If open_forms <= 5 Then ShowNavigator
     
     If Err Then Err.Clear
@@ -386,7 +431,7 @@ Private Sub NavBar1_BeforeNewClick()
     lblStatus.ForeColor = &HFF&
     lblStatus.Caption = Create
     SSDBLogical.AllowUpdate = True
-    SSDBLogical.Columns("active").text = 1
+    SSDBLogical.Columns("active").Text = 1
     SSDBLogical.SetFocus
     NavBar1.Width = 5050
     SSDBLogical.Col = 0
@@ -600,7 +645,9 @@ End Sub
 
 Private Sub NavBar1_OnSaveClick()
 On Error Resume Next
+
     Call deIms.rsLOGWAR.Move(0)
+    
     If Err Then Err.Clear
 
 End Sub
@@ -625,28 +672,28 @@ Dim Recchanged As Boolean
 Dim ret As Integer
   
           If SSDBLogical.IsAddRow And ColIndex = 0 Then 'And TMPCTL.RecordToProcess.editmode = adEditAdd Then
-             If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
+             If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
                 msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value.", msg1)
                 Cancel = 1
                 SSDBLogical.SetFocus
-                SSDBLogical.Columns(ColIndex).text = oldVALUE
+                SSDBLogical.Columns(ColIndex).Text = oldVALUE
                 SSDBLogical.Col = 0
                 RecSaved = False
                 GoodColMove = False
-              ElseIf CheckDesCode(SSDBLogical.Columns(ColIndex).text) Then
+              ElseIf CheckDesCode(SSDBLogical.Columns(ColIndex).Text) Then
                 msg1 = translator.Trans("M00703")
                 MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value", msg1)
                 Cancel = 1
                 SSDBLogical.SetFocus
-                SSDBLogical.Columns(ColIndex).text = oldVALUE
+                SSDBLogical.Columns(ColIndex).Text = oldVALUE
                 SSDBLogical.Col = 0
                 RecSaved = False
                 GoodColMove = False
              End If
         
         ElseIf SSDBLogical.IsAddRow And ColIndex = 1 Then
-              If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
+              If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
                 msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
@@ -656,7 +703,7 @@ Dim ret As Integer
                 SSDBLogical.Col = 1
                End If
         ElseIf Not SSDBLogical.IsAddRow And ColIndex = 1 Then
-                If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
+                If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
                msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
@@ -666,7 +713,7 @@ Dim ret As Integer
                 SSDBLogical.Col = 1
                End If
        End If
-     Recchanged = DidFieldChange(Trim(oldVALUE), Trim(SSDBLogical.Columns(ColIndex).text))
+     Recchanged = DidFieldChange(Trim(oldVALUE), Trim(SSDBLogical.Columns(ColIndex).Text))
      
         
 End Sub
@@ -734,7 +781,7 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
  If (InUnload = False) Or (response = vbYes) Then
  
   If SSDBLogical.IsAddRow Then
-      x = NotValidLen(SSDBLogical.Columns(1).text)
+      x = NotValidLen(SSDBLogical.Columns(1).Text)
       If x = True Then
          RecSaved = False
          Cancel = True
@@ -744,14 +791,14 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
          SSDBLogical.Col = 1
          Exit Sub
       End If
-      x = CheckDesCode(SSDBLogical.Columns(0).text)
+      x = CheckDesCode(SSDBLogical.Columns(0).Text)
       If x <> False Then
          RecSaved = False
          msg1 = translator.Trans("M00703")
          MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)
          SSDBLogical.SetFocus
          SSDBLogical.Col = 0
-         SSDBLogical.Columns(0).text = ""
+         SSDBLogical.Columns(0).Text = ""
          Exit Sub
       End If
    End If
@@ -762,13 +809,13 @@ End If
    End If
      If (response = vbOK) Or (response = vbYes) Then
         
-        SSDBLogical.Columns("np").text = deIms.NameSpace
+        SSDBLogical.Columns("np").Text = deIms.NameSpace
         If SSDBLogical.IsAddRow Then
-            SSDBLogical.Columns("create_date").text = Date
-            SSDBLogical.Columns("create_user").text = CurrentUser
+            SSDBLogical.Columns("create_date").Text = Date
+            SSDBLogical.Columns("create_user").Text = CurrentUser
         End If
-        SSDBLogical.Columns("modify_date").text = Date
-        SSDBLogical.Columns("modify_user").text = CurrentUser
+        SSDBLogical.Columns("modify_date").Text = Date
+        SSDBLogical.Columns("modify_user").Text = CurrentUser
         Cancel = 0
      Else
        CAncelGrid = True
