@@ -240,22 +240,22 @@ With frmWarehouse
 End With
 Err.Clear
 End Sub
-Sub putThingsInsideExtension(index As Integer) 'Juan 2014-02-02, for scrolling placement
+Sub putThingsInsideExtension(Index As Integer) 'Juan 2014-02-02, for scrolling placement
 With frmWarehouse
-    .quantity(index).Visible = False
-    .poItemBox(index).Visible = False
-    .positionBox(index).Visible = False
-    .quantity(index).Visible = False
-    .logicBOX(index).Visible = False
-    .sublocaBOX(index).Visible = False
-    .quantityBOX(index).Visible = False
-    .quantity2BOX(index).Visible = False
-    .balanceBOX(index).Visible = False
-    .NEWconditionBOX(index).Visible = False
-    .priceBOX(index).Visible = False
-    .unitBOX(index).Visible = False
-    .unit2BOX(index).Visible = False
-    .repairBOX(index).Visible = False
+    .quantity(Index).Visible = False
+    .poItemBox(Index).Visible = False
+    .positionBox(Index).Visible = False
+    .quantity(Index).Visible = False
+    .logicBOX(Index).Visible = False
+    .sublocaBOX(Index).Visible = False
+    .quantityBOX(Index).Visible = False
+    .quantity2BOX(Index).Visible = False
+    .balanceBOX(Index).Visible = False
+    .NEWconditionBOX(Index).Visible = False
+    .priceBOX(Index).Visible = False
+    .unitBOX(Index).Visible = False
+    .unit2BOX(Index).Visible = False
+    .repairBOX(Index).Visible = False
 End With
 End Sub
 
@@ -736,7 +736,7 @@ Dim ctl As Control
 
 For Each ctl In frmWarehouse.Controls
     If ctl.name = controlNAME Then
-        If ctl.index = controlIndex Then
+        If ctl.Index = controlIndex Then
             controlExists = True
             Exit For
         End If
@@ -1149,8 +1149,15 @@ On Error GoTo ErrHandler:
                 .logicBOX(n) = datax!toLOGIC
                 .sublocaBOX(n) = datax!toSUBLOCA
             Else
-                .logicBOX(n) = "GENERAL"
-                .sublocaBOX(n) = "GENERAL"
+                'Juan 2014-07-21 change from GENERAL to empty
+                '.logicBOX(n) = "GENERAL"
+                '.sublocaBOX(n) = "GENERAL"
+                .logicBOX(n) = ""
+                .logicBOX(n).backcolor = &HC0C0FF
+                .logicBOX(n).ToolTipText = "Select a Logic Wareshouse"
+                .sublocaBOX(n) = ""
+                .sublocaBOX(Index).backcolor = &HC0C0FF
+                .sublocaBOX(n).ToolTipText = "Select a Sub Location"
             End If
         Else
             .logicBOX(n) = .SUMMARYlist.TextMatrix(summaryPOSITION, 11)
@@ -1829,14 +1836,14 @@ End If
 Resume Next
 End Sub
 
-Sub doCOMBO(index, datax As ADODB.Recordset, list, totalwidth)
+Sub doCOMBO(Index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
     Err.Clear
-    With frmWarehouse.combo(index)
+    With frmWarehouse.combo(Index)
         Do While Not datax.EOF
             rec = ""
-            For i = 0 To frmWarehouse.matrix.TextMatrix(1, index) - 1
+            For i = 0 To frmWarehouse.matrix.TextMatrix(1, Index) - 1
                 If list(i) = "error" Then
                     MsgBox "Definition error, please contact IMS"
                     Exit Sub
@@ -1862,16 +1869,16 @@ Dim t As String
             .Height = 2340
             .ScrollBars = flexScrollBarVertical
         End If
-        If frmWarehouse.cell(index).width > (totalwidth + extraW) Then
-            .width = frmWarehouse.cell(index).width
+        If frmWarehouse.cell(Index).width > (totalwidth + extraW) Then
+            .width = frmWarehouse.cell(Index).width
             .ColWidth(0) = .ColWidth(0) + (.width - totalwidth) - extraW
         Else
             .width = totalwidth + extraW
         End If
-        If (frmWarehouse.cell(index).Left + .width) > frmWarehouse.width Then
+        If (frmWarehouse.cell(Index).Left + .width) > frmWarehouse.width Then
             .Left = frmWarehouse.width - .width - 100
         Else
-            .Left = frmWarehouse.cell(index).Left
+            .Left = frmWarehouse.cell(Index).Left
         End If
     End With
 End Sub
@@ -2542,7 +2549,7 @@ Sub putBOX(box As textBOX, Left, Top, width, backcolor)
     End With
 End Sub
 
-Function topNODE(index) As Integer
+Function topNODE(Index) As Integer
 Dim heightFactor, spaceFactor As Integer
     spaceFactor = 45
     heightFactor = 265
@@ -2576,7 +2583,7 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 240
             spaceFactor = 80
     End Select
-    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop))
+    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop))
 End Function
 
 Sub textBOX(ByVal mainCONTROL As MSHFlexGrid, standard As Boolean)
@@ -2700,12 +2707,12 @@ Sub updateStockListBalance() 'Juan 2010-9-19 to re-load the proper values of the
     End With
 End Sub
 
-Sub validateQTY(box As textBOX, index)
+Sub validateQTY(box As textBOX, Index)
 Dim n
 Dim d As Integer
     noRETURN = True
     With box
-        If index <> totalNode Then
+        If Index <> totalNode Then
             If IsNumeric(.text) Then
                 If .name = "priceBOX" Then
                     d = 2
@@ -2917,8 +2924,8 @@ On Error Resume Next
                                         If Not .newBUTTON.Enabled Then Call putBOX(.balanceBOX(totalNode), .linesV(balanceCol + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
                                     Else
                                         If Not .newBUTTON.Enabled Then Call putBOX(.quantity(i), .linesV(1).Left + 40, topNODE(i) + topvalue2, .detailHEADER.ColWidth(1) - 80, vbWhite)
-                                        Call putBOX(.logicBOX(i), .linesV(2).Left + 55, topNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, vbWhite)
-                                        Call putBOX(.sublocaBOX(i), .linesV(3).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(3) - 50, vbWhite)
+                                        Call putBOX(.logicBOX(i), .linesV(2).Left + 55, topNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
+                                        Call putBOX(.sublocaBOX(i), .linesV(3).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(3) - 50, &HC0C0FF)
                                         Call putBOX(.quantityBOX(i), .linesV(4 + point).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(4 + point) - 50, vbWhite)
                                         If Not .newBUTTON.Enabled Then
                                             Call putBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, topNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
