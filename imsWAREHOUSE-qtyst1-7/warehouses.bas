@@ -697,7 +697,7 @@ With frmWarehouse
                 If pool Then
                     Call calculations(True)
                 Else
-                    Call calculations(True, False, True)
+                    Call calculations(True, False, False)
                 End If
 
         Else

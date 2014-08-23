@@ -62,37 +62,37 @@ Begin VB.Form Frm_StockMaster
       TabCaption(2)   =   "Manufacturer"
       TabPicture(2)   =   "NewStockMaster.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "TxtManuStock"
-      Tab(2).Control(1)=   "txtTotal"
-      Tab(2).Control(2)=   "TxtLineNumber"
-      Tab(2).Control(3)=   "TxtPartnumb"
-      Tab(2).Control(4)=   "txtManSpecs"
-      Tab(2).Control(5)=   "TxtEstPrice"
-      Tab(2).Control(6)=   "ChkManufActive"
-      Tab(2).Control(7)=   "SSoleManufacturer"
-      Tab(2).Control(8)=   "Label8"
-      Tab(2).Control(9)=   "Label6"
-      Tab(2).Control(10)=   "Label5"
-      Tab(2).Control(11)=   "Label1"
-      Tab(2).Control(12)=   "Label2"
-      Tab(2).Control(13)=   "Label3"
+      Tab(2).Control(0)=   "Label3"
+      Tab(2).Control(1)=   "Label2"
+      Tab(2).Control(2)=   "Label1"
+      Tab(2).Control(3)=   "Label5"
+      Tab(2).Control(4)=   "Label6"
+      Tab(2).Control(5)=   "Label8"
+      Tab(2).Control(6)=   "SSoleManufacturer"
+      Tab(2).Control(7)=   "ChkManufActive"
+      Tab(2).Control(8)=   "TxtEstPrice"
+      Tab(2).Control(9)=   "txtManSpecs"
+      Tab(2).Control(10)=   "TxtPartnumb"
+      Tab(2).Control(11)=   "TxtLineNumber"
+      Tab(2).Control(12)=   "txtTotal"
+      Tab(2).Control(13)=   "TxtManuStock"
       Tab(2).ControlCount=   14
       TabCaption(3)   =   "Recepients"
       TabPicture(3)   =   "NewStockMaster.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Lbl_search"
-      Tab(3).Control(1)=   "Label7"
-      Tab(3).Control(2)=   "SSOLEDBFax"
-      Tab(3).Control(3)=   "SSOLEDBEmail"
-      Tab(3).Control(4)=   "dgRecipientList"
-      Tab(3).Control(5)=   "OptEmail"
+      Tab(3).Control(0)=   "TxtRecpStockNumb"
+      Tab(3).Control(1)=   "fra_FaxSelect"
+      Tab(3).Control(2)=   "cmd_Add"
+      Tab(3).Control(3)=   "txt_Recipient"
+      Tab(3).Control(4)=   "cmdRemove"
+      Tab(3).Control(5)=   "Txt_search"
       Tab(3).Control(6)=   "OptFax"
-      Tab(3).Control(7)=   "Txt_search"
-      Tab(3).Control(8)=   "cmdRemove"
-      Tab(3).Control(9)=   "txt_Recipient"
-      Tab(3).Control(10)=   "cmd_Add"
-      Tab(3).Control(11)=   "fra_FaxSelect"
-      Tab(3).Control(12)=   "TxtRecpStockNumb"
+      Tab(3).Control(7)=   "OptEmail"
+      Tab(3).Control(8)=   "dgRecipientList"
+      Tab(3).Control(9)=   "SSOLEDBEmail"
+      Tab(3).Control(10)=   "SSOLEDBFax"
+      Tab(3).Control(11)=   "Label7"
+      Tab(3).Control(12)=   "Lbl_search"
       Tab(3).ControlCount=   13
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSoleSource 
          Height          =   375
@@ -694,6 +694,15 @@ Begin VB.Form Frm_StockMaster
       Begin VB.TextBox txt_ShortDescript 
          DataField       =   "stk_hazmatclau"
          DataMember      =   "STOCKMASTER"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   4200
          MaxLength       =   200
@@ -1236,6 +1245,7 @@ Function getRatio() As Double
 End Function
 
 Private Sub Form_Load()
+txt_ShortDescript.Font.Charset = 204 'RUSSIAN_CHARSET
 
 If deIms.cnIms.State = 0 Then deIms.cnIms.Open
 
@@ -1257,7 +1267,7 @@ SSoleSource.Columns(0).Visible = False
 
 Call PopulateGrid
 
-GFormmode = ChangeMode(mdVisualization)
+GFormmode = ChangeMode(mdvisualization)
 
 
     SSDBHeader.AllowDelete = False
@@ -1819,7 +1829,7 @@ If ValidateStockHeaderValues = True Then
     
     EditMode = StockHeader.EditMode
     
-    x = Main.Save
+    x = Main.SAVE
     
     If Len(Trim(x)) > 0 Then
     
@@ -1829,7 +1839,7 @@ If ValidateStockHeaderValues = True Then
         
     ElseIf Len(Trim(x)) = 0 Then
             
-        GFormmode = ChangeMode(mdVisualization)
+        GFormmode = ChangeMode(mdvisualization)
         Call ToggleNavbar
         Call ToogleManufacturerControls
         Call ToogleStockHeaderControls
@@ -1884,7 +1894,7 @@ Private Sub LROleDBNavBar1_OnCancelClick()
                  Call ClearStockMasterDetails
                  Call LoadFromStockheader(StockHeader)
                  
-                GFormmode = ChangeMode(mdVisualization)
+                GFormmode = ChangeMode(mdvisualization)
                 Call ToggleNavbar
                 Call ToogleManufacturerControls
                 Call ToogleStockHeaderControls
@@ -1917,7 +1927,7 @@ Private Sub LROleDBNavBar1_OnCancelClick()
                  Call ClearStockMasterDetails
                  Call LoadFromStockheader(StockHeader)
                  
-                GFormmode = ChangeMode(mdVisualization)
+                GFormmode = ChangeMode(mdvisualization)
                 Call ToggleNavbar
                 Call ClearManufacturer
                 Call ToogleManufacturerControls
@@ -2080,7 +2090,7 @@ End Sub
 
 Private Sub LROleDBNavBar1_OnFirstClick()
 
-If GFormmode <> mdVisualization Then
+If GFormmode <> mdvisualization Then
 
     If SaveToManufacturer = False Then Exit Sub
     
@@ -2098,7 +2108,7 @@ End Sub
 Private Sub LROleDBNavBar1_OnLastClick()
 
 
-If GFormmode <> mdVisualization Then
+If GFormmode <> mdvisualization Then
 
     If SaveToManufacturer = False Then Exit Sub
     
@@ -2125,7 +2135,7 @@ Select Case SSTab1.Tab
 
     Case 0
     
-         If GFormmode = mdVisualization Then
+         If GFormmode = mdvisualization Then
             
             GFormmode = ChangeMode(mdCreation)
             
@@ -2169,7 +2179,7 @@ txt_Minimum = 0
     Case 2
     
        
-        If GFormmode <> mdVisualization Then
+        If GFormmode <> mdvisualization Then
                 
                 If ValidatemanufacturerValues = False Then Exit Sub
                 
@@ -2201,7 +2211,7 @@ End Sub
 Private Sub LROleDBNavBar1_OnNextClick()
 
 
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
  
      If SaveToManufacturer = False Then Exit Sub
      
@@ -2219,7 +2229,7 @@ End Sub
 Private Sub LROleDBNavBar1_OnPreviousClick()
 
 
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
      
      If ValidatemanufacturerValues = False Then Exit Sub
      
@@ -2323,7 +2333,7 @@ If GFormmode = mdModification Then Cancel = 1
 End Sub
 
 Private Sub SSDBHeader_Click()
-If GFormmode = mdVisualization Then
+If GFormmode = mdvisualization Then
 
     Call LoadStockMaster
     
@@ -2409,7 +2419,7 @@ End Sub
 Private Sub SsOleCategory_Validate(Cancel As Boolean)
 
 
-If SsOleCategory.IsItemInList = False And GFormmode <> mdVisualization Then
+If SsOleCategory.IsItemInList = False And GFormmode <> mdvisualization Then
     
     MsgBox "Please select a valid Category.", vbInformation, "Imswin"
     
@@ -2437,7 +2447,7 @@ End Sub
 
 Private Sub SSOleCharge_Validate(Cancel As Boolean)
 
-If SSOleCharge.IsItemInList = False And GFormmode <> mdVisualization Then
+If SSOleCharge.IsItemInList = False And GFormmode <> mdvisualization Then
     
     MsgBox "Please select a valid Account.", vbInformation, "Imswin"
     
@@ -2450,7 +2460,7 @@ Private Sub SSoleEccnno_Validate(Cancel As Boolean)
 
 If ConnInfo.Eccnactivate = Constno Then Exit Sub
 
-If SSoleEccnno.IsItemInList = False And GFormmode <> mdVisualization Then
+If SSoleEccnno.IsItemInList = False And GFormmode <> mdvisualization Then
 
         MsgBox "Eccn # does not exist in the list, please select a valid one.", , "Imswin"
         SSoleEccnno.SetFocus
@@ -2468,13 +2478,13 @@ Call HighlightBackground(SSoleManufacturer)
 End Sub
 
 Private Sub SSoleManufacturer_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SSoleManufacturer.DroppedDown Then SSoleManufacturer.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleManufacturer_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SSOleCharge.MoveNext
+If GFormmode <> mdvisualization Then SSOleCharge.MoveNext
 If KeyAscii = 13 Then
     TxtPartnumb.SetFocus
 End If
@@ -2485,7 +2495,7 @@ Call NormalBackground(SSoleManufacturer)
 End Sub
 
 Private Sub SSoleManufacturer_Validate(Cancel As Boolean)
-If SSoleManufacturer.IsItemInList = False And GFormmode <> mdVisualization Then
+If SSoleManufacturer.IsItemInList = False And GFormmode <> mdvisualization Then
     
     MsgBox "Please select a valid Manufacturer.", vbInformation, "Imswin"
     
@@ -2522,13 +2532,13 @@ SsoleSecUnit.Tag = UCase(Trim(SSOlePrimUnit.Columns(0).Text))
 
 End Sub
 Private Sub SSOleCharge_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SSOleCharge.DroppedDown Then SSOleCharge.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSOleCharge_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SSOleCharge.MoveNext
+If GFormmode <> mdvisualization Then SSOleCharge.MoveNext
 End Sub
 
 Private Sub SSOlePrimUnit_GotFocus()
@@ -2537,7 +2547,7 @@ End Sub
 
 Private Sub SSOlePrimUnit_Validate(Cancel As Boolean)
 
-If SSOlePrimUnit.IsItemInList = False And GFormmode <> mdVisualization Then
+If SSOlePrimUnit.IsItemInList = False And GFormmode <> mdvisualization Then
     
     MsgBox "Please select a valid Unit.", vbInformation, "Imswin"
     
@@ -2552,7 +2562,7 @@ Call HighlightBackground(SsoleSecUnit)
 End Sub
 
 Private Sub SsoleSecUnit_Validate(Cancel As Boolean)
-If SsoleSecUnit.IsItemInList = False And GFormmode <> mdVisualization Then
+If SsoleSecUnit.IsItemInList = False And GFormmode <> mdvisualization Then
     
     MsgBox "Please select a valid Unit.", vbInformation, "Imswin"
     
@@ -2571,13 +2581,13 @@ Call HighlightBackground(SSoleSource)
 End Sub
 
 Private Sub SSoleSource_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SSoleSource.DroppedDown Then SSoleSource.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleSource_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SSoleSource.MoveNext
+If GFormmode <> mdvisualization Then SSoleSource.MoveNext
 End Sub
 
 Private Sub SSoleSource_LostFocus()
@@ -2592,53 +2602,53 @@ Call HighlightBackground(SSoleEccnno)
 End Sub
 
 Private Sub SSoleEccnNo_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SSoleEccnno.DroppedDown Then SSoleEccnno.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleEccnNo_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SSoleEccnno.MoveNext
+If GFormmode <> mdvisualization Then SSoleEccnno.MoveNext
 End Sub
 
 Private Sub SSoleEccnNo_LostFocus()
 Call NormalBackground(SSoleEccnno)
 End Sub
 Private Sub SsoleStockType_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SsoleStockType.DroppedDown Then SsoleStockType.DroppedDown = True
  End If
 End Sub
 
 Private Sub SsoleStockType_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SsoleStockType.MoveNext
+If GFormmode <> mdvisualization Then SsoleStockType.MoveNext
 End Sub
 Private Sub SsoleSecUnit_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SsoleSecUnit.DroppedDown Then SsoleSecUnit.DroppedDown = True
  End If
 End Sub
 
 Private Sub SsoleSecUnit_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SsoleSecUnit.MoveNext
+If GFormmode <> mdvisualization Then SsoleSecUnit.MoveNext
 End Sub
 Private Sub SSOlePrimUnit_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SSOlePrimUnit.DroppedDown Then SSOlePrimUnit.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSOlePrimUnit_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SSOlePrimUnit.MoveNext
+If GFormmode <> mdvisualization Then SSOlePrimUnit.MoveNext
 End Sub
 Private Sub SsOleCategory_KeyDown(KeyCode As Integer, Shift As Integer)
- If GFormmode <> mdVisualization Then
+ If GFormmode <> mdvisualization Then
     If Not SsOleCategory.DroppedDown Then SsOleCategory.DroppedDown = True
  End If
 End Sub
 
 Private Sub SsOleCategory_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdVisualization Then SsOleCategory.MoveNext
+If GFormmode <> mdvisualization Then SsOleCategory.MoveNext
 End Sub
 Private Sub SSOlePrimUnit_LostFocus()
 
@@ -2715,7 +2725,7 @@ Select Case PreviousTab
     
         If mcheckManufac = False Then Exit Sub
     
-        If GFormmode <> mdVisualization Then
+        If GFormmode <> mdvisualization Then
         
             mcheckStockHeader = ValidateStockHeaderValues
             
@@ -2729,7 +2739,7 @@ Select Case PreviousTab
                 
              End If
              
-         ElseIf GFormmode = mdVisualization Then
+         ElseIf GFormmode = mdvisualization Then
          
             If Len(Trim(TxtStockNumber)) = 0 Then
             
@@ -2747,7 +2757,7 @@ Select Case PreviousTab
     
         If mcheckStockHeader = False Or mcheckManufac = False Then Exit Sub
         
-        If GFormmode <> mdVisualization Then
+        If GFormmode <> mdvisualization Then
         
         StockHeader.Techspec = Trim(txtTechSpec)
         
@@ -2758,7 +2768,7 @@ Select Case PreviousTab
     
       If mcheckStockHeader = False Then Exit Sub
     
-        If GFormmode <> mdVisualization And manufacturer.Count > 0 Then
+        If GFormmode <> mdvisualization And manufacturer.Count > 0 Then
         
             mcheckManufac = ValidatemanufacturerValues
            
@@ -2815,11 +2825,11 @@ Select Case SSTab1.Tab
                 
                             Call LoadFromManufacturer(manufacturer)
                             
-                        ElseIf manufacturer.Count = 0 And GFormmode <> mdVisualization Then
+                        ElseIf manufacturer.Count = 0 And GFormmode <> mdvisualization Then
                         
                             LROleDBNavBar1.AddNew
                             
-                        ElseIf manufacturer.Count = 0 And GFormmode = mdVisualization Then
+                        ElseIf manufacturer.Count = 0 And GFormmode = mdvisualization Then
                             
                             Call ClearManufacturer
                             
@@ -3200,7 +3210,7 @@ Select Case GFormmode
         chkLicense.Enabled = True
         
         
-    Case mdVisualization
+    Case mdvisualization
     
         TxtStockNumber.Enabled = False
         FraStockHeader.Enabled = False
@@ -3266,7 +3276,7 @@ Select Case GFormmode
          Call ToggleNavbar
 
       
-      Case mdVisualization
+      Case mdvisualization
       
           
          SSoleManufacturer.Enabled = False
@@ -3365,7 +3375,7 @@ Select Case GFormmode
         LROleDBNavBar1.EMailEnabled = False
     End If
         
-    Case mdVisualization
+    Case mdvisualization
 
     
     If SSTab1.Tab = 0 Then
@@ -3435,7 +3445,7 @@ ChkManufActive.Enabled = True 'JCG 2007/01/10
        lblStatus.Caption = IIf(msg1 = "", "Modification", msg1)
         
   
-     ElseIf FMode = mdVisualization Then
+     ElseIf FMode = mdvisualization Then
         lblStatus.ForeColor = vbGreen
         
         
@@ -3509,7 +3519,7 @@ If Not IsNumeric(txt_Estimate) And Len(Trim(txt_Estimate)) > 0 Then
 End Sub
 
 Private Sub txt_LongDescript_KeyUp(KeyCode As Integer, Shift As Integer)
-If GFormmode <> mdVisualization And Trim(SSDBHeader.Columns(0).Text) = Trim(TxtStockNumber) Then
+If GFormmode <> mdvisualization And Trim(SSDBHeader.Columns(0).Text) = Trim(TxtStockNumber) Then
     SSDBHeader.Columns(1).Text = Trim(txt_LongDescript) ' & Chr(KeyAscii)
 End If
 End Sub
@@ -3677,7 +3687,7 @@ Private Sub TxtStockNumber_GotFocus()
 End Sub
 
 Private Sub TxtStockNumber_KeyUp(KeyCode As Integer, Shift As Integer)
-If GFormmode <> mdVisualization Then 'And Trim(SSDBHeader.Columns(0).text) = Trim(TxtStockNumber) Then
+If GFormmode <> mdvisualization Then 'And Trim(SSDBHeader.Columns(0).text) = Trim(TxtStockNumber) Then
     
     SSDBHeader.Columns(0).Text = Trim(TxtStockNumber) ' & Chr(KeyAscii)
     
@@ -4148,7 +4158,7 @@ Public Function MoveGridTo(StockNumber As String)
 
 Dim Count As Integer
 
-If GFormmode = mdVisualization Then
+If GFormmode = mdvisualization Then
 
 If Len(Trim(StockNumber)) = 0 Then Exit Function
 

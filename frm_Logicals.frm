@@ -268,6 +268,7 @@ Dim NVBAR_SAVE As Boolean
 Dim CAncelGrid As Boolean
 Dim TableLocked As Boolean, currentformname As String   'jawdat
 
+Dim newRecord As Boolean
 Private Function validate_fields(colnum As Integer) As Boolean
 Dim x As Boolean
 
@@ -304,6 +305,7 @@ End Function
 
 Private Sub Form_Load()
 Dim ctl As Control
+    newRecord = False
  
    CAncelGrid = False
    msg1 = translator.Trans("M00126")
@@ -327,8 +329,7 @@ Dim ctl As Control
         Call gsb_fade_to_black(ctl)
     Next ctl
     'Call deIms.Destination(deIms.NameSpace)
-
-    deIms.rsLOGWAR.Close
+    If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
 
      Call deIms.LOGWAR(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
@@ -423,18 +424,21 @@ End Sub
 'set create user equal to current user and name space
 
 Private Sub NavBar1_BeforeNewClick()
-      SSDBLogical.AddNew
+    newRecord = True
+    
     NavBar1.CancelEnabled = True
     NavBar1.NewEnabled = False
     NavBar1.EditEnabled = False
     NavBar1.SaveEnabled = True
+    NavBar1.Width = 5050
     lblStatus.ForeColor = &HFF&
     lblStatus.Caption = Create
     SSDBLogical.AllowUpdate = True
-    SSDBLogical.Columns("active").Text = 1
-    SSDBLogical.SetFocus
-    NavBar1.Width = 5050
-    SSDBLogical.Col = 0
+    SSDBLogical.AddNew
+    'SSDBLogical.Columns("active").Text = 1
+    'SSDBLogical.SetFocus
+    
+    'SSDBLogical.Col = 0
 End Sub
 
 'before save check logical warehouse exist or not
@@ -536,13 +540,13 @@ Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser
 End If
      
     
-    
+    newRecord = False
     Unload Me
 '    Set frm_Logicals = Nothing
 End Sub
 
 Private Sub NavBar1_OnEditClick()
-
+newRecord = False
 ''copy begin here
 '
 'If NavBar1.SaveEnabled = True Then          ''jawdat, to be put into every form with similar navbar
@@ -602,9 +606,12 @@ End Sub
 
 Private Sub NavBar1_OnNewClick()
 
+    SSDBLogical.SetFocus
+    SSDBLogical.Col = 0
+    
+    SSDBLogical.Columns("active").Text = 1
+    SSDBLogical.AllowUpdate = True
 
-
-    SSDBLogical.AllowUpdate = False
 
 If TableLocked = True Then
    SSDBLogical.Columns("code").locked = False
@@ -748,11 +755,13 @@ End Function
 
 Private Sub SSDBLogical_BeforeRowColChange(Cancel As Integer)
 Dim good_field As Boolean
-    good_field = validate_fields(SSDBLogical.Col)
+If Not newRecord Then
+        good_field = validate_fields(SSDBLogical.Col)
+
     If Not good_field Then
        Cancel = True
     End If
-
+End If
 End Sub
 
 'before add a new record check code exist or not
@@ -781,6 +790,9 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
  If (InUnload = False) Or (response = vbYes) Then
  
   If SSDBLogical.IsAddRow Then
+    If newRecord Then
+        Exit Sub
+    End If
       x = NotValidLen(SSDBLogical.Columns(1).Text)
       If x = True Then
          RecSaved = False
