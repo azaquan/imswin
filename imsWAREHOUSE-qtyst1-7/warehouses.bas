@@ -60,7 +60,9 @@ Global dsnName As String
 Global emailOutFolder As String
 Global skipAlphaSearch As Boolean
 Global skipExistance As Boolean
+'
 Global originalQty
+
 Global mainItemRow
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long

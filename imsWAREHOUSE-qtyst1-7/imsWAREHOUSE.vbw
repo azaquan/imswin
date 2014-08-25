@@ -1,0 +1,8 @@
+cSubClass = 0, 0, 0, 0, C
+cTreeTips = 132, 132, 917, 548, C
+Warehouse = 136, 75, 921, 491, C
+mSubClass = 110, 110, 895, 526, C
+translator = 0, 0, 0, 0, C
+warehouses = 49, 81, 922, 602, C
+frmWarehouse = 0, 0, 886, 526, C, 29, 10, 921, 563, C
+clsexport = 0, 0, 0, 0, C

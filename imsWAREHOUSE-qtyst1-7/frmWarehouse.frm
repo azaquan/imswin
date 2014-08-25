@@ -2143,7 +2143,7 @@ On Error Resume Next
 '                    Else
 '                        quantityBOX(Index).text = .text
 '                    End If
-                    '--------------------
+                    '--------------------------
                     Select Case frmWarehouse.tag
                         Case "02050200" 'AdjustmentEntry
                         Case Else
