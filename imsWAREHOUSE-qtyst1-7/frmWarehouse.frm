@@ -4500,6 +4500,7 @@ Dim answer, i
     For i = 0 To 2
         grid(i).Visible = False
     Next
+'
 End Sub
 
 Private Sub cell_Click(index As Integer)

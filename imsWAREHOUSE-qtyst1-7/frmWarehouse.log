@@ -1,16 +1,29 @@
-Line 705: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 709: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 705: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 709: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 701: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 702: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 706: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 709: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 701: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 702: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 706: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 709: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 701: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 702: Syntax error: property <<<<<<< in DTPicker1 was missing an '='.
-Line 706: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
-Line 709: Syntax error: property >>>>>>> in DTPicker1 was missing an '='.
+Line 46: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control summaryValues was not a loaded control class.
+Line 97: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control unitCombo was not a loaded control class.
+Line 124: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control TxtCompany was not a loaded control class.
+Line 144: Class SSDataWidgets_B_OLEDB.SSOleDBDropDown of control SSOleDBCamChart was not a loaded control class.
+Line 163: Class SSDataWidgets_B_OLEDB.SSOleDBDropDown of control SSOleDBStockType was not a loaded control class.
+Line 182: Class SSDataWidgets_B_OLEDB.SSOleDBDropDown of control SSOleDBUsChart was not a loaded control class.
+Line 201: Class SSDataWidgets_B_OLEDB.SSOleDBDropDown of control SSOleDBLocation was not a loaded control class.
+Line 220: Class SSDataWidgets_B_OLEDB.SSOleDBDropDown of control SSOleCompany was not a loaded control class.
+Line 284: Class Crystal.CrystalReport of control CrystalReport1 was not a loaded control class.
+Line 305: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 567: Class MSComctlLib.ImageList of control ImageList1 was not a loaded control class.
+Line 687: Class MSComCtl2.DTPicker of control DTPicker1 was not a loaded control class.
+Line 704: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control STOCKlist was not a loaded control class.
+Line 730: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control matrix was not a loaded control class.
+Line 751: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 777: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control grid was not a loaded control class.
+Line 814: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control detailHEADER was not a loaded control class.
+Line 838: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 886: Class MSComctlLib.TreeView of control Tree was not a loaded control class.
+Line 903: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control SUMMARYlist was not a loaded control class.
+Line 927: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 953: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 978: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control SSOleDBCombo2 was not a loaded control class.
+Line 994: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control TxtStockType was not a loaded control class.
+Line 1014: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control TxtUSChart was not a loaded control class.
+Line 1034: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control TxtLocation was not a loaded control class.
+Line 1054: Class SSDataWidgets_B_OLEDB.SSOleDBCombo of control TxtCamChart was not a loaded control class.
+Line 1074: Class MSHierarchicalFlexGridLib.MSHFlexGrid of control combo was not a loaded control class.
+Line 1129: Class SSDataWidgets_B_OLEDB.SSOleDBGrid of control SSOleDBFQA was not a loaded control class.

@@ -227,3 +227,6 @@ ims.exe
 *.dll
 *.scc
 *.vbp
+*.dll
+*.exp
+*.lib

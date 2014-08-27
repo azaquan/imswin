@@ -859,7 +859,7 @@ On Error GoTo ErrHandler:
         '15 "Unit Code"
         '16 "Computer Factor"
         '20 "Original Condition Code"
-        '21 "Secundary QTY"
+        '21 "Secondary QTY"
         '17 "repaircost"
         '18 "newcomodity"
         '19 "newdescription"
@@ -1406,10 +1406,23 @@ On Error GoTo ErrHandler
                     computerFactorValue = ImsDataX.ComputingFactor(nameSP, sNumber, cn)
                     Set datax = getDATA("getStockRatio", Array(nameSP, sNumber))
                     If datax.RecordCount > 0 Then
-                        ratioValue = datax!stk_ratio2
+                        'Juan 2014-8-26 new ratio valuation
+                        'ratioValue = datax!stk_ratio2
+                        ratioValue = datax!realRatio
                     Else
                         ratioValue = 1
                     End If
+                    'Juan 2014-8-27 new version of calculation based on invoice if exists
+                    Select Case frmWarehouse.tag
+                        Case "02040100" 'WarehouseReceipt
+                            Set datax = New ADODB.Recordset
+                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + SUMMARYlist.TextMatrix(i, 28) + "'"
+                            datax.Open sql, cn, adOpenStatic
+                            If datax.RecordCount > 0 Then
+                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
+                            End If
+                        Case Else
+                    End Select
                     datax.Close
                     '----------------------
                     stock = ""
@@ -1734,7 +1747,7 @@ On Error GoTo ErrHandler
                         '20 "Original Condition Code"
                         '21 "Unit 2"
                         '22 "po line item
-                        '23 "Secundary QTY"
+                        '23 "Secondary QTY"
                         '24 "po
                         If Null = QTYpo Then
                         Else
