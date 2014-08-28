@@ -45,7 +45,7 @@ Global GDefaultFQA As DefaultFQA
 Global GDefaultValue As Boolean
 Global GExtendedCurrency As String 'M
 Global computerFactorValue As Double
-Global ratioValue As Integer
+Global ratioValue As Double
 Global qtyArray() As Double
 Global subLocationArray() As String
 Global latestStockNumberQty As String
@@ -242,22 +242,22 @@ With frmWarehouse
 End With
 Err.Clear
 End Sub
-Sub putThingsInsideExtension(Index As Integer) 'Juan 2014-02-02, for scrolling placement
+Sub putThingsInsideExtension(index As Integer) 'Juan 2014-02-02, for scrolling placement
 With frmWarehouse
-    .quantity(Index).Visible = False
-    .poItemBox(Index).Visible = False
-    .positionBox(Index).Visible = False
-    .quantity(Index).Visible = False
-    .logicBOX(Index).Visible = False
-    .sublocaBOX(Index).Visible = False
-    .quantityBOX(Index).Visible = False
-    .quantity2BOX(Index).Visible = False
-    .balanceBOX(Index).Visible = False
-    .NEWconditionBOX(Index).Visible = False
-    .priceBOX(Index).Visible = False
-    .unitBOX(Index).Visible = False
-    .unit2BOX(Index).Visible = False
-    .repairBOX(Index).Visible = False
+    .quantity(index).Visible = False
+    .poItemBox(index).Visible = False
+    .positionBox(index).Visible = False
+    .quantity(index).Visible = False
+    .logicBOX(index).Visible = False
+    .sublocaBOX(index).Visible = False
+    .quantityBOX(index).Visible = False
+    .quantity2BOX(index).Visible = False
+    .balanceBOX(index).Visible = False
+    .NEWconditionBOX(index).Visible = False
+    .priceBOX(index).Visible = False
+    .unitBOX(index).Visible = False
+    .unit2BOX(index).Visible = False
+    .repairBOX(index).Visible = False
 End With
 End Sub
 
@@ -697,7 +697,7 @@ With frmWarehouse
         If isFirstSubmit Then
     
                 If pool Then
-                    Call calculations(True)
+                    Call calculations(True, , True)
                 Else
                     Call calculations(True, False, False)
                 End If
@@ -738,7 +738,7 @@ Dim ctl As Control
 
 For Each ctl In frmWarehouse.Controls
     If ctl.name = controlNAME Then
-        If ctl.Index = controlIndex Then
+        If ctl.index = controlIndex Then
             controlExists = True
             Exit For
         End If
@@ -1158,7 +1158,7 @@ On Error GoTo ErrHandler:
                 .logicBOX(n).backcolor = &HC0C0FF
                 .logicBOX(n).ToolTipText = "Select a Logic Wareshouse"
                 .sublocaBOX(n) = ""
-                .sublocaBOX(Index).backcolor = &HC0C0FF
+                .sublocaBOX(index).backcolor = &HC0C0FF
                 .sublocaBOX(n).ToolTipText = "Select a Sub Location"
             End If
         Else
@@ -1403,7 +1403,7 @@ On Error GoTo ErrHandler
                 If StockNumber <> "" Then
                     sNumber = StockNumber
                     'Juan 2010-9-4 implementing ratio rather than computer factor
-                    computerFactorValue = ImsDataX.ComputingFactor(nameSP, sNumber, cn)
+                    'computerFactorValue = ImsDataX.ComputingFactor(nameSP, sNumber, cn)
                     Set datax = getDATA("getStockRatio", Array(nameSP, sNumber))
                     If datax.RecordCount > 0 Then
                         'Juan 2014-8-26 new ratio valuation
@@ -1416,7 +1416,7 @@ On Error GoTo ErrHandler
                     Select Case frmWarehouse.tag
                         Case "02040100" 'WarehouseReceipt
                             Set datax = New ADODB.Recordset
-                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + SUMMARYlist.TextMatrix(i, 28) + "'"
+                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 12) + "' " + "and invd_ponumb = '" + .cell(4) + "'"
                             datax.Open sql, cn, adOpenStatic
                             If datax.RecordCount > 0 Then
                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -1851,14 +1851,14 @@ End If
 Resume Next
 End Sub
 
-Sub doCOMBO(Index, datax As ADODB.Recordset, list, totalwidth)
+Sub doCOMBO(index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
     Err.Clear
-    With frmWarehouse.combo(Index)
+    With frmWarehouse.combo(index)
         Do While Not datax.EOF
             rec = ""
-            For i = 0 To frmWarehouse.matrix.TextMatrix(1, Index) - 1
+            For i = 0 To frmWarehouse.matrix.TextMatrix(1, index) - 1
                 If list(i) = "error" Then
                     MsgBox "Definition error, please contact IMS"
                     Exit Sub
@@ -1884,16 +1884,16 @@ Dim t As String
             .Height = 2340
             .ScrollBars = flexScrollBarVertical
         End If
-        If frmWarehouse.cell(Index).width > (totalwidth + extraW) Then
-            .width = frmWarehouse.cell(Index).width
+        If frmWarehouse.cell(index).width > (totalwidth + extraW) Then
+            .width = frmWarehouse.cell(index).width
             .ColWidth(0) = .ColWidth(0) + (.width - totalwidth) - extraW
         Else
             .width = totalwidth + extraW
         End If
-        If (frmWarehouse.cell(Index).Left + .width) > frmWarehouse.width Then
+        If (frmWarehouse.cell(index).Left + .width) > frmWarehouse.width Then
             .Left = frmWarehouse.width - .width - 100
         Else
-            .Left = frmWarehouse.cell(Index).Left
+            .Left = frmWarehouse.cell(index).Left
         End If
     End With
 End Sub
@@ -2564,7 +2564,7 @@ Sub putBOX(box As textBOX, Left, Top, width, backcolor)
     End With
 End Sub
 
-Function topNODE(Index) As Integer
+Function topNODE(index) As Integer
 Dim heightFactor, spaceFactor As Integer
     spaceFactor = 45
     heightFactor = 265
@@ -2598,7 +2598,7 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 240
             spaceFactor = 80
     End Select
-    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop))
+    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop))
 End Function
 
 Sub textBOX(ByVal mainCONTROL As MSHFlexGrid, standard As Boolean)
@@ -2722,12 +2722,12 @@ Sub updateStockListBalance() 'Juan 2010-9-19 to re-load the proper values of the
     End With
 End Sub
 
-Sub validateQTY(box As textBOX, Index)
+Sub validateQTY(box As textBOX, index)
 Dim n
 Dim d As Integer
     noRETURN = True
     With box
-        If Index <> totalNode Then
+        If index <> totalNode Then
             If IsNumeric(.text) Then
                 If .name = "priceBOX" Then
                     d = 2

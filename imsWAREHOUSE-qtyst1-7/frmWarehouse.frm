@@ -1,9 +1,9 @@
 VERSION 5.00
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
+Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Begin VB.Form frmWarehouse 
    ClientHeight    =   9885
    ClientLeft      =   165
@@ -14,6 +14,19 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.TextBox invoiceBOX 
+      Alignment       =   1  'Right Justify
+      BorderStyle     =   0  'None
+      Height          =   225
+      Index           =   0
+      Left            =   6480
+      MousePointer    =   1  'Arrow
+      TabIndex        =   99
+      Text            =   "invoiceBOX"
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1215
+   End
    Begin VB.PictureBox treeFrame 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -62,7 +75,7 @@ Begin VB.Form frmWarehouse
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   0
+      Left            =   840
       MousePointer    =   1  'Arrow
       TabIndex        =   90
       TabStop         =   0   'False
@@ -75,7 +88,7 @@ Begin VB.Form frmWarehouse
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   0
+      Left            =   600
       MousePointer    =   1  'Arrow
       TabIndex        =   89
       Top             =   0
@@ -698,7 +711,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   62193667
+      Format          =   69074947
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1226,6 +1239,47 @@ Begin VB.Form frmWarehouse
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label invoiceNumberLabel 
+      Appearance      =   0  'Flat
+      BackColor       =   &H8000000A&
+      Caption         =   "invoice:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   255
+      Left            =   6405
+      TabIndex        =   101
+      Top             =   3840
+      Width           =   2655
+   End
+   Begin VB.Label invoiceLabel 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H8000000A&
+      Caption         =   "invoice:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   255
+      Left            =   4560
+      TabIndex        =   100
+      Top             =   3840
+      Width           =   1575
+   End
    Begin VB.Label logLabel 
       BackColor       =   &H0080FF80&
       Caption         =   "Label5"
@@ -1743,7 +1797,7 @@ If isEditionActive = False Then Exit Sub
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
             Case "02050200" 'AdjustmentEntry
                 serial = .TextMatrix(r, 2)
                 commodityLABEL = StockNumber
@@ -1769,7 +1823,7 @@ If isEditionActive = False Then Exit Sub
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
 
             Case "02040100" 'WarehouseReceipt
                 '17 "Qty po"
@@ -1793,6 +1847,19 @@ If isEditionActive = False Then Exit Sub
                     ratioValue = 1
                 End If
                 '-------------------
+                    'Juan 2014-8-27 new version of calculation based on invoice if exists
+                    Select Case frmWarehouse.tag
+                        Case "02040100" 'WarehouseReceipt
+                            Set datax = New ADODB.Recordset
+                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                            datax.Open sql, cn, adOpenStatic
+                            If datax.RecordCount > 0 Then
+                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
+                            End If
+                        Case Else
+                    End Select
+                    datax.Close
+                    '----------------------
             
                 Tree.Nodes.Add , tvwChild, "@" + cond, cond + "-" + condName, "thing"
                 Tree.Nodes("@" + cond).Bold = True
@@ -1819,7 +1886,7 @@ If isEditionActive = False Then Exit Sub
                 
                 totalNode = Tree.Nodes.Count
                 total = .TextMatrix(r, 7)
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
         End Select
@@ -2156,8 +2223,16 @@ On Error Resume Next
                     '-----------------
                 End If
                 If Err.Number = 0 Then
-                        Call calculations(True)
+
+                    Select Case .tag
+                        Case "02040100" 'WarehouseReceipt
+                            Call calculations(True, True)
+                        Case Else
+                            Call calculations(True)
+                    End Select
+                        
                 End If
+
             Else
                     'Juan 2010-6-5
                     '.text = "0"
@@ -2797,7 +2872,7 @@ Dim i, col, c, dark As Integer
                 Next
                 '-----------------------
                 dark = 1
-                .cols = 11
+                .cols = 13
                 .ColAlignment(2) = 6
                 .ColAlignment(3) = 6
                 .ColAlignment(4) = 4
@@ -3683,12 +3758,27 @@ Screen.MousePointer = 11
             computerFactor = ImsDataX.ComputingFactor(nameSP, stocknumb, cn)
             Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb))
             If datax.RecordCount > 0 Then
-                ratioValue = datax!stk_ratio2
+                ratioValue = datax!realRatio
             Else
                 ratioValue = 1
             End If
-            SecUnit = PrimUnit * ratioValue
+            Dim sql As String
+            'Juan 2014-8-27 new version of calculation based on invoice if exists
+            Select Case frmWarehouse.tag
+                Case "02040100" 'WarehouseReceipt
+                    Set datax = New ADODB.Recordset
+                    sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                    datax.Open sql, cn, adOpenStatic
+                    If datax.RecordCount > 0 Then
+                        ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
+                    End If
+                Case Else
+            End Select
             datax.Close
+            '----------------------
+            
+            SecUnit = PrimUnit * ratioValue
+
 '            If computerFactor = 0 Then
 '                SecUnit = PrimUnit
 '            Else
@@ -6304,10 +6394,24 @@ End If
                                     .TextMatrix(.Rows - 1 - differenceWithTable, 22) = poItemBox(i - differenceWithTable)
                                     Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
                                     If datax.RecordCount > 0 Then
-                                        ratioValue = datax!stk_ratio2
+                                        ratioValue = datax!realRatio
                                     Else
                                         ratioValue = 1
                                     End If
+                                    
+                                    'Juan 2014-8-28 fixing new ratio method
+                                    Select Case frmWarehouse.tag
+                                        Case "02040100" 'WarehouseReceipt
+                                            Dim sql As String
+                                            Set datax = New ADODB.Recordset
+                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                                            datax.Open sql, cn, adOpenStatic
+                                            If datax.RecordCount > 0 Then
+                                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
+                                            End If
+                                        Case Else
+                                    End Select
+                                    
                                     .TextMatrix(.Rows - 1 - differenceWithTable, 25) = Format(ratioValue)
                                     '----------------------------------
                                     
@@ -6466,11 +6570,23 @@ End If
                                     'Juan 2010-9-5 Added to have new ratio functionality
                                     Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
                                     If datax.RecordCount > 0 Then
-                                        ratioValue = datax!stk_ratio2
+                                        ratioValue = datax!realRatio
                                     Else
                                         ratioValue = 1
                                     End If
+                                    'Juan 2014-8-28 new version of calculation based on invoice if exists
+                                    Select Case frmWarehouse.tag
+                                        Case "02040100" 'WarehouseReceipt
+                                            Set datax = New ADODB.Recordset
+                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                                            datax.Open sql, cn, adOpenStatic
+                                            If datax.RecordCount > 0 Then
+                                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
+                                            End If
+                                        Case Else
+                                    End Select
                                     datax.Close
+                    '----------------------
                                     .TextMatrix(position, 25) = Format(ratioValue)
                                     '---------------------
                                     
