@@ -60,7 +60,7 @@ Global dsnName As String
 Global emailOutFolder As String
 Global skipAlphaSearch As Boolean
 Global skipExistance As Boolean
-
+'
 Global originalQty
 
 Global mainItemRow
@@ -2121,7 +2121,11 @@ onDetailListInProcess = True
                     ' qty2 = Format(!qty2, "0.00")
                     ' rec = rec + qty2 + vbTab
                     If IsNull(!qty2_invoice) Then
-                        toBeReceived2 = !qty2
+                        If IsNull(!qty2) Then
+                            toBeReceived2 = 0
+                        Else
+                             toBeReceived2 = !qty2
+                        End If
                     Else
                         If !qty2_invoice > 0 Then
                             toBeReceived2 = !qty2_invoice - IIf(IsNull(!QTY2_receivedWithInvoice), 0, !QTY2_receivedWithInvoice) 'Juan 2014-5-3

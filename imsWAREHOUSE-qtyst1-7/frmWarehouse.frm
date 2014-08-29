@@ -711,7 +711,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   63504387
+      Format          =   20447235
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -3121,9 +3121,10 @@ Dim i, col, c, dark As Integer
     
     'This grid is used to store values related with the SUMMARYlist grid in case needed
     With summaryValues
-        .cols = 2
+        .cols = 3
         .TextMatrix(0, 0) = "quantities array"
         .TextMatrix(0, 1) = "from sublocations array"
+        .TextMatrix(0, 2) = "invoice"
     End With
     
     
@@ -4254,6 +4255,7 @@ Private Function PutDataInsert2(Item, price) As Boolean
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
                 cmd.parameters("@ird_newcond") = "01"
+                cmd.parameters("@ird_invoice") = summaryValues.TextMatrix(Item, 2) 'Juan 2014-8-29
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
                 cmd.parameters("@ird_newcond") = .TextMatrix(Item, 13)
@@ -6391,7 +6393,7 @@ End If
                                         qtyArrayTxt = qtyArrayTxt + Format(qtyArray(counter))
                                     Next
                                     subLocationArrayTxt = Join(subLocationArray())
-                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt
+                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable)
                                     'Juan 2010-9-4 implementing ratio rather than computer
                                     computerFactorValue = ImsDataX.ComputingFactor(nameSP, commodityLABEL, cn) 'deprecated
                                     .TextMatrix(.Rows - 1 - differenceWithTable, 16) = Format(computerFactorValue) 'deprecated
