@@ -1,7 +1,7 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\WINNT\system32\stdole2.tlb#OLE Automation
-Reference=*\G{00000201-0000-0010-8000-00AA006D2EA4}#2.1#0#..\..\..\..\Program Files\Common Files\System\ADO\msado21.tlb#Microsoft ActiveX Data Objects 2.1 Library
-Reference=*\G{74C08640-CEDB-11CF-8B49-00AA00B8A790}#1.0#0#..\..\..\..\WINNT\system32\comsvcs.dll#Microsoft Transaction Server Type Library
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00000201-0000-0010-8000-00AA006D2EA4}#2.1#0#..\..\..\..\Program Files\Common Files\system\ado\msado21.tlb#Microsoft ActiveX Data Objects 2.1 Library
+Reference=*\G{74C08640-CEDB-11CF-8B49-00AA00B8A790}#1.0#0#..\..\..\..\WINDOWS\system32\comsvcs.dll#Microsoft Transaction Server Type Library
 Class=imsGetPOInfo; GetPOInfo.cls
 Class=imsGetSupplierInfo; GetSupplierInfo.cls
 Class=imsInvoiceDetl; InvoiceDetl.cls

@@ -60,7 +60,7 @@ Global dsnName As String
 Global emailOutFolder As String
 Global skipAlphaSearch As Boolean
 Global skipExistance As Boolean
-'
+
 Global originalQty
 
 Global mainItemRow

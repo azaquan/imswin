@@ -249,7 +249,7 @@ Begin VB.Form frmWarehouse
       DataFieldToDisplay=   "Column 0"
    End
    Begin VB.TextBox remarks 
-      Height          =   734
+      Height          =   3015
       Left            =   120
       MaxLength       =   7000
       MultiLine       =   -1  'True
@@ -711,7 +711,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   69074947
+      Format          =   63504387
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -3358,8 +3358,9 @@ Sub showREMARKS()
     Command5.Caption = "&Hide Remarks"
     remarks.locked = False
     Tree.Visible = False 'M
+    treeFrame.Visible = False
     remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
-    remarks.Height = 2870 'Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
+    remarks.Height = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
@@ -5539,7 +5540,11 @@ On Error Resume Next
                 End If
                     If Err.Number = 0 Then
                         If isFirstSubmit Then
-                            Call calculations(True, True)
+                            If frmWarehouse.Tree.Nodes(index).text = "Pool" Then
+                                Call calculations(True, True, True)
+                            Else
+                                Call calculations(True, True)
+                            End If
                         Else
                             Select Case .tag
                                 Case "02040100" 'WarehouseReceipt
