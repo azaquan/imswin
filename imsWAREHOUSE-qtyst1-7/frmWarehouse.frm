@@ -14,6 +14,19 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.TextBox invoiceLineBOX 
+      Alignment       =   1  'Right Justify
+      BorderStyle     =   0  'None
+      Height          =   225
+      Index           =   0
+      Left            =   7920
+      MousePointer    =   1  'Arrow
+      TabIndex        =   102
+      Text            =   "invoiceListBOX"
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1215
+   End
    Begin VB.TextBox invoiceBOX 
       Alignment       =   1  'Right Justify
       BorderStyle     =   0  'None
@@ -711,7 +724,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   20447235
+      Format          =   63963139
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1238,6 +1251,27 @@ Begin VB.Form frmWarehouse
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+   End
+   Begin VB.Label invoiceLineLabel 
+      Appearance      =   0  'Flat
+      BackColor       =   &H8000000A&
+      Caption         =   "invoiceLine:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   255
+      Left            =   12000
+      TabIndex        =   103
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1095
    End
    Begin VB.Label invoiceNumberLabel 
       Appearance      =   0  'Flat
@@ -1851,7 +1885,9 @@ If isEditionActive = False Then Exit Sub
                     Select Case frmWarehouse.tag
                         Case "02040100" 'WarehouseReceipt
                             Set datax = New ADODB.Recordset
-                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
+                                "and invd_invcnumb = '" + summaryValues.TextMatrix(r, 2) + "' " + _
+                                "and invd_liitnumb = '" + Trim(summaryValues.TextMatrix(r, 3)) + "'"
                             datax.Open sql, cn, adOpenStatic
                             If datax.RecordCount > 0 Then
                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -2872,7 +2908,7 @@ Dim i, col, c, dark As Integer
                 Next
                 '-----------------------
                 dark = 1
-                .cols = 13
+                .cols = 14
                 .ColAlignment(2) = 6
                 .ColAlignment(3) = 6
                 .ColAlignment(4) = 4
@@ -3121,10 +3157,11 @@ Dim i, col, c, dark As Integer
     
     'This grid is used to store values related with the SUMMARYlist grid in case needed
     With summaryValues
-        .cols = 3
+        .cols = 4
         .TextMatrix(0, 0) = "quantities array"
         .TextMatrix(0, 1) = "from sublocations array"
         .TextMatrix(0, 2) = "invoice"
+        .TextMatrix(0, 2) = "invoice line item"
     End With
     
     
@@ -3769,7 +3806,9 @@ Screen.MousePointer = 11
             Select Case frmWarehouse.tag
                 Case "02040100" 'WarehouseReceipt
                     Set datax = New ADODB.Recordset
-                    sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                    sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
+                        "and invd_invcnumb = '" + summaryValues.TextMatrix(i, 2) + "' " + _
+                        "and invd_liitnumb = '" + Trim(summaryValues.TextMatrix(i, 3)) + "'"
                     datax.Open sql, cn, adOpenStatic
                     If datax.RecordCount > 0 Then
                         ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -4256,6 +4295,7 @@ Private Function PutDataInsert2(Item, price) As Boolean
             Case "02040100" 'WarehouseReceipt
                 cmd.parameters("@ird_newcond") = "01"
                 cmd.parameters("@ird_invoice") = summaryValues.TextMatrix(Item, 2) 'Juan 2014-8-29
+                cmd.parameters("@ird_invoiceLine") = summaryValues.TextMatrix(Item, 3) 'Juan 2014-8-30
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
                 cmd.parameters("@ird_newcond") = .TextMatrix(Item, 13)
@@ -6108,6 +6148,7 @@ Dim differenceWithTable As Integer
 Dim pieceText, serialText As String
 Dim rowKey As String
 Dim datax As New ADODB.Recordset
+Dim summaryValueFirstTime As Boolean
 '-----------------------
 
 '-----> (gib 10/04) If no sub-location has been entered, exit this Sub(do not continue until user enters one).
@@ -6171,6 +6212,7 @@ Else
     End If
 End If
 
+summaryValueFirstTime = True
     If IsNumeric(quantityBOX(totalNode)) Then
         If CDbl(quantityBOX(totalNode)) > 0 Or frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
             Select Case frmWarehouse.tag
@@ -6393,7 +6435,11 @@ End If
                                         qtyArrayTxt = qtyArrayTxt + Format(qtyArray(counter))
                                     Next
                                     subLocationArrayTxt = Join(subLocationArray())
-                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable)
+                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
+                                    If summaryValueFirstTime And summaryValues.TextMatrix(1, 0) + summaryValues.TextMatrix(1, 1) + summaryValues.TextMatrix(1, 2) = "" Then
+                                        summaryValues.RemoveItem (1)
+                                        summaryValueFirstTime = False
+                                    End If
                                     'Juan 2010-9-4 implementing ratio rather than computer
                                     computerFactorValue = ImsDataX.ComputingFactor(nameSP, commodityLABEL, cn) 'deprecated
                                     .TextMatrix(.Rows - 1 - differenceWithTable, 16) = Format(computerFactorValue) 'deprecated
@@ -6411,7 +6457,9 @@ End If
                                         Case "02040100" 'WarehouseReceipt
                                             Dim sql As String
                                             Set datax = New ADODB.Recordset
-                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
+                                                "and invd_invcnumb = '" + invoiceBOX(i) + "' " + _
+                                                "and invd_liitnumb = '" + Trim(invoiceLineBOX(i)) + "'"
                                             datax.Open sql, cn, adOpenStatic
                                             If datax.RecordCount > 0 Then
                                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -6585,7 +6633,9 @@ End If
                                     Select Case frmWarehouse.tag
                                         Case "02040100" 'WarehouseReceipt
                                             Set datax = New ADODB.Recordset
-                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "'"
+                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
+                                                "and invd_invcnumb = '" + invoiceBOX(i) + "' " + _
+                                                "and invd_liitnumb = '" + Trim(invoiceLineBOX(i)) + "'"
                                             datax.Open sql, cn, adOpenStatic
                                             If datax.RecordCount > 0 Then
                                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty

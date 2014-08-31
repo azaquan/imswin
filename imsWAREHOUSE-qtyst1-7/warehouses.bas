@@ -1061,6 +1061,7 @@ On Error GoTo ErrHandler:
         Load .NEWconditionBOX(n)
         
         Load .invoiceBOX(n)
+        Load .invoiceLineBOX(n)
         Select Case .tag
             'ReturnFromRepair WarehouseIssue,WellToWell,InternalTransfer,
             'AdjustmentIssue,WarehouseToWarehouse,Sales,ReturnFromWell, AdjustmentEntry
@@ -1136,6 +1137,7 @@ On Error GoTo ErrHandler:
             .poItemLabel = datax!poItem
             
              .invoiceBOX(n) = .invoiceNumberLabel.Caption
+             .invoiceLineBOX(n) = .invoiceLineLabel.Caption 'Juan 2014-8-29
         Else
             .poItemBox(n) = .poItemLabel
         End If
@@ -1416,7 +1418,9 @@ On Error GoTo ErrHandler
                     Select Case frmWarehouse.tag
                         Case "02040100" 'WarehouseReceipt
                             Set datax = New ADODB.Recordset
-                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "' and invd_invcnumb = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 12) + "' " + "and invd_ponumb = '" + .cell(4) + "'"
+                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
+                                "and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "' " + _
+                                 "and invd_liitnumb = '" + Trim(frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 13)) + "'"
                             datax.Open sql, cn, adOpenStatic
                             If datax.RecordCount > 0 Then
                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -1447,7 +1451,7 @@ On Error GoTo ErrHandler
                         & "(stk_stcknumb = '" + .commodityLABEL + "')"
                 Case "02040100" 'WarehouseReceipt
                     Dim response
-                    Set datax = getDATA("statusFREIGHT", Array(nameSP, Format(.cell(4)), StockNumber))
+                    Set datax = getDATA("statusFREIGHT", Array(nameSP, .cell(4), StockNumber))
                     If datax.RecordCount = 0 Then
                         Screen.MousePointer = 0
                         MsgBox "Error on Warehouse Module about statusFREIGHT"
@@ -1462,7 +1466,7 @@ On Error GoTo ErrHandler
                         End If
                     End If
                     
-                    Set docTYPE = getDATA("getDOCTYPE", Array(nameSP, Format(.cell(4))))
+                    Set docTYPE = getDATA("getDOCTYPE", Array(nameSP, .cell(4)))
                     If docTYPE.RecordCount = 0 Then
                         Screen.MousePointer = 0
                         MsgBox "Error on Warehouse Module about getDOCTYPE"
@@ -1470,7 +1474,7 @@ On Error GoTo ErrHandler
                     End If
                     
                     If datax!poi_stasdlvy = "NR" And datax!po_freigforwr Then
-                        Set docTYPE = getDATA("getDOCTYPE", Array(nameSP, Format(.cell(4))))
+                        Set docTYPE = getDATA("getDOCTYPE", Array(nameSP, .cell(4)))
                         If docTYPE!doc_invcreqd Then
                             Screen.MousePointer = 0
                             MsgBox "There is no Freight Reception entered against selected line item."
@@ -1481,8 +1485,8 @@ On Error GoTo ErrHandler
                     
                     If docTYPE!doc_invcreqd Then
                     'Juan 2014-03-29: fixing bug replacing parameter stocknumber by item#
-                        'Set datax = getDATA("statusINVOICE", Array(nameSP, Format(.cell(4)), Format(StockNumber)))
-                        Set datax = getDATA("statusINVOICE", Array(nameSP, Format(.cell(4)), .STOCKlist.TextMatrix(stockListRow, 8)))
+                        'Set datax = getDATA("statusINVOICE", Array(nameSP, .cell(4), Format(StockNumber)))
+                        Set datax = getDATA("statusINVOICE", Array(nameSP, .cell(4), .STOCKlist.TextMatrix(stockListRow, 8)))
                         '----------------------------------------------------------
                         If datax.RecordCount = 0 Then
                             Screen.MousePointer = 0
@@ -1508,6 +1512,7 @@ On Error GoTo ErrHandler
                                 'Juan 2014-5-1
                                 .invoiceLabel.Visible = True
                                 .invoiceNumberLabel.Caption = .STOCKlist.TextMatrix(.STOCKlist.row, 12)
+                                .invoiceLineLabel.Caption = .STOCKlist.TextMatrix(.STOCKlist.row, 13)
                                 .invoiceNumberLabel.Visible = True
                                 '-----------------------
                             End If
@@ -1532,7 +1537,7 @@ On Error GoTo ErrHandler
                             & "PO = '" + .cell(4).text + "' AND  " _
                             & "POitem = '" + .STOCKlist.TextMatrix(.STOCKlist.row, 8) + "'  "
                             If hasInvoice Then
-                                sql = sql + "AND invoice = '" + .invoiceNumberLabel + "'  " 'Juan 2014-5-4
+                                sql = sql + "AND invoice = '" + .invoiceNumberLabel + "'  AND  invoiceLine ='" + .invoiceLineLabel + "' " 'Juan 2014-5-4
                             End If
                             sql = sql + "ORDER BY curd_creadate Desc"
                         'Juan 2010-5-2010
@@ -1851,6 +1856,7 @@ End If
 Resume Next
 End Sub
 
+
 Sub doCOMBO(index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
@@ -2144,7 +2150,9 @@ onDetailListInProcess = True
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00")) + vbTab
 
-                    rec = rec + IIf(IsNull(!invoice), "", !invoice)
+                    rec = rec + IIf(IsNull(!invoice), "", !invoice) + vbTab
+                    rec = rec + IIf(IsNull(!invoiceLine), "", !invoiceLine) 'Juan 2014-8-29
+                    
             End Select
             frmWarehouse.STOCKlist.addITEM rec
             'Juan 2014-5-13
@@ -3157,7 +3165,7 @@ On Error Resume Next
                             If frmWarehouse.invoiceNumberLabel = "" Then
                                 goAhead = True
                             Else
-                                If frmWarehouse.invoiceNumberLabel = .SUMMARYlist.TextMatrix(j, 12) Then
+                                If frmWarehouse.invoiceNumberLabel = .SUMMARYlist.TextMatrix(j, 12) And frmWarehouse.invoiceLineLabel = .SUMMARYlist.TextMatrix(j, 13) Then
                                     goAhead = True
                                 End If
                             End If
@@ -3343,6 +3351,7 @@ Function findSTUFF(toFIND, grid As MSHFlexGrid, col, Optional toFIND2, Optional 
 Dim i
 Dim invoice
 invoice = frmWarehouse.invoiceNumberLabel
+LineItem = frmWarehouse.invoiceLineLabel
 Dim findIT As Boolean
     findSTUFF = 0
     mainItemRow = 0
@@ -3362,7 +3371,8 @@ Dim findIT As Boolean
                     If frmWarehouse.invoiceNumberLabel = "" Then
                     Else
                         If .cols > 11 Then
-                            If frmWarehouse.invoiceNumberLabel = .TextMatrix(i, 12) Then
+                            If frmWarehouse.invoiceNumberLabel = .TextMatrix(i, 12) And frmWarehouse.invoiceLineLabel = .TextMatrix(i, 13) Then
+                                
                             End If
                         End If
                     End If
@@ -3376,7 +3386,7 @@ Dim findIT As Boolean
                                 findSTUFF = i
                                 Exit For
                             Else
-                                If UCase(Trim(.TextMatrix(i, 12))) = UCase(Trim(invoice)) Then
+                                If UCase(Trim(.TextMatrix(i, 12))) = UCase(Trim(invoice)) And Trim(.TextMatrix(i, 13)) = Trim(LineItem) Then 'Juan 2014-8-30 added linitem
                                     findSTUFF = i
                                     Exit For
                                 End If
