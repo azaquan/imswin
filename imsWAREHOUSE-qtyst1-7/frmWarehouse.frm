@@ -724,7 +724,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   63963139
+      Format          =   20316163
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -3797,7 +3797,11 @@ Screen.MousePointer = 11
             computerFactor = ImsDataX.ComputingFactor(nameSP, stocknumb, cn)
             Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb))
             If datax.RecordCount > 0 Then
-                ratioValue = datax!realRatio
+                If IsNull(datax!realRatio) Then
+                    ratioValue = 1
+                Else
+                    ratioValue = datax!realRatio
+                End If
             Else
                 ratioValue = 1
             End If
