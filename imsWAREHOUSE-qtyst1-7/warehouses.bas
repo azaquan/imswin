@@ -746,7 +746,7 @@ For Each ctl In frmWarehouse.Controls
 Next
 End Function
 
-Sub lineStuff(lastLine, think)
+Sub lineStuff(lastLine, thick)
 On Error Resume Next
     With frmWarehouse
         n = 0

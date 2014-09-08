@@ -21,7 +21,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   7920
       MousePointer    =   1  'Arrow
-      TabIndex        =   102
+      TabIndex        =   101
       Text            =   "invoiceListBOX"
       Top             =   0
       Visible         =   0   'False
@@ -34,7 +34,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   6480
       MousePointer    =   1  'Arrow
-      TabIndex        =   99
+      TabIndex        =   98
       Text            =   "invoiceBOX"
       Top             =   0
       Visible         =   0   'False
@@ -49,14 +49,27 @@ Begin VB.Form frmWarehouse
       Left            =   1200
       ScaleHeight     =   2895
       ScaleWidth      =   4815
-      TabIndex        =   97
+      TabIndex        =   96
       Top             =   4080
       Width           =   4815
+      Begin VB.PictureBox linesH 
+         BackColor       =   &H00C0C0C0&
+         BorderStyle     =   0  'None
+         Height          =   375
+         Index           =   0
+         Left            =   0
+         ScaleHeight     =   375
+         ScaleWidth      =   10650
+         TabIndex        =   103
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   10650
+      End
    End
    Begin VB.TextBox emailRecepient 
       Height          =   375
       Left            =   3000
-      TabIndex        =   94
+      TabIndex        =   93
       Top             =   9405
       Width           =   3255
    End
@@ -64,7 +77,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Search"
       Height          =   255
       Left            =   2040
-      TabIndex        =   93
+      TabIndex        =   92
       TabStop         =   0   'False
       Top             =   1800
       Width           =   855
@@ -72,7 +85,7 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid summaryValues 
       Height          =   1815
       Left            =   7680
-      TabIndex        =   91
+      TabIndex        =   90
       Top             =   6360
       Visible         =   0   'False
       Width           =   615
@@ -90,7 +103,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   840
       MousePointer    =   1  'Arrow
-      TabIndex        =   90
+      TabIndex        =   89
       TabStop         =   0   'False
       Text            =   "price2BOX"
       Top             =   0
@@ -103,7 +116,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   600
       MousePointer    =   1  'Arrow
-      TabIndex        =   89
+      TabIndex        =   88
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -114,7 +127,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   0
       MousePointer    =   1  'Arrow
-      TabIndex        =   88
+      TabIndex        =   87
       Text            =   "poItemBox"
       Top             =   0
       Visible         =   0   'False
@@ -123,7 +136,7 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid unitCombo 
       Height          =   495
       Left            =   10800
-      TabIndex        =   87
+      TabIndex        =   86
       TabStop         =   0   'False
       Top             =   5400
       Visible         =   0   'False
@@ -150,7 +163,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCompany 
       Height          =   375
       Left            =   1080
-      TabIndex        =   79
+      TabIndex        =   78
       Top             =   1320
       Width           =   615
       DataFieldList   =   "Column 0"
@@ -170,7 +183,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBCamChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   77
+      TabIndex        =   76
       Top             =   7320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -189,7 +202,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBStockType 
       Height          =   735
       Left            =   8520
-      TabIndex        =   76
+      TabIndex        =   75
       Top             =   7200
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -208,7 +221,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBUsChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   75
+      TabIndex        =   74
       Top             =   7200
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -227,7 +240,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBLocation 
       Height          =   735
       Left            =   8520
-      TabIndex        =   74
+      TabIndex        =   73
       Top             =   6960
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -246,7 +259,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleCompany 
       Height          =   735
       Left            =   8520
-      TabIndex        =   73
+      TabIndex        =   72
       Top             =   6720
       Width           =   855
       DataFieldList   =   "Column 0"
@@ -267,7 +280,7 @@ Begin VB.Form frmWarehouse
       MaxLength       =   7000
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
-      TabIndex        =   47
+      TabIndex        =   46
       Top             =   6240
       Width           =   11775
    End
@@ -279,7 +292,7 @@ Begin VB.Form frmWarehouse
       Left            =   4320
       ScaleHeight     =   945
       ScaleWidth      =   3105
-      TabIndex        =   64
+      TabIndex        =   63
       Top             =   3720
       Visible         =   0   'False
       Width           =   3135
@@ -298,7 +311,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   375
          Left            =   0
-         TabIndex        =   65
+         TabIndex        =   64
          Top             =   360
          Width           =   3135
       End
@@ -323,7 +336,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&New Transaction"
       Height          =   375
       Left            =   9360
-      TabIndex        =   63
+      TabIndex        =   62
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1575
@@ -332,7 +345,7 @@ Begin VB.Form frmWarehouse
       Height          =   1455
       Index           =   5
       Left            =   1560
-      TabIndex        =   59
+      TabIndex        =   58
       TabStop         =   0   'False
       Top             =   4515
       Visible         =   0   'False
@@ -362,7 +375,7 @@ Begin VB.Form frmWarehouse
       Left            =   5640
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   60
+      TabIndex        =   59
       Text            =   "NEWconditionBOX"
       Top             =   6600
       Visible         =   0   'False
@@ -382,7 +395,7 @@ Begin VB.Form frmWarehouse
       Height          =   240
       Index           =   5
       Left            =   1560
-      TabIndex        =   58
+      TabIndex        =   57
       Top             =   4290
       Visible         =   0   'False
       Width           =   1335
@@ -394,7 +407,7 @@ Begin VB.Form frmWarehouse
       Left            =   3000
       Locked          =   -1  'True
       MultiLine       =   -1  'True
-      TabIndex        =   57
+      TabIndex        =   56
       TabStop         =   0   'False
       Top             =   4290
       Visible         =   0   'False
@@ -406,7 +419,7 @@ Begin VB.Form frmWarehouse
       Height          =   285
       Left            =   8040
       Locked          =   -1  'True
-      TabIndex        =   54
+      TabIndex        =   53
       TabStop         =   0   'False
       Top             =   960
       Width           =   2775
@@ -418,7 +431,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   52
+      TabIndex        =   51
       TabStop         =   0   'False
       Text            =   "repairBOX"
       Top             =   6360
@@ -434,7 +447,7 @@ Begin VB.Form frmWarehouse
       Left            =   5880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   51
+      TabIndex        =   50
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   6120
@@ -445,7 +458,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Show &Remarks, FQA"
       Height          =   375
       Left            =   240
-      TabIndex        =   50
+      TabIndex        =   49
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1695
@@ -455,7 +468,7 @@ Begin VB.Form frmWarehouse
       Enabled         =   0   'False
       Height          =   375
       Left            =   2040
-      TabIndex        =   49
+      TabIndex        =   48
       TabStop         =   0   'False
       Top             =   9405
       Width           =   975
@@ -464,7 +477,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Print"
       Height          =   375
       Left            =   6960
-      TabIndex        =   48
+      TabIndex        =   47
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1575
@@ -473,7 +486,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Remove"
       Height          =   375
       Left            =   10080
-      TabIndex        =   46
+      TabIndex        =   45
       Top             =   3870
       Visible         =   0   'False
       Width           =   855
@@ -485,7 +498,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   43
+      TabIndex        =   42
       TabStop         =   0   'False
       Text            =   "priceBOX"
       Top             =   5880
@@ -496,7 +509,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Cancel"
       Height          =   375
       Left            =   9120
-      TabIndex        =   42
+      TabIndex        =   41
       Top             =   3870
       Visible         =   0   'False
       Width           =   855
@@ -505,7 +518,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Submit"
       Height          =   375
       Left            =   11040
-      TabIndex        =   41
+      TabIndex        =   40
       Top             =   3870
       Visible         =   0   'False
       Width           =   855
@@ -517,7 +530,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   39
+      TabIndex        =   38
       Text            =   "quantityBOX"
       Top             =   5400
       Visible         =   0   'False
@@ -532,7 +545,7 @@ Begin VB.Form frmWarehouse
       Left            =   5880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   38
+      TabIndex        =   37
       TabStop         =   0   'False
       Text            =   "balanceBOX"
       Top             =   5640
@@ -545,7 +558,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   37
+      TabIndex        =   36
       Text            =   "sublocaBOX"
       Top             =   5160
       Visible         =   0   'False
@@ -557,22 +570,11 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   36
+      TabIndex        =   35
       Text            =   "logicBOX"
       Top             =   4920
       Visible         =   0   'False
       Width           =   1215
-   End
-   Begin VB.PictureBox linesH 
-      Height          =   15
-      Index           =   0
-      Left            =   960
-      ScaleHeight     =   15
-      ScaleWidth      =   10650
-      TabIndex        =   33
-      Top             =   4920
-      Visible         =   0   'False
-      Width           =   10650
    End
    Begin VB.TextBox quantity 
       Alignment       =   1  'Right Justify
@@ -724,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   20316163
+      Format          =   20447235
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -804,7 +806,7 @@ Begin VB.Form frmWarehouse
       Height          =   1455
       Index           =   0
       Left            =   2520
-      TabIndex        =   40
+      TabIndex        =   39
       TabStop         =   0   'False
       Top             =   5520
       Visible         =   0   'False
@@ -832,7 +834,7 @@ Begin VB.Form frmWarehouse
       Left            =   2880
       ScaleHeight     =   975
       ScaleWidth      =   15
-      TabIndex        =   35
+      TabIndex        =   34
       Top             =   4680
       Visible         =   0   'False
       Width           =   15
@@ -840,7 +842,7 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid detailHEADER 
       Height          =   300
       Left            =   120
-      TabIndex        =   34
+      TabIndex        =   33
       Top             =   4320
       Width           =   12615
       _ExtentX        =   22251
@@ -1004,7 +1006,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDBCombo2 
       Height          =   375
       Left            =   2280
-      TabIndex        =   80
+      TabIndex        =   79
       Top             =   720
       Visible         =   0   'False
       Width           =   615
@@ -1020,7 +1022,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtStockType 
       Height          =   375
       Left            =   7680
-      TabIndex        =   81
+      TabIndex        =   80
       Top             =   1320
       Width           =   1095
       DataFieldList   =   "Column 0"
@@ -1040,7 +1042,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtUSChart 
       Height          =   375
       Left            =   5280
-      TabIndex        =   82
+      TabIndex        =   81
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1060,7 +1062,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtLocation 
       Height          =   375
       Left            =   2760
-      TabIndex        =   83
+      TabIndex        =   82
       Top             =   1320
       Width           =   1215
       DataFieldList   =   "Column 0"
@@ -1080,7 +1082,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCamChart 
       Height          =   375
       Left            =   10080
-      TabIndex        =   84
+      TabIndex        =   83
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1130,7 +1132,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   2880
       MousePointer    =   1  'Arrow
-      TabIndex        =   85
+      TabIndex        =   84
       Text            =   "quantityBOX"
       Top             =   120
       Visible         =   0   'False
@@ -1145,7 +1147,7 @@ Begin VB.Form frmWarehouse
       Left            =   2880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   86
+      TabIndex        =   85
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   120
@@ -1155,7 +1157,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSOleDBFQA 
       Height          =   2220
       Left            =   120
-      TabIndex        =   72
+      TabIndex        =   71
       Top             =   3840
       Visible         =   0   'False
       Width           =   12615
@@ -1268,7 +1270,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   12000
-      TabIndex        =   103
+      TabIndex        =   102
       Top             =   0
       Visible         =   0   'False
       Width           =   1095
@@ -1289,7 +1291,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   6405
-      TabIndex        =   101
+      TabIndex        =   100
       Top             =   3840
       Width           =   2655
    End
@@ -1310,16 +1312,16 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   4560
-      TabIndex        =   100
+      TabIndex        =   99
       Top             =   3840
       Width           =   1575
    End
    Begin VB.Label logLabel 
-      BackColor       =   &H0080FF80&
+      BackColor       =   &H00C0C0FF&
       Caption         =   "Label5"
       Height          =   255
       Left            =   10560
-      TabIndex        =   98
+      TabIndex        =   97
       Top             =   120
       Visible         =   0   'False
       Width           =   1335
@@ -1339,7 +1341,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   4440
-      TabIndex        =   96
+      TabIndex        =   95
       Top             =   4035
       Width           =   1215
    End
@@ -1349,7 +1351,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   2
       Left            =   3000
-      TabIndex        =   95
+      TabIndex        =   94
       Top             =   4035
       Width           =   1335
    End
@@ -1368,7 +1370,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   0
-      TabIndex        =   92
+      TabIndex        =   91
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -1377,7 +1379,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "US Chart#"
       Height          =   255
       Left            =   4200
-      TabIndex        =   71
+      TabIndex        =   70
       Top             =   1320
       Width           =   975
    End
@@ -1385,7 +1387,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Company"
       Height          =   255
       Left            =   120
-      TabIndex        =   78
+      TabIndex        =   77
       Top             =   1320
       Width           =   855
    End
@@ -1393,7 +1395,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Location"
       Height          =   255
       Left            =   1920
-      TabIndex        =   70
+      TabIndex        =   69
       Top             =   1320
       Width           =   615
    End
@@ -1402,7 +1404,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   6960
-      TabIndex        =   69
+      TabIndex        =   68
       Top             =   1320
       Width           =   375
    End
@@ -1410,7 +1412,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Cam. Chart #"
       Height          =   255
       Left            =   9000
-      TabIndex        =   68
+      TabIndex        =   67
       Top             =   1320
       Width           =   975
    End
@@ -1419,7 +1421,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   420
-      TabIndex        =   67
+      TabIndex        =   66
       Top             =   1380
       Width           =   1215
    End
@@ -1428,7 +1430,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   0
       Left            =   3000
-      TabIndex        =   66
+      TabIndex        =   65
       Top             =   1380
       Visible         =   0   'False
       Width           =   1215
@@ -1449,7 +1451,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   1560
-      TabIndex        =   62
+      TabIndex        =   61
       Top             =   4560
       Width           =   1335
    End
@@ -1459,7 +1461,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   4
       Left            =   120
-      TabIndex        =   61
+      TabIndex        =   60
       Top             =   4560
       Width           =   1335
    End
@@ -1475,7 +1477,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   3
       Left            =   120
-      TabIndex        =   56
+      TabIndex        =   55
       Top             =   4320
       Width           =   1335
    End
@@ -1483,7 +1485,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "User"
       Height          =   255
       Left            =   8040
-      TabIndex        =   55
+      TabIndex        =   54
       Top             =   720
       Width           =   1575
    End
@@ -1491,7 +1493,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Summary"
       Height          =   255
       Left            =   120
-      TabIndex        =   53
+      TabIndex        =   52
       Top             =   5640
       Visible         =   0   'False
       Width           =   1695
@@ -1502,7 +1504,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   120
-      TabIndex        =   45
+      TabIndex        =   44
       Top             =   4035
       Width           =   1335
    End
@@ -1522,7 +1524,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   0
       Left            =   1560
-      TabIndex        =   44
+      TabIndex        =   43
       Top             =   4035
       Width           =   1335
    End
@@ -2158,6 +2160,13 @@ If UCase(logicBOX(index)) <> "GENERAL" Then
         skipExistance = True
     End If
 End If
+With logicBOX(index)
+    If .text = "" Then
+        .backcolor = &HC0C0FF
+    Else
+        .backcolor = vbWhite
+    End If
+End With
 End Sub
 
 Private Sub quantity2BOX_Change(index As Integer)
@@ -3464,8 +3473,20 @@ End Sub
 
 Sub whitening()
 On Error Resume Next
-    logicBOX(currentBOX).backcolor = vbWhite
-    sublocaBOX(currentBOX).backcolor = vbWhite
+    With logicBOX(currentBOX)
+        If .text = "" Then
+            .backcolor = &HC0C0FF
+        Else
+            .backcolor = vbWhite
+        End If
+    End With
+    With sublocaBOX(currentBOX)
+        If .text = "" Then
+            .backcolor = &HC0C0FF
+        Else
+            .backcolor = vbWhite
+        End If
+    End With
     quantityBOX(currentBOX).backcolor = vbWhite
     quantity2BOX(currentBOX).backcolor = vbWhite 'Juan 2010-6-14
     NEWconditionBOX(currentBOX).backcolor = vbWhite
@@ -5448,7 +5469,13 @@ Private Sub logicBOX_KeyPress(index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub logicBOX_LostFocus(index As Integer)
-    logicBOX(index).backcolor = vbWhite
+    With logicBOX(index)
+        If .text = "" Then
+            .backcolor = &HC0C0FF
+        Else
+            .backcolor = vbWhite
+        End If
+    End With
     grid(1).Visible = False
 End Sub
 
@@ -5457,7 +5484,9 @@ Private Sub logicBOX_MouseMove(index As Integer, Button As Integer, Shift As Int
     If index > 0 And index <> totalNode Then
         If currentBOX <> index Then Call whitening
         currentBOX = index
-        logicBOX(index).backcolor = &H80FFFF
+        With logicBOX(index)
+            .backcolor = &H80FFFF
+        End With
     End If
 End Sub
 
@@ -6025,7 +6054,13 @@ Private Sub sublocaBOX_KeyPress(index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub sublocaBOX_LostFocus(index As Integer)
-    sublocaBOX(index).backcolor = vbWhite
+    With sublocaBOX(index)
+        If .text = "" Then
+            .backcolor = &HC0C0FF
+        Else
+            .backcolor = vbWhite
+        End If
+    End With
     grid(2).Visible = False
 End Sub
 
@@ -6034,7 +6069,9 @@ Private Sub sublocaBOX_MouseMove(index As Integer, Button As Integer, Shift As I
     If index > 0 And index <> totalNode Then
         If currentBOX <> index Then Call whitening
         currentBOX = index
-        sublocaBOX(index).backcolor = &H80FFFF
+        With sublocaBOX(currentBOX)
+            .backcolor = &H80FFFF
+        End With
     End If
 End Sub
 
