@@ -1829,6 +1829,7 @@ On Error GoTo ErrHandler
         End With
     End If
     '--------------------------------------------------
+    frmWarehouse.treeFrame.Visible = True
     directCLICK = False
     Screen.MousePointer = 0
     frmWarehouse.MousePointer = 0

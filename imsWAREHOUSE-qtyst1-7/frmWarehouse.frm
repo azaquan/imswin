@@ -3400,6 +3400,7 @@ Sub hideREMARKS()
 End Sub
 
 Sub showREMARKS()
+    Dim h
     SUMMARYlist.Visible = False
     otherLABEL(0).Visible = False
     otherLABEL(1).Visible = False
@@ -3412,7 +3413,9 @@ Sub showREMARKS()
     Tree.Visible = False 'M
     treeFrame.Visible = False
     remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
-    remarks.Height = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
+    h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
+    If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
+    remarks.Height = h
     remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
