@@ -1136,8 +1136,13 @@ On Error GoTo ErrHandler:
             .poItemBox(n) = datax!poItem
             .poItemLabel = datax!poItem
             
-             .invoiceBOX(n) = .invoiceNumberLabel.Caption
-             .invoiceLineBOX(n) = .invoiceLineLabel.Caption 'Juan 2014-8-29
+            If .invoiceNumberLabel.Visible Then
+                .invoiceBOX(n) = .invoiceNumberLabel.Caption
+                .invoiceLineBOX(n) = .invoiceLineLabel.Caption 'Juan 2014-8-29
+            Else
+                .invoiceBOX(n) = ""
+                .invoiceLineBOX(n) = ""
+            End If
         Else
             .poItemBox(n) = .poItemLabel
         End If

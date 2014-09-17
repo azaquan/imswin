@@ -1,5 +1,6 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
+Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Begin VB.Form frm_Logicals 
    BorderStyle     =   1  'Fixed Single
@@ -208,6 +209,30 @@ Begin VB.Form frm_Logicals
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
+      Height          =   1455
+      Left            =   0
+      TabIndex        =   5
+      TabStop         =   0   'False
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1875
+      _ExtentX        =   3307
+      _ExtentY        =   2566
+      _Version        =   393216
+      BackColor       =   16777152
+      Cols            =   1
+      FixedCols       =   0
+      BackColorFixed  =   8421504
+      ForeColorFixed  =   16777215
+      BackColorSel    =   12632064
+      BackColorBkg    =   12648447
+      FocusRect       =   0
+      SelectionMode   =   1
+      Appearance      =   0
+      _NumberOfBands  =   1
+      _Band(0).Cols   =   1
+   End
    Begin VB.Label lblStatus 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
@@ -275,7 +300,7 @@ Dim x As Boolean
 validate_fields = True
 If SSDBLogical.IsAddRow Then
    If colnum = 0 Or colnum = 1 Then
-      x = NotValidLen(SSDBLogical.Columns(colnum).Text)
+      x = NotValidLen(SSDBLogical.Columns(colnum).text)
       If x = True Then
          RecSaved = False
          msg1 = translator.Trans("M00702")
@@ -287,14 +312,14 @@ If SSDBLogical.IsAddRow Then
       End If
     End If
       If colnum = 0 Then
-        x = CheckDesCode(SSDBLogical.Columns(0).Text)
+        x = CheckDesCode(SSDBLogical.Columns(0).text)
         If x <> False Then
              RecSaved = False
              msg1 = translator.Trans("M00703")
              MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)
              SSDBLogical.SetFocus
              SSDBLogical.Col = 0
-             SSDBLogical.Columns(0).Text = ""
+             SSDBLogical.Columns(0).text = ""
             validate_fields = False
          End If
     End If
@@ -331,7 +356,7 @@ Dim ctl As Control
     'Call deIms.Destination(deIms.NameSpace)
     If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
 
-     Call deIms.LOGWAR(deIms.NameSpace)
+    Call deIms.logwar(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
 
     Set SSDBLogical.DataSource = deIms
@@ -609,7 +634,7 @@ Private Sub NavBar1_OnNewClick()
     SSDBLogical.SetFocus
     SSDBLogical.Col = 0
     
-    SSDBLogical.Columns("active").Text = 1
+    SSDBLogical.Columns("active").text = 1
     SSDBLogical.AllowUpdate = True
 
 
@@ -679,28 +704,28 @@ Dim Recchanged As Boolean
 Dim ret As Integer
   
           If SSDBLogical.IsAddRow And ColIndex = 0 Then 'And TMPCTL.RecordToProcess.editmode = adEditAdd Then
-             If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
+             If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
                 msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value.", msg1)
                 Cancel = 1
                 SSDBLogical.SetFocus
-                SSDBLogical.Columns(ColIndex).Text = oldVALUE
+                SSDBLogical.Columns(ColIndex).text = oldVALUE
                 SSDBLogical.Col = 0
                 RecSaved = False
                 GoodColMove = False
-              ElseIf CheckDesCode(SSDBLogical.Columns(ColIndex).Text) Then
+              ElseIf CheckDesCode(SSDBLogical.Columns(ColIndex).text) Then
                 msg1 = translator.Trans("M00703")
                 MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value", msg1)
                 Cancel = 1
                 SSDBLogical.SetFocus
-                SSDBLogical.Columns(ColIndex).Text = oldVALUE
+                SSDBLogical.Columns(ColIndex).text = oldVALUE
                 SSDBLogical.Col = 0
                 RecSaved = False
                 GoodColMove = False
              End If
         
         ElseIf SSDBLogical.IsAddRow And ColIndex = 1 Then
-              If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
+              If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
                 msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
@@ -710,7 +735,7 @@ Dim ret As Integer
                 SSDBLogical.Col = 1
                End If
         ElseIf Not SSDBLogical.IsAddRow And ColIndex = 1 Then
-                If NotValidLen(SSDBLogical.Columns(ColIndex).Text) Then
+                If NotValidLen(SSDBLogical.Columns(ColIndex).text) Then
                msg1 = translator.Trans("M00702")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
@@ -720,7 +745,7 @@ Dim ret As Integer
                 SSDBLogical.Col = 1
                End If
        End If
-     Recchanged = DidFieldChange(Trim(oldVALUE), Trim(SSDBLogical.Columns(ColIndex).Text))
+     Recchanged = DidFieldChange(Trim(oldVALUE), Trim(SSDBLogical.Columns(ColIndex).text))
      
         
 End Sub
@@ -793,7 +818,7 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
     If newRecord Then
         Exit Sub
     End If
-      x = NotValidLen(SSDBLogical.Columns(1).Text)
+      x = NotValidLen(SSDBLogical.Columns(1).text)
       If x = True Then
          RecSaved = False
          Cancel = True
@@ -803,14 +828,14 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
          SSDBLogical.Col = 1
          Exit Sub
       End If
-      x = CheckDesCode(SSDBLogical.Columns(0).Text)
+      x = CheckDesCode(SSDBLogical.Columns(0).text)
       If x <> False Then
          RecSaved = False
          msg1 = translator.Trans("M00703")
          MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)
          SSDBLogical.SetFocus
          SSDBLogical.Col = 0
-         SSDBLogical.Columns(0).Text = ""
+         SSDBLogical.Columns(0).text = ""
          Exit Sub
       End If
    End If
@@ -821,13 +846,13 @@ End If
    End If
      If (response = vbOK) Or (response = vbYes) Then
         
-        SSDBLogical.Columns("np").Text = deIms.NameSpace
+        SSDBLogical.Columns("np").text = deIms.NameSpace
         If SSDBLogical.IsAddRow Then
-            SSDBLogical.Columns("create_date").Text = Date
-            SSDBLogical.Columns("create_user").Text = CurrentUser
+            SSDBLogical.Columns("create_date").text = Date
+            SSDBLogical.Columns("create_user").text = CurrentUser
         End If
-        SSDBLogical.Columns("modify_date").Text = Date
-        SSDBLogical.Columns("modify_user").Text = CurrentUser
+        SSDBLogical.Columns("modify_date").text = Date
+        SSDBLogical.Columns("modify_user").text = CurrentUser
         Cancel = 0
      Else
        CAncelGrid = True

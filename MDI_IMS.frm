@@ -1189,12 +1189,12 @@ End Sub
 
 Private Sub itm_Logicals_Click()
     'Load the Logicals form
-    Load frm_Logicals
-    frm_Logicals.ZOrder 0
+    Load frm_logical
+    frm_logical.ZOrder 0
     'Set Caption for the Logicals
     'form window
 '    frm_Logicals.Caption = "Logicals Warehouse"
-    frm_Logicals.Show
+    frm_logical.Show
 End Sub
 
 'load form and show it
@@ -2273,7 +2273,7 @@ Dim str As String
         Case mdModification
             str = "Modification"
             
-        Case mdVisualization
+        Case mdvisualization
             str = "Visualization"
             
         End Select
@@ -2309,14 +2309,14 @@ End Function
 
 'get crystal report parameters and load form
 
-Public Sub SaveReport(FileName As String, Optional FileType As PrintFileTypeConstants = crptHTML32Ext)
+Public Sub SaveReport(Filename As String, Optional FileType As PrintFileTypeConstants = crptHTML32Ext)
 On Error Resume Next
 
     With CrystalReport1
         .ProgressDialog = False
         .Destination = crptToFile
         .PrintFileType = FileType
-        .PrintFileName = FileName
+        .PrintFileName = Filename
         
         .Action = 1
         .Destination = crptToWindow
@@ -2325,13 +2325,13 @@ On Error Resume Next
     
     If Err Then Err.Clear
 End Sub
-Public Sub PrintDirectReport(FileName As String)
+Public Sub PrintDirectReport(Filename As String)
 On Error Resume Next
 
     With CrystalReport1
         .ProgressDialog = False
         .Destination = crptToPrinter
-        .PrintFileName = FileName
+        .PrintFileName = Filename
         .Action = 1
         If .LastErrorNumber Then MsgBox .LastErrorString
     End With

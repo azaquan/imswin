@@ -485,7 +485,7 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton removeDETAIL 
       Caption         =   "&Remove"
       Height          =   375
-      Left            =   10080
+      Left            =   12360
       TabIndex        =   45
       Top             =   3870
       Visible         =   0   'False
@@ -508,7 +508,7 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton hideDETAIL 
       Caption         =   "&Cancel"
       Height          =   375
-      Left            =   9120
+      Left            =   11400
       TabIndex        =   41
       Top             =   3870
       Visible         =   0   'False
@@ -517,7 +517,7 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton submitDETAIL 
       Caption         =   "&Submit"
       Height          =   375
-      Left            =   11040
+      Left            =   13320
       TabIndex        =   40
       Top             =   3870
       Visible         =   0   'False
@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   20381699
+      Format          =   62586883
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2984,7 +2984,7 @@ Dim i, col, c, dark As Integer
                 .TextMatrix(0, 6) = "Sec Unit"
                 .TextMatrix(0, 7) = "Qty"
 
-.TextMatrix(0, 8) = "Balance"
+                .TextMatrix(0, 8) = "Balance"
                 '---------------------
             .ColWidth(0) = 3970
             .ColWidth(5) = 1000
@@ -2999,9 +2999,8 @@ Dim i, col, c, dark As Integer
                 .TextMatrix(0, 3) = "Sublocation"
                 .TextMatrix(0, 4) = "Qty"
                 .TextMatrix(0, 5) = "Balance"
-        .ColWidth(2) = 2500
-        .ColWidth(3) = 2500
-
+                .ColWidth(2) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
+                .ColWidth(3) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
         End Select
 
         Select Case frmWarehouse.tag
@@ -3051,8 +3050,8 @@ Dim i, col, c, dark As Integer
                 .TextMatrix(0, 5) = "Qty"
                 .TextMatrix(0, 6) = "Balance"
                 .ColWidth(0) = 4400
-                .ColWidth(2) = 1530
-                .ColWidth(3) = 1530
+                .ColWidth(2) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
+                .ColWidth(3) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
                 .ColWidth(4) = 1000
                 .ColWidth(5) = 1000
                 .ColWidth(6) = 1000
