@@ -233,3 +233,10 @@ ims.exe
 imsWAREHOUSE-qtyst1-7.zip
 imsdataX/imsdataX.vbp
 imsdataX/imsdataX.vbp
+*.DCA
+deIms.Dsr
+deIms.Dsr
+*.exe
+ims.vbp
+ims.vbw
+imsudl.txt
