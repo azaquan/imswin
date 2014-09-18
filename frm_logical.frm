@@ -12,6 +12,21 @@ Begin VB.Form frm_logical
    ScaleWidth      =   9315
    StartUpPosition =   3  'Windows Default
    Tag             =   "01030500"
+   Begin MSHierarchicalFlexGridLib.MSHFlexGrid clonedGrid 
+      Height          =   975
+      Left            =   2640
+      TabIndex        =   6
+      Top             =   360
+      Visible         =   0   'False
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   1720
+      _Version        =   393216
+      FixedCols       =   0
+      ScrollBars      =   0
+      _NumberOfBands  =   1
+      _Band(0).Cols   =   2
+   End
    Begin VB.TextBox box 
       Appearance      =   0  'Flat
       BackColor       =   &H0000FFFF&
@@ -172,9 +187,22 @@ Dim oldVALUE(2) As String
 Dim originalVALUE(2) As String
 Dim colSwitch As Boolean
 Dim lastMark As Integer
+Function changedRow(r As Integer) As Boolean
+    Dim i As Integer
+    Dim oldRow, newRow As String
+    oldRow = ""
+    newRow = ""
+    changedRow = True
+    For i = 0 To logwarGrid.Cols - 1
+        oldRow = oldRow + clonedGrid.TextMatrix(r, i)
+        newRow = newRow + logwarGrid.TextMatrix(r, i)
+    Next
+    If oldRow = newRow Then changedRow = False
+End Function
+
 Sub checkBox()
     With logwarGrid
-        If .text = "o" Then
+        If .Text = "o" Then
                 .TextMatrix(.row, 3) = "þ"
             Else
                 .TextMatrix(.row, 3) = "o"
@@ -199,11 +227,44 @@ Sub cleanGrid()
     End With
 End Sub
 
+Sub doClone()
+    Dim r, c As Integer
+    With logwarGrid
+        clonedGrid.Rows = .Rows
+        clonedGrid.Cols = .Cols
+        For r = 1 To .Rows - 1
+            For c = 0 To .Cols - 1
+                clonedGrid.TextMatrix(r, c) = .TextMatrix(r, c)
+            Next
+        Next
+    End With
+End Sub
+
+Sub fillCombo()
+    If deIms.rslogwar_type.State > 0 Then
+        deIms.rslogwar_type.Close
+    End If
+    Call deIms.logwar_type(deIms.NameSpace)
+    With combo
+        Dim i As Integer
+        .Rows = 2
+        For i = 0 To .Cols - 1
+            .TextMatrix(1, i) = ""
+        Next
+        Do While Not deIms.rslogwar_type.EOF
+            .AddItem deIms.rslogwar_type!type_code
+            deIms.rslogwar_type.MoveNext
+        Loop
+        If .Rows > 2 Then .RemoveItem (1)
+    End With
+End Sub
+
 Sub fillGrid()
 Dim r As Integer
     With logwarGrid
         r = 1
         Do While Not deIms.rsLOGWAR.EOF
+            Dim i As Integer
             If r + 1 > .Rows Then .AddItem ""
             .row = r
             .TextMatrix(r, 0) = deIms.rsLOGWAR!lw_code
@@ -223,7 +284,6 @@ Dim r As Integer
         Loop
     End With
 End Sub
-
 Sub makeGrid()
     With logwarGrid
         .TextMatrix(0, 0) = "Code"
@@ -241,7 +301,22 @@ End Sub
 
 Sub showCombo()
     With logwarGrid
-        
+        Dim i As Integer
+        Call fillCombo
+        If .TextMatrix(.row, .Col) <> "" Then
+            For i = 1 To combo.Rows - 1
+                If .TextMatrix(.row, .Col) = combo.TextMatrix(i, 0) Then
+                    combo.row = i
+                End If
+            Next
+        End If
+        combo.Top = .CellTop + .CellHeight + .Top
+        combo.Left = .ColPos(2) + .Left
+        combo.Width = .CellWidth + 400
+        combo.ColWidth(0) = combo.Width
+        combo.Visible = True
+        combo.ZOrder
+        combo.SetFocus
     End With
 End Sub
 
@@ -249,7 +324,7 @@ Private Sub box_Change()
     If colSwitch Then
         colSwitch = False
     Else
-        oldVALUE(val(box.Tag)) = box.text
+        oldVALUE(val(box.Tag)) = box.Text
     End If
 End Sub
 
@@ -257,21 +332,35 @@ Private Sub box_KeyPress(KeyAscii As Integer)
     With logwarGrid
         Select Case KeyAscii
             Case 13
-                .TextMatrix(currentRow, val(box.Tag)) = box
-                If .Col = 0 Or .Col = 1 Then
-                    Call box_Validate(True)
-                    If box = "" Then Exit Sub
-                    bypassFOCUS = True
-                    .Col = .Col + 1
-                    Call logwarGrid_Click
-                End If
+                .TextMatrix(.row, .Col) = box
             Case 27
                 box = originalVALUE(.Col)
             Case Else
                 Exit Sub
         End Select
-        Call box_LostFocus
     End With
+End Sub
+
+
+Private Sub combo_Click()
+    combo.Visible = False
+    logwarGrid.TextMatrix(logwarGrid.row, logwarGrid.Col) = combo
+End Sub
+
+Private Sub combo_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 13
+            Call combo_Click
+        Case 27
+            combo.Visible = False
+            Exit Sub
+    End Select
+    combo.Visible = False
+    logwarGrid.SetFocus
+End Sub
+
+Private Sub combo_LostFocus()
+    combo.Visible = False
 End Sub
 
 
@@ -297,16 +386,21 @@ Dim ctl As Control
     If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
     Call deIms.logwar(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
-    If deIms.rslogwar_type.State > 0 Then
-        deIms.rslogwar_type.Close
-    End If
-    Call deIms.logwar_type(deIms.NameSpace)
     Call fillGrid
+    Call doClone
+    logwarGrid.Enabled = False
     
     NVBAR_EDIT = NavBar1.EditEnabled
     NVBAR_ADD = NavBar1.NewEnabled
     NVBAR_SAVE = NavBar1.SaveEnabled
-    NavBar1.EditEnabled = False
+    If logwarGrid.Rows >= 2 Then
+        NavBar1.EditEnabled = True
+    Else
+        If logwarGrid.TextMatrix(1, 0) <> "" Then
+            NavBar1.EditEnabled = True
+        End If
+    End If
+    
     NavBar1.EditVisible = True
     NavBar1.CancelEnabled = False
     NavBar1.SaveEnabled = False
@@ -324,7 +418,7 @@ Dim x As Integer
 Dim Y As Integer
     With logwarGrid
         colSwitch = True
-        box.text = ""
+        box.Text = ""
         box.BackColor = vbYellow
         box.ForeColor = vbBlack
         If .row = 0 And .FixedRows > 0 Then .row = 1
@@ -349,7 +443,7 @@ Dim Y As Integer
         oldVALUE(Col) = .TextMatrix(.row, Col)
         originalVALUE(Col) = .TextMatrix(.row, Col)
         
-        box.text = .TextMatrix(.row, Col)
+        box.Text = .TextMatrix(.row, Col)
 
 
         box.Tag = Col
@@ -414,7 +508,7 @@ InUnload = True
     Hide
     deIms.rsLOGWAR.Close
     If open_forms <= 5 Then ShowNavigator
-    If Err Then Err.Clear
+    If err Then err.Clear
 Else
     Cancel = True
 End If
@@ -425,7 +519,8 @@ Sub logwarGrid_Click()
     Call cleanGrid
     With logwarGrid
         Select Case .Col
-            Case 0, 1
+            Case 0
+            Case 1
                 Call showBOX(.Col)
             Case 2
                 Call showCombo
@@ -436,6 +531,26 @@ Sub logwarGrid_Click()
     End With
 End Sub
 
+Private Sub NavBar1_BeforeNewClick()
+    NavBar1.CancelEnabled = True
+    NavBar1.EditEnabled = False
+    NavBar1.NewEnabled = False
+    NavBar1.SaveEnabled = True
+    lblStatus.ForeColor = &HFF&
+    lblStatus.Caption = Create
+End Sub
+
+Private Sub NavBar1_OnCancelClick()
+    NavBar1.EditEnabled = True
+    NavBar1.NewEnabled = True
+    NavBar1.CancelEnabled = False
+    NavBar1.SaveEnabled = False
+    lblStatus.ForeColor = &HFF00&
+    lblStatus.Caption = Visualize
+    logwarGrid.Enabled = False
+End Sub
+
+
 Private Sub NavBar1_OnCloseClick()
     If TableLocked = True Then    'jawdat
         Dim imsLock As imsLock.Lock
@@ -445,6 +560,50 @@ Private Sub NavBar1_OnCloseClick()
     End If
     newRecord = False
     Unload Me
+End Sub
+
+
+Private Sub NavBar1_OnEditClick()
+    NavBar1.CancelEnabled = True
+    NavBar1.EditEnabled = False
+    NavBar1.SaveEnabled = True
+    NavBar1.NewEnabled = False
+    lblStatus.ForeColor = &HFF0000
+    lblStatus.Caption = Modify
+    logwarGrid.Enabled = True
+End Sub
+
+
+Private Sub NavBar1_OnSaveClick()
+    Dim i As Integer
+    Dim sql, code, description, codeType, active As String
+    On Error GoTo err
+    With logwarGrid
+        For i = 1 To .Rows - 1
+            If changedRow(i) Then
+                code = .TextMatrix(.row, 0)
+                description = .TextMatrix(.row, 1)
+                codeType = .TextMatrix(.row, 2)
+                active = IIf(.TextMatrix(.row, 3) = "þ", "1", "0")
+                sql = "UPDATE logwar SET " _
+                    + "lw_desc = ' " + description + "' , " _
+                    + "lw_actvflag = " + active + " " _
+                    + "lw_type = '" + codeType + "' " _
+                    + "WHERE lw_npecode = '" + deIms.NameSpace + "'  " _
+                    + "AND lw_code = '" + code + "'"
+                Dim cmd As New ADODB.Command
+                cmd.ActiveConnection = deIms.cnIms
+                cmd.CommandText = sql
+                Call cmd.Execute(, , adExecuteNoRecords)
+            End If
+        Next
+        .Enabled = False
+    End With
+    Exit Sub
+    
+err:
+    MsgBox err.description
+    err.Clear
 End Sub
 
 
