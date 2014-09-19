@@ -187,17 +187,21 @@ Dim oldVALUE(2) As String
 Dim originalVALUE(2) As String
 Dim colSwitch As Boolean
 Dim lastMark As Integer
+Dim dontClose As Boolean
+Dim oldRow, oldCol As Integer
+Dim getOut As Boolean
 Function changedRow(r As Integer) As Boolean
     Dim i As Integer
     Dim oldRow, newRow As String
     oldRow = ""
     newRow = ""
     changedRow = True
+    If lblStatus.Caption = "Creation" Then Exit Function
     For i = 0 To logwarGrid.Cols - 1
         oldRow = oldRow + clonedGrid.TextMatrix(r, i)
         newRow = newRow + logwarGrid.TextMatrix(r, i)
     Next
-    If oldRow = newRow Then changedRow = False
+    If oldRow = newRow And Len(oldRow) = Len(newRow) Then changedRow = False
 End Function
 
 Sub checkBox()
@@ -224,6 +228,17 @@ Sub cleanGrid()
             .Col = currentCol
         End If
         lastMark = .row
+    End With
+End Sub
+
+Sub colorize(color)
+    Dim r, c As Integer
+    With logwarGrid
+        For r = 1 To .Rows - 1
+            For c = 0 To .Cols - 1
+                .ForeColor = color
+            Next
+        Next
     End With
 End Sub
 
@@ -263,6 +278,7 @@ Sub fillGrid()
 Dim r As Integer
     With logwarGrid
         r = 1
+        deIms.rsLOGWAR.Sort = "lw_code"
         Do While Not deIms.rsLOGWAR.EOF
             Dim i As Integer
             If r + 1 > .Rows Then .AddItem ""
@@ -325,6 +341,7 @@ Private Sub box_Change()
         colSwitch = False
     Else
         oldVALUE(val(box.Tag)) = box.Text
+        logwarGrid.TextMatrix(logwarGrid.row, logwarGrid.Col) = box.Text
     End If
 End Sub
 
@@ -339,6 +356,28 @@ Private Sub box_KeyPress(KeyAscii As Integer)
                 Exit Sub
         End Select
     End With
+End Sub
+
+
+Private Sub box_LostFocus()
+    If dontClose Then
+        logwarGrid.row = oldRow
+        logwarGrid.Col = oldCol
+        dontClose = False
+        box.Visible = True
+        box.SetFocus
+    Else
+        box.Visible = False
+    End If
+End Sub
+
+Private Sub box_Validate(Cancel As Boolean)
+    If Not getOut Then
+        If box.Text = "" Then
+            MsgBox "Please enter a valid Warehouse Code"
+            dontClose = True
+        End If
+    End If
 End Sub
 
 
@@ -379,14 +418,17 @@ Dim ctl As Control
     Me.BackColor = frm_Color.txt_WBackground.BackColor
     Caption = Caption + " - " + Tag
     RecSaved = True
+    dontClose = False
+    getOut = False
     
     For Each ctl In Controls
         Call gsb_fade_to_black(ctl)
     Next ctl
     If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
-    Call deIms.logwar(deIms.NameSpace)
+    Call deIms.LOGWAR(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
     Call fillGrid
+    deIms.rsLOGWAR.Close
     Call doClone
     logwarGrid.Enabled = False
     
@@ -414,7 +456,7 @@ Dim ctl As Control
 End Sub
 
 Sub showBOX(Col As Integer)
-Dim x As Integer
+Dim X As Integer
 Dim Y As Integer
     With logwarGrid
         colSwitch = True
@@ -434,8 +476,8 @@ Dim Y As Integer
             Case 1
                 box.MaxLength = 40
         End Select
-        x = leftCOL(Col)
-        box.Left = x
+        X = leftCOL(Col)
+        box.Left = X
         Y = topROW(.row)
         box.Top = Y + .Top
         box.Width = .ColWidth(Col) - 20
@@ -452,17 +494,17 @@ Dim Y As Integer
     End With
 End Sub
 Function leftCOL(Col) As Integer
-Dim x As Integer
+Dim X As Integer
 Dim i As Integer
     With logwarGrid
-        x = .Left + 30
+        X = .Left + 30
         If Col > 0 Then
             For i = 0 To Col - 1
-                x = x + .ColWidth(i)
+                X = X + .ColWidth(i)
             Next
         End If
     End With
-    leftCOL = x + 10
+    leftCOL = X + 10
 End Function
 Function topROW(row, Optional bottom As Boolean) As Integer
 Dim Y As Integer
@@ -503,7 +545,7 @@ End If
 Dim response As String
 On Error Resume Next
 InUnload = True
-
+deIms.rsLOGWAR.Close
  If RecSaved = True Then
     Hide
     deIms.rsLOGWAR.Close
@@ -515,39 +557,80 @@ End If
 End Sub
 
 Sub logwarGrid_Click()
-    box.Visible = False
-    Call cleanGrid
     With logwarGrid
-        Select Case .Col
-            Case 0
-            Case 1
-                Call showBOX(.Col)
-            Case 2
-                Call showCombo
-            Case 3
-                .CellBackColor = vbYellow
-                Call checkBox
-        End Select
+        If lblStatus.Caption = "Creation" Then
+            If .row < .Rows - 1 Then Exit Sub
+        End If
+        If dontClose Then
+            .row = oldRow
+            .Col = oldCol
+        Else
+            box.Visible = False
+            Call cleanGrid
+            oldRow = .row
+            oldCol = .Col
+            Select Case .Col
+                Case 0
+                Case 1
+                    Call showBOX(.Col)
+                Case 2
+                    Call showCombo
+                Case 3
+                    .CellBackColor = vbYellow
+                    Call checkBox
+            End Select
+        End If
     End With
 End Sub
 
+Private Sub logwarGrid_GotFocus()
+    If dontClose Then box.SetFocus
+End Sub
+
 Private Sub NavBar1_BeforeNewClick()
+    Dim i As Integer
     NavBar1.CancelEnabled = True
     NavBar1.EditEnabled = False
     NavBar1.NewEnabled = False
     NavBar1.SaveEnabled = True
     lblStatus.ForeColor = &HFF&
     lblStatus.Caption = Create
+    With logwarGrid
+        Call colorize(&H80000011)
+        .AddItem ""
+        .row = .Rows - 1
+        For i = 0 To .Cols - 1
+            .Col = i
+            .CellForeColor = vbBlack
+        Next
+        .Col = 3
+        .CellFontName = "Wingdings"
+        .CellFontSize = 16
+        .ColAlignment(3) = 4
+        .TextMatrix(.row, 3) = "þ"
+        .Col = 0
+        .Enabled = True
+        oldRow = .row
+        oldCol = .Col
+        Call showBOX(0)
+    End With
 End Sub
 
 Private Sub NavBar1_OnCancelClick()
-    NavBar1.EditEnabled = True
-    NavBar1.NewEnabled = True
-    NavBar1.CancelEnabled = False
-    NavBar1.SaveEnabled = False
-    lblStatus.ForeColor = &HFF00&
-    lblStatus.Caption = Visualize
-    logwarGrid.Enabled = False
+    With logwarGrid
+        getOut = True
+        If lblStatus.Caption = "Creation" Then
+            .RemoveItem .Rows - 1
+        End If
+        .Enabled = False
+        lblStatus.ForeColor = &HFF00&
+        lblStatus.Caption = Visualize
+        box.Visible = False
+        NavBar1.EditEnabled = True
+        NavBar1.NewEnabled = True
+        NavBar1.CancelEnabled = False
+        NavBar1.SaveEnabled = False
+    End With
 End Sub
 
 
@@ -564,12 +647,13 @@ End Sub
 
 
 Private Sub NavBar1_OnEditClick()
+    Call colorize(&HFFFFFFFF)
     NavBar1.CancelEnabled = True
     NavBar1.EditEnabled = False
     NavBar1.SaveEnabled = True
     NavBar1.NewEnabled = False
     lblStatus.ForeColor = &HFF0000
-    lblStatus.Caption = Modify
+    lblStatus.Caption = "Modify"
     logwarGrid.Enabled = True
 End Sub
 
@@ -578,19 +662,36 @@ Private Sub NavBar1_OnSaveClick()
     Dim i As Integer
     Dim sql, code, description, codeType, active As String
     On Error GoTo err
+    Call box_LostFocus
     With logwarGrid
-        For i = 1 To .Rows - 1
+        Dim startPoint As Integer
+        If lblStatus.Caption = "Creation" Then
+            startPoint = .Rows - 1
+        Else
+            startPoint = 1
+        End If
+        For i = startPoint To .Rows - 1
             If changedRow(i) Then
                 code = .TextMatrix(.row, 0)
                 description = .TextMatrix(.row, 1)
                 codeType = .TextMatrix(.row, 2)
                 active = IIf(.TextMatrix(.row, 3) = "þ", "1", "0")
-                sql = "UPDATE logwar SET " _
-                    + "lw_desc = ' " + description + "' , " _
-                    + "lw_actvflag = " + active + " " _
-                    + "lw_type = '" + codeType + "' " _
-                    + "WHERE lw_npecode = '" + deIms.NameSpace + "'  " _
-                    + "AND lw_code = '" + code + "'"
+                Select Case lblStatus.Caption
+                    Case "Creation"
+                        sql = "INSERT INTO logwar (lw_code, lw_npecode,  lw_desc, lw_actvflag, lw_type) VALUES (" _
+                            + "'" + code + "', " _
+                            + "'" + deIms.NameSpace + "', " _
+                            + "'" + description + "', " _
+                            + "" + active + ", " _
+                            + "'" + codeType + "' ) "
+                    Case "Modify"
+                        sql = "UPDATE logwar SET " _
+                            + "lw_desc = '" + description + "', " _
+                            + "lw_actvflag = " + active + ", " _
+                            + "lw_type = '" + codeType + "'  " _
+                            + "WHERE lw_npecode = '" + deIms.NameSpace + "'  " _
+                            + "AND lw_code = '" + code + "'"
+                End Select
                 Dim cmd As New ADODB.Command
                 cmd.ActiveConnection = deIms.cnIms
                 cmd.CommandText = sql
@@ -599,11 +700,19 @@ Private Sub NavBar1_OnSaveClick()
         Next
         .Enabled = False
     End With
-    Exit Sub
     
 err:
-    MsgBox err.description
+    If err.number > 0 Then MsgBox err.descriptio
     err.Clear
+    
+    box.Visible = False
+    NavBar1.EditEnabled = True
+    NavBar1.NewEnabled = True
+    NavBar1.CancelEnabled = False
+    NavBar1.SaveEnabled = False
+    lblStatus.ForeColor = &HFF00&
+    lblStatus.Caption = Visualize
+    logwarGrid.Enabled = False
 End Sub
 
 
