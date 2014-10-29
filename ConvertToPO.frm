@@ -33,6 +33,7 @@ Begin VB.Form frm_ConvertToPO
       Width           =   2055
       DataFieldList   =   "Column 0"
       _Version        =   196617
+      DataMode        =   2
       Cols            =   1
       ColumnHeaders   =   0   'False
       RowHeight       =   423
@@ -108,22 +109,18 @@ On Error GoTo ErrHandler
 
 'rs.Source = "select po_ponumb, po_buyr from po where po_docutype = '" & DocumentType & "' and po_npecode='" & deIms.NameSpace & "' AND LEN(RTRIM(ISNULL(po_apprby,''))) > 0 AND po_buyr ='" & CurrentUser & "'"
 'rs.Source = "select po_ponumb, po_buyr from po where po_npecode='" & deIms.NameSpace & "' AND LEN(RTRIM(ISNULL(po_apprby,''))) > 0 AND po_buyr ='" & CurrentUser & "'"
-'2012-8-27 juan
-'rs.Source = "select po_ponumb, po_buyr from po where po_npecode='" & deIms.NameSpace & "' order by po_ponumb"
-rs.Source = "select po_ponumb from po where po_npecode='" & deIms.NameSpace & "' order by po_ponumb"
-
+rs.Source = "select po_ponumb, po_buyr from po where po_npecode='" & deIms.NameSpace & "' order by po_ponumb"
 
 rs.ActiveConnection = deIms.cnIms
+
 rs.Open
-Set ssOleDbPO.DataSourceList = rs
-ssOleDbPO.DataFieldList = rs.Fields(0).Name
-'2012-8-27 juan
-''        Do While Not rs.EOF
-''
-''           ssOleDbPO.AddItem rs!po_ponumb
-''           rs.MoveNext
-''
-''        Loop
+        
+        Do While Not rs.EOF
+           
+           ssOleDbPO.AddItem rs!po_ponumb
+           rs.MoveNext
+           
+        Loop
 
 Exit Function
 

@@ -1,6 +1,5 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Begin VB.Form frm_Logicals 
    BorderStyle     =   1  'Fixed Single
@@ -8,44 +7,13 @@ Begin VB.Form frm_Logicals
    ClientHeight    =   4305
    ClientLeft      =   30
    ClientTop       =   330
-   ClientWidth     =   9180
+   ClientWidth     =   7275
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    ScaleHeight     =   4305
-   ScaleWidth      =   9180
+   ScaleWidth      =   7275
    Tag             =   "01030500"
-   Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown logicalType 
-      Bindings        =   "frm_Logicals.frx":0000
-      Height          =   615
-      Left            =   4920
-      TabIndex        =   4
-      Top             =   0
-      Width           =   3135
-      DataFieldList   =   "type_code"
-      ListAutoValidate=   0   'False
-      _Version        =   196617
-      RowHeight       =   423
-      ExtraHeight     =   185
-      Columns.Count   =   2
-      Columns(0).Width=   1111
-      Columns(0).Caption=   "id"
-      Columns(0).Name =   "id"
-      Columns(0).DataField=   "type_code"
-      Columns(0).DataType=   8
-      Columns(0).FieldLen=   256
-      Columns(1).Width=   4366
-      Columns(1).Caption=   "description"
-      Columns(1).Name =   "description"
-      Columns(1).DataField=   "description"
-      Columns(1).DataType=   8
-      Columns(1).FieldLen=   256
-      _ExtentX        =   5530
-      _ExtentY        =   1085
-      _StockProps     =   77
-      DataMember      =   "logwar_type"
-      DataFieldToDisplay=   "description"
-   End
    Begin LRNavigators.LROleDBNavBar NavBar1 
       Height          =   375
       Left            =   120
@@ -54,19 +22,26 @@ Begin VB.Form frm_Logicals
       Width           =   3525
       _ExtentX        =   6218
       _ExtentY        =   661
+      AllowCustomize  =   0   'False
+      EMailEnabled    =   0   'False
       NewEnabled      =   -1  'True
+      AllowAddNew     =   0   'False
+      AllowUpdate     =   0   'False
+      AllowCancel     =   0   'False
+      AllowDelete     =   0   'False
       CommandType     =   8
       EditEnabled     =   0   'False
       EditVisible     =   0   'False
       CancelToolTipText=   "Undo the changes made to the current Screen"
+      DeleteToolTipText=   ""
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSDBLogical 
-      Bindings        =   "frm_Logicals.frx":0014
+      Bindings        =   "frm_Logicals.frx":0000
       Height          =   2775
       Left            =   120
       TabIndex        =   1
       Top             =   600
-      Width           =   8835
+      Width           =   6315
       _Version        =   196617
       BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -91,7 +66,7 @@ Begin VB.Form frm_Logicals
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "frm_Logicals.frx":0028
+      stylesets(0).Picture=   "frm_Logicals.frx":0014
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -104,7 +79,7 @@ Begin VB.Form frm_Logicals
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "frm_Logicals.frx":0044
+      stylesets(1).Picture=   "frm_Logicals.frx":0030
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -121,7 +96,7 @@ Begin VB.Form frm_Logicals
       BackColorEven   =   16771818
       BackColorOdd    =   16777215
       RowHeight       =   423
-      Columns.Count   =   9
+      Columns.Count   =   8
       Columns(0).Width=   1693
       Columns(0).Caption=   "Code"
       Columns(0).Name =   "Code"
@@ -139,54 +114,48 @@ Begin VB.Form frm_Logicals
       Columns(2).Visible=   0   'False
       Columns(2).Caption=   "NP"
       Columns(2).Name =   "NP"
-      Columns(2).DataField=   "lw_type"
+      Columns(2).DataField=   "lw_npecode"
       Columns(2).FieldLen=   256
-      Columns(3).Width=   4366
-      Columns(3).Caption=   "Type"
-      Columns(3).Name =   "TYPE"
-      Columns(3).DataField=   "lw_type"
-      Columns(3).DataType=   8
+      Columns(3).Width=   1588
+      Columns(3).Caption=   "Active"
+      Columns(3).Name =   "Active"
+      Columns(3).Alignment=   1
+      Columns(3).CaptionAlignment=   0
+      Columns(3).DataField=   "lw_actvflag"
+      Columns(3).DataType=   11
       Columns(3).FieldLen=   256
-      Columns(4).Width=   1588
-      Columns(4).Caption=   "Active"
-      Columns(4).Name =   "Active"
-      Columns(4).Alignment=   1
-      Columns(4).CaptionAlignment=   0
-      Columns(4).DataField=   "lw_actvflag"
-      Columns(4).DataType=   11
+      Columns(3).Style=   2
+      Columns(3).HeadStyleSet=   "ColHeader"
+      Columns(3).StyleSet=   "ColHeader"
+      Columns(4).Width=   5292
+      Columns(4).Visible=   0   'False
+      Columns(4).Caption=   "modify_date"
+      Columns(4).Name =   "modify_date"
+      Columns(4).DataField=   "lw_modidate"
+      Columns(4).DataType=   135
       Columns(4).FieldLen=   256
-      Columns(4).Style=   2
-      Columns(4).HeadStyleSet=   "ColHeader"
-      Columns(4).StyleSet=   "ColHeader"
       Columns(5).Width=   5292
       Columns(5).Visible=   0   'False
-      Columns(5).Caption=   "modify_date"
-      Columns(5).Name =   "modify_date"
-      Columns(5).DataField=   "lw_modidate"
-      Columns(5).DataType=   135
+      Columns(5).Caption=   "modify_user"
+      Columns(5).Name =   "modify_user"
+      Columns(5).DataField=   "lw_modiuser"
+      Columns(5).DataType=   8
       Columns(5).FieldLen=   256
       Columns(6).Width=   5292
       Columns(6).Visible=   0   'False
-      Columns(6).Caption=   "modify_user"
-      Columns(6).Name =   "modify_user"
-      Columns(6).DataField=   "lw_modiuser"
-      Columns(6).DataType=   8
+      Columns(6).Caption=   "create_date"
+      Columns(6).Name =   "create_date"
+      Columns(6).DataField=   "lw_creadate"
+      Columns(6).DataType=   135
       Columns(6).FieldLen=   256
       Columns(7).Width=   5292
       Columns(7).Visible=   0   'False
-      Columns(7).Caption=   "create_date"
-      Columns(7).Name =   "create_date"
-      Columns(7).DataField=   "lw_creadate"
-      Columns(7).DataType=   135
+      Columns(7).Caption=   "create_user"
+      Columns(7).Name =   "create_user"
+      Columns(7).DataField=   "lw_creauser"
+      Columns(7).DataType=   8
       Columns(7).FieldLen=   256
-      Columns(8).Width=   5292
-      Columns(8).Visible=   0   'False
-      Columns(8).Caption=   "create_user"
-      Columns(8).Name =   "create_user"
-      Columns(8).DataField=   "lw_creauser"
-      Columns(8).DataType=   8
-      Columns(8).FieldLen=   256
-      _ExtentX        =   15584
+      _ExtentX        =   11139
       _ExtentY        =   4895
       _StockProps     =   79
       DataMember      =   "LOGWAR"
@@ -209,30 +178,6 @@ Begin VB.Form frm_Logicals
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
-      Height          =   1455
-      Left            =   0
-      TabIndex        =   5
-      TabStop         =   0   'False
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   1875
-      _ExtentX        =   3307
-      _ExtentY        =   2566
-      _Version        =   393216
-      BackColor       =   16777152
-      Cols            =   1
-      FixedCols       =   0
-      BackColorFixed  =   8421504
-      ForeColorFixed  =   16777215
-      BackColorSel    =   12632064
-      BackColorBkg    =   12648447
-      FocusRect       =   0
-      SelectionMode   =   1
-      Appearance      =   0
-      _NumberOfBands  =   1
-      _Band(0).Cols   =   1
-   End
    Begin VB.Label lblStatus 
       Alignment       =   1  'Right Justify
       BackStyle       =   0  'Transparent
@@ -248,7 +193,7 @@ Begin VB.Form frm_Logicals
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   6480
+      Left            =   4440
       TabIndex        =   3
       Top             =   3600
       Width           =   2460
@@ -293,7 +238,6 @@ Dim NVBAR_SAVE As Boolean
 Dim CAncelGrid As Boolean
 Dim TableLocked As Boolean, currentformname As String   'jawdat
 
-Dim newRecord As Boolean
 Private Function validate_fields(colnum As Integer) As Boolean
 Dim x As Boolean
 
@@ -330,7 +274,6 @@ End Function
 
 Private Sub Form_Load()
 Dim ctl As Control
-    newRecord = False
  
    CAncelGrid = False
    msg1 = translator.Trans("M00126")
@@ -354,24 +297,11 @@ Dim ctl As Control
         Call gsb_fade_to_black(ctl)
     Next ctl
     'Call deIms.Destination(deIms.NameSpace)
-    If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
-
-    Call deIms.logwar(deIms.NameSpace)
+    deIms.rsLOGWAR.Close
+     Call deIms.LOGWAR(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
-
     Set SSDBLogical.DataSource = deIms
     
-    
-    'Juan 2014-07-16
-    If deIms.rslogwar_type.State > 0 Then
-        deIms.rslogwar_type.Close
-    End If
-    Call deIms.logwar_type(deIms.NameSpace)
-    Set logicalType.DataSource = deIms
-    SSDBLogical.Columns(3).Style = ssStyleComboBox
-    SSDBLogical.Columns(3).DropDownHwnd = logicalType.HWND
-    logicalType.Columns(0).Visible = False
-    '-------------------------
     
     Visible = True
     Screen.MousePointer = vbDefault
@@ -423,9 +353,8 @@ On Error Resume Next
  SSDBLogical.Update
  If RecSaved = True Then
     Hide
-
     deIms.rsLOGWAR.Close
-
+    
     If open_forms <= 5 Then ShowNavigator
     
     If Err Then Err.Clear
@@ -449,21 +378,18 @@ End Sub
 'set create user equal to current user and name space
 
 Private Sub NavBar1_BeforeNewClick()
-    newRecord = True
-    
+      SSDBLogical.AddNew
     NavBar1.CancelEnabled = True
     NavBar1.NewEnabled = False
     NavBar1.EditEnabled = False
     NavBar1.SaveEnabled = True
-    NavBar1.Width = 5050
     lblStatus.ForeColor = &HFF&
     lblStatus.Caption = Create
     SSDBLogical.AllowUpdate = True
-    SSDBLogical.AddNew
-    'SSDBLogical.Columns("active").Text = 1
-    'SSDBLogical.SetFocus
-    
-    'SSDBLogical.Col = 0
+    SSDBLogical.Columns("active").text = 1
+    SSDBLogical.SetFocus
+    NavBar1.Width = 5050
+    SSDBLogical.Col = 0
 End Sub
 
 'before save check logical warehouse exist or not
@@ -565,13 +491,13 @@ Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser
 End If
      
     
-    newRecord = False
+    
     Unload Me
 '    Set frm_Logicals = Nothing
 End Sub
 
 Private Sub NavBar1_OnEditClick()
-newRecord = False
+
 ''copy begin here
 '
 'If NavBar1.SaveEnabled = True Then          ''jawdat, to be put into every form with similar navbar
@@ -631,12 +557,9 @@ End Sub
 
 Private Sub NavBar1_OnNewClick()
 
-    SSDBLogical.SetFocus
-    SSDBLogical.Col = 0
-    
-    SSDBLogical.Columns("active").text = 1
-    SSDBLogical.AllowUpdate = True
 
+
+    SSDBLogical.AllowUpdate = False
 
 If TableLocked = True Then
    SSDBLogical.Columns("code").locked = False
@@ -677,9 +600,7 @@ End Sub
 
 Private Sub NavBar1_OnSaveClick()
 On Error Resume Next
-
     Call deIms.rsLOGWAR.Move(0)
-    
     If Err Then Err.Clear
 
 End Sub
@@ -780,13 +701,11 @@ End Function
 
 Private Sub SSDBLogical_BeforeRowColChange(Cancel As Integer)
 Dim good_field As Boolean
-If Not newRecord Then
-        good_field = validate_fields(SSDBLogical.Col)
-
+    good_field = validate_fields(SSDBLogical.Col)
     If Not good_field Then
        Cancel = True
     End If
-End If
+
 End Sub
 
 'before add a new record check code exist or not
@@ -815,9 +734,6 @@ Private Sub SSDBLogical_BeforeUpdate(Cancel As Integer)
  If (InUnload = False) Or (response = vbYes) Then
  
   If SSDBLogical.IsAddRow Then
-    If newRecord Then
-        Exit Sub
-    End If
       x = NotValidLen(SSDBLogical.Columns(1).text)
       If x = True Then
          RecSaved = False

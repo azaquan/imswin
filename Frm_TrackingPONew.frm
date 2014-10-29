@@ -286,6 +286,7 @@ Begin VB.Form Frm_TrackingPONew
          Width           =   1815
          DataFieldList   =   "Column 0"
          _Version        =   196617
+         DataMode        =   2
          Cols            =   1
          ColumnHeaders   =   0   'False
          RowHeight       =   423
@@ -295,6 +296,7 @@ Begin VB.Form Frm_TrackingPONew
          _StockProps     =   93
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
+         DataFieldToDisplay=   "Column 0"
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBGrid dgRecipientList 
          Height          =   2085
@@ -619,7 +621,7 @@ On Error Resume Next
 End Sub
 
 Private Sub cmdRemove_Click()
-Dim X As Integer
+Dim x As Integer
 
 If Len(dgRecipientList.SelBookmarks(0)) = 0 Then
     
@@ -722,20 +724,16 @@ Dim rst As Recordset
 
     If rst.RecordCount = 0 Then GoTo clearup
 
-
-'  2012-8-29 juan
-Set ssOleDbPO.DataSourceList = rst
-ssOleDbPO.DataFieldList = rst.Fields(0).Name
-'    rst.MoveFirst
-'    Do While ((Not rst.EOF))
-'        ssOleDbPO.AddItem rst!PO_PONUMB & ""
-'        rst.MoveNext
-'    Loop
+    rst.MoveFirst
+    Do While ((Not rst.EOF))
+        ssOleDbPO.AddItem rst!PO_PONUMB & ""
+        rst.MoveNext
+    Loop
 
 clearup:
-'    rst.Close
-'    Set cmd = Nothing
-'    Set rst = Nothing
+    rst.Close
+    Set cmd = Nothing
+    Set rst = Nothing
 
 
 
@@ -1539,7 +1537,7 @@ Private Sub Txt_search_Change()
 
 Dim Grid As SSOleDBGrid
     
-Dim X As Integer
+Dim x As Integer
 
 Dim Count As Integer
 

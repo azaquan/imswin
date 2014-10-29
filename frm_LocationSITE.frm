@@ -482,7 +482,7 @@ Private Sub Form_Load()
 
 If NavBar1.SaveEnabled = True Then          ''jawdat, to be put into every form with similar navbar
 
-
+Dim currentformname
 Dim imsLock As imsLock.Lock
 Set imsLock = New imsLock.Lock
 currentformname = Forms(3).Name
@@ -634,12 +634,12 @@ Private Sub Form_Unload(Cancel As Integer)
     If open_forms <= 5 Then ShowNavigator
     
     
-'If TableLocked = True Then   'jawdat
+If TableLocked = True Then   'jawdat
 Dim imsLock As imsLock.Lock
 Set imsLock = New imsLock.Lock
-' currentformname = Forms(3).Name ' 2011-7-28 Juan, this is not necessary, it is already set
+currentformname = Forms(3).Name
 Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser)
-'End If
+End If
         
     
 End Sub
@@ -674,10 +674,10 @@ End Sub
 Private Sub NavBar1_OnCloseClick()
     
 If TableLocked = True Then    'jawdat
-'Dim imsLock As imsLock.Lock
-'Set imsLock = New imsLock.Lock
-'' currentformname = Forms(3).Name ' 2011-7-28 Juan, this is not necessary, it is already set
-'Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser)
+Dim imsLock As imsLock.Lock
+Set imsLock = New imsLock.Lock
+currentformname = Forms(3).Name
+Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser)
 End If
     
     Unload Me

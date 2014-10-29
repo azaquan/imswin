@@ -444,7 +444,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(6, 4) = ""
                 .matrix.TextMatrix(7, 4) = ""
                 .matrix.TextMatrix(8, 4) = "PO#, Date, Buyer, Send By, Approve By, Status, Forwarded"
-                .matrix.TextMatrix(9, 4) = "1600, 900, 1400, 1400, 1400, 600, 0"
+                .matrix.TextMatrix(9, 4) = "1000, 900, 1400, 1400, 1400, 600, 0"
                 .matrix.TextMatrix(10, 4) = 0
                 
             Case Sales

@@ -156,7 +156,6 @@ On Error GoTo ErrHandler
 
 With MDI_IMS.CrystalReport1
         .Reset
-        Printer.Orientation = 2  'Juan 2012/6/5
         .ReportFileName = FixDir(App.Path) + "CRreports\physinvt.rpt"
         .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
         .ParameterFields(1) = "company;" + Trim$(Combo_compcode.Text) + ";true"

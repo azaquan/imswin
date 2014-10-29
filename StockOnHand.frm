@@ -535,7 +535,6 @@ On Error GoTo ErrHandler
     
     With MDI_IMS.CrystalReport1
         .Reset
-        Printer.Orientation = 2  'Juan 2012/6/5
         .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
         .ParameterFields(1) = "locacode;" + Trim$(ssdcbolocation.Columns("Code").Text) + ";TRUE"
         .ParameterFields(2) = "compcode;" + IIf(Trim$(SSOleDBCompa.Columns("code").Text) = "ALL", "ALL", SSOleDBCompa.Columns("code").Text) + ";TRUE"

@@ -533,7 +533,7 @@ Begin VB.Form frmPackingList
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   60686339
+         Format          =   60424195
          CurrentDate     =   36867
       End
       Begin VB.TextBox TextLINE 
@@ -1894,7 +1894,7 @@ Dim i As Integer
                         POlist.Col = 0
                         POlist.CellFontName = "Wingdings"
                         'For i = 1 To 13
-                        For i = 1 To 13
+                        For i = 1 To 14
                             'If i < 5 Then POlist.CellAlignment = 4
                             If i < 6 Then POlist.CellAlignment = 4
                             POlist.Col = i
@@ -2702,6 +2702,10 @@ Dim i As Integer
     End With
 End Sub
 
+Private Sub lblpodname_Click()
+
+End Sub
+
 Private Sub NavBar1_OnEditClick() 'JCG 2008/6/21 inserting new col 3
 Dim packinglist, Sql, i, inPOINT, t
 Dim datax As ADODB.Recordset
@@ -2810,9 +2814,6 @@ Dim qty As Double
                     rowTEXT = rowTEXT + IIf(IsNull(datax!lineITEM), "", datax!lineITEM) + vbTab 'PO Line Item
                     
                    'PO Commodity NEW col
-                   '2012.9.15 juan added commodity #
-'                   rowTEXT = rowTEXT + "" + vbTab
-                    rowTEXT = rowTEXT + datax!Commodity + vbTab
                     
                     rowTEXT = rowTEXT + IIf(IsNull(datax!Description), "", datax!Description) + vbTab 'PO Description
                     rowTEXT = rowTEXT + FormatNumber(datax!Quantity, 2) + vbTab 'Quantity Requested
@@ -2870,11 +2871,9 @@ Dim qty As Double
                     .row = .Rows - 1
                 End If
                 Call markROW
-                If i + 1 < .Rows Then 'Juan 2011/9/14 to avoid error when bigger than rows size
-                    If .TextMatrix(i + 1, 1) <> .TextMatrix(i, 1) Then
-                        If .TextMatrix(i + 1, 1) <> "" Then
-                            .AddItem "", i + 1
-                        End If
+                If .TextMatrix(i + 1, 1) <> .TextMatrix(i, 1) Then
+                    If .TextMatrix(i + 1, 1) <> "" Then
+                        .AddItem "", i + 1
                     End If
                 End If
                 datax.MoveNext
@@ -4027,7 +4026,7 @@ Dim w, i, Col As Integer
     End With
 End Sub
 
-Private Sub POlist_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single) 'JCG 2008/6/21 inserting new col 3
+Private Sub POlist_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single) 'JCG 2008/6/21 inserting new col 3
 On Error Resume Next
 Dim i
     With POlist

@@ -72,7 +72,7 @@ Begin VB.Form FrmManifestPOD
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "12/31/9999 12:00:00 AM"
-      Format          =   60489729
+      Format          =   60293121
       CurrentDate     =   40112
    End
    Begin VB.TextBox lblTxt 
@@ -122,7 +122,7 @@ Begin VB.Form FrmManifestPOD
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   60489730
+      Format          =   60293122
       CurrentDate     =   36494
    End
    Begin VB.Label lbldatetime 
@@ -156,12 +156,18 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
-Sub fillupCombo()
+Private Sub Form_Load()
+Me.Height = 2805
+Me.Width = 5745
+NavBar1.LastPrintSepVisible = False
+NavBar1.PrintSaveSepVisible = False
+NavBar1.CancelLastSepVisible = False
+NavBar1.EditVisible = False
 Dim rsManifestList As ADODB.Recordset
 Set rsManifestList = GetManifestList
 
     With rsManifestList
-        
+    
         If .RecordCount > 0 Then
             Do While Not .EOF
                  Call SSOleDBManifest.AddItem(rsManifestList!pl_manfnumb, 0)
@@ -173,21 +179,10 @@ Set rsManifestList = GetManifestList
     End With
     
     SSOleDBManifest.Columns(0).Width = SSOleDBManifest.Width
-End Sub
-
-Private Sub Form_Load()
-Me.Height = 2805
-Me.Width = 5745
-NavBar1.LastPrintSepVisible = False
-NavBar1.PrintSaveSepVisible = False
-NavBar1.CancelLastSepVisible = False
-NavBar1.EditVisible = False
-
-Call fillupCombo
     
 
 Me.dtpdate.value = FormatDateTime(Now, vbShortDate)
-Me.dtptime.value = FormatDateTime(Now, vbShortTime)
+Me.dtpTime.value = FormatDateTime(Now, vbShortTime)
 
 End Sub
 
@@ -253,7 +248,7 @@ Dim datetime As Date
 Dim dt As String
 Name = lblTxt.Text
 packinglist = Trim(SSOleDBManifest.Text)
-dt = dtpdate.value & " " & dtptime.value
+dt = dtpdate.value & " " & dtpTime.value
 
     Set cmd = MakeCommand(deIms.cnIms, adCmdStoredProc)
 
@@ -283,10 +278,6 @@ MsgBox ("Errors occurred while trying to save, Error Descrioption : " & Err.Desc
 End Sub
 
 
-Private Sub SSOleDBManifest_DropDown()
-    fillupCombo
-End Sub
-
 Private Sub SSOleDBManifest_KeyDown(KeyCode As Integer, Shift As Integer)
     If Not SSOleDBManifest.DroppedDown Then SSOleDBManifest.DroppedDown = True
 End Sub
@@ -311,7 +302,7 @@ Set rsManifestList = GetManifestList()
 
         rsManifestList.MoveFirst
         rsManifestList.Find "pl_manfnumb='" & Trim$(SSOleDBManifest.Text) & "'"
-        If rsManifestList.EOF Then
+        If Not rsManifestList.EOF Then
         
           MsgBox "Please enter a valid manifest, the one that you entered does not exists."
           SSOleDBManifest.Text = ""
