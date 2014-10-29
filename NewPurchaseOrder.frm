@@ -65,41 +65,63 @@ Begin VB.Form frm_NewPurchase
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "OptEmail"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "OptFax"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "Text1"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "CmdAddSupEmail"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "cmdRemove"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "dgRecepients"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "txt_Recipient"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "cmd_Add"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "fra_FaxSelect"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "dgRecipientList"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "Lbl_search"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "lbl_Recipients"
+      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "Line1"
+      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "fra_LI"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Fra_ToFqa"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "fra_LineItem"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "Txt_RemNo"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "CmdcopyLI(1)"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "txtRemarks"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cmd_Addterms"
+      Tab(4).Control(0)=   "Txt_ClsNo"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "txtClause"
-      Tab(4).Control(2)=   "CmdcopyLI(2)"
-      Tab(4).Control(3)=   "Txt_ClsNo"
+      Tab(4).Control(1)=   "CmdcopyLI(2)"
+      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).Control(2)=   "txtClause"
+      Tab(4).Control(2).Enabled=   0   'False
+      Tab(4).Control(3)=   "cmd_Addterms"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
          BorderStyle     =   0  'None
@@ -926,7 +948,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   60358659
+            Format          =   61341699
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1588,7 +1610,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   60358659
+            Format          =   61341699
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2035,7 +2057,7 @@ Begin VB.Form frm_NewPurchase
             DataSource      =   "deIms"
             Height          =   675
             Left            =   2040
-            MaxLength       =   256
+            MaxLength       =   12000
             MultiLine       =   -1  'True
             ScrollBars      =   2  'Vertical
             TabIndex        =   48
@@ -2063,7 +2085,6 @@ Begin VB.Form frm_NewPurchase
             Width           =   1575
             DataFieldList   =   "Column 0"
             _Version        =   196617
-            DataMode        =   2
             BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2138,7 +2159,6 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _StockProps     =   93
             BackColor       =   -2147483643
-            DataFieldToDisplay=   "Column 0"
          End
          Begin VB.TextBox txt_LI 
             BackColor       =   &H00FFFFC0&
@@ -2164,7 +2184,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   60358659
+            Format          =   61341699
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -3030,7 +3050,7 @@ Begin VB.Form frm_NewPurchase
          EndProperty
          Height          =   5415
          Left            =   -74760
-         MaxLength       =   3300
+         MaxLength       =   12000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   55
@@ -3051,7 +3071,7 @@ Begin VB.Form frm_NewPurchase
          EndProperty
          Height          =   5415
          Left            =   -74760
-         MaxLength       =   6800
+         MaxLength       =   12000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   58
@@ -3232,7 +3252,6 @@ Begin VB.Form frm_NewPurchase
             ListAutoValidate=   0   'False
             MinDropDownItems=   8
             _Version        =   196617
-            DataMode        =   2
             Cols            =   1
             BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
@@ -3286,7 +3305,6 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _StockProps     =   93
             BackColor       =   -2147483643
-            DataFieldToDisplay=   "Column 0"
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDBDocType 
             Bindings        =   "NewPurchaseOrder.frx":0A10
@@ -4049,12 +4067,12 @@ Unload frm_NewPurchase
 End Sub
 
 Private Sub NavBar1_OnDeleteClick()
-Dim y As Integer
+Dim Y As Integer
 Dim mpo As String
 Dim PoHeaderErrors As Boolean
-    y = sst_PO.Tab
+    Y = sst_PO.Tab
     
-  Select Case y
+  Select Case Y
         
    Case 0
    CmdConvert.Enabled = False
@@ -4826,7 +4844,7 @@ Private Sub SSOleDBOriginator_LostFocus()
 Call NormalBackground(SSOleDBOriginator)
 End Sub
 
-Private Sub SSOleDBOriginator_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub SSOleDBOriginator_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
 SSOleDBOriginator.SetFocus
 End Sub
 
@@ -4862,11 +4880,16 @@ If Not FormMode = mdCreation Then
             deIms.rsPonumb.Open
         End If
 
-       ssOleDbPO.RemoveAll
-        Do While Not deIms.rsPonumb.EOF
-           ssOleDbPO.AddItem deIms.rsPonumb!po_ponumb
-           deIms.rsPonumb.MoveNext
-        Loop
+        '2012-9-30 juan commented and added
+        'ssOleDbPO.RemoveAll
+
+        Set ssOleDbPO.DataSourceList = deIms.rsPonumb
+        ssOleDbPO.DataFieldList = deIms.rsPonumb.Fields(0).Name
+       
+        'Do While Not deIms.rsPonumb.EOF
+        '   ssOleDbPO.AddItem deIms.rsPonumb!po_ponumb
+        '   deIms.rsPonumb.MoveNext
+        'Loop
         mIsPoNumbComboLoaded = True
     
     End If
@@ -5312,7 +5335,8 @@ If (OptEmail.value = True Or OptFax.value = True) Then
             Call AddRecepient(txt_Recipient, , False)
 
             dgRecipientList.Refresh ' JCG 2008/07/30
-            
+
+
             txt_Recipient = ""
         'Else
         '    dgRecepients_DblClick
@@ -6670,11 +6694,14 @@ On Error GoTo Handler
         ssdcboManNumber.RemoveAll
         
         If Not rsMANUFACTURER.EOF Then
-            
-            Do While Not rsMANUFACTURER.EOF
-                  ssdcboManNumber.AddItem rsMANUFACTURER!stm_manucode & ";" & rsMANUFACTURER!stm_partnumb & ";" & rsMANUFACTURER!stm_estmpric
-                  rsMANUFACTURER.MoveNext
-            Loop
+        
+        '2012-9-30 juan
+        Set ssdcboManNumber.DataSourceList = rsMANUFACTURER
+        ssdcboManNumber.DataFieldList = rsMANUFACTURER.Fields(0).Name
+'            Do While Not rsMANUFACTURER.EOF
+'                  ssdcboManNumber.AddItem rsMANUFACTURER!stm_manucode & ";" & rsMANUFACTURER!stm_partnumb & ";" & rsMANUFACTURER!stm_estmpric
+'                  rsMANUFACTURER.MoveNext
+'            Loop
             
         End If
            
@@ -8564,11 +8591,15 @@ Set lookups = Mainpo.lookups
                
               If Not RsRequsition.EOF = True Then
                        ssdcboRequisition.Enabled = True
+                  
+                '2012-9-30 juan
+                Set ssdcboRequisition.DataSourceList = RsRequsition
+                ssdcboRequisition.DataFieldList = RsRequsition.Fields(0).Name
                    
-                   Do While Not RsRequsition.EOF
-                      ssdcboRequisition.AddItem RsRequsition!po_ponumb & ";" & RsRequsition!doc_desc & ";" & RsRequsition!poi_liitnumb & ";" & RsRequsition!poi_desc & ";" & RsRequsition!poi_primreqdqty
-                      RsRequsition.MoveNext
-                   Loop
+'                   Do While Not RsRequsition.EOF
+'                      ssdcboRequisition.AddItem RsRequsition!po_ponumb & ";" & RsRequsition!doc_desc & ";" & RsRequsition!poi_liitnumb & ";" & RsRequsition!poi_desc & ";" & RsRequsition!poi_primreqdqty
+'                      RsRequsition.MoveNext
+'                   Loop
                    
               Else
                     ssdcboRequisition.Text = ""
@@ -8830,7 +8861,7 @@ End Sub
 
 Private Sub txt_Price_Validate(Cancel As Boolean)
 Dim x As Integer
-Dim y As Integer
+Dim Y As Integer
 If Len(txt_Price) > 0 Then
        
      If Not IsNumeric(txt_Price) Then
@@ -8905,7 +8936,7 @@ End Sub
 
 Private Sub txt_Requested_Validate(Cancel As Boolean)
 Dim x As Integer
-Dim y As Integer
+Dim Y As Integer
 
 If Len(Trim$(txt_Requested)) > 0 Then
     If Not IsNumeric(txt_Requested) Then

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Begin VB.Form frm_logical 
    Caption         =   "Form1"
    ClientHeight    =   4635
@@ -216,16 +216,16 @@ End Sub
 
     
 Sub cleanGrid()
-    Dim currentRow, currentCol, i As Integer
+    Dim currentROW, currentCOL, i As Integer
     With logwarGrid
         If lastMark > 0 Then
-            currentRow = .row
+            currentROW = .row
             .row = lastMark
-            currentCol = .Col
+            currentCOL = .Col
             .Col = 3
             .CellBackColor = vbWhite
-            .row = currentRow
-            .Col = currentCol
+            .row = currentROW
+            .Col = currentCOL
         End If
         lastMark = .row
     End With
@@ -274,7 +274,7 @@ Sub fillCombo()
     End With
 End Sub
 
-Sub fillGrid()
+Sub FillGrid()
 Dim r As Integer
     With logwarGrid
         r = 1
@@ -315,7 +315,7 @@ End Sub
 
 
 
-Sub showCombo()
+Sub showCOMBO()
     With logwarGrid
         Dim i As Integer
         Call fillCombo
@@ -427,7 +427,7 @@ Dim ctl As Control
     If deIms.rsLOGWAR.State <> 0 Then deIms.rsLOGWAR.Close
     Call deIms.LOGWAR(deIms.NameSpace)
     Set NavBar1.Recordset = deIms.rsLOGWAR
-    Call fillGrid
+    Call FillGrid
     deIms.rsLOGWAR.Close
     Call doClone
     logwarGrid.Enabled = False
@@ -456,8 +456,8 @@ Dim ctl As Control
 End Sub
 
 Sub showBOX(Col As Integer)
-Dim X As Integer
-Dim Y As Integer
+Dim x As Integer
+Dim y As Integer
     With logwarGrid
         colSwitch = True
         box.Text = ""
@@ -476,10 +476,10 @@ Dim Y As Integer
             Case 1
                 box.MaxLength = 40
         End Select
-        X = leftCOL(Col)
-        box.Left = X
-        Y = topROW(.row)
-        box.Top = Y + .Top
+        x = leftCOL(Col)
+        box.Left = x
+        y = topROW(.row)
+        box.Top = y + .Top
         box.Width = .ColWidth(Col) - 20
         box.Visible = True
         oldVALUE(Col) = .TextMatrix(.row, Col)
@@ -494,20 +494,20 @@ Dim Y As Integer
     End With
 End Sub
 Function leftCOL(Col) As Integer
-Dim X As Integer
+Dim x As Integer
 Dim i As Integer
     With logwarGrid
-        X = .Left + 30
+        x = .Left + 30
         If Col > 0 Then
             For i = 0 To Col - 1
-                X = X + .ColWidth(i)
+                x = x + .ColWidth(i)
             Next
         End If
     End With
-    leftCOL = X + 10
+    leftCOL = x + 10
 End Function
 Function topROW(row, Optional bottom As Boolean) As Integer
-Dim Y As Integer
+Dim y As Integer
 Dim i As Integer
 Dim n As Integer
     With logwarGrid
@@ -516,23 +516,23 @@ Dim n As Integer
         Else
             n = row - 1
         End If
-        Y = 20
+        y = 20
         For i = 0 To n
-            Y = Y + .RowHeight(row)
+            y = y + .RowHeight(row)
         Next
     End With
     If bottom Then
         If row = 1 Then
-            Y = Y + 20
+            y = y + 20
         Else
-            Y = Y + 30
+            y = y + 30
         End If
     Else
         If row = 1 Then
-            Y = Y + 10
+            y = y + 10
         End If
     End If
-    topROW = Y
+    topROW = y
 End Function
 Private Sub Form_Unload(Cancel As Integer)
 If TableLocked = True Then    'jawdat
@@ -550,7 +550,7 @@ deIms.rsLOGWAR.Close
     Hide
     deIms.rsLOGWAR.Close
     If open_forms <= 5 Then ShowNavigator
-    If err Then err.Clear
+    If Err Then Err.Clear
 Else
     Cancel = True
 End If
@@ -574,7 +574,7 @@ Sub logwarGrid_Click()
                 Case 1
                     Call showBOX(.Col)
                 Case 2
-                    Call showCombo
+                    Call showCOMBO
                 Case 3
                     .CellBackColor = vbYellow
                     Call checkBox
@@ -660,8 +660,8 @@ End Sub
 
 Private Sub NavBar1_OnSaveClick()
     Dim i As Integer
-    Dim sql, code, description, codeType, active As String
-    On Error GoTo err
+    Dim Sql, Code, Description, codeType, Active As String
+    On Error GoTo Err
     Call box_LostFocus
     With logwarGrid
         Dim startPoint As Integer
@@ -672,38 +672,38 @@ Private Sub NavBar1_OnSaveClick()
         End If
         For i = startPoint To .Rows - 1
             If changedRow(i) Then
-                code = .TextMatrix(.row, 0)
-                description = .TextMatrix(.row, 1)
+                Code = .TextMatrix(.row, 0)
+                Description = .TextMatrix(.row, 1)
                 codeType = .TextMatrix(.row, 2)
-                active = IIf(.TextMatrix(.row, 3) = "þ", "1", "0")
+                Active = IIf(.TextMatrix(.row, 3) = "þ", "1", "0")
                 Select Case lblStatus.Caption
                     Case "Creation"
-                        sql = "INSERT INTO logwar (lw_code, lw_npecode,  lw_desc, lw_actvflag, lw_type) VALUES (" _
-                            + "'" + code + "', " _
+                        Sql = "INSERT INTO logwar (lw_code, lw_npecode,  lw_desc, lw_actvflag, lw_type) VALUES (" _
+                            + "'" + Code + "', " _
                             + "'" + deIms.NameSpace + "', " _
-                            + "'" + description + "', " _
-                            + "" + active + ", " _
+                            + "'" + Description + "', " _
+                            + "" + Active + ", " _
                             + "'" + codeType + "' ) "
                     Case "Modify"
-                        sql = "UPDATE logwar SET " _
-                            + "lw_desc = '" + description + "', " _
-                            + "lw_actvflag = " + active + ", " _
+                        Sql = "UPDATE logwar SET " _
+                            + "lw_desc = '" + Description + "', " _
+                            + "lw_actvflag = " + Active + ", " _
                             + "lw_type = '" + codeType + "'  " _
                             + "WHERE lw_npecode = '" + deIms.NameSpace + "'  " _
-                            + "AND lw_code = '" + code + "'"
+                            + "AND lw_code = '" + Code + "'"
                 End Select
                 Dim cmd As New ADODB.Command
                 cmd.ActiveConnection = deIms.cnIms
-                cmd.CommandText = sql
+                cmd.CommandText = Sql
                 Call cmd.Execute(, , adExecuteNoRecords)
             End If
         Next
         .Enabled = False
     End With
     
-err:
-    If err.number > 0 Then MsgBox err.descriptio
-    err.Clear
+Err:
+    If Err.number > 0 Then MsgBox Err.descriptio
+    Err.Clear
     
     box.Visible = False
     NavBar1.EditEnabled = True

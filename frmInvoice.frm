@@ -29,83 +29,76 @@ Begin VB.Form frmInvoice
       _Version        =   393216
       Style           =   1
       Tabs            =   4
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Header"
       TabPicture(0)   =   "frmInvoice.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "Label5"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Label(0)"
-      Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "Label(1)"
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "Picture1"
+      Tab(0).Control(1)=   "supplierDATA"
+      Tab(0).Control(2)=   "cell(9)"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "Label(2)"
+      Tab(0).Control(3)=   "cell(8)"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "Label(3)"
+      Tab(0).Control(4)=   "cell(7)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "Label(4)"
+      Tab(0).Control(5)=   "cell(6)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "Label(5)"
+      Tab(0).Control(6)=   "cell(5)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "Label(6)"
+      Tab(0).Control(7)=   "cell(4)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "Label(7)"
-      Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "Label(8)"
+      Tab(0).Control(8)=   "cell(3)"
+      Tab(0).Control(9)=   "cell(2)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "Label(9)"
-      Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "Shape1"
-      Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "POComboList"
-      Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "InvoiceComboList"
-      Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "remark"
-      Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "DTPicker1"
-      Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "cell(0)"
-      Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "cell(1)"
-      Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "cell(2)"
-      Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "cell(3)"
-      Tab(0).Control(19).Enabled=   0   'False
-      Tab(0).Control(20)=   "cell(4)"
-      Tab(0).Control(20).Enabled=   0   'False
-      Tab(0).Control(21)=   "cell(5)"
-      Tab(0).Control(21).Enabled=   0   'False
-      Tab(0).Control(22)=   "cell(6)"
-      Tab(0).Control(22).Enabled=   0   'False
-      Tab(0).Control(23)=   "cell(7)"
-      Tab(0).Control(23).Enabled=   0   'False
-      Tab(0).Control(24)=   "cell(8)"
-      Tab(0).Control(24).Enabled=   0   'False
-      Tab(0).Control(25)=   "cell(9)"
-      Tab(0).Control(25).Enabled=   0   'False
-      Tab(0).Control(26)=   "supplierDATA"
-      Tab(0).Control(26).Enabled=   0   'False
-      Tab(0).Control(27)=   "Picture1"
-      Tab(0).Control(27).Enabled=   0   'False
+      Tab(0).Control(10)=   "cell(1)"
+      Tab(0).Control(11)=   "cell(0)"
+      Tab(0).Control(12)=   "DTPicker1"
+      Tab(0).Control(13)=   "remark"
+      Tab(0).Control(14)=   "InvoiceComboList"
+      Tab(0).Control(15)=   "POComboList"
+      Tab(0).Control(16)=   "Shape1"
+      Tab(0).Control(17)=   "Label(9)"
+      Tab(0).Control(18)=   "Label(8)"
+      Tab(0).Control(19)=   "Label(7)"
+      Tab(0).Control(20)=   "Label(6)"
+      Tab(0).Control(21)=   "Label(5)"
+      Tab(0).Control(22)=   "Label(4)"
+      Tab(0).Control(23)=   "Label(3)"
+      Tab(0).Control(24)=   "Label(2)"
+      Tab(0).Control(25)=   "Label(1)"
+      Tab(0).Control(26)=   "Label(0)"
+      Tab(0).Control(27)=   "Label5"
       Tab(0).ControlCount=   28
       TabCaption(1)   =   "Line Item List"
       TabPicture(1)   =   "frmInvoice.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "nomPicture(1)"
-      Tab(1).Control(1)=   "nomPicture(0)"
-      Tab(1).Control(2)=   "Command1"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "invoiceLABEL"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "nomLabel(0)"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "nomLabel(1)"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "TextLINE"
-      Tab(1).Control(4)=   "POlist"
+      Tab(1).Control(3)=   "currencyLABEL"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "nomLabel(2)"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "POtitles"
-      Tab(1).Control(6)=   "currencyLABEL"
-      Tab(1).Control(7)=   "nomLabel(1)"
-      Tab(1).Control(8)=   "nomLabel(0)"
-      Tab(1).Control(9)=   "invoiceLABEL"
-      Tab(1).ControlCount=   10
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "POlist"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "TextLINE"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "Command1"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "nomPicture(0)"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "nomPicture(1)"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "nomPicture(2)"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).ControlCount=   12
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
       Tab(2).ControlEnabled=   0   'False
@@ -118,11 +111,24 @@ Begin VB.Form frmInvoice
       TabCaption(3)   =   "Misc. Charges"
       TabPicture(3)   =   "frmInvoice.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label(10)"
-      Tab(3).Control(1)=   "TxtMiscTranno"
-      Tab(3).Control(2)=   "SSGrdFQA"
-      Tab(3).Control(3)=   "FrmSummary"
+      Tab(3).Control(0)=   "FrmSummary"
+      Tab(3).Control(1)=   "SSGrdFQA"
+      Tab(3).Control(2)=   "TxtMiscTranno"
+      Tab(3).Control(3)=   "Label(10)"
       Tab(3).ControlCount=   4
+      Begin VB.PictureBox nomPicture 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
+         ForeColor       =   &H80000008&
+         Height          =   255
+         Index           =   2
+         Left            =   8760
+         ScaleHeight     =   225
+         ScaleWidth      =   225
+         TabIndex        =   66
+         Top             =   980
+         Width           =   255
+      End
       Begin VB.Frame FrmSummary 
          Caption         =   "Supplier Invoice Summary"
          Height          =   2055
@@ -373,7 +379,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          ForeColor       =   &H80000008&
          Height          =   1695
-         Left            =   4680
+         Left            =   -70320
          ScaleHeight     =   1665
          ScaleWidth      =   2865
          TabIndex        =   44
@@ -406,7 +412,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   1
-         Left            =   -66600
+         Left            =   7560
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   41
@@ -419,7 +425,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   0
-         Left            =   -68280
+         Left            =   6360
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   39
@@ -445,7 +451,7 @@ Begin VB.Form frmInvoice
       Begin VB.CommandButton Command1 
          Caption         =   "&Show Only Selection"
          Height          =   375
-         Left            =   -65040
+         Left            =   9960
          TabIndex        =   30
          TabStop         =   0   'False
          Top             =   900
@@ -457,7 +463,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          BorderStyle     =   0  'None
          Height          =   285
-         Left            =   -64320
+         Left            =   10680
          TabIndex        =   29
          Top             =   660
          Visible         =   0   'False
@@ -465,7 +471,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid supplierDATA 
          Height          =   2055
-         Left            =   8040
+         Left            =   -66960
          TabIndex        =   28
          Top             =   1020
          Width           =   3975
@@ -489,7 +495,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   9
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   25
          TabStop         =   0   'False
@@ -501,7 +507,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   8
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   23
@@ -514,7 +520,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   7
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   21
          TabStop         =   0   'False
@@ -526,7 +532,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   6
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          TabIndex        =   19
          TabStop         =   0   'False
@@ -538,7 +544,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   5
-         Left            =   5400
+         Left            =   -69600
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   17
@@ -551,7 +557,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   4
-         Left            =   1920
+         Left            =   -73080
          Locked          =   -1  'True
          MaxLength       =   20
          TabIndex        =   15
@@ -563,7 +569,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   3
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   13
          Top             =   2340
          Width           =   1815
@@ -573,7 +579,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   2
-         Left            =   1920
+         Left            =   -73080
          Locked          =   -1  'True
          TabIndex        =   11
          TabStop         =   0   'False
@@ -584,7 +590,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   1
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   9
          Top             =   1380
          Width           =   1815
@@ -593,7 +599,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   0
-         Left            =   1920
+         Left            =   -73080
          MaxLength       =   15
          TabIndex        =   7
          Top             =   1020
@@ -602,7 +608,7 @@ Begin VB.Form frmInvoice
       Begin MSComCtl2.DTPicker DTPicker1 
          CausesValidation=   0   'False
          Height          =   285
-         Left            =   480
+         Left            =   -74520
          TabIndex        =   5
          TabStop         =   0   'False
          Top             =   6180
@@ -613,12 +619,12 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   60030979
+         Format          =   63438851
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
          Height          =   3675
-         Left            =   240
+         Left            =   -74760
          MaxLength       =   1000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
@@ -628,7 +634,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid InvoiceComboList 
          Height          =   975
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   27
          Top             =   1650
          Visible         =   0   'False
@@ -648,7 +654,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POComboList 
          Height          =   975
-         Left            =   1920
+         Left            =   -73080
          TabIndex        =   6
          Top             =   1290
          Visible         =   0   'False
@@ -667,27 +673,27 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POlist 
          Height          =   5720
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   31
          Top             =   1740
          Width           =   11775
          _ExtentX        =   20770
          _ExtentY        =   10081
          _Version        =   393216
-         Cols            =   18
+         Cols            =   20
          RowHeightMin    =   285
          GridColorFixed  =   0
          HighLight       =   0
          AllowUserResizing=   2
          _NumberOfBands  =   1
-         _Band(0).Cols   =   18
+         _Band(0).Cols   =   20
          _Band(0).GridLinesBand=   1
          _Band(0).TextStyleBand=   0
          _Band(0).TextStyleHeader=   0
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POtitles 
          Height          =   450
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   32
          Top             =   1440
          Width           =   11775
@@ -798,6 +804,15 @@ Begin VB.Form frmInvoice
          _StockProps     =   79
          Caption         =   "Miscellaneous Charges"
       End
+      Begin VB.Label nomLabel 
+         Caption         =   "Not invoiced"
+         Height          =   375
+         Index           =   2
+         Left            =   9120
+         TabIndex        =   67
+         Top             =   840
+         Width           =   735
+      End
       Begin VB.Label TxtMiscTranno 
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -844,7 +859,7 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   -71760
+         Left            =   3240
          TabIndex        =   43
          Top             =   1020
          Width           =   3375
@@ -853,16 +868,16 @@ Begin VB.Form frmInvoice
          Caption         =   "Already Invoiced"
          Height          =   375
          Index           =   1
-         Left            =   -66240
+         Left            =   7920
          TabIndex        =   42
-         Top             =   900
-         Width           =   975
+         Top             =   840
+         Width           =   735
       End
       Begin VB.Label nomLabel 
          Caption         =   "Purchase Unit"
          Height          =   375
          Index           =   0
-         Left            =   -67920
+         Left            =   6720
          TabIndex        =   40
          Top             =   900
          Width           =   855
@@ -886,14 +901,14 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   33
          Top             =   1020
          Width           =   3015
       End
       Begin VB.Shape Shape1 
          Height          =   1935
-         Left            =   240
+         Left            =   -74760
          Top             =   1020
          Width           =   15
       End
@@ -902,7 +917,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Telephone"
          Height          =   255
          Index           =   9
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   26
          Top             =   2745
          Width           =   1455
@@ -912,7 +927,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Buyer"
          Height          =   255
          Index           =   8
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   24
          Top             =   2385
          Width           =   1455
@@ -922,7 +937,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Requested"
          Height          =   255
          Index           =   7
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   22
          Top             =   1785
          Width           =   1455
@@ -932,7 +947,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Issued"
          Height          =   255
          Index           =   6
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   20
          Top             =   1425
          Width           =   1455
@@ -942,7 +957,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Currency"
          Height          =   255
          Index           =   5
-         Left            =   3840
+         Left            =   -71160
          TabIndex        =   18
          Top             =   1065
          Width           =   1455
@@ -952,7 +967,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Created"
          Height          =   255
          Index           =   4
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   16
          Top             =   2745
          Width           =   1575
@@ -962,7 +977,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date of Invoice"
          Height          =   255
          Index           =   3
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   14
          Top             =   2385
          Width           =   1575
@@ -972,7 +987,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Created By"
          Height          =   255
          Index           =   2
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   12
          Top             =   2025
          Width           =   1575
@@ -982,7 +997,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Vendor Invoice"
          Height          =   255
          Index           =   1
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   10
          Top             =   1425
          Width           =   1575
@@ -992,7 +1007,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Transaction #"
          Height          =   255
          Index           =   0
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   8
          Top             =   1065
          Width           =   1575
@@ -1000,7 +1015,7 @@ Begin VB.Form frmInvoice
       Begin VB.Label Label5 
          Caption         =   "Remarks"
          Height          =   255
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   4
          Top             =   3420
          Width           =   4455
@@ -1060,7 +1075,7 @@ Option Explicit
 
 Dim Form As FormMode
 Dim readyFORsave As Boolean
-Dim Rs As ADODB.Recordset, rsReceptList As ADODB.Recordset
+Dim rs As ADODB.Recordset, rsReceptList As ADODB.Recordset
 Dim colorsROW(12)
 Dim SaveEnabled As Boolean
 Dim forceNAV As Boolean
@@ -1267,7 +1282,7 @@ Dim Col As Integer
         currentROW = POlist.row
         POlist.row = row
         If (d2 - d1) >= 0 Then
-            POlist.CellForeColor = vbBlack
+            'POlist.CellForeColor = vbBlack
         Else
             POlist.CellForeColor = vbRed
         End If
@@ -1307,7 +1322,7 @@ Dim i, w As Integer
             End Select
         Next
         .TextMatrix(0, 0) = "General"
-        .TextMatrix(0, 2) = "Transaction"
+        .TextMatrix(0, 2) = "Purchase Order"
         .TextMatrix(0, 4) = "Supplier Invoice"
         If diff > 2 Then
             .ColWidth(0) = POlist.ColWidth(0)
@@ -1426,7 +1441,7 @@ Dim dataLIST As ADODB.Recordset
     If cell(0) <> "(By Invoice)" And cell(0) <> "" Then
         Sql = Sql + " AND inv_ponumb = '" + Trim(cell(0).Text) + "' "
     End If
-    Sql = Sql + " ORDER BY inv_invcnumb"
+    Sql = Sql + " ORDER BY inv_creadate desc"
     dataLIST.Open Sql, deIms.cnIms, adOpenForwardOnly
     
     With InvoiceComboList
@@ -1507,16 +1522,17 @@ Dim response
         Else
             originalROW = .MouseRow
         End If
+        If .TextMatrix(originalROW, 19) = "locked" Then Exit Sub 'Juan 2014-09-10
         Select Case .TextMatrix(originalROW, 1)
             Case ""
                 Exit Sub
-            Case "§"
+            Case "?"
                 nextROW = "UP"
                 itemX = val(.TextMatrix(.row - 1, 1))
             Case Else
                 If .row < .Rows - 1 Then
                     .row = .row + 1
-                    If .TextMatrix(.row, 1) = "§" Then
+                    If .TextMatrix(.row, 1) = "?" Then
                         nextROW = "DOWN"
                     Else
                         nextROW = "NO"
@@ -1544,10 +1560,14 @@ Dim response
         
         .Col = 0
         For i = 1 To 2
+            .Col = 0
             .CellFontName = "Wingdings 3"
             .CellFontSize = 10
             If .Text = "" Then
-                .Text = "Æ"
+                .Text = "?"
+                .Col = 8
+                .CellFontName = "MS Sans Serif"
+                .CellFontSize = 8.5
                 .TextMatrix(.row, 9) = .TextMatrix(.row, 5)
                 purchaseUNIT = Trim(.TextMatrix(.row, 15))
                 If purchaseUNIT = "P" Or purchaseUNIT = "" Then
@@ -1559,7 +1579,8 @@ Dim response
                     End If
                 Else
                     If i = 1 Then
-                        .TextMatrix(.row, 8) = .TextMatrix(.row, 4)
+                        'Juan 2014-07-01 Now it should not be replaced
+                       ' .TextMatrix(.row, 8) = .TextMatrix(.row, 4)
                     Else
                         .TextMatrix(.row, 10) = .TextMatrix(.row, 6)
                         .TextMatrix(.row, 12) = "00.0"
@@ -1676,8 +1697,9 @@ Dim datPO As New ADODB.Recordset
     
     Set datPO = New ADODB.Recordset
         
-    Sql = "SELECT po_ponumb FROM PO WHERE po_npecode = '" + deIms.NameSpace + "' " _
-        & "ORDER BY po_ponumb"
+    Sql = "SELECT po_ponumb FROM PO WHERE po_npecode = '" + deIms.NameSpace + "'  " _
+         + "AND po_stas NOT IN ('CA')  " _
+        & "ORDER BY po_creadate desc"
     
     POComboList.Rows = 0
     With datPO
@@ -1708,9 +1730,10 @@ End Sub
 Sub getLINEitems(Invoice As String, Optional lineITEM As Integer)
 Dim dataPO As New ADODB.Recordset
 Dim Sql, rowTEXT, stock As String
-Dim Q, U, P
+Dim Q, U, P, qtyValue
 Dim i As Integer
 Dim qty As Double
+Dim lockRow As Boolean
 
     On Error Resume Next
     Screen.MousePointer = 11
@@ -1721,7 +1744,8 @@ Dim qty As Double
             If lineITEM > 0 Then
                 Sql = Sql + "AND lineItem = " + Format(lineITEM) + " "
             End If
-            Sql = Sql + "ORDER BY PO, CONVERT(integer, LineItem)"
+            Sql = Sql + "ORDER BY PO, CONVERT(integer, LineItem) "
+            Sql = Sql + ", sequence" 'Juan 2014-06-05
     Else
         Invoice = Trim(Invoice)
         Sql = "SELECT * from Invoice_Details WHERE NameSpace = '" + deIms.NameSpace + "' " _
@@ -1735,6 +1759,7 @@ Dim qty As Double
         If .RecordCount > 0 Then
             
             Do While Not .EOF
+                lockRow = False
                 rowTEXT = "" + vbTab
                 rowTEXT = rowTEXT + IIf(IsNull(!lineITEM), "", !lineITEM) + vbTab 'PO Line Item
                 stock = IIf(IsNull(!StockNumber), "", Trim(!StockNumber)) + " - " + IIf(IsNull(!Description), "", !Description)
@@ -1742,19 +1767,25 @@ Dim qty As Double
                 rowTEXT = rowTEXT + "" + vbTab 'Line
                 
                 'Purchase
-                rowTEXT = rowTEXT + FormatNumber(!Quantity1, 2) + vbTab 'Primary Quantity
+                If IsNull(!poi_primreqdqty) Then
+                    qtyValue = !QuantityI1
+                Else
+                    qtyValue = !poi_primreqdqty
+                End If
+                rowTEXT = rowTEXT + FormatNumber(qtyValue, 2) + vbTab 'Primary Quantity
                 rowTEXT = rowTEXT + IIf(IsNull(!unit1), "", Trim(!unit1)) + vbTab 'Primary Unit
                 rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!unitprice1), 0, !unitprice1), 2) + vbTab 'Primary Unit Price
                 
                 'Invoice
                 rowTEXT = rowTEXT + "" + vbTab 'Line
                 If Invoice = "*" Then
-                    If IsNumeric(!SumQty1) Then
-                        qty = !SumQty1
+                    If IsNumeric(!sumqty1) Then
+                        qty = !sumqty1
+                        If !quantity1 - !sumqty1 <= 0 Then lockRow = True
                     Else
                         qty = 0
                     End If
-                    Q = IIf(qty = 0, "", FormatNumber(qty, 2))
+                    Q = IIf(!quantity1 = 0, "", FormatNumber(!quantity1, 2))
                     U = IIf(IsNull(!unit1), "", Trim(!unit1))
                     P = IIf(IsNull(!SumUnitPrice1), "", FormatNumber(!SumUnitPrice1, 2))
                     rowTEXT = rowTEXT + Q + vbTab   'Sumary Primary Quantity
@@ -1783,9 +1814,22 @@ Dim qty As Double
                     POlist.TextMatrix(POlist.row, 10) = P 'Primary Unit Price
                 End If
                 
+                'Juan 2014-07-01
+                POlist.TextMatrix(POlist.row, 17) = !sequence
+                
                 POlist.TextMatrix(POlist.row, 16) = !Unit1Code
                 POlist.TextMatrix(POlist.row, 17) = IIf(IsNull(!invoices), 0, !invoices)
                 If lineITEM = 0 Then Call colorCOLS(Invoice = "*")
+                If (Not IsNull(!invoices)) Then
+                    'Juan 2014-09-10
+                    If lockRow Then
+                        POlist.TextMatrix(POlist.row, 19) = "locked"
+                    End If
+                    For i = 1 To POlist.Cols - 1
+                        POlist.Col = i
+                        POlist.CellForeColor = &H80000010   'gray
+                    Next
+                End If
                 Call differences(POlist.row)
                 If !unit1 = !unit2 Then
                     POlist.TextMatrix(POlist.row, 15) = ""
@@ -1800,7 +1844,7 @@ Dim qty As Double
                     'Purchase
                     rowTEXT = rowTEXT + FormatNumber(!Quantity2, 2) + vbTab 'Secundary Quantity
                     rowTEXT = rowTEXT + IIf(IsNull(!unit2), "", Trim(!unit2)) + vbTab 'Secundary Unit
-                    rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPrice2), 0, !UnitPrice2), 2) + vbTab 'Secundary Unit Price
+                    rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!unitprice2), 0, !unitprice2), 2) + vbTab 'Secundary Unit Price
                     
                     'Invoice
                     rowTEXT = rowTEXT + "" + vbTab 'Line
@@ -1838,21 +1882,34 @@ Dim qty As Double
                         POlist.TextMatrix(POlist.row, 9) = U 'Primary Unit
                         POlist.TextMatrix(POlist.row, 10) = P 'Primary Unit Price
                     End If
-                                        
+                    
+                'Juan 2014-07-01
+                POlist.TextMatrix(POlist.row, 17) = !sequence
+                'Juan 2014-09-10
+                If lockRow Then
+                    POlist.TextMatrix(POlist.row, 19) = "locked"
+                End If
+                If (Not IsNull(!invoices)) Then
+                    For i = 1 To POlist.Cols - 1
+                        POlist.Col = i
+                        POlist.CellForeColor = &H80000010   'gray
+                    Next
+                End If
+
                     POlist.TextMatrix(POlist.row, 15) = !UnitSwitch
                     POlist.TextMatrix(POlist.row, 16) = !Unit2Code
                     POlist.TextMatrix(POlist.row, 17) = IIf(IsNull(!invoices), 0, !invoices)
                     If lineITEM = 0 Then Call colorCOLS(Invoice = "*")
                     POlist.Col = 1
                     If POlist = "" Then
-                        POlist = "§"
+                        POlist = "?"
                         POlist.CellFontName = "Wingdings"
                     End If
                     Call differences(POlist.row)
                     If UCase(Trim(!UnitSwitch)) = "P" Or IsNull(!UnitSwitch) Then POlist.row = POlist.Rows - 2
                     For i = 4 To 6
                         POlist.Col = i
-                        POlist.CellBackColor = &HC0C0FF
+                        POlist.CellBackColor = &HC0C0FF 'light red
                     Next
                     
                     If lineITEM = 0 Then POlist.row = POlist.Rows - 1
@@ -1865,13 +1922,17 @@ Dim qty As Double
                     For i = 0 To POlist.Cols - 1
                         POlist.Col = i
                         If i = 0 Then
-                            POlist.CellBackColor = &H808080
+                            POlist.CellBackColor = &H808080 'dark gray
                         Else
-                            POlist.CellBackColor = &HE0E0E0
+                            POlist.CellBackColor = &HE0E0E0 ' gray
                         End If
                     Next
                     POlist.RowHeight(POlist.row) = 50
                     POlist.TextMatrix(POlist.row, 13) = 50
+                    'Juan 2014-09-10
+                    If lockRow Then
+                        POlist.TextMatrix(POlist.row, 19) = "locked"
+                    End If
                 Else
                     Exit Do
                 End If
@@ -1982,7 +2043,7 @@ Dim i, Col As Integer
         .Col = 0
         .CellFontName = "Wingdings"
         .CellFontSize = 12
-        .TextMatrix(0, 0) = "®"
+        .TextMatrix(0, 0) = "?"
         
         'Section 1
         .ColAlignment(1) = 6
@@ -2012,7 +2073,7 @@ Dim i, Col As Integer
         .TextMatrix(0, 12) = "Unit Price Difference"
         
         'Invisible columns
-        For i = 13 To 17
+        For i = 13 To 19
             .ColWidth(i) = 0
         Next
         .TextMatrix(0, 13) = "Real Height"
@@ -2020,6 +2081,8 @@ Dim i, Col As Integer
         .TextMatrix(0, 15) = "Switch"
         .TextMatrix(0, 16) = "Unit of Mesure Code"
         .TextMatrix(0, 17) = "Invoices"
+        .TextMatrix(0, 18) = "Sequence"
+        .TextMatrix(0, 19) = "Locked"
         .row = 1
         .Col = 1
         .RowHeight(0) = 500
@@ -2089,11 +2152,11 @@ Dim positionX, positionY, i, currentCOL As Integer
         currentROW = .row
         If .TextMatrix(.row, 0) <> "" Then
             If Trim(.TextMatrix(.row, 15)) = "P" Then
-                If .TextMatrix(.row, 1) = "§" Then
+                If .TextMatrix(.row, 1) = "?" Then
                     If .Col = 10 Then Exit Sub
                 End If
             Else
-                If .TextMatrix(.row, 1) <> "§" Then
+                If .TextMatrix(.row, 1) <> "?" Then
 '                    If .col = 10 Then Exit Sub
                 End If
             End If
@@ -2168,7 +2231,7 @@ Private Sub cell_Change(Index As Integer)
         With cell(Index)
             Select Case Index
                 Case 0
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If cell(Index) = "" Then
                             Call clearDOCUMENT
                             NavBar1.NewEnabled = False
@@ -2184,7 +2247,7 @@ Private Sub cell_Change(Index As Integer)
                         End If
                     End If
                 Case 1
-                    If Form <> mdVisualization Then
+                    If Form <> mdvisualization Then
                         If Index = 1 Then Exit Sub
                         If cell(Index) <> "" Then Call alphaSEARCH(cell(Index), InvoiceComboList, 0)
                     
@@ -2204,13 +2267,13 @@ End Sub
 Private Sub cell_Click(Index As Integer)
     Select Case Index
         Case 0
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 Call showLIST(POComboList)
             Else
                 POComboList.Visible = False
             End If
         Case 1
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 Call showLIST(InvoiceComboList)
             Else
                 InvoiceComboList.Visible = False
@@ -2227,7 +2290,7 @@ Private Sub cell_GotFocus(Index As Integer)
             .Tag = .Text
             Select Case Index
                 Case 0
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If POComboList.Visible Then
                             POComboList.Visible = False
                         Else
@@ -2235,7 +2298,7 @@ Private Sub cell_GotFocus(Index As Integer)
                         End If
                     End If
                 Case 1
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         If InvoiceComboList.Visible Then
                             InvoiceComboList.Visible = False
                         Else
@@ -2244,7 +2307,7 @@ Private Sub cell_GotFocus(Index As Integer)
                     End If
                 Case 3
                     If IsDate(cell(Index)) Then DTPicker1.value = CDate(cell(Index))
-                    If Form <> mdVisualization Then
+                    If Form <> mdvisualization Then
                         If .Text = "" Then
                             DTPicker1.value = Now
                         Else
@@ -2262,7 +2325,7 @@ Dim activeARROWS As Boolean
     With cell(Index)
         If Not .locked Then
             activeARROWS = False
-            If Index <= 2 And Form = mdVisualization Then activeARROWS = True
+            If Index <= 2 And Form = mdvisualization Then activeARROWS = True
             If activeARROWS Then
                 Select Case KeyCode
                     Case 40
@@ -2284,7 +2347,7 @@ Private Sub cell_KeyPress(Index As Integer, KeyAscii As Integer)
                             Case 0
                                 If KeyAscii = 13 Then
                                     Select Case Form
-                                        Case mdVisualization
+                                        Case mdvisualization
                                             cell(0) = POComboList
                                             POComboList.Visible = False
                                             Call getINVOICE("*")
@@ -2297,7 +2360,7 @@ Private Sub cell_KeyPress(Index As Integer, KeyAscii As Integer)
                             Case 1
                                 If KeyAscii = 13 Then
                                     Select Case Form
-                                        Case mdVisualization
+                                        Case mdvisualization
                                             If cell(1) <> "" Then
                                                 Call getINVOICE("*")
                                             End If
@@ -2339,7 +2402,7 @@ On Error Resume Next
             Select Case Index
                 Case 0
                     Select Case Form
-                        Case mdVisualization
+                        Case mdvisualization
                             If cell(0) = Right(invoiceLABEL, Len(cell(0))) Then Exit Sub
                         Case mdCreation
                             POComboList.Visible = False
@@ -2347,7 +2410,7 @@ On Error Resume Next
                     End Select
                 Case 1
                     Select Case Form
-                        Case mdVisualization
+                        Case mdvisualization
 
                             If InvoiceComboList.Visible Then
                                 InvoiceComboList.Visible = False
@@ -2386,7 +2449,7 @@ End Sub
 
 
 Public Sub cell_Validate(Index As Integer, Cancel As Boolean)
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         With cell(Index)
             If Not .locked Then
                 If .Text <> "" Then
@@ -2435,19 +2498,19 @@ End Sub
 
 
 Private Sub Command1_Click()
-Dim showALL As Boolean
+Dim showAll As Boolean
 Dim i As Integer
     If Command1.Caption = "&Show Only Selection" Then
         Command1.Caption = "&Show All Records"
-        showALL = False
+        showAll = False
     Else
         Command1.Caption = "&Show Only Selection"
-        showALL = True
+        showAll = True
     End If
     
     With POlist
         .Col = 0
-        If showALL Then
+        If showAll Then
             .RowHeightMin = 50
             .RowHeight(-1) = 240
         Else
@@ -2473,7 +2536,7 @@ Dim i As Integer
                 End If
             End If
 
-            If showALL Then
+            If showAll Then
                 If val(.TextMatrix(i, 13)) = 50 Then .RowHeight(i) = 50
             Else
                 If .TextMatrix(i, 0) <> "" And Not IsNumeric(.TextMatrix(i, 1)) Then
@@ -2546,7 +2609,7 @@ Dim rights
     frmInvoice.Left = Int((MDI_IMS.Width - frmInvoice.Width) / 2)
     frmInvoice.Top = Int((MDI_IMS.Height - frmInvoice.Height) / 2) - 500
 
-    If Form = mdVisualization Then
+    If Form = mdvisualization Then
         NavBar1.SaveEnabled = False
         NavBar1.CancelEnabled = False
         NavBar1.NewEnabled = False
@@ -2570,21 +2633,21 @@ Dim rights
     Imsmail1.Language = Language
     NavBar1.Language = Language
     Call begining
-    Form = mdVisualization
+    Form = mdvisualization
     Screen.MousePointer = 11
     SSTab1.Tab = 0
     Call lockDOCUMENT(True)
-    FormMode = mdVisualization
+    FormMode = mdvisualization
     
     SSGrdFQA.StyleSets.Add ("CellBeingModified")
     SSGrdFQA.StyleSets("CellBeingModified").BackColor = vbYellow
-    SSGrdFQA.ActiveCell.StyleSet = "CellBeingModified"
+    SSGrdFQA.activeCELL.StyleSet = "CellBeingModified"
     
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 Dim closing
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         closing = MsgBox("Do you really want to close and lose your last record?", vbYesNo)
         If closing = vbNo Then
             Cancel = True
@@ -2705,7 +2768,7 @@ Screen.MousePointer = 11
         
         Call SAVE
 
-        Call ChangeMode(mdVisualization)
+        Call ChangeMode(mdvisualization)
         Call getPOComboList
         Call getInvoiceComboList
         Call getINVOICE(cell(0))
@@ -2746,7 +2809,7 @@ Select Case SSTab1.Tab
     If response = vbYes Then
         With NavBar1
             cell(0).locked = False
-            Call ChangeMode(mdVisualization)
+            Call ChangeMode(mdvisualization)
             If SSTab1.Tab > 0 Then SSTab1.Tab = 0
             Call lockDOCUMENT(True)
             Call clearDOCUMENT
@@ -2842,7 +2905,7 @@ Select Case SSTab1.Tab
 Case 0
 
 If locked = True Then                                        'sets locked = true because another user has this record open in edit mode
-FormMode = ChangeModeOfForm(lblStatu, mdVisualization)
+FormMode = ChangeModeOfForm(lblStatu, mdvisualization)
 NavBar1.SaveEnabled = False
 Exit Sub                                                     'Exit Edit sub because theres nothing the user can do
 Else
@@ -2918,7 +2981,7 @@ On Error Resume Next
             lblStatu.Caption = IIf(msg1 = "", "Creation", msg1)
             lblStatu.Tag = "Creation"
             ChangeMode = True
-        Case mdVisualization
+        Case mdvisualization
             lblStatu.ForeColor = vbGreen
             msg1 = translator.Trans("L00092") 'J added
             lblStatu.Caption = IIf(msg1 = "", "Visualization", msg1) 'J modified
@@ -3094,7 +3157,7 @@ End Sub
 
 Private Sub POComboList_Click()
     Select Case Form
-        Case mdVisualization
+        Case mdvisualization
             POComboList.Tag = POComboList.row
             cell(0) = Trim(POComboList)
             If Left(cell(0), 1) = "(" And Right(cell(0), 1) = ")" Then
@@ -3117,7 +3180,7 @@ Private Sub POComboList_KeyPress(KeyAscii As Integer)
         Select Case KeyAscii
             Case 13
                 Select Case Form
-                    Case mdVisualization
+                    Case mdvisualization
                         cell(0) = .Text
                         Call getINVOICE("*")
                         Call getInvoiceComboList
@@ -3142,7 +3205,7 @@ End Sub
 
 Public Sub POlist_Click()
 Dim i, currentCOL, pointerCOL As Integer
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         With POlist
             If .TextMatrix(.row, 1) <> "" Then
                 If .row > 0 Then
@@ -3159,6 +3222,10 @@ Dim i, currentCOL, pointerCOL As Integer
                                 multiMARKED = False
                             Else
                                 Call markROW
+                                If .Col = 8 Then
+                                    Call POlist_EnterCell
+                                    Call showTEXTline
+                                End If
                             End If
                         Case 8, 10
                             Call showTEXTline
@@ -3200,7 +3267,7 @@ End Sub
 
 Private Sub POlist_EnterCell()
 Dim changeCOLORS As Boolean
-    If Form <> mdVisualization Then
+    If Form <> mdvisualization Then
         Dim i, currentCOL As Integer
         With POlist
             currentCOL = .Col
@@ -3249,6 +3316,7 @@ Dim changeCOLORS As Boolean
                                 .CellBackColor = &HFFC0C0 'Very Light Blue
                         End Select
                     Next
+                    .Col = currentCOL
                     Select Case .Col
                         Case 8, 10
                             Call showTEXTline
@@ -3313,7 +3381,7 @@ Dim row, Col As Integer
 End Sub
 
 Private Sub POlist_Scroll()
-    If Form <> mdVisualization Then TextLINE.Visible = False
+    If Form <> mdvisualization Then TextLINE.Visible = False
     If POlist.leftCOL > 0 Then
         Call fixPOtitles(POlist.leftCOL)
     End If
@@ -3321,7 +3389,7 @@ End Sub
 
 Private Sub POlist_SelChange()
     With POlist
-        If Form <> mdVisualization Then
+        If Form <> mdvisualization Then
             If .TextMatrix(.row, 1) <> "" Then
                 If .RowHeight(POlist.row) > 240 Then
                     .TextMatrix(POlist.row, 13) = .RowHeight(POlist.row)
@@ -3333,7 +3401,7 @@ End Sub
 
 Private Sub InvoiceComboList_Click()
     Select Case Form
-        Case mdVisualization
+        Case mdvisualization
             InvoiceComboList.Tag = InvoiceComboList.row
             cell(1) = Trim(InvoiceComboList)
             If Left(cell(0), 1) = "(" And Right(cell(0), 1) = ")" Then
@@ -3405,7 +3473,7 @@ End Sub
 
 Private Sub SSGrdFQA_BeforeRowColChange(Cancel As Integer)
 
-If Form = mdVisualization Then Exit Sub
+If Form = mdvisualization Then Exit Sub
 
 Select Case SSGrdFQA.Col
 Case 0
@@ -3520,7 +3588,7 @@ End Sub
 
 Private Sub SSGrdFQA_RowColChange(ByVal LastRow As Variant, ByVal LastCol As Integer)
 
-If Form = mdVisualization Then Exit Sub
+If Form = mdvisualization Then Exit Sub
 
 Select Case CInt(CStr(LastCol))
 Case 0
@@ -3558,10 +3626,10 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
             If cell(0) = "" Then
                 SSTab1.Tab = 0
             Else
-                If NavBar1.CancelEnabled Or Form = mdVisualization Then
+                If NavBar1.CancelEnabled Or Form = mdvisualization Then
                     invoiceLABEL = "Transaction # " + cell(0)
                     currencyLABEL = "Currency: " + cell(5)
-                    If Form = mdVisualization Then
+                    If Form = mdvisualization Then
                         Command1.Enabled = False
                     Else
                         Command1.Enabled = True
@@ -3593,7 +3661,7 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
           If FPopulateFQACombos = False Then FPopulateFQACombos = PopulateCombosWithFQA(deIms.NameSpace)
          ' Call CalculateInvoicecharges
          
-         If (Trim(cell(0)) <> FPonumb Or Trim(cell(1)) <> FInvoiceno) And Form = mdVisualization Then
+         If (Trim(cell(0)) <> FPonumb Or Trim(cell(1)) <> FInvoiceno) And Form = mdvisualization Then
          
              FPonumb = cell(0)
              FInvoiceno = cell(1)
@@ -3613,14 +3681,14 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
         Select Case SSTab1.Tab
         
         Case 0
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = SaveEnabled
             Else
                 .SaveEnabled = True
             End If
         Case 1
         
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = False
                 .SaveEnabled = False
             Else
@@ -3629,7 +3697,7 @@ Private Sub SSTab1_Click(PreviousTab As Integer)
             End If
         Case 3  'M
         
-            If Form = mdVisualization Then
+            If Form = mdvisualization Then
                 .NewEnabled = False
                 .SaveEnabled = False
             Else
@@ -3720,7 +3788,7 @@ Dim i, Col, row As Integer
 Dim qty, switch, Sql, t As String
 Dim newPRICE, qty1, qty2, uPRICE1, uPRICE2, sumQTY, sumPRICE As Double
 Dim newPRICEok As Boolean
-Dim answer
+Dim answer, sequence
 Dim dataLINE As New ADODB.Recordset
 
     With TextLINE
@@ -3738,13 +3806,14 @@ Dim dataLINE As New ADODB.Recordset
                             Exit Sub
                         End If
                     End If
+                    sequence = POlist.TextMatrix(t, 18)
                     Sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
-                        & "AND PO = '" + cell(0) + "' AND lineItem = " + t
+                        & "AND PO = '" + cell(0) + "' AND lineItem = " + t + " AND sequence = '" + sequence + "' "
                     Set dataLINE = New ADODB.Recordset
                     dataLINE.Open Sql, deIms.cnIms, adOpenForwardOnly
                     If dataLINE.RecordCount > 0 Then
                         If IsNumeric(POlist.TextMatrix(currentROW, 1)) Then
-                            sumQTY = CDbl(.Text) + IIf(IsNull(dataLINE!SumQty1), 0, dataLINE!SumQty1)
+                            sumQTY = CDbl(.Text) + IIf(IsNull(dataLINE!sumqty1), 0, dataLINE!sumqty1)
                             sumPRICE = CDbl(.Text) + IIf(IsNull(dataLINE!SumUnitPrice1), 0, dataLINE!SumUnitPrice1)
                         Else
                             sumQTY = CDbl(.Text) + IIf(IsNull(dataLINE!SumQty2), 0, dataLINE!SumQty2)
@@ -3758,7 +3827,7 @@ Dim dataLINE As New ADODB.Recordset
                         Case 8
                             If IsNumeric(CDbl(POlist.TextMatrix(currentROW, 4))) Then
                                 If sumQTY > CDbl(POlist.TextMatrix(currentROW, 4)) Then
-                                    answer = MsgBox("This line item is being over invoice.  Do you want to continue?", vbYesNo)
+                                    answer = MsgBox("This line item is being over invoiced.  Do you want to continue?", vbYesNo)
                                     If answer = vbNo Then
                                         .Text = FormatNumber(CDbl(POlist.TextMatrix(currentROW, 4)) - (sumQTY - CDbl(.Text)), 2)
                                         Exit Sub
@@ -3768,7 +3837,7 @@ Dim dataLINE As New ADODB.Recordset
                         Case 10
                             If IsNumeric(CDbl(POlist.TextMatrix(currentROW, 6))) Then
                                 If sumPRICE > CDbl(POlist.TextMatrix(currentROW, 6)) Then
-                                    answer = MsgBox("This line item is over price.  Do you want to continue?", vbYesNo)
+                                    answer = MsgBox("This line item is over priced.  Do you want to continue?", vbYesNo)
                                     If answer = vbNo Then
                                         .Text = FormatNumber(POlist.TextMatrix(currentROW, 6) - (sumPRICE - CDbl(.Text)), 2)
                                         Exit Sub
@@ -3782,7 +3851,7 @@ Dim dataLINE As New ADODB.Recordset
                         Case ""
                             Call differences(currentROW)
                         Case "P", "S"
-                            If POlist.TextMatrix(currentROW, 1) = "§" Then
+                            If POlist.TextMatrix(currentROW, 1) = "?" Then
                                 row = currentROW - 1
                             Else
                                 row = currentROW
@@ -3963,7 +4032,7 @@ Public Function CalculateInvoicecharges() As Boolean
             
         Next
     
-    ElseIf FormMode = mdVisualization Then
+    ElseIf FormMode = mdvisualization Then
     
         
         Rsinvoice.Source = " select invd_totapric from invoicedetl where invd_ponumb='" & cell(0) & "' and invd_invcnumb='" & cell(1) & "' and invd_npecode='" & deIms.NameSpace & "'"
@@ -4150,13 +4219,13 @@ Err.Clear
 End Function
 
 Public Function ArrangeMiscChargesLineNo() As Boolean
-Dim count As Integer
+Dim Count As Integer
 Dim i As Integer
 On Error GoTo ErrHand
 
-count = SSGrdFQA.Rows
-If count = 0 Then Exit Function
-For i = 0 To count - 1
+Count = SSGrdFQA.Rows
+If Count = 0 Then Exit Function
+For i = 0 To Count - 1
 
     SSGrdFQA.row = i
     SSGrdFQA.Columns("lineno").value = i + 1

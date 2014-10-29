@@ -1,8 +1,8 @@
 VERSION 5.00
+Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
-Begin VB.Form FrmManifestPOD 
+Begin VB.Form frmmanifestpod 
    Caption         =   "Manifest POD"
    ClientHeight    =   2295
    ClientLeft      =   60
@@ -72,7 +72,7 @@ Begin VB.Form FrmManifestPOD
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "12/31/9999 12:00:00 AM"
-      Format          =   60293121
+      Format          =   60948481
       CurrentDate     =   40112
    End
    Begin VB.TextBox lblTxt 
@@ -122,7 +122,7 @@ Begin VB.Form FrmManifestPOD
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   60293122
+      Format          =   60948482
       CurrentDate     =   36494
    End
    Begin VB.Label lbldatetime 
@@ -217,7 +217,7 @@ Set GetManifestList = rsManifestList
 ErrHandler:
 
     MsgBox "Errors occured while trying to retrieve packing list."
-    Err.Raise Err.number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
+    err.Raise err.number, err.Source, err.description, err.HelpFile, err.HelpContext
     
 End Function
 
@@ -273,7 +273,7 @@ Call MsgBox("Saved successfully", vbOKOnly, "IMS")
 Exit Sub
 Error:
 
-MsgBox ("Errors occurred while trying to save, Error Descrioption : " & Err.Description)
+MsgBox ("Errors occurred while trying to save, Error Descrioption : " & err.description)
 
 End Sub
 

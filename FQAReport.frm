@@ -1,9 +1,9 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form Frm_FQAReporting 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "FQA Reporting"
@@ -74,7 +74,7 @@ Begin VB.Form Frm_FQAReporting
          _ExtentX        =   2566
          _ExtentY        =   503
          _Version        =   393216
-         Format          =   60162049
+         Format          =   58458113
          CurrentDate     =   37595
       End
       Begin MSComCtl2.DTPicker DTPTo 
@@ -86,7 +86,7 @@ Begin VB.Form Frm_FQAReporting
          _ExtentX        =   2566
          _ExtentY        =   503
          _Version        =   393216
-         Format          =   60162049
+         Format          =   58458113
          CurrentDate     =   37595
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSdbCompany 
@@ -257,12 +257,12 @@ Begin VB.Form Frm_FQAReporting
       TabCaption(1)   =   "E-Mail List"
       TabPicture(1)   =   "FQAReport.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lbl_Recipients"
-      Tab(1).Control(1)=   "SSGRDRecepients"
-      Tab(1).Control(2)=   "dgRecepients"
-      Tab(1).Control(3)=   "TxtEmail"
-      Tab(1).Control(4)=   "cmd_Add"
-      Tab(1).Control(5)=   "cmd_Remove"
+      Tab(1).Control(0)=   "cmd_Remove"
+      Tab(1).Control(1)=   "cmd_Add"
+      Tab(1).Control(2)=   "TxtEmail"
+      Tab(1).Control(3)=   "dgRecepients"
+      Tab(1).Control(4)=   "SSGRDRecepients"
+      Tab(1).Control(5)=   "lbl_Recipients"
       Tab(1).ControlCount=   6
       Begin VB.CheckBox Chk_Invt 
          Height          =   200
@@ -879,8 +879,8 @@ Dim FpopulateInventory As Boolean
 Dim FPopulatedSupplierInvoiceGrids As Boolean
 Private Sub Chk_Invt_Click()
 Dim x As Long
-Dim I As Integer
-If Chk_Invt.Value = 1 Then
+Dim i As Integer
+If Chk_Invt.value = 1 Then
 
     FraInventory.Enabled = True
     Call PopulateInventoryGrids
@@ -896,9 +896,9 @@ End Sub
 
 Private Sub Chk_po_Click()
 
-If Chk_po.Value = 1 Then
+If Chk_po.value = 1 Then
     FraPo.Enabled = True
-    Call PopulatePOGrids(SSdbCompany.Tag, SSdbLocation.Tag, DTPFrom.Value, DTPTo.Value)
+    Call PopulatePOGrids(SSdbCompany.Tag, SSdbLocation.Tag, DTPFrom.value, DTPTo.value)
     
 Else
 
@@ -916,7 +916,7 @@ End Sub
 
 Private Sub Chk_Supp_Click()
 
-If Chk_Supp.Value = 1 Then
+If Chk_Supp.value = 1 Then
     FraInvoice.Enabled = True
     Call PopulateSupplierInvoiceGrids
 Else
@@ -950,18 +950,18 @@ End Sub
 Private Sub CmdExport_Click()
 
 
-If Len(Trim(SSdbCompany.text)) = 0 Then MsgBox "Please select a company.", vbInformation, "Ims": Exit Sub
-If Len(Trim(SSdbLocation.text)) = 0 Then MsgBox "Please select a Location.", vbInformation, "Ims": Exit Sub
+If Len(Trim(SSdbCompany.Text)) = 0 Then MsgBox "Please select a company.", vbInformation, "Ims": Exit Sub
+If Len(Trim(SSdbLocation.Text)) = 0 Then MsgBox "Please select a Location.", vbInformation, "Ims": Exit Sub
 Screen.MousePointer = vbHourglass
 If SSGRDRecepients.Rows > 0 Then
 
 ProgressBar1.Visible = True
 
-If Chk_po.Value = 1 Then Call ExportPOtoExcel
-If Chk_Invt.Value = 1 Then Call ExportInventoryToExcel
-If Chk_Supp.Value = 1 Then Call ExportInvoicetoExcel
+If Chk_po.value = 1 Then Call ExportPOtoExcel
+If Chk_Invt.value = 1 Then Call ExportInventoryToExcel
+If Chk_Supp.value = 1 Then Call ExportInvoicetoExcel
 
-If Chk_po.Value = 0 And Chk_Invt.Value = 0 And Chk_Supp.Value = 0 Then
+If Chk_po.value = 0 And Chk_Invt.value = 0 And Chk_Supp.value = 0 Then
 
         MsgBox "Please choose atleast one option to generate report.", vbInformation, "Ims"
 
@@ -987,7 +987,7 @@ Unload Me
 End Sub
 
 Private Sub dgRecepients_DblClick()
-SSGRDRecepients.AddItem Trim(UCase(dgRecepients.Columns(1).text))
+SSGRDRecepients.AddItem Trim(UCase(dgRecepients.Columns(1).Text))
 End Sub
 
 Private Sub Form_Load()
@@ -998,9 +998,9 @@ ProgressBar1.Visible = False
 PopulateCompany
 Me.Width = 7140
 Me.Height = 7815
-DTPFrom.Value = Date
-DTPTo.Value = DateAdd("d", 1, Date)
-Chk_Invt.Value = 1
+DTPFrom.value = Date
+DTPTo.value = DateAdd("d", 1, Date)
+Chk_Invt.value = 1
 Chk_po = 1
 Chk_Supp = 1
 'DTPFrom.SetFocus
@@ -1049,7 +1049,7 @@ End Sub
 
 Private Sub SSdbCompany_Click()
 
-SSdbCompany.Tag = Trim(SSdbCompany.Columns(0).Value)
+SSdbCompany.Tag = Trim(SSdbCompany.Columns(0).value)
 
 Call PopulateLocation
 
@@ -1068,13 +1068,13 @@ Call NormalBackground(SSdbCompany)
 End Sub
 
 Private Sub SSdbLocation_Click()
-SSdbLocation.Tag = Trim(SSdbLocation.Columns("code").Value)
+SSdbLocation.Tag = Trim(SSdbLocation.Columns("code").value)
 
-If Chk_po.Value = 1 Then Call PopulatePOGrids(Trim(SSdbCompany.Tag), Trim(SSdbLocation.Tag), DTPFrom.Value, DTPTo.Value)
+If Chk_po.value = 1 Then Call PopulatePOGrids(Trim(SSdbCompany.Tag), Trim(SSdbLocation.Tag), DTPFrom.value, DTPTo.value)
 
-If Chk_Invt.Value = 1 Then PopulateInventoryGrids
+If Chk_Invt.value = 1 Then PopulateInventoryGrids
 
-If Chk_Supp.Value = 1 Then PopulateSupplierInvoiceGrids
+If Chk_Supp.value = 1 Then PopulateSupplierInvoiceGrids
 
 
 
@@ -1084,7 +1084,7 @@ Public Function PopulateLocation() As Boolean
 
 Dim RsLocation As New ADODB.Recordset
 
-On Error GoTo Errhandler
+On Error GoTo ErrHandler
 
 RsLocation.Source = "select loc_locacode , loc_name from location where loc_npecode ='" & deIms.NameSpace & "' and loc_compcode ='" & SSdbCompany.Tag & "'"
 
@@ -1103,7 +1103,7 @@ Do While Not RsLocation.EOF
 Loop
 
 Exit Function
-Errhandler:
+ErrHandler:
 
 MsgBox "Errors occurred while populating the location combo. " & Err.Description, vbCritical, "Ims"
 Err.Clear
@@ -1128,7 +1128,7 @@ SSGrdPODoc.AddItem "ALL" & vbTab & "ALL"
 
 Do While Not rsDOCTYPE.EOF
 
-    SSGrdPODoc.AddItem rsDOCTYPE!Doc_code & vbTab & rsDOCTYPE!doc_desc
+    SSGrdPODoc.AddItem rsDOCTYPE!doc_code & vbTab & rsDOCTYPE!doc_desc
 
     rsDOCTYPE.MoveNext
 
@@ -1157,19 +1157,19 @@ SSGrdPOShip.AddItem "SC" & vbTab & "SHIPPING, COMPLETE"
 SSGrdPOShip.AddItem "SP" & vbTab & "SHIPPING, PARTIAL"
 
 
-SSGrdPOInvt.text = "ALL"
+SSGrdPOInvt.Text = "ALL"
 SSGrdPOInvt.Tag = "ALL"
 
-SSGrdPODel.text = "ALL"
+SSGrdPODel.Text = "ALL"
 SSGrdPODel.Tag = "ALL"
 
-SSGrdPOShip.text = "ALL"
+SSGrdPOShip.Text = "ALL"
 SSGrdPOShip.Tag = "ALL"
 
-SSGrdPODoc.text = "ALL"
+SSGrdPODoc.Text = "ALL"
 SSGrdPODoc.Tag = "ALL"
 
-SSGrdPonumb.text = "ALL"
+SSGrdPonumb.Text = "ALL"
 SSGrdPonumb.Tag = "ALL"
 
 PopulatePOGrids = True
@@ -1203,7 +1203,7 @@ Do While Not RsTransactype.EOF
     
 Loop
 
-SSGrdTransactype.text = "ALL"
+SSGrdTransactype.Text = "ALL"
 SSGrdTransactype.Tag = "ALL"
 
 PopulateInventoryGrids = True
@@ -1238,10 +1238,10 @@ Do While Not RsSup.EOF
     
 Loop
 
-SSGrdSupplier.text = "ALL"
+SSGrdSupplier.Text = "ALL"
 SSGrdSupplier.Tag = "ALL"
 
-SSGrdInvoiceNo.text = "ALL"
+SSGrdInvoiceNo.Text = "ALL"
 SSGrdInvoiceNo.Tag = "ALL"
 
 PopulateSupplierInvoiceGrids = True
@@ -1301,7 +1301,7 @@ Call NormalBackground(SSdbLocation)
 End Sub
 
 Private Sub SSGrdInvoiceNo_DropDown()
-If Trim(SSGrdSupplier.text) > 0 Then
+If Trim(SSGrdSupplier.Text) > 0 Then
 
 Else
 
@@ -1323,7 +1323,7 @@ Call NormalBackground(SSGrdInvoiceNo)
 End Sub
 
 Private Sub SSGrdPODel_Click()
-SSGrdPODel.Tag = Trim(SSGrdPODel.Columns(0).text)
+SSGrdPODel.Tag = Trim(SSGrdPODel.Columns(0).Text)
 PopulatePOnumbCombo
 End Sub
 
@@ -1340,7 +1340,7 @@ Call NormalBackground(SSGrdPODel)
 End Sub
 
 Private Sub SSGrdPODoc_Click()
-SSGrdPODoc.Tag = Trim(SSGrdPODoc.Columns(0).text)
+SSGrdPODoc.Tag = Trim(SSGrdPODoc.Columns(0).Text)
 PopulatePOnumbCombo
 End Sub
 
@@ -1357,7 +1357,7 @@ Call NormalBackground(SSGrdPODoc)
 End Sub
 
 Private Sub SSGrdPOInvt_Click()
-SSGrdPOInvt.Tag = Trim(SSGrdPOInvt.Columns(0).text)
+SSGrdPOInvt.Tag = Trim(SSGrdPOInvt.Columns(0).Text)
 Call PopulatePOnumbCombo
 End Sub
 
@@ -1382,7 +1382,7 @@ End Sub
 
 Private Sub SSGrdPonumb_DropDown()
 
-If Trim(SSGrdPODel.text) > 0 And Trim(SSGrdPOInvt.text) > 0 And Trim(SSGrdPOShip.text) > 0 And Trim(SSGrdPODoc.text) > 0 Then
+If Trim(SSGrdPODel.Text) > 0 And Trim(SSGrdPOInvt.Text) > 0 And Trim(SSGrdPOShip.Text) > 0 And Trim(SSGrdPODoc.Text) > 0 Then
 
 Else
 
@@ -1406,7 +1406,7 @@ Call NormalBackground(SSGrdPonumb)
 End Sub
 
 Private Sub SSGrdPOShip_Click()
-SSGrdPOShip.Tag = Trim(SSGrdPOShip.Columns(0).text)
+SSGrdPOShip.Tag = Trim(SSGrdPOShip.Columns(0).Text)
 PopulatePOnumbCombo
 End Sub
 
@@ -1423,7 +1423,7 @@ Call NormalBackground(SSGrdPOShip)
 End Sub
 
 Private Sub SSGrdSupplier_Click()
-SSGrdSupplier.Tag = Trim(SSGrdSupplier.Columns(0).text)
+SSGrdSupplier.Tag = Trim(SSGrdSupplier.Columns(0).Text)
 Call PopulateInvoiceCombo
 End Sub
 
@@ -1440,7 +1440,7 @@ Call NormalBackground(SSGrdSupplier)
 End Sub
 
 Private Sub SSGrdTransactype_Click()
-SSGrdTransactype.Tag = Trim(SSGrdTransactype.Columns(0).text)
+SSGrdTransactype.Tag = Trim(SSGrdTransactype.Columns(0).Text)
 End Sub
 
 Private Sub SSGrdTransactype_GotFocus()
@@ -1485,35 +1485,35 @@ End Function
 
 
 Public Function ExportPOtoExcel() As Boolean
-Dim Rs As New ADODB.Recordset
+Dim rs As New ADODB.Recordset
 On Error GoTo ErrHand
 ExportPOtoExcel = False
 
 Call MDI_IMS.WriteStatus("Generating Transaction Order report ...", 1)
 
-Rs.Source = " select Ponumb,po_date 'Creation Date',usr_username 'Buyer',pri_desc 'Shipping Mode', po_srvccode 'ServiceCode',poi_afe 'AFE',"
-Rs.Source = Rs.Source & " po_currcode 'Currency',sup_name 'supplier', ItemNo,poi_comm 'Folio#',poi_primreqdqty 'Quantity',poi_stasliit 'Status', poi_stasdlvy 'Delivery Status' ,poi_stasship 'Shipping Status', poi_stasinvt 'Invt Status',poi_unitprice 'Unit Price', FromCompany, FromLocation, FromUsChar, FromStockType, FromCamChar, ToCompany, ToLocation, ToUsChar,  ToStockType, ToCamChar  from pofqa"
-Rs.Source = Rs.Source & " inner join POitem on poi_ponumb =ponumb and poi_liitnumb = itemno and poi_npecode =Npce_code"
-Rs.Source = Rs.Source & " inner join PO on po_ponumb =ponumb and po_npecode =Npce_code "
-Rs.Source = Rs.Source & " inner join supplier on sup_code=po_suppcode and sup_npecode =Npce_code "
-Rs.Source = Rs.Source & " inner join xuserprofile on usr_userid = po_buyr and usr_npecode = npce_code"
-Rs.Source = Rs.Source & " inner join priority on pri_code = po_priocode and pri_npecode = npce_code"
-Rs.Source = Rs.Source & " Where ItemNo <> 0 and npce_code ='" & deIms.NameSpace & "' and po_stas not in ('OH','CA')"
-Rs.Source = Rs.Source & " and datediff(dd,'" & DTPFrom.Value & "',po_date) > =0 and datediff(dd,po_date,'" & DTPTo.Value & "') >=0   "
+rs.Source = " select Ponumb,po_date 'Creation Date',usr_username 'Buyer',pri_desc 'Shipping Mode', po_srvccode 'ServiceCode',poi_afe 'AFE',"
+rs.Source = rs.Source & " po_currcode 'Currency',sup_name 'supplier', ItemNo,poi_comm 'Folio#',poi_primreqdqty 'Quantity',poi_stasliit 'Status', poi_stasdlvy 'Delivery Status' ,poi_stasship 'Shipping Status', poi_stasinvt 'Invt Status',poi_unitprice 'Unit Price', FromCompany, FromLocation, FromUsChar, FromStockType, FromCamChar, ToCompany, ToLocation, ToUsChar,  ToStockType, ToCamChar  from pofqa"
+rs.Source = rs.Source & " inner join POitem on poi_ponumb =ponumb and poi_liitnumb = itemno and poi_npecode =Npce_code"
+rs.Source = rs.Source & " inner join PO on po_ponumb =ponumb and po_npecode =Npce_code "
+rs.Source = rs.Source & " inner join supplier on sup_code=po_suppcode and sup_npecode =Npce_code "
+rs.Source = rs.Source & " inner join xuserprofile on usr_userid = po_buyr and usr_npecode = npce_code"
+rs.Source = rs.Source & " inner join priority on pri_code = po_priocode and pri_npecode = npce_code"
+rs.Source = rs.Source & " Where ItemNo <> 0 and npce_code ='" & deIms.NameSpace & "' and po_stas not in ('OH','CA')"
+rs.Source = rs.Source & " and datediff(dd,'" & DTPFrom.value & "',po_date) > =0 and datediff(dd,po_date,'" & DTPTo.value & "') >=0   "
 
-If Trim(SSdbCompany.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and po_compcode='" & Trim(SSdbCompany.Tag) & "'"
-If Trim(SSdbLocation.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and po_invloca='" & Trim(SSdbLocation.Tag) & "'"
+If Trim(SSdbCompany.Tag) <> "ALL" Then rs.Source = rs.Source & " and po_compcode='" & Trim(SSdbCompany.Tag) & "'"
+If Trim(SSdbLocation.Tag) <> "ALL" Then rs.Source = rs.Source & " and po_invloca='" & Trim(SSdbLocation.Tag) & "'"
 
-If Trim(SSGrdPonumb.text) <> "ALL" Then Rs.Source = Rs.Source & " and ponumb='" & SSGrdPonumb.text & "'"
-If Trim(SSGrdPODoc.text) <> "ALL" Then Rs.Source = Rs.Source & " and po_docutype  ='" & SSGrdPODoc.Tag & "'"
-If Trim(SSGrdPODel.text) <> "ALL" Then Rs.Source = Rs.Source & " and po_stasdelv  ='" & SSGrdPODel.Tag & "'"
-If Trim(SSGrdPOInvt.text) <> "ALL" Then Rs.Source = Rs.Source & " and po_stasinvt = '" & SSGrdPOInvt.Tag & "'"
-If Trim(SSGrdPOShip.text) <> "ALL" Then Rs.Source = Rs.Source & " and po_stasship ='" & SSGrdPOShip.Tag & "'"
+If Trim(SSGrdPonumb.Text) <> "ALL" Then rs.Source = rs.Source & " and ponumb='" & SSGrdPonumb.Text & "'"
+If Trim(SSGrdPODoc.Text) <> "ALL" Then rs.Source = rs.Source & " and po_docutype  ='" & SSGrdPODoc.Tag & "'"
+If Trim(SSGrdPODel.Text) <> "ALL" Then rs.Source = rs.Source & " and po_stasdelv  ='" & SSGrdPODel.Tag & "'"
+If Trim(SSGrdPOInvt.Text) <> "ALL" Then rs.Source = rs.Source & " and po_stasinvt = '" & SSGrdPOInvt.Tag & "'"
+If Trim(SSGrdPOShip.Text) <> "ALL" Then rs.Source = rs.Source & " and po_stasship ='" & SSGrdPOShip.Tag & "'"
 
-Rs.Source = Rs.Source & " order by ponumb, cast(itemno as int)"
+rs.Source = rs.Source & " order by ponumb, cast(itemno as int)"
 
-Rs.Open , deIms.cnIms
-If Rs.RecordCount > 0 Then Call ExportToExcel1(Rs, , , ProgressBar1, "POFQA")
+rs.Open , deIms.cnIms
+If rs.RecordCount > 0 Then Call ExportToExcel1(rs, , , ProgressBar1, "POFQA")
 
 
 ExportPOtoExcel = True
@@ -1525,66 +1525,66 @@ Err.Clear
 End Function
 
 Public Function ExportInventoryToExcel() As Boolean
-Dim Rs As New ADODB.Recordset
+Dim rs As New ADODB.Recordset
 Dim Errcode As Boolean
 On Error GoTo ErrHand
 
 Call MDI_IMS.WriteStatus("Generating Inventory report ...", 1)
 
-If optInvtcomplete.Value = True Then
+If optInvtcomplete.value = True Then
 
-    Rs.Source = "select  FromCompany, FromLocation,"
-    Rs.Source = Rs.Source & " FromUsChar, FromStockType, FromCamChar, TransactionNo, ItemNo, TransactionType, Ponumb, PoItemNo, StockNo,"
-    Rs.Source = Rs.Source & " BaseCurrency, ExtendedCurrency, BaseCurUnitPrice, ExtendedUnitPrice, Quantity, ToCondition, ToCompany, ToLocation, ToUsChar, ToStockType, ToCamChar,"
-    Rs.Source = Rs.Source & " CreaDate  from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
+    rs.Source = "select  FromCompany, FromLocation,"
+    rs.Source = rs.Source & " FromUsChar, FromStockType, FromCamChar, TransactionNo, ItemNo, TransactionType, Ponumb, PoItemNo, StockNo,"
+    rs.Source = rs.Source & " BaseCurrency, ExtendedCurrency, BaseCurUnitPrice, ExtendedUnitPrice, Quantity, ToCondition, ToCompany, ToLocation, ToUsChar, ToStockType, ToCamChar,"
+    rs.Source = rs.Source & " CreaDate  from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
     
-    If Trim(SSdbCompany.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
-    If Trim(SSdbLocation.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
+    If Trim(SSdbCompany.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
+    If Trim(SSdbLocation.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
 
-    Rs.Source = Rs.Source & " and  datediff(dd,'" & DTPFrom.Value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.Value & "') >=0   "
-    If Trim(SSGrdTransactype.text) <> "ALL" Then Rs.Source = Rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
-    Rs.Source = Rs.Source & " order by fromcompany, FromLocation , TransactionType, TransactionNo, ItemNo"
+    rs.Source = rs.Source & " and  datediff(dd,'" & DTPFrom.value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.value & "') >=0   "
+    If Trim(SSGrdTransactype.Text) <> "ALL" Then rs.Source = rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
+    rs.Source = rs.Source & " order by fromcompany, FromLocation , TransactionType, TransactionNo, ItemNo"
 
-ElseIf optInvtGeneralLedger.Value = True Then
+ElseIf optInvtGeneralLedger.value = True Then
     
-    Rs.Source = "select  ToCompany company, ToLocation location, ToUsChar USChar, ToStockType StockType, ToCamChar CamChar,"
-    Rs.Source = Rs.Source & " TransactionNo,ItemNo,"
-    Rs.Source = Rs.Source & " (cast(BaseCurUnitPrice as numeric(18,2)) * cast(Quantity as numeric(18,2))) 'Amount', TRANSACTIONDATE"
-    Rs.Source = Rs.Source & " from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
+    rs.Source = "select  ToCompany company, ToLocation location, ToUsChar USChar, ToStockType StockType, ToCamChar CamChar,"
+    rs.Source = rs.Source & " TransactionNo,ItemNo,"
+    rs.Source = rs.Source & " (cast(BaseCurUnitPrice as numeric(18,2)) * cast(Quantity as numeric(18,2))) 'Amount', TRANSACTIONDATE"
+    rs.Source = rs.Source & " from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
     
-    If Trim(SSdbCompany.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
-    If Trim(SSdbLocation.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
+    If Trim(SSdbCompany.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
+    If Trim(SSdbLocation.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
 
     
-    Rs.Source = Rs.Source & " and  datediff(dd,'" & DTPFrom.Value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.Value & "') >=0   "
-    If Trim(SSGrdTransactype.text) <> "ALL" Then Rs.Source = Rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
-    Rs.Source = Rs.Source & " Union"
-    Rs.Source = Rs.Source & " select  FromCompany company, FromLocation location, FromUsChar USChar, FromStockType StockType, FromCamChar CamChar,"
-    Rs.Source = Rs.Source & " TransactionNo,ItemNo,"
-    Rs.Source = Rs.Source & " -cast(BaseCurUnitPrice as numeric(18,2)) * cast(Quantity as numeric(18,2)) 'Amount', TRANSACTIONDATE"
-    Rs.Source = Rs.Source & " from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
+    rs.Source = rs.Source & " and  datediff(dd,'" & DTPFrom.value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.value & "') >=0   "
+    If Trim(SSGrdTransactype.Text) <> "ALL" Then rs.Source = rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
+    rs.Source = rs.Source & " Union"
+    rs.Source = rs.Source & " select  FromCompany company, FromLocation location, FromUsChar USChar, FromStockType StockType, FromCamChar CamChar,"
+    rs.Source = rs.Source & " TransactionNo,ItemNo,"
+    rs.Source = rs.Source & " -cast(BaseCurUnitPrice as numeric(18,2)) * cast(Quantity as numeric(18,2)) 'Amount', TRANSACTIONDATE"
+    rs.Source = rs.Source & " from inventoryFQA where npce_code ='" & deIms.NameSpace & "' "
     
-    If Trim(SSdbCompany.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
-    If Trim(SSdbLocation.Tag) <> "ALL" Then Rs.Source = Rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
+    If Trim(SSdbCompany.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromcompany=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' and  Level ='c')"
+    If Trim(SSdbLocation.Tag) <> "ALL" Then rs.Source = rs.Source & " and fromlocation=(select fqa from fqa where Namespace='" & deIms.NameSpace & "' and Companycode ='" & Trim(SSdbCompany.Tag) & "' AND LOCATIONCODE = '" & Trim(SSdbLocation.Tag) & "' and  Level ='LB')"
   
     
-    Rs.Source = Rs.Source & " and  datediff(dd,'" & DTPFrom.Value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.Value & "') >=0   "
-    If Trim(SSGrdTransactype.text) <> "ALL" Then Rs.Source = Rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
-    Rs.Source = Rs.Source & " order by TransactionNo,ItemNo, company, location  "
+    rs.Source = rs.Source & " and  datediff(dd,'" & DTPFrom.value & "',transactiondate) > =0 and datediff(dd,transactiondate,'" & DTPTo.value & "') >=0   "
+    If Trim(SSGrdTransactype.Text) <> "ALL" Then rs.Source = rs.Source & " and TransactionType = '" & SSGrdTransactype.Tag & "' "
+    rs.Source = rs.Source & " order by TransactionNo,ItemNo, company, location  "
 
 End If
 
-Rs.Open , deIms.cnIms
+rs.Open , deIms.cnIms
 
-If Rs.RecordCount > 0 Then
+If rs.RecordCount > 0 Then
 
-   If optInvtcomplete.Value = True Then
+   If optInvtcomplete.value = True Then
    
-            Call ExportToExcel1(Rs, , , ProgressBar1, "InventoryFQA")
+            Call ExportToExcel1(rs, , , ProgressBar1, "InventoryFQA")
             
-   ElseIf optInvtGeneralLedger.Value = True Then
+   ElseIf optInvtGeneralLedger.value = True Then
    
-            Errcode = ExportToFlatFile(Rs, , , ProgressBar1, "InventoryFQA")
+            Errcode = ExportToFlatFile(rs, , , ProgressBar1, "InventoryFQA")
             'If Errcode = 0 Then Dotheclosure
     End If
    
@@ -1601,57 +1601,57 @@ End Function
 
 
 Public Function ExportInvoicetoExcel() As Boolean
-Dim Rs As New ADODB.Recordset
-Dim sql As String
+Dim rs As New ADODB.Recordset
+Dim Sql As String
 On Error GoTo ErrHand
 
 Call MDI_IMS.WriteStatus("Generating Invoice report ...", 1)
 
-sql = " select invd_ponumb 'PONUMB', invd_invcnumb 'INVOICE',  inv_invcdate 'DATE', invd_liitnumb 'ITEM NO',POI_COMM 'FOLIO#', invd_primreqdqty QUANTITY, invd_primuom UNIT, "
-sql = sql & "  sup_name 'SUPPLIER NAME', curr_desc CURRENCY, FromCompany, FromLocation, FromUsChar, FromStockType, "
-sql = sql & " FromCamChar, ToCompany ToLocation ,ToUsChar , ToStockType, ToCamChar,invd_unitpric 'INVOICE UNITPRICE' ,"
-sql = sql & "  'USD' 'BaseCurrency' ,psys_extendedcurcode 'ExtendedCurrency' ,"
-sql = sql & " 'BasePOUnitPrice'  ="
-sql = sql & " case "
-sql = sql & "    when curr_code= 'USD' then round(POI_unitprice,4)"
-sql = sql & "    when curr_code <> 'USD' and (len(rtrim( isnull(psys_extendedcurcode,''))) = 0)  then  round(POI_unitprice / a.curd_value,4)"
-sql = sql & "    else round(POI_unitprice / a.curd_value,4)"
-sql = sql & " end  "
-sql = sql & " ,"
+Sql = " select invd_ponumb 'PONUMB', invd_invcnumb 'INVOICE',  inv_invcdate 'DATE', invd_liitnumb 'ITEM NO',POI_COMM 'FOLIO#', invd_primreqdqty QUANTITY, invd_primuom UNIT, "
+Sql = Sql & "  sup_name 'SUPPLIER NAME', curr_desc CURRENCY, FromCompany, FromLocation, FromUsChar, FromStockType, "
+Sql = Sql & " FromCamChar, ToCompany ToLocation ,ToUsChar , ToStockType, ToCamChar,invd_unitpric 'INVOICE UNITPRICE' ,"
+Sql = Sql & "  'USD' 'BaseCurrency' ,psys_extendedcurcode 'ExtendedCurrency' ,"
+Sql = Sql & " 'BasePOUnitPrice'  ="
+Sql = Sql & " case "
+Sql = Sql & "    when curr_code= 'USD' then round(POI_unitprice,4)"
+Sql = Sql & "    when curr_code <> 'USD' and (len(rtrim( isnull(psys_extendedcurcode,''))) = 0)  then  round(POI_unitprice / a.curd_value,4)"
+Sql = Sql & "    else round(POI_unitprice / a.curd_value,4)"
+Sql = Sql & " end  "
+Sql = Sql & " ,"
 
-sql = sql & " 'ExtendedPOUnitPrice'  ="
-sql = sql & " case "
-sql = sql & "    when curr_code ='USD' then round(POI_unitprice *  B.curd_value,4)"
-sql = sql & "    when (len(rtrim( isnull(psys_extendedcurcode,''))) = 0) then null"
-sql = sql & "    else  round(POI_unitprice,4)"
-sql = sql & " end  "
+Sql = Sql & " 'ExtendedPOUnitPrice'  ="
+Sql = Sql & " case "
+Sql = Sql & "    when curr_code ='USD' then round(POI_unitprice *  B.curd_value,4)"
+Sql = Sql & "    when (len(rtrim( isnull(psys_extendedcurcode,''))) = 0) then null"
+Sql = Sql & "    else  round(POI_unitprice,4)"
+Sql = Sql & " end  "
 
-sql = sql & " ,"
-sql = sql & " 'BaseInvoiceUnitPrice'  ="
-sql = sql & " case curr_code"
-sql = sql & "    when 'USD' then round(invd_unitpric,4)"
-sql = sql & "    else round(invd_unitpric / a.curd_value,4)"
-sql = sql & " end  "
-sql = sql & " ,"
+Sql = Sql & " ,"
+Sql = Sql & " 'BaseInvoiceUnitPrice'  ="
+Sql = Sql & " case curr_code"
+Sql = Sql & "    when 'USD' then round(invd_unitpric,4)"
+Sql = Sql & "    else round(invd_unitpric / a.curd_value,4)"
+Sql = Sql & " end  "
+Sql = Sql & " ,"
 
-sql = sql & " 'ExtendedInvoiceUnitPrice'  ="
-sql = sql & " case "
-sql = sql & "    when curr_code= 'USD' then round(invd_unitpric *  B.curd_value,4)"
-sql = sql & "    when (len(rtrim( isnull(psys_extendedcurcode,''))) = 0) then null"
-sql = sql & "    else  round(invd_unitpric,4)"
-sql = sql & " end  "
+Sql = Sql & " 'ExtendedInvoiceUnitPrice'  ="
+Sql = Sql & " case "
+Sql = Sql & "    when curr_code= 'USD' then round(invd_unitpric *  B.curd_value,4)"
+Sql = Sql & "    when (len(rtrim( isnull(psys_extendedcurcode,''))) = 0) then null"
+Sql = Sql & "    else  round(invd_unitpric,4)"
+Sql = Sql & " end  "
 
-sql = sql & " from invoicedetl "
-sql = sql & " left join invoice on   inv_invcnumb = invd_invcnumb and inv_npecode = invd_npecode"
-sql = sql & " left join PO on po_ponumb = invd_ponumb and po_npecode = invd_npecode"
-sql = sql & " left join POITEM on poi_ponumb =po_ponumb and poi_liitnumb  = invd_liitnumb and poi_npecode =invd_npecode"
-sql = sql & " left outer join supplier on sup_code = po_suppcode and sup_npecode = invd_npecode"
-sql = sql & " left join Pesys on psys_npecode =invd_npecode "
-sql = sql & " left outer join currency on curr_code = po_currcode and curr_npecode =invd_npecode"
-sql = sql & " left outer join currencydetl A on A.curd_code = po_currcode and A.curd_npecode =invd_npecode and datediff(dd, A.curd_from ,inv_invcdate) > =0 and datediff(dd,A.curd_to ,inv_invcdate) <= 0"
-sql = sql & " left outer join currencydetl B on B.curd_code =psys_extendedcurcode  and B.curd_npecode =invd_npecode and datediff(dd, B.curd_from ,inv_invcdate) > =0 and datediff(dd,B.curd_to ,inv_invcdate) <= 0"
-sql = sql & " left join poFQA on Ponumb = invd_ponumb and ItemNo = invd_liitnumb"
-sql = sql & " where invd_npecode ='" & deIms.NameSpace & "'"
+Sql = Sql & " from invoicedetl "
+Sql = Sql & " left join invoice on   inv_invcnumb = invd_invcnumb and inv_npecode = invd_npecode"
+Sql = Sql & " left join PO on po_ponumb = invd_ponumb and po_npecode = invd_npecode"
+Sql = Sql & " left join POITEM on poi_ponumb =po_ponumb and poi_liitnumb  = invd_liitnumb and poi_npecode =invd_npecode"
+Sql = Sql & " left outer join supplier on sup_code = po_suppcode and sup_npecode = invd_npecode"
+Sql = Sql & " left join Pesys on psys_npecode =invd_npecode "
+Sql = Sql & " left outer join currency on curr_code = po_currcode and curr_npecode =invd_npecode"
+Sql = Sql & " left outer join currencydetl A on A.curd_code = po_currcode and A.curd_npecode =invd_npecode and datediff(dd, A.curd_from ,inv_invcdate) > =0 and datediff(dd,A.curd_to ,inv_invcdate) <= 0"
+Sql = Sql & " left outer join currencydetl B on B.curd_code =psys_extendedcurcode  and B.curd_npecode =invd_npecode and datediff(dd, B.curd_from ,inv_invcdate) > =0 and datediff(dd,B.curd_to ,inv_invcdate) <= 0"
+Sql = Sql & " left join poFQA on Ponumb = invd_ponumb and ItemNo = invd_liitnumb"
+Sql = Sql & " where invd_npecode ='" & deIms.NameSpace & "'"
 
 
 
@@ -1706,14 +1706,14 @@ sql = sql & " where invd_npecode ='" & deIms.NameSpace & "'"
 
 
 
-If Trim(SSGrdSupplier.text) <> "ALL" Then sql = sql & " and sup_code = '" & Trim(SSGrdSupplier.Tag) & "'"
-If Trim(SSGrdInvoiceNo.text) <> "ALL" Then sql = sql & " and invd_invcnumb = '" & Trim(SSGrdInvoiceNo.text) & "'"
+If Trim(SSGrdSupplier.Text) <> "ALL" Then Sql = Sql & " and sup_code = '" & Trim(SSGrdSupplier.Tag) & "'"
+If Trim(SSGrdInvoiceNo.Text) <> "ALL" Then Sql = Sql & " and invd_invcnumb = '" & Trim(SSGrdInvoiceNo.Text) & "'"
 
-Rs.Source = sql
+rs.Source = Sql
 
-Rs.Open , deIms.cnIms
+rs.Open , deIms.cnIms
 
-If Rs.RecordCount > 0 Then Call ExportToExcel1(Rs, , , ProgressBar1, "SupplierInvoiceFQA")
+If rs.RecordCount > 0 Then Call ExportToExcel1(rs, , , ProgressBar1, "SupplierInvoiceFQA")
 
 Exit Function
 ErrHand:
@@ -1725,8 +1725,8 @@ End Function
 
 Public Function ExportToExcel1(Optional RsRecord As ADODB.Recordset, Optional Arr As Variant, Optional ArrColumnNames As Variant, Optional ProgressBar1 As Progressbar, Optional Filename As String)
 
-Dim report As Excel.Application
-Dim I As Integer
+Dim Report As Excel.Application
+Dim i As Integer
 Dim j As Integer
 Dim Sa As Scripting.FileSystemObject
 Dim Fld As ADODB.Field
@@ -1734,13 +1734,13 @@ Dim x As Integer
 Dim y As Integer
 Dim Incr As Integer
 Dim m As Integer
-Dim Subject As String
+Dim subject As String
 Dim onlyname As String
-    Set report = New Excel.Application
+    Set Report = New Excel.Application
     Set Sa = New Scripting.FileSystemObject
     
     m = Rnd(20)
-    Subject = Filename
+    subject = Filename
     
     onlyname = "Report-" & Filename & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".XLS"
     
@@ -1748,10 +1748,10 @@ Dim onlyname As String
     
     If Sa.FileExists(Filename) = False Then Sa.CreateTextFile Filename
     
-    report.Workbooks.OpenText Filename
-    report.SheetsInNewWorkbook = 1
+    Report.Workbooks.OpenText Filename
+    Report.SheetsInNewWorkbook = 1
      
-    With report
+    With Report
        
     If RsRecord Is Nothing Then
     
@@ -1759,12 +1759,12 @@ Dim onlyname As String
     
         x = UBound(ArrColumnNames)
         
-                  For I = 0 To x
+                  For i = 0 To x
                
-                   .Cells(1, I + 1) = ArrColumnNames(I)
+                   .Cells(1, i + 1) = ArrColumnNames(i)
                '     .ActiveCell.NumberFormat = "text"
                     
-                  Next I
+                  Next i
                   
         .activeCELL.EntireRow.Font.Bold = True
     
@@ -1777,11 +1777,11 @@ Dim onlyname As String
         
             For j = 0 To y
             .Rows(j).NumberFormat = "Text"
-              For I = 0 To x
+              For i = 0 To x
                
-                  .Cells(j + 2, I + 1) = Arr(I, j)
+                  .Cells(j + 2, i + 1) = Arr(i, j)
                          
-              Next I
+              Next i
               
                 If j > 0 And j Mod Incr = 0 Then
                  Call IncrementProgreesBar(1, ProgressBar1)
@@ -1798,14 +1798,14 @@ Dim onlyname As String
                 RsRecord.MoveFirst
                 'This is executed when a recordset is passed
                     
-                    I = 1
+                    i = 1
                     j = 1
                     
                 'Writing the names of the Fields
                     
                         For Each Fld In RsRecord.Fields
                                    
-                                .Cells(I, j) = Fld.Name & ""
+                                .Cells(i, j) = Fld.Name & ""
                            '     .ActiveCell.NumberFormat = "text"
                                 
                                  j = j + 1
@@ -1813,7 +1813,7 @@ Dim onlyname As String
                                 
                          Next Fld
                     
-                    I = I + 1
+                    i = i + 1
                     
                  Incr = RsRecord.RecordCount / 10
                     
@@ -1823,7 +1823,7 @@ Dim onlyname As String
                     
                          For Each Fld In RsRecord.Fields
                          
-                                .Cells(I, j) = Fld.Value & ""
+                                .Cells(i, j) = Fld.value & ""
                               '   .ActiveCell.EntireRow.NumberFormat = "text"
                                  j = j + 1
                          
@@ -1831,12 +1831,12 @@ Dim onlyname As String
                         
                         If Incr > 0 Then
                         
-                           If I > 0 And I Mod Incr = 0 Then
+                           If i > 0 And i Mod Incr = 0 Then
                              Call IncrementProgreesBar(1, ProgressBar1)
                             End If
                         End If
                         
-                        I = I + 1
+                        i = i + 1
                         RsRecord.MoveNext
                     
                     Loop
@@ -1851,9 +1851,9 @@ Gohome:
     
     SetProgressbar1ToMax ProgressBar1
         
-        report.Workbooks.Item(1).Save
-        report.Workbooks.Item(1).Saved = True
-        report.Workbooks.Item(1).Close
+        Report.Workbooks.Item(1).SAVE
+        Report.Workbooks.Item(1).Saved = True
+        Report.Workbooks.Item(1).Close
         
         Dim Attachment(0) As String
         Dim Recepients() As String
@@ -1864,47 +1864,47 @@ Gohome:
         'If IFile.FileExists(Filename) Then IFile.DeleteFile (Filename)
     
         
-        For I = 0 To SSGRDRecepients.Rows - 1
+        For i = 0 To SSGRDRecepients.Rows - 1
             
-            SSGRDRecepients.row = I
-            ReDim Preserve Recepients(I)
-            Recepients(I) = SSGRDRecepients.Columns(0).text
+            SSGRDRecepients.row = i
+            ReDim Preserve Recepients(i)
+            Recepients(i) = SSGRDRecepients.Columns(0).Text
             
-        Next I
+        Next i
         
         
-        Call WriteParameterFileEmail(Attachment, Recepients, Subject, "PECTEN CAMEROON COMPANY", "!ATTENTION")
+        Call WriteParameterFileEmail(Attachment, Recepients, subject, "PECTEN CAMEROON COMPANY", "!ATTENTION")
         
 End Function
 
-Public Function IncrementProgreesBar(Value As Integer, ProgressBar1 As Progressbar)
+Public Function IncrementProgreesBar(value As Integer, ProgressBar1 As Progressbar)
 
 ProgressBar1.Max = 10
 
 If ProgressBar1.Visible = False Then ProgressBar1.Visible = True
 
-If ProgressBar1.Value < ProgressBar1.Max Then
+If ProgressBar1.value < ProgressBar1.Max Then
 
-        ProgressBar1.Value = ProgressBar1.Value + Value
+        ProgressBar1.value = ProgressBar1.value + value
         
-ElseIf ProgressBar1.Value = ProgressBar1.Max Or ProgressBar1.Value > ProgressBar1.Max Then
+ElseIf ProgressBar1.value = ProgressBar1.Max Or ProgressBar1.value > ProgressBar1.Max Then
 
-        ProgressBar1.Value = 1
+        ProgressBar1.value = 1
         
 End If
 
 End Function
 
 Public Sub SetProgressbar1ToMax(ProgressBar1 As Progressbar)
-Dim I As Integer
+Dim i As Integer
 
-For I = ProgressBar1.Value To ProgressBar1.Max - 1
+For i = ProgressBar1.value To ProgressBar1.Max - 1
 
-    ProgressBar1.Value = ProgressBar1.Value + 1
+    ProgressBar1.value = ProgressBar1.value + 1
     
 Next
     
-ProgressBar1.Value = 0
+ProgressBar1.value = 0
 
 
 
@@ -1940,7 +1940,7 @@ On Error GoTo ErrHand
 Rsinvoice.Source = "select inv_invcnumb from invoice"
 Rsinvoice.Source = Rsinvoice.Source & "  where inv_npecode  ='" & deIms.NameSpace & "'"
 If SSGrdSupplier.Tag <> "ALL" Then Rsinvoice.Source = Rsinvoice.Source & "  and inv_ponumb in ( select po_ponumb from po where po_suppcode ='" & SSGrdSupplier.Tag & "' and PO_npecode ='" & deIms.NameSpace & "') "
-Rsinvoice.Source = Rsinvoice.Source & " and datediff(dd, '" & DTPFrom.Value & "',inv_invcdate) > =  0 and datediff(dd, inv_invcdate,'" & DTPTo.Value & "') > =0"
+Rsinvoice.Source = Rsinvoice.Source & " and datediff(dd, '" & DTPFrom.value & "',inv_invcdate) > =  0 and datediff(dd, inv_invcdate,'" & DTPTo.value & "') > =0"
 Rsinvoice.Source = Rsinvoice.Source & " order by inv_invcnumb"
 
 Rsinvoice.Open , deIms.cnIms
@@ -1970,9 +1970,9 @@ Dim rsPO As New ADODB.Recordset
 
 On Error GoTo ErrHand
 
-If Trim(SSGrdPODel.text) > 0 And Trim(SSGrdPOInvt.text) > 0 And Trim(SSGrdPOShip.text) > 0 And Trim(SSGrdPODoc.text) > 0 Then
+If Trim(SSGrdPODel.Text) > 0 And Trim(SSGrdPOInvt.Text) > 0 And Trim(SSGrdPOShip.Text) > 0 And Trim(SSGrdPODoc.Text) > 0 Then
 
-        rsPO.Source = "select Po_ponumb from po where po_stas not in ('OH','CL') and po_npecode ='" & deIms.NameSpace & "' and po_compcode ='" & Trim(SSdbCompany.Tag) & "' and po_invloca ='" & Trim(SSdbLocation.Tag) & "' and  datediff(dd,'" & DTPFrom.Value & "',po_date) > =0 and  datediff(dd,po_date,'" & DTPTo.Value & "') > =0 "
+        rsPO.Source = "select Po_ponumb from po where po_stas not in ('OH','CL') and po_npecode ='" & deIms.NameSpace & "' and po_compcode ='" & Trim(SSdbCompany.Tag) & "' and po_invloca ='" & Trim(SSdbLocation.Tag) & "' and  datediff(dd,'" & DTPFrom.value & "',po_date) > =0 and  datediff(dd,po_date,'" & DTPTo.value & "') > =0 "
         
         If SSGrdPODoc.Tag <> "ALL" Then rsPO.Source = rsPO.Source & " AND PO_DOCUTYPE ='" & SSGrdPODoc.Tag & "'"
         If SSGrdPODel.Tag <> "ALL" Then rsPO.Source = rsPO.Source & " AND po_stasdelv ='" & SSGrdPODel.Tag & "'"
@@ -1988,7 +1988,7 @@ If Trim(SSGrdPODel.text) > 0 And Trim(SSGrdPOInvt.text) > 0 And Trim(SSGrdPOShip
         
         Do While Not rsPO.EOF
         
-            SSGrdPonumb.AddItem rsPO!Po_ponumb
+            SSGrdPonumb.AddItem rsPO!po_ponumb
         
             rsPO.MoveNext
             
@@ -2016,8 +2016,8 @@ If KeyAscii = vbEnter Then Call cmd_Add_Click
 End Sub
 
 Public Function ExportToFlatFile(Optional RsRecord As ADODB.Recordset, Optional Arr As Variant, Optional ArrColumnNames As Variant, Optional ProgressBar1 As Progressbar, Optional Filename As String) As Integer
-Dim report As Scripting.TextStream
-Dim I As Integer
+Dim Report As Scripting.TextStream
+Dim i As Integer
 Dim j As Integer
 Dim Sa As Scripting.FileSystemObject
 Dim Fld As ADODB.Field
@@ -2025,7 +2025,7 @@ Dim x As Integer
 Dim y As Integer
 Dim Incr As Integer
 Dim m As Integer
-Dim Subject As String
+Dim subject As String
 Dim onlyname As String
 Dim str As String
 
@@ -2033,16 +2033,16 @@ On Error GoTo ErrHand
 
     Set Sa = New Scripting.FileSystemObject
     
-    Subject = Filename
+    subject = Filename
     
     onlyname = "Report-" & Filename & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
     
     Filename = ConnInfo.EmailOutFolder & "Report-" & Filename & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
     
-    If Sa.FileExists(Filename) = False Then Set report = Sa.CreateTextFile(Filename)
+    If Sa.FileExists(Filename) = False Then Set Report = Sa.CreateTextFile(Filename)
     
     
-    With report
+    With Report
        
     If RsRecord Is Nothing Then
     
@@ -2050,11 +2050,11 @@ On Error GoTo ErrHand
     
         x = UBound(ArrColumnNames)
         
-                  For I = 0 To x
+                  For i = 0 To x
                
-                        str = srt & ArrColumnNames(I) & vbTab
+                        str = srt & ArrColumnNames(i) & vbTab
                     
-                  Next I
+                  Next i
     
     
         x = UBound(Arr, 1)
@@ -2065,11 +2065,11 @@ On Error GoTo ErrHand
         
             For j = 0 To y
 
-              For I = 0 To x
+              For i = 0 To x
                
-                  str = srt & Arr(I, j) & vbTab
+                  str = srt & Arr(i, j) & vbTab
                          
-              Next I
+              Next i
               
                 If j > 0 And j Mod Incr = 0 Then
                  
@@ -2102,7 +2102,7 @@ On Error GoTo ErrHand
                     
                          For Each Fld In RsRecord.Fields
                          
-                                str = str & Fld.Value & "" & vbTab
+                                str = str & Fld.value & "" & vbTab
             
                          Next Fld
                         
@@ -2110,11 +2110,11 @@ On Error GoTo ErrHand
                         
                         If Incr > 0 Then
                         
-                           If I > 0 And I Mod Incr = 0 Then Call IncrementProgreesBar(1, ProgressBar1)
+                           If i > 0 And i Mod Incr = 0 Then Call IncrementProgreesBar(1, ProgressBar1)
                         
                         End If
                         
-                        I = I + 1
+                        i = i + 1
                         
                         RsRecord.MoveNext
                     
@@ -2125,8 +2125,8 @@ On Error GoTo ErrHand
     
 Gohome:
     
-    report.Write str
-    report.Close
+    Report.Write str
+    Report.Close
     
     SetProgressbar1ToMax ProgressBar1
         
@@ -2139,16 +2139,16 @@ Gohome:
         'If IFile.FileExists(Filename) Then IFile.DeleteFile (Filename)
     
         
-        For I = 0 To SSGRDRecepients.Rows - 1
+        For i = 0 To SSGRDRecepients.Rows - 1
             
-            SSGRDRecepients.row = I
-            ReDim Preserve Recepients(I)
-            Recepients(I) = SSGRDRecepients.Columns(0).text
+            SSGRDRecepients.row = i
+            ReDim Preserve Recepients(i)
+            Recepients(i) = SSGRDRecepients.Columns(0).Text
             
-        Next I
+        Next i
         
         
-If WriteParameterFileEmail(Attachment, Recepients, Subject, "PECTEN CAMEROON COMPANY", "!ATTENTION") <> 1 Then GoTo ErrHand
+If WriteParameterFileEmail(Attachment, Recepients, subject, "PECTEN CAMEROON COMPANY", "!ATTENTION") <> 1 Then GoTo ErrHand
 
 ExportToFlatFile = 1
 

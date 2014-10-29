@@ -5906,9 +5906,9 @@ Private Sub lblTblWharehouse_Click(Index As Integer)
             frm_Location.ZOrder
         
         Case 4
-            Load frm_Logicals
-            frm_Logicals.Show
-            frm_Logicals.ZOrder
+            Load frm_logical
+            frm_logical.Show
+            frm_logical.ZOrder
         
         Case 5
             Load frm_SubLocation
@@ -5999,15 +5999,15 @@ End Sub
 'function set lines
 
 Public Sub HideLines()
-Dim i As Integer, x As Integer, Y As Integer
+Dim i As Integer, x As Integer, y As Integer
 
-    Y = Line1.LBound()
+    y = Line1.LBound()
     x = Line1.UBound()
     
     Picture1.Visible = False
     Picture1.Enabled = False
     
-    For i = Y To x
+    For i = y To x
         Line1(i).Visible = False
     Next i
 End Sub
