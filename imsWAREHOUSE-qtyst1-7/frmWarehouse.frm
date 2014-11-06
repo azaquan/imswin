@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   59113475
+      Format          =   62128131
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -756,14 +756,14 @@ Begin VB.Form frmWarehouse
       _Band(0).TextStyleHeader=   0
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid matrix 
-      Height          =   255
+      Height          =   735
       Left            =   0
       TabIndex        =   24
-      Top             =   7320
+      Top             =   6840
       Visible         =   0   'False
       Width           =   555
       _ExtentX        =   979
-      _ExtentY        =   450
+      _ExtentY        =   1296
       _Version        =   393216
       BackColor       =   16776960
       Rows            =   11
@@ -2673,7 +2673,7 @@ Dim qty As Double
 
     On Error Resume Next
     Screen.MousePointer = 11
-    Call makeLISTS
+    Call makeLists
     If transaction = "*" Then
         sql = "SELECT * from PO_Details_For_transaction WHERE NAMESPACE = '" + nameSP + "' " _
             & "AND PO = '" + cell(0) + "' ORDER BY PO, CONVERT(integer, LineItem)"
@@ -2849,7 +2849,7 @@ Dim i As Integer
     Next
 End Sub
 
-Sub makeLISTS()
+Sub makeLists()
 Dim i, col, c, dark As Integer
     For i = 0 To 4
         If cell(i).Visible Then cell(i).tabindex = i
@@ -5244,7 +5244,7 @@ Dim rights As Boolean
     userNAMEbox = CurrentUser
     dateBOX = Format(Now, "mm/dd/yyyy")
     hideDETAILS
-    Call makeLISTS
+    Call makeLists
     Load grid(1)
     Load grid(2)
     DoEvents
@@ -6992,6 +6992,9 @@ End Sub
 
 Public Sub setNAMESPACE(NP As String)
     nameSP = NP
+End Sub
+Public Sub setNAMESPACE_name(NP_name As String)
+    nameSPname = NP_name
 End Sub
 Public Function SaveFQA(Transnumb, TransactionType As String) As Boolean
 Dim TranNo As String
