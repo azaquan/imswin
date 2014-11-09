@@ -22,6 +22,7 @@ Public Enum kindTRANSAC
     WarehouseReceipt
     Sales
     ReturnFromWell
+    GlobalTransfer
 End Enum
 Public Enum EmailClients
    Unknown = 0
@@ -50,6 +51,9 @@ Public Property Let cEmailOutFolder(ByRef e As String)
 End Property
 Public Property Let NameSpace(ByRef NS As String)
     nameSP = NS
+End Property
+Public Property Let NameSpaceName(ByRef NSname As String)
+    nameSPname = NSname
 End Property
 Public Property Let currUSER(ByRef user As String)
     CurrentUser = user
@@ -559,6 +563,101 @@ Screen.MousePointer = 11
         .Caption = title + " " + tag
         .tag = tag
         Set frm = frmWarehouse
+        .Show 1
+        
+    End With
+Screen.MousePointer = 0
+End Sub
+
+'
+'
+Public Sub Loading2(transaction As kindTRANSAC)
+Dim title, tag
+Screen.MousePointer = 11
+
+    Load frmGlobalWH
+    With frmGlobalWH
+        .Visible = False
+        'cell 0 (common)
+        .matrix.TextMatrix(0, 0) = "GETISSUENUMBER"
+        .matrix.TextMatrix(1, 0) = 1
+        .matrix.TextMatrix(2, 0) = "ii_trannumb"
+        .matrix.TextMatrix(3, 0) = "ii_trannumb"
+        .matrix.TextMatrix(4, 0) = "ii_trannumb"
+        .matrix.TextMatrix(5, 0) = "0"
+        .matrix.TextMatrix(7, 0) = ""
+        .matrix.TextMatrix(8, 0) = "Transaction #"
+        .matrix.TextMatrix(9, 0) = "1200"
+        .matrix.TextMatrix(10, 0) = 0
+        
+        'cell 1 (common)
+        .matrix.TextMatrix(0, 1) = "GETCOMPANY"
+        .matrix.TextMatrix(1, 1) = 2
+        .matrix.TextMatrix(2, 1) = "com_name, com_compcode"
+        .matrix.TextMatrix(3, 1) = "com_name"
+        .matrix.TextMatrix(4, 1) = "com_compcode"
+        .matrix.TextMatrix(5, 1) = "0, 0"
+        .matrix.TextMatrix(6, 1) = nameSP
+        .matrix.TextMatrix(7, 1) = ""
+        .matrix.TextMatrix(8, 1) = "Company, Code"
+        .matrix.TextMatrix(9, 1) = "3000, 1000"
+        .matrix.TextMatrix(10, 1) = 1
+        
+        Select Case transaction
+            Case GlobalTransfer
+                title = "Global Transfer"
+                tag = "02040400"
+                
+                'cell 0
+                .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
+                .matrix.TextMatrix(1, 0) = 1
+                .matrix.TextMatrix(2, 0) = "ir_trannumb"
+                .matrix.TextMatrix(3, 0) = "ir_trannumb"
+                .matrix.TextMatrix(4, 0) = "ir_trannumb"
+                .matrix.TextMatrix(5, 0) = "0"
+                .matrix.TextMatrix(6, 0) = nameSP + ", @1, RR"
+                .matrix.TextMatrix(7, 0) = ""
+                .matrix.TextMatrix(8, 0) = "Transaction #"
+                .matrix.TextMatrix(9, 0) = "1200"
+                .matrix.TextMatrix(10, 0) = 0
+                                
+                'cell 2
+                .matrix.TextMatrix(0, 2) = "Get_Location2"
+                .matrix.TextMatrix(1, 2) = 2
+                .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 2) = "loc_name"
+                .matrix.TextMatrix(4, 2) = "loc_locacode"
+                .matrix.TextMatrix(5, 2) = "0, 0"
+                .matrix.TextMatrix(6, 2) = "REPAIR, TRUE"
+                .matrix.TextMatrix(7, 2) = ""
+                .matrix.TextMatrix(8, 2) = "Location, Code"
+                .matrix.TextMatrix(9, 2) = "4000, 1000"
+                .matrix.TextMatrix(10, 2) = 1
+                
+                .label(2).Caption = "From Company"
+                
+                'cell 3
+                .matrix.TextMatrix(0, 3) = "Get_Location2"
+                .matrix.TextMatrix(1, 3) = 2
+                .matrix.TextMatrix(2, 3) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 3) = "loc_name"
+                .matrix.TextMatrix(4, 3) = "loc_locacode"
+                .matrix.TextMatrix(5, 3) = "0, 0"
+                .matrix.TextMatrix(6, 3) = "BASE, TRUE"
+                .matrix.TextMatrix(7, 3) = ""
+                .matrix.TextMatrix(8, 3) = "Location, Code"
+                .matrix.TextMatrix(9, 3) = "4000, 1000"
+                .matrix.TextMatrix(10, 3) = 1
+
+
+            Case Else
+                Unload frmGlobalWH
+                Exit Sub
+        End Select
+        
+        .Caption = title + " " + tag
+        .tag = tag
+        Set frm = frmGlobalWH
         .Show 1
         
     End With

@@ -33,6 +33,7 @@ Global SecUnit As Double
 Global summaryPOSITION As Integer
 Global cn As ADODB.Connection
 Global nameSP As String
+Global nameSPname As String
 Global CurrentUser As String
 Global msg1, msg2
 Global repoPATH As String
@@ -3460,6 +3461,7 @@ Sub alphaSEARCH(ByVal cellACTIVE As textBOX, ByVal gridACTIVE As MSHFlexGrid, co
 Dim i, ii As Integer
 Dim word As String
 Dim found As Boolean
+If cellACTIVE.Index = 1 Then Exit Sub
 If skipAlphaSearch = True Then
     skipAlphaSearch = False
     Exit Sub
