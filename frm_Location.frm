@@ -481,7 +481,7 @@ NavBar1.CancelEnabled = False
 
 On Error Resume Next
 Dim str() As String
-Dim i As Integer, X As Integer
+Dim i As Integer, x As Integer
 
     'Added by Juan (9/13/2000) for Multilingual
     Call translator.Translate_Forms("frm_Location")
@@ -495,9 +495,9 @@ Dim i As Integer, X As Integer
 
     i = UBound(str)
 
-    For X = LBound(str) To i
-        Call cbo_LocationType.AddItem(str(X))
-    Next X
+    For x = LBound(str) To i
+        Call cbo_LocationType.AddItem(str(x))
+    Next x
 
     Call PopuLateFromRecordSet(cboComp, _
         loc.CompanyList(deIms.NameSpace, deIms.cnIms), "Comp", True)
@@ -604,10 +604,6 @@ End If
     
 End Sub
 
-Private Sub lbl_Location_Click()
-
-End Sub
-
 'set combo list to first position
 
 Private Sub NavBar1_OnCancelClick()
@@ -622,7 +618,7 @@ NavBar1.SaveEnabled = False
 On Error Resume Next
 
     State = False
-    fm = mdVisualization
+    fm = mdvisualization
     cboCode.ListIndex = CB_ERR
     cboCode.ListIndex = IndexOf(cboCode, loc.LastCode)
     EnableButtons
@@ -756,7 +752,7 @@ End Sub
 'get crystal report parameter and application path
 
 Private Sub NavBar1_OnPrintClick()
-On Error GoTo Errhandler
+On Error GoTo ErrHandler
 
     With MDI_IMS.CrystalReport1
         .Reset
@@ -773,7 +769,7 @@ On Error GoTo Errhandler
     End With
         Exit Sub
     
-Errhandler:
+ErrHandler:
     If Err Then
         MsgBox Err.Description
         Err.Clear

@@ -459,10 +459,10 @@ Dim i As Integer
     Next
 End Function
 
-Sub enableCells(value As Boolean)
+Sub enableCells(Value As Boolean)
 Dim i As Integer
     For i = 1 To 6
-        cell(i).Enabled = value
+        cell(i).Enabled = Value
     Next
 End Sub
 
@@ -598,7 +598,7 @@ Dim t As String
     Err.Clear
     With frmGlobalWH.combo(Index)
         Do While Not datax.EOF
-            .addITEM Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
+            .AddItem Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
             datax.MoveNext
         Loop
         If .TextMatrix(1, 0) = "" Then .RemoveItem (1)
@@ -767,7 +767,7 @@ Private Sub cell_Validate(Index As Integer, Cancel As Boolean)
 End Sub
 
 Private Sub checkAll_Click()
-    If checkAll.value Then
+    If checkAll.Value Then
         'STOCKlist.Enabled = True
     Else
         'STOCKlist.Enabled = False
@@ -861,7 +861,7 @@ onDetailListInProcess = True
             rec = rec + Format(!unitPRICE, "#,###,##0.00") + vbTab
             rec = rec + IIf(IsNull(!UnitName), "", !UnitName) + vbTab
             rec = rec + Format(!qty, "0.00") + vbTab
-            STOCKlist.addITEM rec
+            STOCKlist.AddItem rec
             If n = 20 Then
                 DoEvents
                 STOCKlist.Refresh
@@ -1019,7 +1019,6 @@ Dim datax As New ADODB.Recordset
         Screen.MousePointer = 0
         Exit Sub
     End If
-    
     Call BeginTransaction(cn)
     If Not retval Then Call RollbackTransaction(cn)
     TranType = "GT"
@@ -1192,7 +1191,7 @@ On Error GoTo errPutIssue
     cmd.parameters("@ENTYNUMB") = Null
     cmd.parameters("@USER") = CurrentUser
     cmd.Execute
-    PutIssue = cmd.parameters(0).value = 0
+    PutIssue = cmd.parameters(0).Value = 0
     Exit Function
 
 errPutIssue:
@@ -1206,7 +1205,7 @@ Public Function GetGlobalTransactionNumber() As Long
         .CommandText = "GetGlobalTransactionNumber"
         .parameters.Append .CreateParameter("@numb", adInteger, adParamOutput, 4, Null)
         Call .Execute(Options:=adExecuteNoRecords)
-        GetGlobalTransactionNumber = .parameters("@numb").value
+        GetGlobalTransactionNumber = .parameters("@numb").Value
     End With
     If GetGlobalTransactionNumber Then
         MTSCommit
@@ -1214,3 +1213,9 @@ Public Function GetGlobalTransactionNumber() As Long
         MTSRollback
     End If
 End Function
+
+Private Sub STOCKlist_Click()
+
+End Sub
+
+

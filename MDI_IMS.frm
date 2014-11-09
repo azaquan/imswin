@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm MDI_IMS 
    AutoShowChildren=   0   'False
    BackColor       =   &H8000000C&
@@ -46,7 +46,7 @@ Begin VB.MDIForm MDI_IMS
          NumPanels       =   7
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   6324
+            Object.Width           =   6403
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
          EndProperty
@@ -387,6 +387,9 @@ Begin VB.MDIForm MDI_IMS
             Caption         =   "Logical Warehouse-Sub Location Movement"
             Tag             =   "02040700"
          End
+         Begin VB.Menu itm_WGlobalTransfer 
+            Caption         =   "Global Transfer"
+         End
       End
       Begin VB.Menu itm_accounting 
          Caption         =   "Financial Management"
@@ -664,7 +667,7 @@ Option Explicit
 '''''''''''' Idle time API used for unlocking and closing Application / Form added by jawdat 1.31.02
 Private Type POINTAPI
     x As Long
-    Y As Long
+    y As Long
     End Type
    
 Private Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
@@ -733,6 +736,10 @@ ErrHandler:
         MsgBox Err.Description
         Err.Clear
     End If
+End Sub
+
+Private Sub itm_globalTransfer_Click()
+
 End Sub
 
 'load form and show it
@@ -1388,6 +1395,10 @@ Dim SC As imsSecMod
     
     Err.Clear
     Set SC = Nothing
+End Sub
+
+Private Sub itm_WGlobalTransfer_Click()
+    Call frmNavigator.lblSubWharehousing_Click(0)
 End Sub
 
 'load form and show it

@@ -1,9 +1,9 @@
 VERSION 5.00
+Object = "{27609682-380F-11D5-99AB-00D0B74311D4}#1.0#0"; "ImsMailVBX.ocx"
+Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
-Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
-Object = "{27609682-380F-11D5-99AB-00D0B74311D4}#1.0#0"; "ImsMailVBX.ocx"
 Begin VB.Form frmPackingList 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Packing List/Manifest Management"
@@ -201,20 +201,20 @@ Begin VB.Form frmPackingList
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "frmPackingList.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lbl_Recipients"
-      Tab(1).Control(1)=   "Imsmail1"
+      Tab(1).Control(0)=   "RecipientList"
+      Tab(1).Control(1)=   "cmd_Remove"
       Tab(1).Control(2)=   "cmd_Add"
-      Tab(1).Control(3)=   "cmd_Remove"
-      Tab(1).Control(4)=   "RecipientList"
+      Tab(1).Control(3)=   "Imsmail1"
+      Tab(1).Control(4)=   "lbl_Recipients"
       Tab(1).ControlCount=   5
       TabCaption(2)   =   "Line Item List"
       TabPicture(2)   =   "frmPackingList.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "packinglistLABEL"
-      Tab(2).Control(1)=   "shiptoLABEL"
+      Tab(2).Control(0)=   "TextLINE"
+      Tab(2).Control(1)=   "Command1"
       Tab(2).Control(2)=   "POlist"
-      Tab(2).Control(3)=   "Command1"
-      Tab(2).Control(4)=   "TextLINE"
+      Tab(2).Control(3)=   "shiptoLABEL"
+      Tab(2).Control(4)=   "packinglistLABEL"
       Tab(2).ControlCount=   5
       Begin VB.CommandButton remarkBUTTON 
          Caption         =   "Remark"
@@ -533,7 +533,7 @@ Begin VB.Form frmPackingList
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   60424195
+         Format          =   16252931
          CurrentDate     =   36867
       End
       Begin VB.TextBox TextLINE 
@@ -2700,10 +2700,6 @@ Dim i As Integer
             End If
         Next
     End With
-End Sub
-
-Private Sub lblpodname_Click()
-
 End Sub
 
 Private Sub NavBar1_OnEditClick() 'JCG 2008/6/21 inserting new col 3

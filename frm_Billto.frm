@@ -319,7 +319,7 @@ Dim str As String
     If Err Then Call LogErr(Name & "::cbo_BilltoCode_Click", Err.Description, Err.number, True)
 End Sub
 'drop down bill to combo
-Private Sub cbo_BilltoCode_DragDrop(Source As Control, x As Single, Y As Single)
+Private Sub cbo_BilltoCode_DragDrop(Source As Control, x As Single, y As Single)
   cbo_BilltoCode.locked = False
 End Sub
 'if bill to combo got focus, set background color
@@ -361,14 +361,6 @@ currentformname = Forms(3).Name
 Call imsLock.UnLock_table(TableLocked, currentformname, deIms.cnIms, CurrentUser)
 End If
     
-End Sub
-
-Private Sub lbl_Address1_Click()
-
-End Sub
-
-Private Sub lbl_InterSupp_Click()
-
 End Sub
 
 'before save record to bill to table, validate each data field
@@ -646,10 +638,10 @@ On Error GoTo Handled
         .Show 1
 
         DoEvents: DoEvents
-        If .Result = poPrintCurrent Then
+        If .result = poPrintCurrent Then
             Call BeforePrint(poPrintCurrent)
 
-        ElseIf .Result = poPrintAll Then
+        ElseIf .result = poPrintAll Then
             Call BeforePrint(poPrintAll)
 
         Else

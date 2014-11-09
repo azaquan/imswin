@@ -298,6 +298,28 @@ Begin VB.Form frmNavigator
             TabIndex        =   30
             Top             =   5220
             Width           =   5475
+            Begin VB.Label lblSubAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Global Transfer"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   11
+               Left            =   2640
+               MousePointer    =   99  'Custom
+               TabIndex        =   166
+               Tag             =   "02050900"
+               Top             =   180
+               Width           =   1320
+            End
             Begin VB.Label lblModifyFQA 
                AutoSize        =   -1  'True
                Caption         =   "Modify FQA"
@@ -537,7 +559,7 @@ Begin VB.Form frmNavigator
                TabIndex        =   111
                Tag             =   "02050100"
                Top             =   180
-               Width           =   5175
+               Width           =   2175
             End
             Begin VB.Label lblSubAccounting 
                Caption         =   "Sap Adjustment"
@@ -5320,6 +5342,8 @@ Public Sub lblSubAccounting_Click(Index As Integer)
         '    Load frm_ordertracking
         '    frm_ordertracking.Show
         '    frm_ordertracking.ZOrder 0
+        Case 11
+            WH.Loading2 GlobalTransfer
     End Select
 End Sub
 

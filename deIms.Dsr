@@ -11182,7 +11182,7 @@ Dim str As String
         With pError
             str = "Description  = " & .Description & vbCrLf
             str = str & "Native Error =" & .NativeError & vbCrLf
-            str = str & "SQL State =" & .SqlState & vbCrLf
+            str = str & "SQL State =" & .SQLState & vbCrLf
             str = str & "Number =" & .number & vbCrLf
             str = str & "Source = " & .Source
             MsgBox str

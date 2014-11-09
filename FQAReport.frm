@@ -74,7 +74,7 @@ Begin VB.Form Frm_FQAReporting
          _ExtentX        =   2566
          _ExtentY        =   503
          _Version        =   393216
-         Format          =   58458113
+         Format          =   58261505
          CurrentDate     =   37595
       End
       Begin MSComCtl2.DTPicker DTPTo 
@@ -86,7 +86,7 @@ Begin VB.Form Frm_FQAReporting
          _ExtentX        =   2566
          _ExtentY        =   503
          _Version        =   393216
-         Format          =   58458113
+         Format          =   58261505
          CurrentDate     =   37595
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSdbCompany 
@@ -257,12 +257,12 @@ Begin VB.Form Frm_FQAReporting
       TabCaption(1)   =   "E-Mail List"
       TabPicture(1)   =   "FQAReport.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmd_Remove"
-      Tab(1).Control(1)=   "cmd_Add"
-      Tab(1).Control(2)=   "TxtEmail"
-      Tab(1).Control(3)=   "dgRecepients"
-      Tab(1).Control(4)=   "SSGRDRecepients"
-      Tab(1).Control(5)=   "lbl_Recipients"
+      Tab(1).Control(0)=   "lbl_Recipients"
+      Tab(1).Control(1)=   "SSGRDRecepients"
+      Tab(1).Control(2)=   "dgRecepients"
+      Tab(1).Control(3)=   "TxtEmail"
+      Tab(1).Control(4)=   "cmd_Add"
+      Tab(1).Control(5)=   "cmd_Remove"
       Tab(1).ControlCount=   6
       Begin VB.CheckBox Chk_Invt 
          Height          =   200

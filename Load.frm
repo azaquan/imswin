@@ -195,9 +195,9 @@ Dim Sa As New Scripting.FileSystemObject
 Dim t As Scripting.TextStream
 Dim CompletePath As String
 Dim CurrentUser As String
-Dim I As Integer
+Dim i As Integer
 
-On Error GoTo Errhandler
+On Error GoTo ErrHandler
 
 CompletePath = App.Path & "\ImsAutomaticLogin.Ims"
 
@@ -212,7 +212,7 @@ End If
 GetUserName = CurrentUser
 
 Exit Function
-Errhandler:
+ErrHandler:
 
 MsgBox "Errors Occured while trying to retrive the username of the Last Logon. Error Description : " & Err.Description, vbCritical, "Ims"
 Err.Clear
