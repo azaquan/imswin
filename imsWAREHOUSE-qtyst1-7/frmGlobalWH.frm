@@ -5,10 +5,10 @@ Begin VB.Form frmGlobalWH
    ClientHeight    =   7440
    ClientLeft      =   60
    ClientTop       =   345
-   ClientWidth     =   9360
+   ClientWidth     =   11460
    LinkTopic       =   "Form1"
    ScaleHeight     =   7440
-   ScaleWidth      =   9360
+   ScaleWidth      =   11460
    StartUpPosition =   3  'Windows Default
    Begin VB.PictureBox savingLABEL 
       Appearance      =   0  'Flat
@@ -329,8 +329,8 @@ Begin VB.Form frmGlobalWH
       Left            =   120
       TabIndex        =   21
       Top             =   3240
-      Width           =   9135
-      _ExtentX        =   16113
+      Width           =   11175
+      _ExtentX        =   19711
       _ExtentY        =   6456
       _Version        =   393216
       BackColor       =   16777215
@@ -468,7 +468,7 @@ End Sub
 
 Sub makeLists()
     With STOCKlist
-        .cols = 6
+        .cols = 8
         .TextMatrix(0, 0) = "#"
         .ColWidth(0) = 400
         .TextMatrix(0, 1) = "Commodity"
@@ -478,15 +478,45 @@ Sub makeLists()
         .TextMatrix(0, 3) = "Unit Price"
         .ColWidth(3) = 1400
         .ColAlignmentFixed(3) = 7
-        .TextMatrix(0, 4) = "Unit"
-        .ColWidth(4) = 800
-        .ColAlignmentFixed(4) = 4
-        .TextMatrix(0, 5) = "Qty"
-        .ColWidth(5) = 1000
-        .ColAlignmentFixed(5) = 7
+        .TextMatrix(0, 4) = "Prim. Qty"
+        .ColWidth(4) = 1000
+        .ColAlignmentFixed(4) = 7
+        .TextMatrix(0, 5) = "Prim. Unit"
+        .ColWidth(5) = 800
+        .ColAlignmentFixed(5) = 4
+        .TextMatrix(0, 6) = "Sec. Qty"
+        .ColWidth(6) = 1000
+        .ColAlignmentFixed(6) = 7
+        .TextMatrix(0, 7) = "Prim. Unit"
+        .ColWidth(7) = 800
+        .ColAlignmentFixed(7) = 4
     End With
 End Sub
 
+
+Sub stockNumberCheck(StockNumber As String)
+Dim datax As ADODB.Recordset
+Dim sql As String
+    sql = "select 1 from stockmaster " _
+        + "where stk_stcknumb = '" + StockNumber + "' and stk_npecode = '" + cell(4) + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+    sql = "insert into stockmaster (stk_stcknumb,stk_npecode,stk_desc,stk_descflag, " _
+        + "stk_primuon,stk_secouom,stk_stcktype,stk_catecode,stk_poolspec,stk_compfctr, " _
+        + "stk_hazmatclau,stk_mini,stk_maxi,stk_characctcode,stk_stdrcost,stk_estmprice, " _
+        + "stk_grpe,stk_imge,stk_techspec,stk_flag,stk_eccnid,stk_eccnlicsreq,stk_eccnsourceid, " _
+        + "stk_ratio1,stk_ratio2) " _
+        + "select stk_stcknumb,'" + cell(4) + "', stk_desc,stk_descflag,stk_primuon, " _
+        + "stk_secouom,stk_stcktype,stk_catecode,stk_poolspec,stk_compfctr,stk_hazmatclau, " _
+        + "stk_mini,stk_maxi,stk_characctcode,stk_stdrcost,stk_estmprice,stk_grpe, " _
+        + "stk_imge,stk_techspec,stk_flag,stk_eccnid,stk_eccnlicsreq,stk_eccnsourceid, " _
+        + "stk_ratio1,stk_ratio2 from stockmaster Where " _
+        + "stk_stcknumb = '" + StockNumber + "' and stk_npecode = '" + cell(1) + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    End If
+End Sub
 
 Private Sub cell_Change(Index As Integer)
 Dim n As Integer
@@ -514,6 +544,19 @@ Screen.MousePointer = 11
                     MsgBox "Please select " + label(Index - 1) + " first"
                     Screen.MousePointer = 0
                     Exit Sub
+                End If
+            Else
+                If Index = 2 Then
+                    cell(3) = ""
+                    Call cleanSTOCKlist
+                Else
+                    Select Case Index
+                        Case 4
+                            cell(5) = ""
+                            cell(6) = ""
+                        Case 5
+                            cell(6) = ""
+                    End Select
                 End If
             End If
             If Not (saveBUTTON.Enabled And Index = 0) Then
@@ -564,6 +607,7 @@ Dim namespaceVal, companyVal As String
         .ColAlignment(0) = 0
         .ColWidth(1) = 1400
         .ColAlignment(1) = 0
+        .TextMatrix(1, 0) = ""
     End With
     
     Err.Clear
@@ -598,7 +642,7 @@ Dim t As String
     Err.Clear
     With frmGlobalWH.combo(Index)
         Do While Not datax.EOF
-            .AddItem Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
+            .addITEM Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
             datax.MoveNext
         Loop
         If .TextMatrix(1, 0) = "" Then .RemoveItem (1)
@@ -853,15 +897,19 @@ onDetailListInProcess = True
             rec = ""
             STOCKlist.ColAlignment(0) = 7
             STOCKlist.ColAlignment(1) = 0
-            STOCKlist.ColAlignment(3) = 7
-            STOCKlist.ColAlignment(4) = 4
+            STOCKlist.ColAlignment(4) = 7
+            STOCKlist.ColAlignment(5) = 4
+            STOCKlist.ColAlignment(6) = 7
+            STOCKlist.ColAlignment(7) = 4
             rec = rec + Format(n) + vbTab
             rec = rec + Trim(!StockNumber) + vbTab
             rec = rec + Trim(!description) + vbTab
             rec = rec + Format(!unitPRICE, "#,###,##0.00") + vbTab
-            rec = rec + IIf(IsNull(!UnitName), "", !UnitName) + vbTab
             rec = rec + Format(!qty, "0.00") + vbTab
-            STOCKlist.AddItem rec
+            rec = rec + IIf(IsNull(!UnitName), "", !UnitName) + vbTab
+            rec = rec + Format(!qty2, "0.00") + vbTab
+            rec = rec + IIf(IsNull(!UnitName2), "", !UnitName2) + vbTab
+            STOCKlist.addITEM rec
             If n = 20 Then
                 DoEvents
                 STOCKlist.Refresh
@@ -985,7 +1033,7 @@ Dim i
 End Sub
 
 Private Sub saveBUTTON_Click()
-Dim i
+Dim i, ii, item
 Dim retval As Boolean
 Dim qty1 As Double
 Dim qty2 As Double
@@ -1011,14 +1059,19 @@ Dim computerFactor
 Dim imsLock As imsLock.Lock
 Dim TranType As String
 Dim sql As String
-Dim data As New ADODB.Recordset
 Dim datax As New ADODB.Recordset
+Dim datay As New ADODB.Recordset
     Screen.MousePointer = 11
     If Not allSelected Then
         MsgBox "Please select all fields"
         Screen.MousePointer = 0
         Exit Sub
     End If
+    Screen.MousePointer = 11
+    savingLABEL.Visible = True
+    savingLABEL.ZOrder
+    Me.Enabled = False
+    Me.Refresh
     Call BeginTransaction(cn)
     If Not retval Then Call RollbackTransaction(cn)
     TranType = "GT"
@@ -1036,6 +1089,7 @@ Dim datax As New ADODB.Recordset
         Exit Sub
     End If
     With STOCKlist
+        item = 0
         For i = 1 To .Rows - 1
             NP = cell(1).tag
             CompCode = cell(2).tag
@@ -1053,50 +1107,38 @@ Dim datax As New ADODB.Recordset
             If datax.RecordCount > 0 Then
                 'ISSUE side
                 FromWH = cell(3).tag
-                fromlogic = datax!logic
-                fromSubLoca = datax!subloca
                 ToCompCode = "GENERAL"
                 ToWH = "GENERAL"
                 toLOGIC = "GENERAL"
                 toSUBLOCA = "GENERAL"
-                serial = datax!serialNumber
-                qty1 = datax!qty
-                qty2 = datax!qty2
-                condition = datax!condition
-                retval = Update_Sap(NP, CompCode, stocknumb, ToWH, qty1, 1, unitPRICE, condition, CurrentUser, cn)
-                retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, stockDESC, CurrentUser, cn)
-                retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, CurrentUser, cn)
-                retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                If serial = "" Or UCase(serial) = "POOL" Then
-                    retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "GT", CompCode, FromWH, Format(Transnumb), ToCompCode, CDbl(i), CurrentUser, cn)
-                Else
-                    retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, CDbl(i), ToWH, "GT", CompCode, Format(Transnumb), ToCompCode, CDbl(i), serial, CurrentUser, cn)
-                End If
-                If retval = False Then
-                    Call RollbackTransaction(cn)
-                    MsgBox "Error in Transaction - Issue side"
-                    Exit Sub
-                End If
-                qty2 = qty2 * -1
-                qty1 = qty1 * -1
-                retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, stockDESC, CurrentUser, cn)
-                retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, CurrentUser, cn)
-                retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, CurrentUser, cn)
-                retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                If serial = "" Or UCase(serial) = "POOL" Then
-                    retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "GT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                Else
-                    retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "GT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                End If
-                If retval = False Then
-                    Call RollbackTransaction(cn)
-                    MsgBox "Error in Transaction"
-                    Exit Sub
-                End If
-
+                Do While Not datax.EOF
+                    item = item + 1
+                    fromlogic = datax!logic
+                    fromSubLoca = datax!subloca
+                    serial = datax!serialNumber
+                    qty1 = datax!qty
+                    qty2 = datax!qty2
+                    condition = datax!condition
+                    qty2 = qty2 * -1
+                    qty1 = qty1 * -1
+                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, stockDESC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, CurrentUser, cn)
+                    If serial = "" Or UCase(serial) = "POOL" Then
+                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "GT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(item), CurrentUser, cn)
+                    Else
+                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
+                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "GT", CompCode, Format(Transnumb), CompCode, CDbl(item), serial, CurrentUser, cn)
+                    End If
+                    If retval = False Then
+                        Call RollbackTransaction(cn)
+                        MsgBox "Error in Transaction"
+                        Exit Sub
+                    End If
+                    datax.MoveNext
+                Loop
+                
                 'Entry side
                 NP = cell(4).tag
                 CompCode = cell(5).tag
@@ -1107,8 +1149,9 @@ Dim datax As New ADODB.Recordset
                 FromWH = "GENERAL"
                 fromlogic = "GENERAL"
                 fromSubLoca = "GENERAL"
-                qty2 = qty2 * -1
-                qty1 = qty1 * -1
+                qty1 = .TextMatrix(i, 4)
+                qty2 = .TextMatrix(i, 6)
+                Call stockNumberCheck(stocknumb)
                 retval = Update_Sap(NP, CompCode, stocknumb, ToWH, qty1, CDbl(1), unitPRICE, condition, CurrentUser, cn)
                 retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, stockDESC, CurrentUser, cn)
                 retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, CurrentUser, cn)
@@ -1133,6 +1176,7 @@ Dim datax As New ADODB.Recordset
     If Err Then Err.Clear
     newBUTTON.Enabled = True
     saveBUTTON.Enabled = False
+    savingLABEL.Visible = False
     savingLABEL.Visible = False
     Me.Enabled = True
     Screen.MousePointer = 0
@@ -1213,9 +1257,4 @@ Public Function GetGlobalTransactionNumber() As Long
         MTSRollback
     End If
 End Function
-
-Private Sub STOCKlist_Click()
-
-End Sub
-
 
