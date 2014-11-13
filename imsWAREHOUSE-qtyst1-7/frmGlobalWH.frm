@@ -1,14 +1,15 @@
 VERSION 5.00
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Begin VB.Form frmGlobalWH 
    Caption         =   "Form1"
    ClientHeight    =   7440
    ClientLeft      =   60
    ClientTop       =   345
-   ClientWidth     =   11460
+   ClientWidth     =   10890
    LinkTopic       =   "Form1"
    ScaleHeight     =   7440
-   ScaleWidth      =   11460
+   ScaleWidth      =   10890
    StartUpPosition =   3  'Windows Default
    Begin VB.PictureBox savingLABEL 
       Appearance      =   0  'Flat
@@ -45,7 +46,7 @@ Begin VB.Form frmGlobalWH
    Begin VB.CommandButton Command1 
       Caption         =   "&Exit"
       Height          =   375
-      Left            =   7575
+      Left            =   9135
       TabIndex        =   26
       TabStop         =   0   'False
       Top             =   6960
@@ -55,7 +56,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "&Save"
       Enabled         =   0   'False
       Height          =   375
-      Left            =   5880
+      Left            =   7440
       TabIndex        =   25
       TabStop         =   0   'False
       Top             =   6960
@@ -73,7 +74,7 @@ Begin VB.Form frmGlobalWH
    Begin VB.CommandButton newBUTTON 
       Caption         =   "&New Transaction"
       Height          =   375
-      Left            =   4200
+      Left            =   5760
       TabIndex        =   23
       TabStop         =   0   'False
       Top             =   6960
@@ -94,11 +95,11 @@ Begin VB.Form frmGlobalWH
       Enabled         =   0   'False
       Height          =   285
       Index           =   4
-      Left            =   5400
+      Left            =   6240
       Locked          =   -1  'True
       TabIndex        =   3
       Top             =   960
-      Width           =   3855
+      Width           =   4485
    End
    Begin VB.TextBox cell 
       Appearance      =   0  'Flat
@@ -106,11 +107,11 @@ Begin VB.Form frmGlobalWH
       Enabled         =   0   'False
       Height          =   285
       Index           =   5
-      Left            =   5400
+      Left            =   6240
       Locked          =   -1  'True
       TabIndex        =   4
       Top             =   1560
-      Width           =   3855
+      Width           =   4485
    End
    Begin VB.TextBox cell 
       Appearance      =   0  'Flat
@@ -118,11 +119,11 @@ Begin VB.Form frmGlobalWH
       Enabled         =   0   'False
       Height          =   285
       Index           =   6
-      Left            =   5400
+      Left            =   6240
       Locked          =   -1  'True
       TabIndex        =   5
       Top             =   2160
-      Width           =   3855
+      Width           =   4485
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
@@ -160,7 +161,7 @@ Begin VB.Form frmGlobalWH
       Locked          =   -1  'True
       TabIndex        =   8
       Top             =   960
-      Width           =   3855
+      Width           =   4485
    End
    Begin VB.TextBox cell 
       Appearance      =   0  'Flat
@@ -172,7 +173,7 @@ Begin VB.Form frmGlobalWH
       Locked          =   -1  'True
       TabIndex        =   1
       Top             =   1560
-      Width           =   3855
+      Width           =   4485
    End
    Begin VB.TextBox cell 
       Appearance      =   0  'Flat
@@ -194,7 +195,7 @@ Begin VB.Form frmGlobalWH
       Locked          =   -1  'True
       TabIndex        =   2
       Top             =   2160
-      Width           =   3855
+      Width           =   4485
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
@@ -230,8 +231,8 @@ Begin VB.Form frmGlobalWH
       TabStop         =   0   'False
       Top             =   600
       Visible         =   0   'False
-      Width           =   4200
-      _ExtentX        =   7408
+      Width           =   1920
+      _ExtentX        =   3387
       _ExtentY        =   2566
       _Version        =   393216
       BackColor       =   16777152
@@ -250,7 +251,7 @@ Begin VB.Form frmGlobalWH
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
       Index           =   5
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   15
       TabStop         =   0   'False
       Top             =   1830
@@ -276,7 +277,7 @@ Begin VB.Form frmGlobalWH
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
       Index           =   6
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   16
       TabStop         =   0   'False
       Top             =   2400
@@ -302,7 +303,7 @@ Begin VB.Form frmGlobalWH
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
       Index           =   4
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   17
       TabStop         =   0   'False
       Top             =   1200
@@ -329,8 +330,8 @@ Begin VB.Form frmGlobalWH
       Left            =   120
       TabIndex        =   21
       Top             =   3240
-      Width           =   11175
-      _ExtentX        =   19711
+      Width           =   10575
+      _ExtentX        =   18653
       _ExtentY        =   6456
       _Version        =   393216
       BackColor       =   16777215
@@ -353,12 +354,12 @@ Begin VB.Form frmGlobalWH
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid matrix 
       Height          =   735
-      Left            =   9120
+      Left            =   8520
       TabIndex        =   22
       Top             =   0
       Visible         =   0   'False
-      Width           =   555
-      _ExtentX        =   979
+      Width           =   1515
+      _ExtentX        =   2672
       _ExtentY        =   1296
       _Version        =   393216
       BackColor       =   16776960
@@ -372,11 +373,23 @@ Begin VB.Form frmGlobalWH
       _NumberOfBands  =   1
       _Band(0).Cols   =   5
    End
+   Begin Crystal.CrystalReport CrystalReport1 
+      Left            =   0
+      Top             =   0
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   348160
+      WindowControlBox=   -1  'True
+      WindowMaxButton =   -1  'True
+      WindowMinButton =   -1  'True
+      WindowState     =   2
+      PrintFileLinesPerPage=   60
+   End
    Begin VB.Label label 
       Caption         =   "To Namespace"
       Height          =   255
       Index           =   6
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   20
       Top             =   720
       Width           =   3855
@@ -385,7 +398,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "To Warehouse"
       Height          =   255
       Index           =   5
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   19
       Top             =   1920
       Width           =   3855
@@ -394,7 +407,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "To Company"
       Height          =   255
       Index           =   4
-      Left            =   5400
+      Left            =   6240
       TabIndex        =   18
       Top             =   1320
       Width           =   3855
@@ -448,6 +461,22 @@ Dim usingARROWS As Boolean
 Dim doChanges As Boolean
 Dim inProgress As Boolean
 Dim isReset As Boolean
+
+Public stocknumb As String
+Public stockDESC As String
+Public FromWH As String
+Public ToWH As String
+Public WH As String
+Public fromLogic As String
+Public fromSubLoca As String
+Public toLOGIC As String
+Public toSUBLOCA As String
+Public condition As String
+Public unitPRICE As Double
+Public serial As String
+Public item, item2
+Public qty1 As Double
+Public qty2 As Double
 Function allSelected() As Boolean
 allSelected = True
 Dim i As Integer
@@ -458,6 +487,117 @@ Dim i As Integer
         End If
     Next
 End Function
+
+Sub generalCheck()
+Dim sql As String
+Dim datax As ADODB.Recordset
+On Error Resume Next
+    'Issue side
+    'logical warehouse to
+    sql = "select 1 from logwar " _
+        + "where lw_code = 'GENERAL' and lw_npecode = '" + cell(1).tag + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into logwar " _
+            + "(lw_code,lw_npecode,lw_desc,lw_actvflag,lw_type) " _
+            + "values ('GENERAL', '" + cell(1).tag + "', 'GENERAL', 0, 'ACTUAL')"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'sublocation to
+    sql = "select 1 from sublocation " _
+        + "where sb_code = 'GENERAL' and sb_npecode = '" + cell(1).tag + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into sublocation " _
+            + "(sb_code,sb_npecode,sb_desc,sb_actvflag) " _
+            + "values ('GENERAL', '" + cell(1).tag + "', 'GENERAL', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'location to
+    sql = "select 1 from location " _
+        + "where loc_npecode = '" + cell(1).tag + "' and loc_compcode= '" + cell(2).tag + "' and loc_locacode ='IN-TRANSIT'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into location " _
+            + "(loc_locacode,loc_npecode,loc_name,loc_compcode,loc_gender,loc_actvflag) " _
+            + "values ('IN-TRANSIT', '" + cell(1).tag + "', 'In Transit','" + cell(2).tag + "','BASE', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'company to
+    sql = "select 1 from company " _
+        + "where com_npecode = '" + cell(1).tag + "' and com_compcode='IN-TRANSIT'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into company " _
+            + "(com_compcode,com_npecode,com_name,com_adr1,com_city,com_ctry,com_actvflag) " _
+            + "values ('IN-TRANSIT', '" + cell(1).tag + "', 'On Transit', 'N/A', 'N/A','N/A', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'Receipt side
+    'logical warehouse to
+    sql = "select 1 from logwar " _
+        + "where lw_code = 'GENERAL' and lw_npecode = '" + cell(4).tag + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into logwar " _
+            + "(lw_code,lw_npecode,lw_desc,lw_actvflag,lw_type) " _
+            + "values ('GENERAL', '" + cell(4).tag + "', 'GENERAL', 0, 'ACTUAL')"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'sublocation to
+    sql = "select 1 from sublocation " _
+        + "where sb_code = 'GENERAL' and sb_npecode = '" + cell(4).tag + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into sublocation " _
+            + "(sb_code,sb_npecode,sb_desc,sb_actvflag) " _
+            + "values ('GENERAL', '" + cell(4).tag + "', 'GENERAL', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'location to
+    sql = "select 1 from location " _
+        + "where loc_npecode = '" + cell(4).tag + "' and loc_compcode= '" + cell(5).tag + "' and loc_locacode ='IN-TRANSIT'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into location " _
+            + "(loc_locacode,loc_npecode,loc_name,loc_compcode,loc_gender,loc_actvflag) " _
+            + "values ('IN-TRANSIT', '" + cell(4).tag + "', 'In Transit','" + cell(5).tag + "','BASE', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+    
+    'company to
+    sql = "select 1 from company " _
+        + "where com_npecode = '" + cell(4).tag + "' and com_compcode='IN-TRANSIT'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        sql = "insert into company " _
+            + "(com_compcode,com_npecode,com_name,com_adr1,com_city,com_ctry,com_actvflag) " _
+            + "values ('IN-TRANSIT', '" + cell(4).tag + "', 'On Transit', 'N/A', 'N/A','N/A', 0)"
+        Set datax = New ADODB.Recordset
+        datax.Open sql, cn, adOpenStatic
+    End If
+End Sub
 
 Sub enableCells(Value As Boolean)
 Dim i As Integer
@@ -540,6 +680,9 @@ Screen.MousePointer = 11
     With cell(Index)
         If saveBUTTON.Enabled Or Index = 0 Then
             If Index > 2 And Index <> 4 Then
+                If Index = 3 Then
+                    Call cleanSTOCKlist
+                End If
                 If combo(Index - 1) = "" And (Index - 1) > 1 Then
                     MsgBox "Please select " + label(Index - 1) + " first"
                     Screen.MousePointer = 0
@@ -580,6 +723,7 @@ End Sub
 
 
 Sub showCOMBO(ByRef grid As MSHFlexGrid, Index)
+    If Index = 1 Then Exit Sub
     With grid
         Call fillCOMBO(grid, Index)
         If .Rows > 0 And .text <> "" Then
@@ -600,14 +744,22 @@ Dim namespaceVal, companyVal As String
     Err.Clear
     With combo(Index)
         .Rows = 2
-        .cols = 2
-        .TextMatrix(0, 0) = "Description"
-        .TextMatrix(0, 1) = "Code"
-        .ColWidth(0) = 2800
-        .ColAlignment(0) = 0
-        .ColWidth(1) = 1400
-        .ColAlignment(1) = 0
-        .TextMatrix(1, 0) = ""
+        If Index = 0 Then
+            .cols = 1
+            .TextMatrix(0, 0) = "Transaction ·"
+            .ColWidth(0) = cell(0).width
+            .ColAlignment(0) = 0
+            .TextMatrix(1, 0) = ""
+        Else
+            .cols = 2
+            .TextMatrix(0, 0) = "Description"
+            .TextMatrix(0, 1) = "Code"
+            .ColWidth(0) = 2800
+            .ColAlignment(0) = 0
+            .ColWidth(1) = 1400
+            .ColAlignment(1) = 0
+            .TextMatrix(1, 0) = ""
+        End If
     End With
     
     Err.Clear
@@ -619,16 +771,21 @@ Dim namespaceVal, companyVal As String
         companyVal = cell(5).tag
     End If
     Select Case Index
-        Case 4 'itwoulde zero as well
+        Case 0
+            sql = "SELECT ii_trannumb FROM INVTISSUE " _
+                + "WHERE ii_npecode = '" + namespaceVal + "' AND ii_trantype = 'GT'" _
+                + "ORDER BY iI_creadate desc "
+        Case 4
             sql = "select npce_name as namespaceName, npce_code as namespace from namespace " _
                 + "order by namespaceName "
         Case 2, 5
             sql = "select com_name as companyName, com_compcode as company from company " _
-                + "where com_npecode = '" + namespaceVal + "' " _
+                + "where com_npecode = '" + namespaceVal + "' and com_actvflag = 1 " _
                 + "order by companyName "
         Case 3, 6
             sql = "select loc_name as locationName, loc_locacode as location from location " _
                 + "where loc_npecode = '" + namespaceVal + "' and loc_compcode = '" + companyVal + "' " _
+                + "and loc_gender='BASE' and loc_actvflag=1 " _
                 + "order by locationName "
     End Select
     datax.Open sql, cn, adOpenForwardOnly
@@ -642,7 +799,11 @@ Dim t As String
     Err.Clear
     With frmGlobalWH.combo(Index)
         Do While Not datax.EOF
-            .addITEM Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
+            If Index = 0 Then
+                .addITEM Trim(datax.Fields(0))
+            Else
+                .addITEM Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
+            End If
             datax.MoveNext
         Loop
         If .TextMatrix(1, 0) = "" Then .RemoveItem (1)
@@ -812,10 +973,10 @@ End Sub
 
 Private Sub checkAll_Click()
     If checkAll.Value Then
-        'STOCKlist.Enabled = True
+        STOCKlist.Enabled = False
     Else
-        'STOCKlist.Enabled = False
-    edif
+        STOCKlist.Enabled = True
+    End If
 End Sub
 
 Private Sub combo_Click(Index As Integer)
@@ -833,42 +994,59 @@ Dim ratio As Integer
     Set datax = New ADODB.Recordset
     DoEvents
     With combo(Index)
-        cell(Index) = Trim(.TextMatrix(.row, 0))
-        cell(Index).tag = Trim(.TextMatrix(.row, 1))
+        If Index = 0 Then
+            cell(0) = Trim(.TextMatrix(.row, 0))
+        Else
+            cell(Index) = Trim(.TextMatrix(.row, 0))
+            cell(Index).tag = Trim(.TextMatrix(.row, 1))
+        End If
         Select Case Index
             Case 0
-'                datax.Open sql, cn, adOpenForwardOnly
-'                If datax.RecordCount > 0 Then
-'                    Call fillTRANSACTION(datax)
-'                End If
+                sql = "select * from invtissuedetl " _
+                    + "where iid_npecode= '" + cell(1).tag + "' and iid_trannumb = '" + cell(0) + "' " _
+                    + "order by iid_transerl "
+                datax.Open sql, cn, adOpenForwardOnly
+                If datax.RecordCount > 0 Then
+                    sql = "select iid_stcknumb as StockNumber, iid_stckdesc as description, " _
+                        + "iid_unitpric as unitPRICE,iid_primqty As qty, stk_primuon As UnitName, " _
+                        + "iid_secoqty As qty2, stk_secouom As UnitName2 " _
+                        + "From invtissuedetl, stockmaster " _
+                        + "where stk_npecode = iid_npecode and iid_stcknumb = stk_stcknumb and " _
+                        + "iid_npecode= '" + cell(1).tag + "' and " _
+                        + "iid_trannumb = '" + cell(0) + "' order by iid_transerl "
+                End If
             Case 3
                 sql = "select * from stockinfo where " _
                     + "NameSpace = '" + cell(1).tag + "' " _
                     + "and Company = '" + cell(2).tag + "' " _
                     + "and Location = '" + cell(3).tag + "' "
-                datax.Open sql, cn, adOpenStatic
-                If datax.RecordCount > 0 Then
-                    STOCKlist.Enabled = True
-                    Call cleanSTOCKlist
-                    If datax.RecordCount > 100 Then
-                        Label3 = "Loading " + Format(datax.RecordCount) + " records..."
-                        savingLABEL.Visible = True
-                        DoEvents
-                        savingLABEL.ZOrder
-                        DoEvents
-                    End If
-                    DoEvents
-                    .MousePointer = 11
-                    DoEvents
-                    Me.Refresh
-                    DoEvents
-                    Call fillSTOCKlist(datax)
-                    If savingLABEL.Visible Then
-                        Label3 = "SAVING..."
-                        savingLABEL.Visible = False
-                    End If
-                End If
         End Select
+        If sql = "" Then
+        Else
+            Set datax = New ADODB.Recordset
+            datax.Open sql, cn, adOpenStatic
+            If datax.RecordCount > 0 Then
+                STOCKlist.Enabled = True
+                Call cleanSTOCKlist
+                If datax.RecordCount > 100 Then
+                    Label3 = "Loading " + Format(datax.RecordCount) + " records..."
+                    savingLABEL.Visible = True
+                    DoEvents
+                    savingLABEL.ZOrder
+                    DoEvents
+                End If
+                DoEvents
+                .MousePointer = 11
+                DoEvents
+                Me.Refresh
+                DoEvents
+                Call fillSTOCKlist(datax)
+                If savingLABEL.Visible Then
+                    Label3 = "SAVING..."
+                    savingLABEL.Visible = False
+                End If
+            End If
+        End If
         .Visible = False
         Dim nextVal As Integer
         nextVal = Index + 1
@@ -974,6 +1152,49 @@ Private Sub Command1_Click()
     Unload Me
 End Sub
 
+Private Sub Command3_Click()
+Dim reportPATH, cnSTRING, text
+Screen.MousePointer = 11
+    cnSTRING = Split(cn.ConnectionString, ";")
+    For Each text In cnSTRING
+        Select Case Left(UCase(text), InStr(text, "="))
+            Case "PASSWORD="
+                dsnPWD = Mid(text, InStr(text, "=") + 1)
+            Case "USER ID="
+                dsnUID = Mid(text, InStr(text, "=") + 1)
+            Case "INITIAL CATALOG="
+                dsnDSQ = Mid(text, InStr(text, "=") + 1)
+        End Select
+    Next
+    With CrystalReport1
+        .Reset
+        .LogOnServer "pdsodbc.dll", dsnF, dsnDSQ, dsnUID, dsnPWD
+        reportPATH = repoPATH + "\"
+        .ReportFileName = reportPATH & "wareI.rpt"
+        .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
+        .ParameterFields(1) = "NAMESPACE;" & cell(1).tag & ";TRUE"
+        Set thisrepo = CrystalReport1
+        mainREPORT = True
+        Call Translate_Reports(CrystalReport1.ReportFileName)
+        Call Translate_SubReports
+        .Action = 1
+        
+        .Reset
+        .LogOnServer "pdsodbc.dll", dsnF, dsnDSQ, dsnUID, dsnPWD
+        .ReportFileName = reportPATH & "wareAEIA.rpt"
+        .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
+        .ParameterFields(1) = "NAMESPACE;" & cell(4).tag & ";TRUE"
+        Set thisrepo = CrystalReport1
+        mainREPORT = True
+        Call Translate_Reports(CrystalReport1.ReportFileName)
+        Call Translate_SubReports
+        .Action = 1
+        
+        .Reset
+    End With
+Screen.MousePointer = 0
+End Sub
+
 Private Sub Form_Activate()
 Dim rights As Boolean
     inProgress = False
@@ -1033,34 +1254,17 @@ Dim i
 End Sub
 
 Private Sub saveBUTTON_Click()
-Dim i, ii, item
+Dim i, ii
 Dim retval As Boolean
-Dim qty1 As Double
-Dim qty2 As Double
 Dim NP As String
 Dim CompCode As String
 Dim ToCompCode As String
 Dim fromCompCode As String
-Dim stocknumb As String
-Dim stockDESC As String
-Dim FromWH As String
-Dim ToWH As String
-Dim WH As String
-Dim fromlogic As String
-Dim fromSubLoca As String
-Dim toLOGIC As String
-Dim toSUBLOCA As String
-Dim condition As String
-Dim NEWcondition As String
-Dim unitPRICE As Double
-Dim newUNITprice As Double
-Dim serial As String
-Dim computerFactor
-Dim imsLock As imsLock.Lock
 Dim TranType As String
 Dim sql As String
 Dim datax As New ADODB.Recordset
 Dim datay As New ADODB.Recordset
+Dim goAhead As Boolean
     Screen.MousePointer = 11
     If Not allSelected Then
         MsgBox "Please select all fields"
@@ -1076,6 +1280,7 @@ Dim datay As New ADODB.Recordset
     If Not retval Then Call RollbackTransaction(cn)
     TranType = "GT"
     'ISSUE side
+    Call generalCheck
     retval = PutIssue("GT")
     If retval = False Then
         Call RollbackTransaction(cn)
@@ -1088,89 +1293,123 @@ Dim datay As New ADODB.Recordset
         MsgBox "Error in Transaction - Entry header"
         Exit Sub
     End If
+    goAhead = True
     With STOCKlist
         item = 0
+        item2 = 0
         For i = 1 To .Rows - 1
-            NP = cell(1).tag
-            CompCode = cell(2).tag
-            WH = cell(3).tag
-            stocknumb = .TextMatrix(i, 1)
-            stockDESC = .TextMatrix(i, 2)
-            unitPRICE = .TextMatrix(i, 3)
-            sql = "select * from stockinfoExtended " _
-                + "where NameSpace = '" + NP + "' " _
-                + "and Company = '" + CompCode + "' " _
-                + " and Location = '" + WH + "' " _
-                + " and StockNumber = '" + stocknumb + "' "
-            Set datax = New ADODB.Recordset
-            datax.Open sql, cn, adOpenStatic
-            If datax.RecordCount > 0 Then
-                'ISSUE side
-                FromWH = cell(3).tag
-                ToCompCode = "GENERAL"
-                ToWH = "GENERAL"
-                toLOGIC = "GENERAL"
-                toSUBLOCA = "GENERAL"
-                Do While Not datax.EOF
-                    item = item + 1
-                    fromlogic = datax!logic
-                    fromSubLoca = datax!subloca
-                    serial = datax!serialNumber
-                    qty1 = datax!qty
-                    qty2 = datax!qty2
-                    condition = datax!condition
-                    qty2 = qty2 * -1
-                    qty1 = qty1 * -1
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "GT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(item), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "GT", CompCode, Format(Transnumb), CompCode, CDbl(item), serial, CurrentUser, cn)
-                    End If
+            If checkAll.Value = False Then
+                .row = i
+                .col = 1
+                If .CellBackColor = vbWhite Then
+                    goAhead = False
+                Else
+                    goAhead = True
+                End If
+            End If
+            If goAhead Then
+                NP = cell(1).tag
+                CompCode = cell(2).tag
+                WH = cell(3).tag
+                stocknumb = .TextMatrix(i, 1)
+                stockDESC = .TextMatrix(i, 2)
+                unitPRICE = .TextMatrix(i, 3)
+                sql = "select * from stockinfoExtended " _
+                    + "where NameSpace = '" + NP + "' " _
+                    + "and Company = '" + CompCode + "' " _
+                    + " and Location = '" + WH + "' " _
+                    + " and StockNumber = '" + stocknumb + "' "
+                Set datax = New ADODB.Recordset
+                datax.Open sql, cn, adOpenStatic
+                If datax.RecordCount > 0 Then
+                    'ISSUE side
+                    FromWH = cell(3).tag
+                    ToCompCode = cell(2).tag
+                    ToWH = "GENERAL"
+                    toLOGIC = "GENERAL"
+                    toSUBLOCA = "GENERAL"
+                    Do While Not datax.EOF
+                        item = item + 1
+                        fromLogic = datax!logic
+                        fromSubLoca = datax!subloca
+                        serial = datax!serialNumber
+                        qty1 = datax!qty
+                        qty2 = datax!qty2
+                        condition = datax!condition
+                        retval = PutIssueDetail(i)
+                        If retval = False Then
+                            Call RollbackTransaction(cn)
+                            MsgBox "Error in Transaction"
+                            Exit Sub
+                        End If
+                        qty2 = qty2 * -1
+                        qty1 = qty1 * -1
+                        retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, stockDESC, CurrentUser, cn)
+                        retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, CurrentUser, cn)
+                        retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, fromSubLoca, CurrentUser, cn)
+                        retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, fromSubLoca, condition, CurrentUser, cn)
+                        If serial = "" Or UCase(serial) = "POOL" Then
+                            retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "GT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(item), CurrentUser, cn)
+                        Else
+                            retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, fromSubLoca, condition, serial, CurrentUser, cn)
+                            retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, qty1, qty2, fromLogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "GT", CompCode, Format(Transnumb), CompCode, CDbl(item), serial, CurrentUser, cn)
+                        End If
+                        If retval = False Then
+                            Call RollbackTransaction(cn)
+                            MsgBox "Error in Transaction"
+                            Exit Sub
+                        End If
+                        datax.MoveNext
+                    Loop
+                    
+                    'Entry side
+                    NP = cell(4).tag
+                    CompCode = cell(5).tag
+                    ToWH = cell(6).tag
+                    toLOGIC = "GENERAL"
+                    toSUBLOCA = "GENERAL"
+                    fromCompCode = "GENERAL"
+                    FromWH = "GENERAL"
+                    fromLogic = "GENERAL"
+                    fromSubLoca = "GENERAL"
+                    qty1 = .TextMatrix(i, 4)
+                    qty2 = .TextMatrix(i, 6)
+                    Call stockNumberCheck(stocknumb)
+                    retval = PutReceiptDetail(i)
                     If retval = False Then
                         Call RollbackTransaction(cn)
                         MsgBox "Error in Transaction"
                         Exit Sub
                     End If
-                    datax.MoveNext
-                Loop
-                
-                'Entry side
-                NP = cell(4).tag
-                CompCode = cell(5).tag
-                ToWH = cell(6).tag
-                toLOGIC = "GENERAL"
-                toSUBLOCA = "GENERAL"
-                fromCompCode = "GENERAL"
-                FromWH = "GENERAL"
-                fromlogic = "GENERAL"
-                fromSubLoca = "GENERAL"
-                qty1 = .TextMatrix(i, 4)
-                qty2 = .TextMatrix(i, 6)
-                Call stockNumberCheck(stocknumb)
-                retval = Update_Sap(NP, CompCode, stocknumb, ToWH, qty1, CDbl(1), unitPRICE, condition, CurrentUser, cn)
-                retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, stockDESC, CurrentUser, cn)
-                retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, CurrentUser, cn)
-                retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                If serial = "" Or UCase(serial) = "POOL" Then
-                    retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "AE", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                Else
-                    retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, Val(serial), ToWH, "AE", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                End If
-                If retval = False Then
-                    Call RollbackTransaction(cn)
-                    MsgBox "Error in Transaction - Entry side"
-                    Exit Sub
+                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, qty1, CDbl(1), unitPRICE, condition, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, stockDESC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
+                    If serial = "" Or UCase(serial) = "POOL" Then
+                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "AE", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
+                    Else
+                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
+                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, qty1, qty2, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, Val(serial), ToWH, "AE", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
+                    End If
+                    If retval = False Then
+                        Call RollbackTransaction(cn)
+                        MsgBox "Error in Transaction - Entry side"
+                        Exit Sub
+                    End If
                 End If
             End If
         Next
     End With
+    
+    If retval Then
+        Call CommitTransaction(cn)
+        cell(0) = Transnumb
+        cell(0).tag = cell(0)
+        cell(0).Visible = True
+        combo(0).Visible = False
+        combo(0).TextMatrix(1, 0) = Transnumb
+    End If
     
     Call enableCells(False)
     If Err Then Err.Clear
@@ -1193,12 +1432,12 @@ Dim v As Variant
     With MakeCommand(cn, adCmdStoredProc)
         .CommandText = "InvtReceipt_Insert"
         .parameters.Append .CreateParameter("RV", adInteger, adParamReturnValue)
-        .parameters.Append .CreateParameter("@NAMESPACE", adVarChar, adParamInput, 5, cell(1).tag)
-        .parameters.Append .CreateParameter("@COMPANYCODE", adChar, adParamInput, 10, cell(2).tag)
-        .parameters.Append .CreateParameter("@WHAREHOUSE", adChar, adParamInput, 10, cell(3).tag)
+        .parameters.Append .CreateParameter("@NAMESPACE", adVarChar, adParamInput, 5, cell(4).tag)
+        .parameters.Append .CreateParameter("@COMPANYCODE", adChar, adParamInput, 10, cell(5).tag)
+        .parameters.Append .CreateParameter("@WHAREHOUSE", adChar, adParamInput, 10, cell(6).tag)
         .parameters.Append .CreateParameter("@TRANS", adVarChar, adParamInput, 15, Transnumb)
         .parameters.Append .CreateParameter("@TRANTYPE", adChar, adParamInput, 2, prefix)
-        .parameters.Append .CreateParameter("@TRANFROM", adVarChar, adParamInput, 10, Null)
+        .parameters.Append .CreateParameter("@TRANFROM", adVarChar, adParamInput, 10, cell(6).tag)
         .parameters.Append .CreateParameter("@MANFNUMB", adVarChar, adParamInput, 10, Null)
         .parameters.Append .CreateParameter("@PONUMB", adVarChar, adParamInput, 15, Null)
         .parameters.Append .CreateParameter("@USER", adVarChar, adParamInput, 20, CurrentUser)
@@ -1225,7 +1464,7 @@ On Error GoTo errPutIssue
     cmd.parameters("@TRANTYPE") = prefix
     cmd.parameters("@COMPANYCODE") = cell(2).tag
     cmd.parameters("@TRANSNUMB") = Transnumb
-    cmd.parameters("@ISSUTO") = "GENERAL"
+    cmd.parameters("@ISSUTO") = cell(3).tag
     cmd.parameters("@SUPPLIERCODE") = Null
     cmd.parameters("@WHAREHOUSE") = cell(3).tag
     cmd.parameters("@STCKNUMB") = Null
@@ -1257,4 +1496,118 @@ Public Function GetGlobalTransactionNumber() As Long
         MTSRollback
     End If
 End Function
+
+Function PutIssueDetail(row) As Boolean
+Dim cmd As Command
+On Error Resume Next
+    PutIssueDetail = False
+    Set cmd = getCOMMAND("InvtIssueDetl_INSERT")
+
+
+        'Set the parameter values for the command to be executed.
+        cmd.parameters("@iid_trannumb") = Transnumb
+        cmd.parameters("@iid_compcode") = cell(2).tag
+        cmd.parameters("@iid_npecode") = cell(1).tag
+        cmd.parameters("@iid_ware") = cell(3).tag
+        cmd.parameters("@iid_transerl") = item
+        cmd.parameters("@iid_stcknumb") = stocknumb
+        cmd.parameters("@iid_ps") = IIf(serial = "", 1, 0)
+        cmd.parameters("@iid_serl") = IIf(serial = "", Null, serial)
+        cmd.parameters("@iid_newcond") = condition
+        cmd.parameters("@iid_stcktype") = "I"
+        cmd.parameters("@iid_ctry") = "US"
+        cmd.parameters("@iid_tosubloca") = toSUBLOCA
+        cmd.parameters("@iid_tologiware") = toLOGIC
+        cmd.parameters("@iid_owle") = 1
+        cmd.parameters("@iid_leasecomp") = Null
+        cmd.parameters("@iid_primqty") = qty1
+        cmd.parameters("@iid_secoqty") = qty2
+        cmd.parameters("@iid_unitpric") = unitPRICE
+        cmd.parameters("@iid_curr") = "USD"
+        cmd.parameters("@iid_currvalu") = 1
+        cmd.parameters("@iid_stckdesc") = stockDESC
+        cmd.parameters("@iid_fromlogiware") = fromLogic
+        cmd.parameters("@iid_fromsubloca") = fromSubLoca
+        cmd.parameters("@iid_origcond") = condition
+        cmd.parameters("@user") = CurrentUser
+
+    'Execute the command.
+    Call cmd.Execute(Options:=adExecuteNoRecords)
+    PutIssueDetail = True
+End Function
+
+
+Private Function PutReceiptDetail(item) As Boolean
+    Dim psVALUE, serial
+    Dim cmd As Command
+    On Error GoTo errPutDataInsert
+    PutReceiptDetail = False
+    Set cmd = getCOMMAND("INVTRECEIPTDETL_INSERT")
+
+    'Set the parameter values for the command to be executed.
+    cmd.parameters("@ird_curr") = "USD"
+    cmd.parameters("@ird_currvalu") = 1
+    cmd.parameters("@ird_ponumb") = Null
+    cmd.parameters("@ird_lirtnumb") = Null
+    cmd.parameters("@ird_compcode") = cell(5).tag
+    cmd.parameters("@ird_trannumb") = Transnumb
+    cmd.parameters("@ird_npecode") = cell(4).tag
+    cmd.parameters("@ird_ware") = cell(6).tag
+    cmd.parameters("@ird_transerl") = item
+    cmd.parameters("@ird_stcknumb") = stocknumb
+    cmd.parameters("@ird_ps") = IIf(serial = "", 1, 0)
+    cmd.parameters("@ird_serl") = IIf(serial = "", Null, serial)
+    cmd.parameters("@ird_newcond") = condition
+    cmd.parameters("@ird_stcktype") = ""
+    cmd.parameters("@ird_ctry") = "US"
+    cmd.parameters("@ird_tosubloca") = toSUBLOCA
+    cmd.parameters("@ird_tologiware") = toLOGIC
+    cmd.parameters("@ird_owle") = 1
+    cmd.parameters("@ird_leasecomp") = Null
+    cmd.parameters("@ird_primqty") = qty1
+    cmd.parameters("@ird_secoqty") = qty2
+    cmd.parameters("@ird_unitpric") = unitPRICE
+    cmd.parameters("@ird_stckdesc") = stockDESC
+    cmd.parameters("@ird_fromlogiware") = fromLogic
+    cmd.parameters("@ird_fromsubloca") = fromSubLoca
+    cmd.parameters("@ird_origcond") = condition
+    cmd.parameters("@user") = CurrentUser
+    
+    
+    'Execute the command.
+    cmd.Execute
+    PutReceiptDetail = True
+    Exit Function
+
+errPutDataInsert:
+    MsgBox Err.description: Err.Clear
+End Function
+
+
+
+Private Sub STOCKlist_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Dim row, i
+    If checkAll.Value = False Then
+        If y > 240 Then
+            If Button = 2 Then
+                With STOCKlist
+                    row = Round((y - 60) / .RowHeight(1))
+                    .row = row
+                    If .TopRow > 1 Then
+                        .row = .row + .TopRow - 1
+                    End If
+                    For i = 1 To .cols - 1
+                        .col = i
+                        If .CellBackColor = vbWhite Then
+                            .CellBackColor = &HFFFF&
+                        Else
+                            .CellBackColor = vbWhite
+                        End If
+                    Next
+                End With
+            End If
+        End If
+    End If
+End Sub
+
 
