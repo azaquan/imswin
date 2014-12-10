@@ -11169,7 +11169,7 @@ Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "RVB_ModelStereotype" ,"DataEnvironment"
 Option Explicit
 
-Dim FNamespace As String
+Dim FNameSpace As String
 
 Private Sub cnIMS_ConnectComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
 Dim str As String
@@ -11182,7 +11182,7 @@ Dim str As String
         With pError
             str = "Description  = " & .Description & vbCrLf
             str = str & "Native Error =" & .NativeError & vbCrLf
-            str = str & "SQL State =" & .SQLState & vbCrLf
+            str = str & "SQL State =" & .SqlState & vbCrLf
             str = str & "Number =" & .number & vbCrLf
             str = str & "Source = " & .Source
             MsgBox str
@@ -11236,11 +11236,11 @@ End Sub
 
 Public Property Get NameSpace() As String
     
-    NameSpace = FNamespace
+    NameSpace = FNameSpace
 End Property
 
 Public Property Let NameSpace(ByVal vNewValue As String)
-    FNamespace = vNewValue
+    FNameSpace = vNewValue
     
     Commands("STATUS").parameters(0) = vNewValue
     Commands("LOGWAR").parameters(0) = vNewValue
@@ -11278,7 +11278,7 @@ Dim cmd As ADODB.Command
     
     cmd.CommandText = "GetSupplierContacts"
     cmd.parameters.Append cmd.CreateParameter("RT", adInteger, adParamReturnValue)
-    cmd.parameters.Append cmd.CreateParameter("NP", adVarChar, adParamInput, 5, FNamespace)
+    cmd.parameters.Append cmd.CreateParameter("NP", adVarChar, adParamInput, 5, FNameSpace)
     cmd.parameters.Append cmd.CreateParameter("SC", adVarChar, adParamInput, 10, SupplierCode)
     
     Set SupplierContacts = cmd.Execute()
@@ -11303,7 +11303,7 @@ Dim cmd As ADODB.Command
     
     cmd.CommandText = "Select ? = Max(curd_id)  From CURRENCYDETL Where"
     cmd.CommandText = cmd.CommandText & " curd_code = '" & CurrencyCode & "'"
-    cmd.CommandText = cmd.CommandText & " And curd_npecode = '" & FNamespace & "'"
+    cmd.CommandText = cmd.CommandText & " And curd_npecode = '" & FNameSpace & "'"
 
     cmd.parameters.Append cmd.CreateParameter("", adInteger, adParamOutput)
     
@@ -11325,7 +11325,7 @@ Dim cmd As ADODB.Command
     cmd.CommandText = cmd.CommandText & " WHERE (curd_npecode = ?) AND "
     cmd.CommandText = cmd.CommandText & " (curd_code = ?)"
     
-    cmd.parameters.Append cmd.CreateParameter("", adVarChar, adParamInput, 5, FNamespace)
+    cmd.parameters.Append cmd.CreateParameter("", adVarChar, adParamInput, 5, FNameSpace)
     cmd.parameters.Append cmd.CreateParameter("", adVarChar, adParamInput, 3, CurrencyCode)
     
     Set CurrencyDetl = cmd.Execute
@@ -11352,7 +11352,7 @@ Dim cmd As ADODB.Command
     With cmd
         .CommandText = "UserDocumentType"
         .parameters.Append .CreateParameter("RT", adInteger, adParamReturnValue)
-        .parameters.Append .CreateParameter("NP", adVarChar, adParamInput, 5, FNamespace)
+        .parameters.Append .CreateParameter("NP", adVarChar, adParamInput, 5, FNameSpace)
         .parameters.Append .CreateParameter("UserID", adVarChar, adParamInput, 15, UserID)
         
         Set UserDocumentType = .Execute
@@ -11380,7 +11380,7 @@ Dim cmd As ADODB.Command
         .CommandText = "UserCanEditDocumentType"
         
         .parameters.Append .CreateParameter("RT", adInteger, adParamReturnValue)
-        .parameters.Append .CreateParameter("NP", adVarChar, adParamInput, 5, FNamespace)
+        .parameters.Append .CreateParameter("NP", adVarChar, adParamInput, 5, FNameSpace)
         .parameters.Append .CreateParameter("UserID", adVarChar, adParamInput, 15, UserID)
         .parameters.Append .CreateParameter("DocType", adVarChar, adParamInput, 3, DocType)
         
@@ -11407,7 +11407,7 @@ Dim cmd As ADODB.Command
             .parameters.Append .CreateParameter("DESC", adVarChar, adParamOutput, 30)
         End If
         
-        .parameters(1) = FNamespace
+        .parameters(1) = FNameSpace
         .parameters(2) = Trim$(Code)
         
         .Execute 0, , adExecuteNoRecords
@@ -11426,7 +11426,7 @@ Dim cmd As ADODB.Command
     
     With cmd
         .CommandText = "select ? = count(*) from STOCKMASTER"
-        .CommandText = .CommandText & " where stk_npecode = '" & FNamespace & "'"
+        .CommandText = .CommandText & " where stk_npecode = '" & FNameSpace & "'"
         .CommandText = .CommandText & " and stk_stcknumb = '" & StockNumber & "'"
         
         If Active Then _
@@ -11443,13 +11443,13 @@ Dim cmd As ADODB.Command
 End Function
 
 
-Private Sub rsGETPOITEMFORRECEPTION_SP_FieldChangeComplete(ByVal cFields As Long, ByVal Fields As Variant, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
-On Error Resume Next
-    With rsGETPOITEMFORRECEPTION_SP.Fields("poi_qtytobedlvd")
-        If .value < 0 Then
-            MsgBox "Invalid Value"
-            .value = .originalVALUE
-        End If
-    End With
-End Sub
+'Private Sub rsGETPOITEMFORRECEPTION_SP_FieldChangeComplete(ByVal cFields As Long, ByVal Fields As Variant, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
+'On Error Resume Next
+'    With rsGETPOITEMFORRECEPTION_SP.Fields("poi_qtytobedlvd")
+'        If .value < 0 Then
+'            MsgBox "Invalid Value"
+'            .value = .originalVALUE
+'        End If
+'    End With
+'End Sub
 

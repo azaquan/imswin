@@ -88,11 +88,11 @@ End Sub
 Private Sub Form_Load()
 
     'Added by Juan (9/15/2000) for Multilingual
-    Call Translate_Forms("frmPrintDialog")
+    'Call Translate_Forms("frmPrintDialog")
     '------------------------------------------
 
     FOpts = poNone
-    optprintCurrent.Value = True
+    optprintCurrent.value = True
 '    frmPrintDialog.CancelButton = frmPrintDialog.CancelButton + " - " + frmPrintDialog.Tag
 End Sub
 
@@ -111,10 +111,10 @@ End Sub
 Private Sub OKButton_Click()
     Hide
     
-    If optPrintAll.Value Then
+    If optPrintAll.value Then
         FOpts = poPrintAll
         
-    ElseIf optprintCurrent.Value Then
+    ElseIf optprintCurrent.value Then
         FOpts = poPrintCurrent
     
     'ElseIf optprintSel.Value Then
@@ -130,12 +130,12 @@ End Sub
 'call function to print all
 
 Private Sub optPrintAll_Click()
-    If optPrintAll.Value Then FOpts = poPrintAll
+    If optPrintAll.value Then FOpts = poPrintAll
 End Sub
 
 'get print option current value
 
 Private Sub optprintCurrent_Click()
-    If optprintCurrent.Value Then FOpts = poPrintCurrent
+    If optprintCurrent.value Then FOpts = poPrintCurrent
 End Sub
 

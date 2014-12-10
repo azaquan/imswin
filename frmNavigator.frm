@@ -316,7 +316,7 @@ Begin VB.Form frmNavigator
                Left            =   2640
                MousePointer    =   99  'Custom
                TabIndex        =   166
-               Tag             =   "02050900"
+               Tag             =   "02050801"
                Top             =   180
                Width           =   1320
             End
@@ -5400,7 +5400,7 @@ Private Sub lblSubPurchasing_Click(Index As Integer)
 On Error Resume Next
 
 Dim frm As Form
-Dim FNamespace As String
+Dim FNameSpace As String
 Select Case Index
 Case 1
      'Set frm = frmTracking

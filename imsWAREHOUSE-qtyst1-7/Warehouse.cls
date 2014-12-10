@@ -606,7 +606,7 @@ Screen.MousePointer = 11
         Select Case transaction
             Case GlobalTransfer
                 title = "Global Transfer"
-                tag = "02040400"
+                tag = "02050801"
                 
                 'cell 0
                 .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"

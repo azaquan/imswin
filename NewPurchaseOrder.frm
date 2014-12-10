@@ -1,10 +1,10 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{F0D2F211-CCB0-11D0-A316-00AA00688B10}#1.0#0"; "MSDATLST.OCX"
-Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
+Object = "{F0D2F211-CCB0-11D0-A316-00AA00688B10}#1.0#0"; "MSDATLST.OCX"
 Begin VB.Form frm_NewPurchase 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Transaction Order"
@@ -64,63 +64,63 @@ Begin VB.Form frm_NewPurchase
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "OptEmail"
+      Tab(1).Control(0)=   "Line1"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "OptFax"
+      Tab(1).Control(1)=   "lbl_Recipients"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "Text1"
+      Tab(1).Control(2)=   "Lbl_search"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "CmdAddSupEmail"
+      Tab(1).Control(3)=   "dgRecipientList"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "cmdRemove"
+      Tab(1).Control(4)=   "fra_FaxSelect"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "dgRecepients"
+      Tab(1).Control(5)=   "cmd_Add"
       Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "txt_Recipient"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cmd_Add"
+      Tab(1).Control(7)=   "dgRecepients"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "fra_FaxSelect"
+      Tab(1).Control(8)=   "cmdRemove"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "dgRecipientList"
+      Tab(1).Control(9)=   "CmdAddSupEmail"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "Lbl_search"
+      Tab(1).Control(10)=   "Text1"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "lbl_Recipients"
+      Tab(1).Control(11)=   "OptFax"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "Line1"
+      Tab(1).Control(12)=   "OptEmail"
       Tab(1).Control(12).Enabled=   0   'False
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fra_LI"
+      Tab(2).Control(0)=   "fra_LineItem"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Fra_ToFqa"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "fra_LineItem"
+      Tab(2).Control(2)=   "fra_LI"
       Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Txt_RemNo"
+      Tab(3).Control(0)=   "txtRemarks"
       Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "CmdcopyLI(1)"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "txtRemarks"
+      Tab(3).Control(2)=   "Txt_RemNo"
       Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Txt_ClsNo"
+      Tab(4).Control(0)=   "cmd_Addterms"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "CmdcopyLI(2)"
+      Tab(4).Control(1)=   "txtClause"
       Tab(4).Control(1).Enabled=   0   'False
-      Tab(4).Control(2)=   "txtClause"
+      Tab(4).Control(2)=   "CmdcopyLI(2)"
       Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "cmd_Addterms"
+      Tab(4).Control(3)=   "Txt_ClsNo"
       Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
@@ -948,7 +948,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   61341699
+            Format          =   22347779
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1610,7 +1610,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   61341699
+            Format          =   22347779
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2184,7 +2184,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   61341699
+            Format          =   22347779
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -3607,7 +3607,7 @@ Dim CheckLoad As Boolean
 Dim CheckErrors As Boolean
 Dim CheckIfCombosLoaded As Boolean
 Dim IntiClass As InitialValuesPOheader
-Dim FNamespace  As String
+Dim FNameSpace  As String
 Dim FormMode As FormMode
 Dim mIsPoheaderCombosLoaded As Boolean
 Dim mIsPoNumbComboLoaded As Boolean
@@ -3670,10 +3670,10 @@ On Error GoTo getError
             End If
             
             Dim rs As ADODB.Recordset
-            Dim Sql As String
-            Sql = "SELECT * FROM SUPPLIERCONTACT WHERE sct_supcode='" + Trim(SSoledbSupplier.Tag) + "'"
+            Dim sql As String
+            sql = "SELECT * FROM SUPPLIERCONTACT WHERE sct_supcode='" + Trim(SSoledbSupplier.Tag) + "'"
             Set rs = New ADODB.Recordset
-            Call rs.Open(Sql, deIms.cnIms, adOpenForwardOnly, adLockReadOnly)
+            Call rs.Open(sql, deIms.cnIms, adOpenForwardOnly, adLockReadOnly)
             rs.MoveFirst
             If rs.RecordCount > 0 Then ReDim suppContacts(rs.RecordCount)
             Dim RecipientName As String
@@ -4067,12 +4067,12 @@ Unload frm_NewPurchase
 End Sub
 
 Private Sub NavBar1_OnDeleteClick()
-Dim Y As Integer
+Dim y As Integer
 Dim mpo As String
 Dim PoHeaderErrors As Boolean
-    Y = sst_PO.Tab
+    y = sst_PO.Tab
     
-  Select Case Y
+  Select Case y
         
    Case 0
    CmdConvert.Enabled = False
@@ -4401,7 +4401,7 @@ End Sub
 Private Sub ssdcboDelivery_DropDown()
 ssdcboDelivery.RemoveAll
 If deIms.rsTermDelivery.State = 1 Then deIms.rsTermDelivery.Close
-Call deIms.TermDelivery(FNamespace)
+Call deIms.TermDelivery(FNameSpace)
  deIms.rsTermDelivery.Filter = "tod_actvflag<>0"
 Do While Not deIms.rsTermDelivery.EOF
        ssdcboDelivery.AddItem deIms.rsTermDelivery!tod_termcode & ";" & deIms.rsTermDelivery!tod_desc
@@ -4514,7 +4514,7 @@ End Sub
 Private Sub ssdcboShipper_DropDown()
 ssdcboShipper.RemoveAll
 If deIms.rsSHIPPER.State = 1 Then deIms.rsSHIPPER.Close
-Call deIms.Shipper(FNamespace)
+Call deIms.Shipper(FNameSpace)
 Do While Not deIms.rsSHIPPER.EOF
        ssdcboShipper.AddItem deIms.rsSHIPPER!shi_code & ";" & deIms.rsSHIPPER!shi_name
        deIms.rsSHIPPER.MoveNext
@@ -4546,7 +4546,7 @@ End Sub
 Private Sub SSOleDBCompany_DropDown()
 SSOleDBCompany.RemoveAll
 If deIms.rsActiveCompany.State = 1 Then deIms.rsActiveCompany.Close
-Call deIms.ActiveCompany(FNamespace)
+Call deIms.ActiveCompany(FNameSpace)
 
 Do While Not deIms.rsActiveCompany.EOF
        SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
@@ -4584,7 +4584,7 @@ End Sub
 Private Sub SSOleDBCurrency_DropDown()
 SSOleDBCurrency.RemoveAll
 If deIms.rsCURRENCY.State = 1 Then deIms.rsCURRENCY.Close
-Call deIms.Currency(FNamespace)
+Call deIms.Currency(FNameSpace)
 
  Do While Not deIms.rsCURRENCY.EOF
        SSOleDBCurrency.AddItem deIms.rsCURRENCY!curr_code & ";" & deIms.rsCURRENCY!curr_desc
@@ -4819,7 +4819,7 @@ End Sub
 Private Sub SSOleDBOriginator_DropDown()
 SSOleDBOriginator.RemoveAll
 If deIms.rsActiveOriginator.State = 1 Then deIms.rsActiveOriginator.Close
-Call deIms.ActiveOriginator(FNamespace)
+Call deIms.ActiveOriginator(FNameSpace)
 Do While Not deIms.rsActiveOriginator.EOF
        SSOleDBOriginator.AddItem deIms.rsActiveOriginator!ori_code '& ";" & deIms.rsActiveOriginator!ori_code
        deIms.rsActiveOriginator.MoveNext
@@ -4844,7 +4844,7 @@ Private Sub SSOleDBOriginator_LostFocus()
 Call NormalBackground(SSOleDBOriginator)
 End Sub
 
-Private Sub SSOleDBOriginator_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub SSOleDBOriginator_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 SSOleDBOriginator.SetFocus
 End Sub
 
@@ -4871,12 +4871,12 @@ If Not FormMode = mdCreation Then
       End If
        Call deIms.Ponumb(deIms.NameSpace)
        If showAll(1).value = True Then
-        Dim Sql As String
-            Sql = "Select po_ponumb from po where  po_npecode = '" + FNamespace + "' and " _
+        Dim sql As String
+            sql = "Select po_ponumb from po where  po_npecode = '" + FNameSpace + "' and " _
                 & "po_date >=  dateadd(year, -1, getdate())" _
                 & "ORDER BY po_ponumb, po_date, po_reqddelvdate"
             deIms.rsPonumb.Close
-            deIms.rsPonumb.Source = Sql
+            deIms.rsPonumb.Source = sql
             deIms.rsPonumb.Open
         End If
 
@@ -4917,7 +4917,7 @@ End Sub
 Private Sub SSOleDBPriority_DropDown()
 SSOleDBPriority.RemoveAll
 If deIms.rsPRIORITY.State = 1 Then deIms.rsPRIORITY.Close
-Call deIms.Priority(FNamespace)
+Call deIms.Priority(FNameSpace)
 Do While Not deIms.rsPRIORITY.EOF
        SSOleDBPriority.AddItem deIms.rsPRIORITY!pri_code & ";" & deIms.rsPRIORITY!pri_desc
        deIms.rsPRIORITY.MoveNext
@@ -4960,7 +4960,7 @@ Private Sub SSOleDBShipTo_DropDown()
 SSOleDBShipTo.RemoveAll
 
 If deIms.rsActiveShipTo.State = 1 Then deIms.rsActiveShipTo.Close
-Call deIms.ActiveShipTo(FNamespace)
+Call deIms.ActiveShipTo(FNameSpace)
 Do While Not deIms.rsActiveShipTo.EOF
        SSOleDBShipTo.AddItem deIms.rsActiveShipTo!sht_code & ";" & deIms.rsActiveShipTo!sht_name
        deIms.rsActiveShipTo.MoveNext
@@ -5101,7 +5101,7 @@ End Sub
 Private Sub SSOleDBToBeUsedFor_DropDown()
 SSOleDBToBeUsedFor.RemoveAll
 If deIms.rsActiveTbu.State = 1 Then deIms.rsActiveTbu.Close
-Call deIms.ActiveTbu(FNamespace)
+Call deIms.ActiveTbu(FNameSpace)
 Do While Not deIms.rsActiveTbu.EOF
        SSOleDBToBeUsedFor.AddItem deIms.rsActiveTbu!tbu_name '& ";" & deIms.rsActiveOriginator!tbu_name
        deIms.rsActiveTbu.MoveNext
@@ -6853,28 +6853,29 @@ SSOleDBCurrency.Tag = SSOleDBCurrency.Columns(0).Text
 End Sub
 
 Private Sub Form_Load()
+
 NavBar1.CancelLastSepVisible = False
 NavBar1.LastPrintSepVisible = False
 NavBar1.PrintSaveSepVisible = False
 NavBar1.DeleteVisible = True
 
-FNamespace = deIms.NameSpace
- 
+FNameSpace = deIms.NameSpace
+
 Dim mLoadForm As Boolean
 Dim x As String
 Dim Count As Integer
     newSupplier = False
-    
+
     NavBar1.EditEnabled = True
     mDidUserOpenStkMasterForm = False
     Mainpo.Configure deIms.NameSpace, deIms.cnIms
 
     Set Poheader = Mainpo.Poheader
+    
 
     InitializePOheaderRecordset
 
     If Poheader.EOF = False Then LoadFromPOHEADER
-       
     Set POFqa = Mainpo.FQA
        
    If POFqa.GetFQAInfo(ssOleDbPO) Then
@@ -7369,7 +7370,7 @@ lblReqLineitem = PoItem.Requliitnumb
 If Len(PoItem.Liitreqddate) = 0 Then
    DTP_Required.value = ""
 Else
-   DTP_Required.CheckBox = True
+   DTP_Required.checkBox = True
    DTP_Required.value = PoItem.Liitreqddate
 End If
 
@@ -7439,7 +7440,7 @@ End Function
 
 Public Function LoadPoHeaderCombos() As Boolean
 
-Dim FNamespace As String * 5
+Dim FNameSpace As String * 5
 
 'Dim RsBRQ As ADODB.Recordset
 
@@ -7449,7 +7450,7 @@ On Error GoTo Handler
   
    LoadPoHeaderCombos = False
    
-   FNamespace = deIms.NameSpace
+   FNameSpace = deIms.NameSpace
 
     If Not mIsPoHeaderRsetsInit = True Then InitializePOheaderRecordset
     LoadPoHeaderCombos = FillUPCOMBOS
@@ -8861,7 +8862,7 @@ End Sub
 
 Private Sub txt_Price_Validate(Cancel As Boolean)
 Dim x As Integer
-Dim Y As Integer
+Dim y As Integer
 If Len(txt_Price) > 0 Then
        
      If Not IsNumeric(txt_Price) Then
@@ -8936,7 +8937,7 @@ End Sub
 
 Private Sub txt_Requested_Validate(Cancel As Boolean)
 Dim x As Integer
-Dim Y As Integer
+Dim y As Integer
 
 If Len(Trim$(txt_Requested)) > 0 Then
     If Not IsNumeric(txt_Requested) Then
@@ -9765,30 +9766,30 @@ End Function
 
 Public Function InitializePOheaderRecordset()
  
-Dim FNamespace As String * 5
+Dim FNameSpace As String
 
 'Dim RsBRQ As ADODB.Recordset
 
 Dim DefSite As String
-   FNamespace = deIms.NameSpace
+   FNameSpace = deIms.NameSpace
 
     Set rsDOCTYPE = GetDocumentType(False)
-    Call deIms.Shipper(FNamespace)
-    Call deIms.Currency(FNamespace)
-    Call deIms.Priority(FNamespace)
-    Call deIms.TermDelivery(FNamespace)
+    Call deIms.Shipper(FNameSpace)
+    Call deIms.Currency(FNameSpace)
+    Call deIms.Priority(FNameSpace)
+    Call deIms.TermDelivery(FNameSpace)
     'Call deIms.Supplier(fnamespace)
-    Call deIms.ActiveSupplier(FNamespace)
-    Call deIms.TermCondition(FNamespace)
+    Call deIms.ActiveSupplier(FNameSpace)
+    Call deIms.TermCondition(FNameSpace)
     'Call deIms.INVENTORYLOCATION(Fnamespace, ponumb)
-    Call deIms.Company(FNamespace)
-    Call deIms.GETSYSSITE(FNamespace, DefSite)
-    Call deIms.ActiveOriginator(FNamespace)
-    Call deIms.ActiveTbu(FNamespace)
-    Call deIms.SERVCODECAT(FNamespace)
-    Call deIms.ActiveShipTo(FNamespace)
-    Call deIms.ActiveCompany(FNamespace)
-    Call deIms.CompanyLocations(FNamespace)
+    Call deIms.Company(FNameSpace)
+    Call deIms.GETSYSSITE(FNameSpace, DefSite)
+    Call deIms.ActiveOriginator(FNameSpace)
+    Call deIms.ActiveTbu(FNameSpace)
+    Call deIms.SERVCODECAT(FNameSpace)
+    Call deIms.ActiveShipTo(FNameSpace)
+    Call deIms.ActiveCompany(FNameSpace)
+    Call deIms.CompanyLocations(FNameSpace)
     mIsPoHeaderRsetsInit = True
     
 End Function
@@ -10447,7 +10448,7 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim Sql, companyNAME
+     Dim sql, companyNAME
      Dim datax As New ADODB.Recordset
 
      Filename = "Fax" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
@@ -10467,11 +10468,11 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
             reports = reports & Trim$(Attachments(i) & ";")
     Next
 
-    Sql = "SELECT po_ponumb, com_name FROM PO LEFT OUTER JOIN COMPANY ON " _
+    sql = "SELECT po_ponumb, com_name FROM PO LEFT OUTER JOIN COMPANY ON " _
         & "po_compcode = com_compcode AND po_npecode = com_npecode WHERE " _
         & "po_ponumb = '" + ssOleDbPO.Text + "' AND po_npecode = '" + deIms.NameSpace + "'"
     Set datax = New ADODB.Recordset
-    datax.Open Sql, deIms.cnIms
+    datax.Open sql, deIms.cnIms
     
     If datax.RecordCount > 0 Then
         companyNAME = datax!com_name

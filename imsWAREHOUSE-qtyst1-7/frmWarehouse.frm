@@ -1,9 +1,9 @@
 VERSION 5.00
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmWarehouse 
    ClientHeight    =   9885
    ClientLeft      =   165
@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   62128131
+      Format          =   55050243
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -3385,7 +3385,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLABEL.Visible = False
+    remarksLabel.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3415,7 +3415,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLABEL.Visible = True
+    remarksLabel.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     

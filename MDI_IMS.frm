@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Begin VB.MDIForm MDI_IMS 
    AutoShowChildren=   0   'False
    BackColor       =   &H8000000C&
@@ -46,7 +46,7 @@ Begin VB.MDIForm MDI_IMS
          NumPanels       =   7
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   6403
+            Object.Width           =   6324
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
          EndProperty
@@ -1248,6 +1248,7 @@ End Sub
 Private Sub itm_Site_Click()
     'Load the SiteDescript form
     Load frm_SiteDescript
+
     frm_SiteDescript.ZOrder 0
 '    frm_SiteDescript.Caption = "Site Description"
     frm_SiteDescript.Show
@@ -2090,7 +2091,9 @@ m_OutlookLocation = "C:\OutLook\"
     'Loop
     rs.MoveFirst
     rs.Find "mu_meopid = '" + ctl.Tag + "'"
-    If Not rs.EOF Then
+    If rs.EOF Then
+        ctl.Enabled = False
+    Else
         If ctl.Tag = rs!mu_meopid And ctl.ForeColor = &HC00000 Then
             ctl.Caption = rs!mo_meopname
             ctl.Enabled = rs!mu_accsflag
