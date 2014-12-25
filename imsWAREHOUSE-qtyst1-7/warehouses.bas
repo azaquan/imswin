@@ -576,7 +576,7 @@ On Error GoTo errorHandler
                         .STOCKlist.col = 0
                         .STOCKlist.CellFontName = "Wingdings 3"
                         .STOCKlist.CellFontSize = 10
-                        .STOCKlist.text = "?"
+                        .STOCKlist.text = "Æ"
                         hasMark = True
                         Exit For
                     End If
@@ -2429,7 +2429,7 @@ frmWarehouse.Refresh
             End If
             '----
             inProgress = True 'Juan 2010-7-23
-            If .text = "?" Then
+            If .text = "Æ" Then
                 'Juan 2010-5-25
                 .col = 3
                 If IsNumeric(.text) Then
@@ -2444,7 +2444,7 @@ frmWarehouse.Refresh
                 Else
                     .CellFontName = "Wingdings 3"
                     .CellFontSize = 10
-                    .text = "?"
+                    .text = "Æ"
                 End If
             End If
 
@@ -2544,7 +2544,7 @@ Sub SHOWdetails()
         .otherLABEL(0).Visible = True
         .commodityLABEL.Visible = True
         .descriptionLABEL.Visible = True
-        .remarksLABEL.Visible = False
+        .remarksLabel.Visible = False
         .remarks.Visible = False
         .SUMMARYlist.Visible = False
         .hideDETAIL.Visible = True
