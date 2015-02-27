@@ -8,7 +8,7 @@ Public Function Trans(MessageCode) As String
 'Function for retrieve direct texts for translation
 Dim data As New ADODB.Recordset
     If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
-        Set data = getDATA("translationMESSAGES", Array(TR_LANGUAGE, MessageCode))
+        Set data = getDATA("translationMESSAGE", Array(TR_LANGUAGE, MessageCode))
         If data.RecordCount > 0 Then
             Trans = data!msg_text
         Else
@@ -17,7 +17,19 @@ Dim data As New ADODB.Recordset
         Err.Clear
     End If
 End Function
-
+Public Function getIt(objectId) As String
+'Function to retrieve direct texts for translation
+Dim data As New ADODB.Recordset
+    If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
+        Set data = getDATA("translationGetIt", Array(TR_LANGUAGE, "frmWarehouse", objectId))
+        If data.RecordCount > 0 Then
+            getIt = data!msg_text
+        Else
+            getIt = ""
+        End If
+        Err.Clear
+    End If
+End Function
 Public Sub Translate_Forms(Form_name As String)
 'Procedure for captions translations in every form
     Dim data As New ADODB.Recordset

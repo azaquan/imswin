@@ -811,11 +811,13 @@ On Error Resume Next
     If Err Then Err.Clear
 End Function
 
-Sub gridCOLORdark(grid As MSHFlexGrid, row)
+Sub gridCOLORdark(grid As MSHFlexGrid, row, Optional withColor As Boolean = True)
     With grid
         .row = row
-        .CellBackColor = &H800000 'Blue
-        .CellForeColor = &HFFFFFF 'White
+        If withColor Then
+            .CellBackColor = &H800000 'Blue
+            .CellForeColor = &HFFFFFF 'White
+        End If
     End With
 End Sub
 
@@ -1912,6 +1914,7 @@ Dim t As String
         Else
             .Left = frmWarehouse.cell(Index).Left
         End If
+        .RowHeightMin = 240
     End With
 End Sub
 
@@ -3457,7 +3460,7 @@ Set translatorFORM = imsTranslator
         End If
     End With
 End Sub
-Sub alphaSEARCH(ByVal cellACTIVE As textBOX, ByVal gridACTIVE As MSHFlexGrid, column)
+Sub alphaSEARCH(ByVal cellACTIVE As textBOX, ByVal gridACTIVE As MSHFlexGrid, column, Optional withColor As Boolean = True)
 Dim i, ii As Integer
 Dim word As String
 Dim found As Boolean
@@ -3472,7 +3475,9 @@ End If
             If .Rows < Val(.tag) Then .tag = 1
             If IsNumeric(.tag) Then
                 .col = column
-                Call gridCOLORnormal(gridACTIVE, Val(.tag))
+                If withColor Then
+                    Call gridCOLORnormal(gridACTIVE, Val(.tag))
+                End If
             End If
             If .cols <= column Then Exit Sub
             .col = column
@@ -3482,7 +3487,7 @@ End If
             For i = 1 To .Rows - 1
                 word = Trim(UCase(.TextMatrix(i, column)))
                 If Trim(UCase(cellACTIVE)) = Left(word, Len(cellACTIVE)) Then
-                    Call gridCOLORdark(gridACTIVE, i)
+                    Call gridCOLORdark(gridACTIVE, i, withColor)
                     .tag = .row
                     found = True
                     Exit For

@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55050243
+      Format          =   55443459
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -5238,6 +5238,11 @@ Dim rights As Boolean
     Screen.MousePointer = 0
     rights = Getmenuuser(nameSP, CurrentUser, Me.tag, cn)
     newBUTTON.Enabled = rights
+    
+    'Added by Juan (2015/02/13) for Multilingual
+    'Call translator.Translate_Forms("frmWarehouse")
+    '------------------------------------------
+    
     Me.Visible = True
     If newBUTTON.Enabled Then newBUTTON.SetFocus
     Me.Refresh
@@ -6121,6 +6126,35 @@ Private Sub SUMMARYlist_EnterCell()
     Call selectROW(SUMMARYlist)
 End Sub
 
+Private Function fxLogicFilledIn() As Boolean
+Dim i, n
+
+fxLogicFilledIn = True
+
+'-----> (gib 10/04) Itirate through all of the node items and for each node which has a
+'       quantity value, make sure that the sub-location(sublocaBOX) is filled in; if it
+'       is not then return FALSE.
+'
+On Error Resume Next
+    
+n = frmWarehouse.Tree.Nodes.Count
+
+For i = 1 To n
+    Err.Clear
+    If CDbl(quantityBOX(i)) > 0 Then
+        If Err.Number = 0 Then  'we need to check the error number because this control may not exist for this 'i' value.
+            Err.Clear
+            If logicBOX(i) = "" Or IsNull(logicBOX(i)) = True Then
+                If Err.Number = 0 Then
+                    fxLogicFilledIn = False
+                    Exit Function
+                End If
+            End If
+        End If
+    End If
+Next
+
+End Function
 Private Function fxSubLocFilledIn() As Boolean
 Dim i, n
 
@@ -6150,7 +6184,6 @@ For i = 1 To n
 Next
 
 End Function
-
 Private Function isQtyEntered() As Boolean
 'Juan function to check across the tree if a qty has to be entered
 Dim i
@@ -6202,7 +6235,9 @@ Dim summaryValueFirstTime As Boolean
 '-----> (gib 10/04) If no sub-location has been entered, exit this Sub(do not continue until user enters one).
 '
 Dim askForSubLocation As Boolean
+Dim askForLogic As Boolean
 askForSubLocation = False
+askForLogic = False
 Dim askForQTy As Boolean
 askForQTy = False
 serialText = ""
@@ -6216,19 +6251,24 @@ Select Case frmWarehouse.tag
             Exit Sub
         End If
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02040200" 'WarehouseIssue
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02040500" 'WellToWell
     Case "02040700" 'InternalTransfer
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02050300" 'AdjustmentIssue
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02040600" 'WarehouseToWarehouse
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02040100" 'WarehouseReceipt
         If Tree.Nodes.Item(2).text = "Serial:" Or RTrim(Tree.Nodes.Item(2).text) = "" Then
@@ -6237,19 +6277,28 @@ Select Case frmWarehouse.tag
             Exit Sub
         End If
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
     Case "02050400" 'Sales
     Case "02040300" 'Return from Well
         askForSubLocation = True
+        askForLogic = True
         askForQTy = True
 End Select
 
+If askForLogic Then
+    If Not fxLogicFilledIn() Then
+        MsgBox "Logical Warehouse must be entered."
+        Exit Sub
+    End If
+End If
 If askForSubLocation Then
     If Not fxSubLocFilledIn() Then
         MsgBox "Sub-Location must be entered."
         Exit Sub
     End If
 End If
+
 If isFirstSubmit Then
 Else
     If askForQTy Then

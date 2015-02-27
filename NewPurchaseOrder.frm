@@ -8,7 +8,7 @@ Object = "{F0D2F211-CCB0-11D0-A316-00AA00688B10}#1.0#0"; "MSDATLST.OCX"
 Begin VB.Form frm_NewPurchase 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Transaction Order"
-   ClientHeight    =   7785
+   ClientHeight    =   8145
    ClientLeft      =   2520
    ClientTop       =   2190
    ClientWidth     =   9015
@@ -16,17 +16,17 @@ Begin VB.Form frm_NewPurchase
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
-   ScaleHeight     =   7785
+   ScaleHeight     =   8145
    ScaleWidth      =   9015
    Tag             =   "02020100"
    Begin VB.CommandButton CmdConvert 
       Caption         =   "Convert a transaction"
       Enabled         =   0   'False
       Height          =   375
-      Left            =   7065
+      Left            =   6705
       TabIndex        =   148
       Top             =   120
-      Width           =   1815
+      Width           =   2175
    End
    Begin TabDlg.SSTab sst_PO 
       Height          =   7185
@@ -131,6 +131,7 @@ Begin VB.Form frm_NewPurchase
          Top             =   480
          Width           =   8520
          Begin VB.Label lbl_DocType 
+            Alignment       =   1  'Right Justify
             Caption         =   "Document Type"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -159,6 +160,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   2535
          End
          Begin VB.Label lbl_PO2 
+            Alignment       =   1  'Right Justify
             Caption         =   "Transaction #"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -170,10 +172,10 @@ Begin VB.Form frm_NewPurchase
                Strikethrough   =   0   'False
             EndProperty
             Height          =   225
-            Left            =   120
+            Left            =   0
             TabIndex        =   171
             Top             =   135
-            Width           =   1665
+            Width           =   1785
          End
          Begin VB.Label LblPOi_PONUMB 
             BackColor       =   &H00FFFFC0&
@@ -411,6 +413,7 @@ Begin VB.Form frm_NewPurchase
             DataFieldToDisplay=   "Column 0"
          End
          Begin VB.Label Label15 
+            Alignment       =   1  'Right Justify
             Caption         =   "US Chart#"
             Height          =   255
             Left            =   3120
@@ -419,14 +422,16 @@ Begin VB.Form frm_NewPurchase
             Width           =   855
          End
          Begin VB.Label Label14 
+            Alignment       =   1  'Right Justify
             Caption         =   "Location"
             Height          =   255
             Left            =   1320
             TabIndex        =   168
             Top             =   225
-            Width           =   615
+            Width           =   735
          End
          Begin VB.Label LblType 
+            Alignment       =   1  'Right Justify
             Caption         =   "Type"
             Height          =   255
             Index           =   2
@@ -436,6 +441,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   375
          End
          Begin VB.Label Label12 
+            Alignment       =   1  'Right Justify
             Caption         =   "Cam. Chart #"
             Height          =   255
             Left            =   6240
@@ -444,6 +450,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   975
          End
          Begin VB.Label Label10 
+            Alignment       =   1  'Right Justify
             Caption         =   "Company"
             Height          =   255
             Left            =   120
@@ -515,6 +522,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   810
          End
          Begin VB.Label Label7 
+            Alignment       =   1  'Right Justify
             Caption         =   "Company"
             Height          =   255
             Left            =   120
@@ -523,6 +531,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   735
          End
          Begin VB.Label Label6 
+            Alignment       =   1  'Right Justify
             Caption         =   "Cam. Chart #"
             Height          =   255
             Left            =   6045
@@ -531,6 +540,7 @@ Begin VB.Form frm_NewPurchase
             Width           =   975
          End
          Begin VB.Label LblType 
+            Alignment       =   1  'Right Justify
             Caption         =   "Type"
             Height          =   255
             Index           =   0
@@ -540,14 +550,16 @@ Begin VB.Form frm_NewPurchase
             Width           =   375
          End
          Begin VB.Label Label5 
+            Alignment       =   1  'Right Justify
             Caption         =   "Location"
             Height          =   255
-            Left            =   1440
+            Left            =   1200
             TabIndex        =   158
             Top             =   240
-            Width           =   615
+            Width           =   855
          End
          Begin VB.Label Label4 
+            Alignment       =   1  'Right Justify
             Caption         =   "US Chart#"
             Height          =   255
             Left            =   3045
@@ -583,12 +595,12 @@ Begin VB.Form frm_NewPurchase
       End
       Begin VB.CommandButton CmdAddSupEmail 
          Caption         =   "Add Supplier Email"
-         Height          =   525
-         Left            =   -74640
+         Height          =   645
+         Left            =   -74760
          TabIndex        =   33
          Top             =   5400
          Visible         =   0   'False
-         Width           =   1335
+         Width           =   1815
       End
       Begin VB.TextBox Txt_ClsNo 
          BackColor       =   &H00FFFF80&
@@ -619,16 +631,15 @@ Begin VB.Form frm_NewPurchase
             Left            =   4515
             TabIndex        =   19
             Top             =   1040
-            Width           =   1575
+            Width           =   2175
          End
          Begin VB.CheckBox chk_FrmStkMst 
-            Alignment       =   1  'Right Justify
             Caption         =   "From Stock Master"
             Height          =   285
-            Left            =   4550
+            Left            =   4560
             TabIndex        =   23
             Top             =   4800
-            Width           =   2150
+            Width           =   3585
          End
          Begin VB.CheckBox chk_FreightFard 
             Caption         =   "Freight Forwarder Receipt Mandatory"
@@ -636,7 +647,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   4515
             TabIndex        =   15
             Top             =   160
-            Width           =   2985
+            Width           =   3705
          End
          Begin VB.TextBox Txt_supContaName 
             Height          =   315
@@ -662,7 +673,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   4515
             TabIndex        =   17
             Top             =   720
-            Width           =   1575
+            Width           =   1815
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboDelivery 
             Bindings        =   "NewPurchaseOrder.frx":01B8
@@ -814,11 +825,11 @@ Begin VB.Form frm_NewPurchase
          Begin VB.CheckBox chk_Forwarder 
             Caption         =   "Forwarder"
             Height          =   288
-            Left            =   6120
+            Left            =   6360
             TabIndex        =   18
             Top             =   720
             Visible         =   0   'False
-            Width           =   1065
+            Width           =   1785
          End
          Begin VB.TextBox txt_ChargeTo 
             Height          =   315
@@ -845,7 +856,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   4515
             TabIndex        =   16
             Top             =   400
-            Width           =   2985
+            Width           =   3705
          End
          Begin VB.Frame fra_Stat 
             BackColor       =   &H8000000A&
@@ -893,40 +904,44 @@ Begin VB.Form frm_NewPurchase
                Width           =   2250
             End
             Begin VB.Label lbl_Shipping 
+               Alignment       =   1  'Right Justify
                BackColor       =   &H8000000A&
                Caption         =   "Shipping"
                Height          =   225
                Left            =   105
                TabIndex        =   71
                Top             =   885
-               Width           =   1200
+               Width           =   1080
             End
             Begin VB.Label lbl_Delivery 
+               Alignment       =   1  'Right Justify
                BackColor       =   &H8000000A&
                Caption         =   "Delivery"
                Height          =   225
                Left            =   105
                TabIndex        =   70
                Top             =   585
-               Width           =   1200
+               Width           =   1080
             End
             Begin VB.Label lbl_Status 
+               Alignment       =   1  'Right Justify
                BackColor       =   &H8000000A&
                Caption         =   "PO"
                Height          =   225
                Left            =   120
                TabIndex        =   69
                Top             =   300
-               Width           =   1200
+               Width           =   1080
             End
             Begin VB.Label lbl_Inventory 
+               Alignment       =   1  'Right Justify
                BackColor       =   &H8000000A&
                Caption         =   "Inventory"
                Height          =   225
                Left            =   105
                TabIndex        =   68
                Top             =   1215
-               Width           =   1200
+               Width           =   1080
             End
          End
          Begin MSComCtl2.DTPicker dtpRequestedDate 
@@ -948,7 +963,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   22347779
+            Format          =   55050243
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1610,7 +1625,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   22347779
+            Format          =   55050243
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -1687,13 +1702,14 @@ Begin VB.Form frm_NewPurchase
             DataFieldToDisplay=   "Column 1"
          End
          Begin VB.Label Label3 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Service Utility"
             Height          =   225
             Left            =   90
             TabIndex        =   147
             Top             =   5100
-            Width           =   1125
+            Width           =   1725
          End
          Begin VB.Label DTPicker_poDate1 
             BackColor       =   &H00FFFFC0&
@@ -1716,40 +1732,45 @@ Begin VB.Form frm_NewPurchase
             Width           =   1275
          End
          Begin VB.Label Label1 
+            Alignment       =   1  'Right Justify
             Caption         =   "Contact Ph"
             Height          =   255
             Left            =   90
             TabIndex        =   141
             Top             =   3480
-            Width           =   975
+            Width           =   1695
          End
          Begin VB.Label Label2 
+            Alignment       =   1  'Right Justify
             Caption         =   "Contact Name"
             Height          =   255
             Left            =   90
             TabIndex        =   140
             Top             =   3120
-            Width           =   1095
+            Width           =   1695
          End
          Begin VB.Label Label13 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Invt. Company"
             Height          =   225
             Left            =   90
             TabIndex        =   134
             Top             =   4125
-            Width           =   1350
+            Width           =   1710
          End
          Begin VB.Label lbl_InvLoc 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Invt. Location"
             Height          =   225
             Left            =   90
             TabIndex        =   133
             Top             =   4455
-            Width           =   1350
+            Width           =   1710
          End
          Begin VB.Label lbl_Revision 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Revision Number"
             Height          =   225
@@ -1771,22 +1792,24 @@ Begin VB.Form frm_NewPurchase
             Width           =   615
          End
          Begin VB.Label Label11 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Payment Term"
             Height          =   225
-            Left            =   4560
+            Left            =   4320
             TabIndex        =   125
             Top             =   5085
-            Width           =   1365
+            Width           =   2085
          End
          Begin VB.Label Label9 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "T && C"
             Height          =   225
             Left            =   90
             TabIndex        =   124
             Top             =   4800
-            Width           =   1605
+            Width           =   1725
          End
          Begin VB.Label LblRevDate 
             BackColor       =   &H00FFFFC0&
@@ -1837,33 +1860,37 @@ Begin VB.Form frm_NewPurchase
             Width           =   2295
          End
          Begin VB.Label lbl_Supplier 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Supplier Name"
             Height          =   225
             Left            =   90
             TabIndex        =   86
             Top             =   2745
-            Width           =   1125
+            Width           =   1725
          End
          Begin VB.Label lbl_ToBe 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "To Be Used For"
             Height          =   225
             Left            =   90
             TabIndex        =   85
             Top             =   2415
-            Width           =   1605
+            Width           =   1725
          End
          Begin VB.Label lbl_Shipper 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Shipper"
             Height          =   225
             Left            =   90
             TabIndex        =   84
             Top             =   465
-            Width           =   1245
+            Width           =   1005
          End
          Begin VB.Label lbl_Currency 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Currency"
             Height          =   225
@@ -1873,69 +1900,77 @@ Begin VB.Form frm_NewPurchase
             Width           =   1665
          End
          Begin VB.Label lbl_DelivDate 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Date Required"
             Height          =   225
-            Left            =   4560
+            Left            =   4200
             TabIndex        =   82
             Top             =   3795
-            Width           =   1845
+            Width           =   2205
          End
          Begin VB.Label lbl_RevisionDate 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Revision Date"
             Height          =   225
             Left            =   2160
             TabIndex        =   81
             Top             =   135
-            Width           =   1080
+            Width           =   1065
          End
          Begin VB.Label lbl_RequDate 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "PO Creation Date"
             Height          =   225
-            Left            =   4560
+            Left            =   4320
             TabIndex        =   80
             Top             =   3120
-            Width           =   1815
+            Width           =   2055
          End
          Begin VB.Label lbl_ShipTo 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Ship To"
             Height          =   225
-            Left            =   4560
+            Left            =   4320
             TabIndex        =   79
             Top             =   4125
-            Width           =   1095
+            Width           =   1335
          End
          Begin VB.Label lbl_ChargeTo 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Charge To/A.F.E"
             Height          =   285
             Left            =   90
             TabIndex        =   78
             Top             =   840
-            Width           =   1605
+            Width           =   1725
          End
          Begin VB.Label lbl_Priority 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Shipping Mode"
             Height          =   225
             Left            =   90
             TabIndex        =   77
             Top             =   1125
-            Width           =   1605
+            Width           =   1725
          End
          Begin VB.Label lbl_Buyer 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Buyer"
             Height          =   225
             Left            =   90
             TabIndex        =   76
             Top             =   1455
-            Width           =   1605
+            Width           =   1725
          End
          Begin VB.Label lbl_Originator 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Originator"
             Height          =   225
@@ -1945,24 +1980,27 @@ Begin VB.Form frm_NewPurchase
             Width           =   1725
          End
          Begin VB.Label lbl_DateSent 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Date Approved"
             Height          =   225
-            Left            =   4560
+            Left            =   4320
             TabIndex        =   74
             Top             =   3450
-            Width           =   1095
+            Width           =   2055
          End
          Begin VB.Label lbl_Site 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Site"
             Height          =   225
-            Left            =   4560
+            Left            =   4320
             TabIndex        =   73
             Top             =   4470
-            Width           =   330
+            Width           =   2010
          End
          Begin VB.Label lbl_ApprovedBy 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Approved By"
             Height          =   225
@@ -1979,7 +2017,7 @@ Begin VB.Form frm_NewPurchase
          Left            =   -74760
          TabIndex        =   56
          Top             =   550
-         Width           =   1695
+         Width           =   2175
       End
       Begin VB.CommandButton CmdcopyLI 
          Caption         =   "Copy From ...."
@@ -1988,16 +2026,16 @@ Begin VB.Form frm_NewPurchase
          Left            =   -74760
          TabIndex        =   59
          Top             =   550
-         Width           =   1695
+         Width           =   2415
       End
       Begin VB.CommandButton cmdRemove 
          Caption         =   "Remove"
          Height          =   288
-         Left            =   -74640
+         Left            =   -74760
          TabIndex        =   25
          Top             =   1200
          Visible         =   0   'False
-         Width           =   1335
+         Width           =   1815
       End
       Begin VB.Frame fra_LineItem 
          BorderStyle     =   0  'None
@@ -2007,22 +2045,20 @@ Begin VB.Form frm_NewPurchase
          Top             =   1080
          Width           =   8520
          Begin VB.CheckBox Chk_license 
-            Alignment       =   1  'Right Justify
             Caption         =   "License required"
             Height          =   255
-            Left            =   0
+            Left            =   1080
             TabIndex        =   41
-            Top             =   2370
-            Width           =   2295
+            Top             =   2400
+            Width           =   2655
          End
          Begin VB.CheckBox chk_usexportLI 
-            Alignment       =   1  'Right Justify
             Caption         =   "US Export"
             Height          =   255
-            Left            =   -20
+            Left            =   1800
             TabIndex        =   34
             Top             =   330
-            Width           =   2265
+            Width           =   2025
          End
          Begin VB.CommandButton CmdAssignFQA 
             Caption         =   "Assign FQA to all"
@@ -2030,7 +2066,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   0
             TabIndex        =   49
             Top             =   5040
-            Width           =   1455
+            Width           =   1935
          End
          Begin VB.CommandButton CmdcopyLI 
             Caption         =   "Copy From ...."
@@ -2039,7 +2075,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   0
             TabIndex        =   46
             Top             =   4080
-            Width           =   1335
+            Width           =   1935
          End
          Begin VB.TextBox txt_SerialNum 
             DataField       =   "poi_serlnumb"
@@ -2184,7 +2220,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   22347779
+            Format          =   55050243
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -2193,7 +2229,7 @@ Begin VB.Form frm_NewPurchase
             DataMember      =   "LineItemCount"
             Enabled         =   0   'False
             Height          =   315
-            Left            =   2790
+            Left            =   3000
             TabIndex        =   94
             TabStop         =   0   'False
             Top             =   0
@@ -2298,36 +2334,40 @@ Begin VB.Form frm_NewPurchase
                Object.DataMember      =   ""
             End
             Begin VB.Label lbl_StatInventory 
+               Alignment       =   1  'Right Justify
                Caption         =   "Inventory"
                Height          =   225
                Left            =   105
                TabIndex        =   99
                Top             =   1245
-               Width           =   1200
+               Width           =   1170
             End
             Begin VB.Label lbl_StatShipping 
+               Alignment       =   1  'Right Justify
                Caption         =   "Shipping"
                Height          =   225
                Left            =   105
                TabIndex        =   98
                Top             =   930
-               Width           =   1200
+               Width           =   1170
             End
             Begin VB.Label lbl_StatDelivery 
+               Alignment       =   1  'Right Justify
                Caption         =   "Delivery"
                Height          =   225
                Left            =   105
                TabIndex        =   97
                Top             =   615
-               Width           =   1200
+               Width           =   1170
             End
             Begin VB.Label lbl_StatItem 
+               Alignment       =   1  'Right Justify
                Caption         =   "Item"
                Height          =   225
                Left            =   105
                TabIndex        =   96
                Top             =   315
-               Width           =   1200
+               Width           =   1170
             End
          End
          Begin VB.Frame fra_Quantity 
@@ -2530,14 +2570,16 @@ Begin VB.Form frm_NewPurchase
                DataFieldToDisplay=   "Column 0"
             End
             Begin VB.Label lbl_Cost 
+               Alignment       =   1  'Right Justify
                Caption         =   "Unit Price"
                Height          =   225
-               Left            =   5760
+               Left            =   5640
                TabIndex        =   151
                Top             =   240
-               Width           =   825
+               Width           =   1065
             End
             Begin VB.Label lbl_Total 
+               Alignment       =   1  'Right Justify
                Caption         =   "Total Price"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
@@ -2549,50 +2591,55 @@ Begin VB.Form frm_NewPurchase
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   225
-               Left            =   5760
+               Left            =   5520
                TabIndex        =   150
                Top             =   600
-               Width           =   1065
+               Width           =   1275
             End
             Begin VB.Label lbl_Delivered 
+               Alignment       =   1  'Right Justify
                Caption         =   "Delivered"
                Height          =   225
                Left            =   120
                TabIndex        =   93
                Top             =   600
-               Width           =   690
+               Width           =   930
             End
             Begin VB.Label lbl_Shipped 
+               Alignment       =   1  'Right Justify
                Caption         =   "Shipped"
                Height          =   225
-               Left            =   2040
+               Left            =   1920
                TabIndex        =   92
                Top             =   600
-               Width           =   615
+               Width           =   975
             End
             Begin VB.Label lbl_Requested 
+               Alignment       =   1  'Right Justify
                Caption         =   "Quantity Required"
                Height          =   225
                Left            =   120
                TabIndex        =   91
                Top             =   240
-               Width           =   1335
+               Width           =   1575
             End
             Begin VB.Label lbl_Unit 
+               Alignment       =   1  'Right Justify
                Caption         =   "Purchase Unit"
                Height          =   195
-               Left            =   3120
+               Left            =   2880
                TabIndex        =   90
                Top             =   240
-               Width           =   1080
+               Width           =   1320
             End
             Begin VB.Label lbl_Inventory2 
+               Alignment       =   1  'Right Justify
                Caption         =   "Inventory"
                Height          =   225
-               Left            =   3960
+               Left            =   3840
                TabIndex        =   89
                Top             =   600
-               Width           =   735
+               Width           =   855
             End
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboManNumber 
@@ -2919,14 +2966,16 @@ Begin VB.Form frm_NewPurchase
             BackColor       =   -2147483643
          End
          Begin VB.Label lblsourceofinfo 
+            Alignment       =   1  'Right Justify
             Caption         =   "Source Of Info"
             Height          =   225
             Left            =   0
             TabIndex        =   175
-            Top             =   2680
-            Width           =   1800
+            Top             =   2685
+            Width           =   1920
          End
          Begin VB.Label lblEccn 
+            Alignment       =   1  'Right Justify
             Caption         =   "Eccn#"
             Height          =   225
             Left            =   0
@@ -2935,28 +2984,31 @@ Begin VB.Form frm_NewPurchase
             Width           =   960
          End
          Begin VB.Label lbl_PartNum 
+            Alignment       =   1  'Right Justify
             Caption         =   "Manufacturer P/N"
             Height          =   225
             Left            =   0
             TabIndex        =   129
             Top             =   960
-            Width           =   1815
+            Width           =   1935
          End
          Begin VB.Label lbl_SerialNum 
+            Alignment       =   1  'Right Justify
             Caption         =   "Serial Number"
             Height          =   225
             Left            =   3960
             TabIndex        =   128
             Top             =   840
-            Width           =   1785
+            Width           =   1695
          End
          Begin VB.Label Label8 
+            Alignment       =   1  'Right Justify
             Caption         =   "Remarks"
             Height          =   255
-            Left            =   1080
+            Left            =   0
             TabIndex        =   127
             Top             =   4800
-            Width           =   735
+            Width           =   1935
          End
          Begin VB.Label lblReqLineitem 
             BackColor       =   &H00FFFFC0&
@@ -2971,69 +3023,77 @@ Begin VB.Form frm_NewPurchase
             Width           =   735
          End
          Begin VB.Label lbl_Of 
+            Alignment       =   1  'Right Justify
             Caption         =   "of"
             Height          =   225
-            Left            =   2550
+            Left            =   2520
             TabIndex        =   107
             Top             =   0
-            Width           =   150
+            Width           =   390
          End
          Begin VB.Label lbl_Description 
+            Alignment       =   1  'Right Justify
             Caption         =   "Description"
             Height          =   225
-            Left            =   1080
+            Left            =   120
             TabIndex        =   106
             Top             =   4440
-            Width           =   855
+            Width           =   1815
          End
          Begin VB.Label lbl_Item 
+            Alignment       =   1  'Right Justify
             Caption         =   "Item"
             Height          =   225
             Left            =   0
             TabIndex        =   105
             Top             =   0
-            Width           =   1575
+            Width           =   1935
          End
          Begin VB.Label lbl_Commodity 
+            Alignment       =   1  'Right Justify
             Caption         =   "Commodity"
             Height          =   225
             Left            =   0
             TabIndex        =   104
             Top             =   645
-            Width           =   1740
+            Width           =   1980
          End
          Begin VB.Label lbl_AFE 
+            Alignment       =   1  'Right Justify
             Caption         =   "Charge To/A.F.E"
             Height          =   225
             Left            =   0
             TabIndex        =   103
             Top             =   1320
-            Width           =   1335
+            Width           =   1575
          End
          Begin VB.Label lbl_Custom 
+            Alignment       =   1  'Right Justify
             Caption         =   "Customs Category"
             Height          =   225
             Left            =   0
             TabIndex        =   102
             Top             =   1680
-            Width           =   1290
+            Width           =   1965
          End
          Begin VB.Label lbl_Requisition 
+            Alignment       =   1  'Right Justify
             AutoSize        =   -1  'True
             Caption         =   "From Req/Quot/BO#"
             Height          =   195
             Left            =   3960
             TabIndex        =   101
             Top             =   120
-            Width           =   1515
+            Width           =   1755
          End
          Begin VB.Label lbl_RequDate2 
+            Alignment       =   1  'Right Justify
             Caption         =   "Date Required"
             Height          =   225
             Left            =   3960
             TabIndex        =   100
             Top             =   450
-            Width           =   1800
+            Width           =   1680
          End
       End
       Begin VB.TextBox txtClause 
@@ -3178,33 +3238,33 @@ Begin VB.Form frm_NewPurchase
       Begin VB.CommandButton cmd_Add 
          Caption         =   "Add"
          Height          =   288
-         Left            =   -74640
+         Left            =   -74760
          TabIndex        =   28
          Top             =   3360
-         Width           =   1335
+         Width           =   1815
       End
       Begin VB.CommandButton cmd_Addterms 
          Caption         =   "Add Clause"
          Height          =   288
-         Left            =   -73080
+         Left            =   -72480
          TabIndex        =   57
          TabStop         =   0   'False
          Top             =   550
-         Width           =   1695
+         Width           =   2415
       End
       Begin VB.Frame fra_FaxSelect 
          Height          =   1170
-         Left            =   -74700
+         Left            =   -74760
          TabIndex        =   62
          Top             =   4000
-         Width           =   1635
+         Width           =   1755
          Begin VB.OptionButton opt_FaxNum 
             Caption         =   "Fax Numbers"
             Height          =   330
             Left            =   120
             TabIndex        =   31
             Top             =   240
-            Width           =   1275
+            Width           =   1515
          End
          Begin VB.OptionButton opt_Email 
             Caption         =   "Email"
@@ -3212,7 +3272,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   120
             TabIndex        =   32
             Top             =   720
-            Width           =   795
+            Width           =   1515
          End
       End
       Begin VB.Frame fra_PO 
@@ -3226,25 +3286,25 @@ Begin VB.Form frm_NewPurchase
             Caption         =   "2 yrs only"
             Height          =   255
             Index           =   1
-            Left            =   3000
+            Left            =   3240
             TabIndex        =   178
             Top             =   220
             Value           =   -1  'True
-            Width           =   1575
+            Width           =   1455
          End
          Begin VB.OptionButton showAll 
             Caption         =   "Show all"
             Height          =   255
             Index           =   0
-            Left            =   3000
+            Left            =   3240
             TabIndex        =   177
             Top             =   20
-            Width           =   1095
+            Width           =   1335
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssOleDbPO 
             Bindings        =   "NewPurchaseOrder.frx":09AC
             Height          =   315
-            Left            =   1080
+            Left            =   1320
             TabIndex        =   0
             Top             =   75
             Width           =   1815
@@ -3380,6 +3440,7 @@ Begin VB.Form frm_NewPurchase
             DataFieldToDisplay=   "Column 1"
          End
          Begin VB.Label lbl_DocumentType 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Doc. Type"
             BeginProperty Font 
@@ -3392,12 +3453,13 @@ Begin VB.Form frm_NewPurchase
                Strikethrough   =   0   'False
             EndProperty
             Height          =   225
-            Left            =   4920
+            Left            =   4680
             TabIndex        =   110
             Top             =   120
-            Width           =   1035
+            Width           =   1155
          End
          Begin VB.Label lbl_Purchase 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Transaction"
             BeginProperty Font 
@@ -3413,15 +3475,15 @@ Begin VB.Form frm_NewPurchase
             Left            =   0
             TabIndex        =   109
             Top             =   120
-            Width           =   1125
+            Width           =   1245
          End
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBGrid dgRecipientList 
          Height          =   2085
-         Left            =   -72720
+         Left            =   -72840
          TabIndex        =   60
          Top             =   660
-         Width           =   6015
+         Width           =   6135
          _Version        =   196617
          DataMode        =   2
          ColumnHeaders   =   0   'False
@@ -3490,7 +3552,7 @@ Begin VB.Form frm_NewPurchase
          Columns(2).DataType=   8
          Columns(2).FieldLen=   256
          TabNavigation   =   1
-         _ExtentX        =   10610
+         _ExtentX        =   10821
          _ExtentY        =   3678
          _StockProps     =   79
          BeginProperty PageFooterFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3513,20 +3575,22 @@ Begin VB.Form frm_NewPurchase
          EndProperty
       End
       Begin VB.Label Lbl_search 
+         Alignment       =   1  'Right Justify
          Caption         =   "Search by name"
          Height          =   255
-         Left            =   -74520
+         Left            =   -74760
          TabIndex        =   146
          Top             =   3720
-         Width           =   1215
+         Width           =   1815
       End
       Begin VB.Label lbl_Recipients 
+         Alignment       =   1  'Right Justify
          Caption         =   "Recipient(s)"
          Height          =   300
          Left            =   -74715
          TabIndex        =   111
          Top             =   570
-         Width           =   1500
+         Width           =   1740
       End
       Begin VB.Line Line1 
          X1              =   -74760
@@ -3537,9 +3601,9 @@ Begin VB.Form frm_NewPurchase
    End
    Begin LRNavigators.LROleDBNavBar NavBar1 
       Height          =   375
-      Left            =   240
+      Left            =   120
       TabIndex        =   64
-      Top             =   7320
+      Top             =   7560
       Width           =   4215
       _ExtentX        =   7435
       _ExtentY        =   661
@@ -3560,13 +3624,14 @@ Begin VB.Form frm_NewPurchase
       EditToolTipText =   "Allows you to make modification"
    End
    Begin VB.Label LblCompanyCode 
+      Alignment       =   1  'Right Justify
       Caption         =   "Company Code"
       Height          =   375
-      Left            =   5280
+      Left            =   4680
       TabIndex        =   142
       Top             =   7320
       Visible         =   0   'False
-      Width           =   615
+      Width           =   4215
    End
    Begin VB.Label lblStatus 
       Alignment       =   1  'Right Justify
@@ -3583,10 +3648,10 @@ Begin VB.Form frm_NewPurchase
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   5400
+      Left            =   4440
       TabIndex        =   65
-      Top             =   7245
-      Width           =   3300
+      Top             =   7560
+      Width           =   4500
    End
 End
 Attribute VB_Name = "frm_NewPurchase"
@@ -4544,36 +4609,36 @@ End If
 End Sub
 
 Private Sub SSOleDBCompany_DropDown()
-SSOleDBCompany.RemoveAll
+SSOleDBcompany.RemoveAll
 If deIms.rsActiveCompany.State = 1 Then deIms.rsActiveCompany.Close
 Call deIms.ActiveCompany(FNameSpace)
 
 Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
 End Sub
 
 Private Sub SSOleDBCompany_GotFocus()
-SSOleDBCompany.SelLength = 0
-SSOleDBCompany.SelStart = 0
-Call HighlightBackground(SSOleDBCompany)
+SSOleDBcompany.SelLength = 0
+SSOleDBcompany.SelStart = 0
+Call HighlightBackground(SSOleDBcompany)
 End Sub
 
 Private Sub SSOleDBCompany_KeyDown(KeyCode As Integer, Shift As Integer)
-If Not SSOleDBCompany.DroppedDown Then SSOleDBCompany.DroppedDown = True
+If Not SSOleDBcompany.DroppedDown Then SSOleDBcompany.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBCompany_LostFocus()
-Call NormalBackground(SSOleDBCompany)
+Call NormalBackground(SSOleDBcompany)
 End Sub
 
 Private Sub SSOleDBCompany_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBCompany.Text)) > 0 Then
-   If SSOleDBCompany.IsItemInList = False Then
+If Len(Trim$(SSOleDBcompany.Text)) > 0 Then
+   If SSOleDBcompany.IsItemInList = False Then
         Cancel = True
-        SSOleDBCompany.SetFocus
+        SSOleDBcompany.SetFocus
         MsgBox "Invalid Value For Company Code.", , "Imswin"
    
      
@@ -4616,8 +4681,8 @@ If Len(Trim$(SSOleDBCurrency.Text)) > 0 Then
       If lookups Is Nothing Then Set lookups = Mainpo.lookups
       If lookups.CurrencyDetlExist(SSOleDBCurrency.Columns(0).Text) = False Then
          MsgBox "No Currency Detail for today.Please Update Currency Table"
-         SSOleDBCompany.Text = ""
-         SSOleDBCompany.SetFocus
+         SSOleDBcompany.Text = ""
+         SSOleDBcompany.SetFocus
          Cancel = True
       End If
           
@@ -5225,7 +5290,7 @@ If Len(Trim$(SSOleDBUnit.Text)) > 0 Then
 End Sub
 
 Private Sub SSoleEccnNo_Click()
-SSoleEccnno.Tag = Trim(UCase(SSoleEccnno.Columns(0).Text))
+SSoleEccnNo.Tag = Trim(UCase(SSoleEccnNo.Columns(0).Text))
 End Sub
 
 Private Sub SSoleEccnNo_DropDown()
@@ -5233,31 +5298,31 @@ Call FillEccnCombos(lookups)
 End Sub
 
 Private Sub SSoleEccnNo_GotFocus()
-Call HighlightBackground(SSoleEccnno)
+Call HighlightBackground(SSoleEccnNo)
 End Sub
 
 Private Sub SSoleEccnNo_KeyDown(KeyCode As Integer, Shift As Integer)
  If FormMode <> mdvisualization Then
-    If Not SSoleEccnno.DroppedDown Then SSoleEccnno.DroppedDown = True
+    If Not SSoleEccnNo.DroppedDown Then SSoleEccnNo.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleEccnNo_KeyPress(KeyAscii As Integer)
-If FormMode <> mdvisualization Then SSoleEccnno.MoveNext
+If FormMode <> mdvisualization Then SSoleEccnNo.MoveNext
 End Sub
 
 Private Sub SSoleEccnNo_LostFocus()
-Call NormalBackground(SSoleEccnno)
+Call NormalBackground(SSoleEccnNo)
 End Sub
 
 Private Sub SSoleEccnno_Validate(Cancel As Boolean)
 
 If chk_usexportLI.value = 0 Then Exit Sub
 
-If SSoleEccnno.IsItemInList = False Then
+If SSoleEccnNo.IsItemInList = False Then
 
         MsgBox "Eccn # does not exist in the list, please select a valid one.", , "Imswin"
-        SSoleEccnno.SetFocus
+        SSoleEccnNo.SetFocus
         Cancel = True
         
 End If
@@ -6293,7 +6358,7 @@ Private Sub NavBar1_OnNewClick()
                                 
                                 Else
                                 
-                                     Call FillFromFQAControls(SSOleDBCompany.Tag, "Purch")
+                                     Call FillFromFQAControls(SSOleDBcompany.Tag, "Purch")
                                      Call SavetoFROMFQA
                                      POFqa.Ponumb = Poheader.Ponumb
                                      SetInitialVAluesPoHeader
@@ -6353,7 +6418,7 @@ Private Sub NavBar1_OnNewClick()
                             
                             CheckErrors = POFqa.AddNew
                            
-                           Call InitializeNewTOFQARecord(SSOleDBCompany.Tag, SSOleDBInvLocation.Tag)
+                           Call InitializeNewTOFQARecord(SSOleDBcompany.Tag, SSOleDBInvLocation.Tag)
                            
                   Else
                   
@@ -6748,8 +6813,8 @@ On Error GoTo Handler
             
             Else
                 
-                SSoleEccnno.Tag = Eccnid
-                SSoleEccnno = Eccnno
+                SSoleEccnNo.Tag = Eccnid
+                SSoleEccnNo = Eccnno
                 Chk_license.value = IIf(EcnLicense = True, 1, 0)
                 SSOleSourceofinfo.Tag = Sourceid
                 SSOleSourceofinfo = Sourceno
@@ -6758,15 +6823,15 @@ On Error GoTo Handler
             
         End If
         
-        If Len(Trim(SSoleEccnno.Tag)) = 0 Then SSoleEccnno.Tag = 0
+        If Len(Trim(SSoleEccnNo.Tag)) = 0 Then SSoleEccnNo.Tag = 0
         If Len(Trim(SSOleSourceofinfo.Tag)) = 0 Then SSOleSourceofinfo.Tag = 0
         
-        If SSoleEccnno.Tag > 0 Then
+        If SSoleEccnNo.Tag > 0 Then
                    
-                   SSoleEccnno.Enabled = False
-        ElseIf SSoleEccnno.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
+                   SSoleEccnNo.Enabled = False
+        ElseIf SSoleEccnNo.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
                    
-                   SSoleEccnno.Enabled = True
+                   SSoleEccnNo.Enabled = True
         End If
         
         If SSOleSourceofinfo.Tag > 0 Then
@@ -6822,7 +6887,7 @@ Private Sub SSOleDBCompany_Click()
     Dim value As String
     
     deIms.rsCompanyLocations.Filter = ""
-    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBCompany.Columns(0).Text) & "'"
+    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBcompany.Columns(0).Text) & "'"
 
     If deIms.rsCompanyLocations.EOF Then
          SSOleDBInvLocation.RemoveAll
@@ -6840,9 +6905,9 @@ Private Sub SSOleDBCompany_Click()
        Loop
 
     End If
-SSOleDBCompany.SelStart = 0
-SSOleDBCompany.SelLength = 0
-SSOleDBCompany.Tag = SSOleDBCompany.Columns(0).Text
+SSOleDBcompany.SelStart = 0
+SSOleDBcompany.SelLength = 0
+SSOleDBcompany.Tag = SSOleDBcompany.Columns(0).Text
 End Sub
 
 Private Sub SSOleDBCurrency_Click()
@@ -6874,6 +6939,10 @@ Dim Count As Integer
     
 
     InitializePOheaderRecordset
+
+    'Added by Juan (2015-02-13) for Multilingual
+    Call translator.Translate_Forms("frm_NewPurchase")
+    '------------------------------------------
 
     If Poheader.EOF = False Then LoadFromPOHEADER
     Set POFqa = Mainpo.FQA
@@ -7069,12 +7138,12 @@ LblCompanyCode.Caption = Poheader.CompCode
 deIms.rsActiveCompany.MoveFirst
 deIms.rsActiveCompany.Find ("com_compcode='" & Poheader.CompCode & "'")
 
-SSOleDBCompany.Tag = Poheader.CompCode
+SSOleDBcompany.Tag = Poheader.CompCode
 
 If Not deIms.rsActiveCompany.AbsolutePosition = adPosEOF Then
-       SSOleDBCompany.Text = deIms.rsActiveCompany!com_name
+       SSOleDBcompany.Text = deIms.rsActiveCompany!com_name
 Else
-       SSOleDBCompany.Text = Poheader.CompCode
+       SSOleDBcompany.Text = Poheader.CompCode
        MsgBox "Invalid company code. Company Does not exist"
 End If
 
@@ -7383,7 +7452,7 @@ End If
    chk_usexportLI = IIf(PoItem.usexport = True, 1, 0)
    Chk_license = IIf(PoItem.Eccnlicsreq = True, 1, 0)
  
- SSoleEccnno.Tag = PoItem.Eccnid
+ SSoleEccnNo.Tag = PoItem.Eccnid
  'SSoleEccnno.Text = PoItem.Eccnno
  
 If GRsEccnNo Is Nothing Then
@@ -7398,9 +7467,9 @@ If Len(PoItem.Eccnid) > 0 And GRsEccnNo.RecordCount > 0 Then
  GRsEccnNo.MoveFirst
  GRsEccnNo.Find "eccnid='" & PoItem.Eccnid & "'"
          If GRsEccnNo.EOF = False Then
-            SSoleEccnno.Text = GRsEccnNo!eccn_no
+            SSoleEccnNo.Text = GRsEccnNo!eccn_no
         Else
-            SSoleEccnno.Text = ""
+            SSoleEccnNo.Text = ""
         End If
          
   
@@ -7593,9 +7662,9 @@ SSOleDBShipTo.RemoveAll 'JCGFIXES 2007/24/1
        IntiClass.InitCompanyCode = Trim$(deIms.rsActiveCompany!com_compcode)
        IntiClass.InitCompanyName = Trim$(deIms.rsActiveCompany!com_name)
    End If
-SSOleDBCompany.RemoveAll 'JCGFIXES 2007/24/1
+SSOleDBcompany.RemoveAll 'JCGFIXES 2007/24/1
    Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
@@ -7643,7 +7712,7 @@ Private Sub SSOleDBInvLocation_DropDown()
         
             Dim value As String
         '
-        LblCompanyCode.Caption = Trim$(SSOleDBCompany.Columns(0).Text)
+        LblCompanyCode.Caption = Trim$(SSOleDBcompany.Columns(0).Text)
             deIms.rsCompanyLocations.Filter = ""
             deIms.rsCompanyLocations.Filter = "LOC_COMPCODE= '" & Trim$(LblCompanyCode.Caption) & "'"
         
@@ -7765,7 +7834,7 @@ Poheader.priocode = Trim$(SSOleDBPriority.Tag)
   
   Poheader.currCODE = Trim$(SSOleDBCurrency.Tag)
   
-  Poheader.CompCode = Trim$(SSOleDBCompany.Tag)
+  Poheader.CompCode = Trim$(SSOleDBcompany.Tag)
    
    Poheader.invloca = Trim$(SSOleDBInvLocation.Tag)
   
@@ -7894,8 +7963,8 @@ If lookups Is Nothing Then Set lookups = Mainpo.lookups
   SSOleDBCurrency = ""
   
   
-  SSOleDBCompany.Tag = ""
-  SSOleDBCompany.Text = ""
+  SSOleDBcompany.Tag = ""
+  SSOleDBcompany.Text = ""
   
   SSOleDBInvLocation.Tag = ""
   SSOleDBInvLocation = ""
@@ -8656,8 +8725,8 @@ ssdcboRequisition = ""
 lblReqLineitem = ""
 
 
-SSoleEccnno.Tag = 0
-SSoleEccnno = ""
+SSoleEccnNo.Tag = 0
+SSoleEccnNo = ""
 
 SSOleSourceofinfo.Tag = 0
 SSOleSourceofinfo = ""
@@ -8739,7 +8808,7 @@ PoItem.Requliitnumb = (lblReqLineitem)
 
 PoItem.usexport = chk_usexportLI
 PoItem.Eccnlicsreq = Chk_license
-PoItem.Eccnid = SSoleEccnno.Tag
+PoItem.Eccnid = SSoleEccnNo.Tag
 PoItem.Sourceofinfoid = IIf(Len(SSOleSourceofinfo.Tag) = 0, 0, SSOleSourceofinfo.Tag)
 'PoItem.Eccnno = Trim(SSoleEccnno)
 
@@ -9042,8 +9111,8 @@ dcbostatus(2) = ""
 dcbostatus(3) = ""
 dcbostatus(0) = ""
 
-SSoleEccnno.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
-SSoleEccnno = rs("eccn_no") & ""
+SSoleEccnNo.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
+SSoleEccnNo = rs("eccn_no") & ""
 
 SSOleSourceofinfo.Tag = IIf(IsNull(rs("poi_sourceid")), 0, rs("poi_sourceid"))
 SSOleSourceofinfo = rs("source") & ""
@@ -9520,14 +9589,14 @@ Dim i As Long
 ''''    End If
     
     
-    If Len(Trim$(SSOleDBCompany.Text)) = 0 Then  'M
+    If Len(Trim$(SSOleDBcompany.Text)) = 0 Then  'M
     
         'Modified by Juan (9/13/2000) for Multilingual
        ' msg1 = translator.Trans("M00023") 'J added
         'MsgBox IIf(msg1 = "", "Company Can not be left empty", msg1), , "Imswin" 'J modified
         '---------------------------------------------
         MsgBox "Company can not be left Empty."
-      SSOleDBCompany.SetFocus
+      SSOleDBcompany.SetFocus
       Exit Function 'M
         
     'Else  'M
@@ -9748,9 +9817,9 @@ Dim i As Long
     
     If ShouldEccnControlsBeEnabled = True And chk_usexportLI.value = 1 Then
     
-       If Len(Trim(SSoleEccnno & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
+       If Len(Trim(SSoleEccnNo & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Eccn# and Source of Info."
-       ElseIf Len(Trim(SSoleEccnno & "")) = 0 Then
+       ElseIf Len(Trim(SSoleEccnNo & "")) = 0 Then
         MsgBox "Line item does not have Eccn#."
        ElseIf Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Source of Info."
@@ -9866,14 +9935,14 @@ On Error Resume Next
             chk_USExportH.Enabled = True
             chk_usexportLI.Enabled = True
             Chk_license.Enabled = True
-            SSoleEccnno.Enabled = True
+            SSoleEccnNo.Enabled = True
             SSOleSourceofinfo.Enabled = True
         Else
         
             chk_USExportH.Enabled = False
             chk_usexportLI.Enabled = False
             Chk_license.Enabled = False
-            SSoleEccnno.Enabled = False
+            SSoleEccnNo.Enabled = False
             SSOleSourceofinfo.Enabled = False
                 
         End If
@@ -10079,12 +10148,12 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
          
         If Not Trim$(UCase(Poheader.StasINvt)) = "NI" Then
           
-          SSOleDBCompany.Enabled = False
+          SSOleDBcompany.Enabled = False
           SSOleDBInvLocation.Enabled = False
         
         Else
           
-          SSOleDBCompany.Enabled = True
+          SSOleDBcompany.Enabled = True
           SSOleDBInvLocation.Enabled = True
         
         End If
@@ -10094,7 +10163,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         SSOleDBDocType.Enabled = True
         SSoledbSupplier.Enabled = False
         SSOleDBCurrency.Enabled = True
-        SSOleDBCompany.Enabled = True
+        SSOleDBcompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
           
    End If
@@ -10110,7 +10179,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         
         SSoledbSupplier.Enabled = True
         SSOleDBCurrency.Enabled = True
-        SSOleDBCompany.Enabled = True
+        SSOleDBcompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
         
         
@@ -11266,7 +11335,7 @@ Dim x
     If POFqa.Count = 0 Then Exit Function
 
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
-    Call lookups.LoadFQAFromLocation(Trim(SSOleDBCompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, Location, UsChart, CamChart, stocktype)
+    Call lookups.LoadFQAFromLocation(Trim(SSOleDBcompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, Location, UsChart, CamChart, stocktype)
     
     POFqa.MoveFirst
     
@@ -11427,13 +11496,13 @@ On Error GoTo ErrHand
                
          'if SSoleEccnno SSoleEccnno.Enabled = True
               
-              Set SSoleEccnno.DataSourceList = RsEccnNo  ' RSStockNos
-              SSoleEccnno.DataFieldToDisplay = "eccn_no"
-              SSoleEccnno.DataFieldList = "eccnid"
-              SSoleEccnno.Columns(0).Visible = False
+              Set SSoleEccnNo.DataSourceList = RsEccnNo  ' RSStockNos
+              SSoleEccnNo.DataFieldToDisplay = "eccn_no"
+              SSoleEccnNo.DataFieldList = "eccnid"
+              SSoleEccnNo.Columns(0).Visible = False
 
-               SSoleEccnno.Columns(2).Width = 6000
-               SSoleEccnno.RowHeight = 500
+               SSoleEccnNo.Columns(2).Width = 6000
+               SSoleEccnNo.RowHeight = 500
 
        Set GRsEccnNo = lookups.GetListofEccns(0)
         

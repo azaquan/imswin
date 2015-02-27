@@ -31,6 +31,7 @@ Public Enum EmailClients
 End Enum
 
 Public frm As Object
+
 Public Property Get Connection() As ADODB.Connection
     Set Connection = cn
 End Property
@@ -43,6 +44,33 @@ End Property
 Public Property Let cPwd(ByRef p As String)
     pwd = p
 End Property
+Function getName(var) As String
+    Select Case var
+        Case ReturnFromRepair
+            getName = "ReturnFromRepair"
+        Case AdjustmentEntry
+            getName = "AdjustmentEntry"
+        Case WarehouseIssue
+            getName = "WarehouseIssue"
+        Case WellToWell
+            getName = "WellToWell"
+        Case InternalTransfer
+            getName = "InternalTransfer"
+        Case AdjustmentIssue
+            getName = "AdjustmentIssue"
+        Case WarehouseToWarehouse
+            getName = "WarehouseToWarehouse"
+        Case WarehouseReceipt
+            getName = "WarehouseReceipt"
+        Case Sales
+            getName = "Sales"
+        Case ReturnFromWell
+            getName = "ReturnFromWell"
+        Case GlobalTransfer
+            getName = "GlobalTransfer"
+    End Select
+End Function
+
 Public Property Let initialCatalog(ByRef i As String)
     InitCatalog = i
 End Property
@@ -91,7 +119,8 @@ Screen.MousePointer = 11
         .matrix.TextMatrix(4, 0) = "ii_trannumb"
         .matrix.TextMatrix(5, 0) = "0"
         .matrix.TextMatrix(7, 0) = ""
-        .matrix.TextMatrix(8, 0) = "Transaction #"
+        '.matrix.TextMatrix(8, 0) = "Transaction #"
+        .matrix.TextMatrix(8, 0) = translator.getIt(getName("cel0"))
         .matrix.TextMatrix(9, 0) = "1200"
         .matrix.TextMatrix(10, 0) = 0
         
@@ -104,9 +133,16 @@ Screen.MousePointer = 11
         .matrix.TextMatrix(5, 1) = "0, 0"
         .matrix.TextMatrix(6, 1) = nameSP
         .matrix.TextMatrix(7, 1) = ""
-        .matrix.TextMatrix(8, 1) = "Company, Code"
+        '.matrix.TextMatrix(8, 1) = "Company, Code"
+        .matrix.TextMatrix(8, 1) = translator.getIt("cel1")
         .matrix.TextMatrix(9, 1) = "3000, 1000"
         .matrix.TextMatrix(10, 1) = 1
+        
+        'cell 2(common)
+        .matrix.TextMatrix(8, 2) = translator.getIt("cel2")
+        
+        'cell 3(common)
+        .matrix.TextMatrix(8, 3) = translator.getIt("cel3")
         
         Select Case transaction
             Case ReturnFromRepair
@@ -122,7 +158,6 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 0) = "0"
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, RR"
                 .matrix.TextMatrix(7, 0) = ""
-                .matrix.TextMatrix(8, 0) = "Transaction #"
                 .matrix.TextMatrix(9, 0) = "1200"
                 .matrix.TextMatrix(10, 0) = 0
                                 
@@ -135,11 +170,11 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "REPAIR, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
-                .label(2).Caption = "From"
+                '.Label(2).Caption = "From"
+                .Label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -150,16 +185,16 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
                 
-                .label(3).Caption = "To Warehouse"
-                .label(3).Visible = True
+                '.Label(3).Caption = "To Warehouse"
+                .Label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case AdjustmentEntry
@@ -168,7 +203,7 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .cell(2).Top = .cell(1).Top
-                .label(2).Top = .label(1).Top
+                .Label(2).Top = .Label(1).Top
                 .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
                 .matrix.TextMatrix(1, 0) = 1
                 .matrix.TextMatrix(2, 0) = "ir_trannumb"
@@ -177,12 +212,11 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 0) = "0"
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, AE"
                 .matrix.TextMatrix(7, 0) = ""
-                .matrix.TextMatrix(8, 0) = "Transaction #"
                 .matrix.TextMatrix(9, 0) = "1200"
                 .matrix.TextMatrix(10, 0) = 0
                 
                 'cell 2
-                .label(2).Caption = "Warehouse"
+                .Label(2).Caption = "Warehouse"
                 .matrix.TextMatrix(0, 2) = "AdjustmentEntry"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -191,16 +225,16 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = ""
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
+                '.matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Visible = False
+                .Label(3).Visible = False
                 .cell(3).Visible = False
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case WarehouseIssue
@@ -209,9 +243,11 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, I"
+                .matrix.TextMatrix(8, 0) = ""
                 
                 'cell 2
-                .label(2).Caption = "From Warehouse"
+                '.Label(2).Caption = "From Warehouse"
+                .Label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -220,13 +256,14 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
+                '.matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Caption = "Issue To"
-                .label(3).Visible = True
+                '.Label(3).Caption = "Issue To"
+                .Label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
                 .matrix.TextMatrix(1, 3) = 2
@@ -236,12 +273,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "SITE, REPAIR, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
+                '.matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case WellToWell
@@ -250,9 +287,10 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, TI"
+                .matrix.TextMatrix(8, 0) = ""
                 
                 'cell 2
-                .label(2).Caption = "From Well"
+                .Label(2).Caption = "From Well"
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -261,13 +299,13 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "SITE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
+                '.matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Caption = "To Well"
-                .label(3).Visible = True
+                .Label(3).Caption = "To Well"
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
                 .matrix.TextMatrix(1, 3) = 2
@@ -277,12 +315,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "SITE, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
+                '.matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000,1000"
                 .matrix.TextMatrix(10, 3) = 1
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case InternalTransfer
@@ -291,11 +329,12 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, IT"
+                .matrix.TextMatrix(8, 0) = ""
                 
                 'cell 2
                 .cell(2).Top = .cell(1).Top
-                .label(2).Top = .label(1).Top
-                .label(2).Caption = "Warehouse"
+                .Label(2).Top = .Label(1).Top
+                .Label(2).Caption = "Warehouse"
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -304,16 +343,15 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Visible = False
+                .Label(3).Visible = False
                 .cell(3).Visible = False
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case AdjustmentIssue
@@ -322,11 +360,12 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, AI"
+                .matrix.TextMatrix(8, 0) = ""
                 
                 'cell 2
-                .label(2).Caption = "Warehouse"
+                .Label(2).Caption = "Warehouse"
                 .cell(2).Top = .cell(1).Top
-                .label(2).Top = .label(1).Top
+                .Label(2).Top = .Label(1).Top
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -335,16 +374,15 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Visible = False
+                .Label(3).Visible = False
                 .cell(3).Visible = False
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case WarehouseToWarehouse
@@ -353,9 +391,10 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, TI"
+                .matrix.TextMatrix(8, 0) = ""
                                 
                 'cell 2
-                .label(2).Caption = "From Warehouse"
+                .Label(2).Caption = "From Warehouse"
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -364,13 +403,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Caption = "To Warehouse"
-                .label(3).Visible = True
+                .Label(3).Caption = "To Warehouse"
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
                 .matrix.TextMatrix(1, 3) = 2
@@ -380,12 +418,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
+                '.matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000,1000"
                 .matrix.TextMatrix(10, 3) = 1
 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
                 
             Case WarehouseReceipt
@@ -401,7 +439,6 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 0) = "0"
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, R"
                 .matrix.TextMatrix(7, 0) = ""
-                .matrix.TextMatrix(8, 0) = "Transaction #"
                 .matrix.TextMatrix(9, 0) = "1200"
                 .matrix.TextMatrix(10, 0) = 0
                 
@@ -414,10 +451,9 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "OTHER, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
-                .label(2).Caption = "Receipt From"
+                .Label(2).Caption = "Receipt From"
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -428,16 +464,15 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
-                .label(3).Caption = "To Warehouse"
-                .label(3).Visible = True
+                .Label(3).Caption = "To Warehouse"
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 
                 'cell 4
-                .label(4).Caption = "Purchase Order"
-                .label(4).Visible = True
+                .Label(4).Caption = "Purchase Order"
+                .Label(4).Visible = True
                 .cell(4).Visible = True
                 .matrix.TextMatrix(0, 4) = "query"
                 .matrix.TextMatrix(1, 4) = 7
@@ -447,8 +482,9 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 4) = "0, 3, 0, 0, 0, 3, 0"
                 .matrix.TextMatrix(6, 4) = ""
                 .matrix.TextMatrix(7, 4) = ""
-                .matrix.TextMatrix(8, 4) = "PO#, Date, Buyer, Send By, Approve By, Status, Forwarded"
-                .matrix.TextMatrix(9, 4) = "1000, 900, 1400, 1400, 1400, 600, 0"
+                '.matrix.TextMatrix(8, 4) = "PO#, Date, Buyer, Send By, Approve By, Status, Forwarded"
+                .matrix.TextMatrix(8, 4) = translator.getIt(getName(transaction) + ".cel4")
+                .matrix.TextMatrix(9, 4) = "1300, 900, 1400, 1400, 1400, 600, 0"
                 .matrix.TextMatrix(10, 4) = 0
                 
             Case Sales
@@ -457,9 +493,10 @@ Screen.MousePointer = 11
                 
                 'cell 0
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, SL"
+                .matrix.TextMatrix(8, 0) = ""
                 
                 'cell 2
-                .label(2).Caption = "From Warehouse"
+                .Label(2).Caption = "From Warehouse"
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -468,13 +505,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000,1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
                 'cell 3
-                .label(3).Caption = "Sold to"
-                .label(3).Visible = True
+                .Label(3).Caption = "Sold to"
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
                 .matrix.TextMatrix(1, 3) = 2
@@ -484,13 +520,12 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "OTHER, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
                 
                 'cell 4
-                .label(4).Caption = "Sold To"
-                .label(4).Visible = True
+                .Label(4).Caption = "Sold To"
+                .Label(4).Visible = True
                 .cell(4).Visible = True
                 .matrix.TextMatrix(0, 4) = "suppliers"
                 .matrix.TextMatrix(1, 4) = 2
@@ -517,7 +552,6 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 0) = "0"
                 .matrix.TextMatrix(6, 0) = nameSP + ", @1, RT"
                 .matrix.TextMatrix(7, 0) = ""
-                .matrix.TextMatrix(8, 0) = "Transaction #"
                 .matrix.TextMatrix(9, 0) = "1200"
                 .matrix.TextMatrix(10, 0) = 0
                                 
@@ -530,11 +564,10 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 2) = "0, 0"
                 .matrix.TextMatrix(6, 2) = "SITE, TRUE"
                 .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(8, 2) = "Location, Code"
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
-                .label(2).Caption = "From Site"
+                .Label(2).Caption = "From Site"
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -545,20 +578,23 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(5, 3) = "0, 0"
                 .matrix.TextMatrix(6, 3) = "BASE, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
-                .label(3).Caption = "To Warehouse"
-                .label(3).Visible = True
+                .Label(3).Caption = "To Warehouse"
+                .Label(3).Visible = True
                 .cell(3).Visible = True
                 
                 'cell 4
-                .label(4).Visible = False
+                .Label(4).Visible = False
                 .cell(4).Visible = False
             Case Else
                 Unload frmWarehouse
                 Exit Sub
         End Select
+        'Juan (2015-02-16) for Multilingual
+        msg1 = translator.getIt(getName(transaction) + ".title")
+        title = IIf(msg1 = "", title, msg1)
+        '---------------------------------------------
         
         .Caption = title + " " + tag
         .tag = tag
@@ -634,7 +670,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
                 
-                .label(2).Caption = "From Company"
+                .Label(2).Caption = "From Company"
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
