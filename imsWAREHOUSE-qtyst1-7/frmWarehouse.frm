@@ -335,11 +335,11 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton newBUTTON 
       Caption         =   "&New Transaction"
       Height          =   375
-      Left            =   9360
+      Left            =   9240
       TabIndex        =   62
       TabStop         =   0   'False
       Top             =   9405
-      Width           =   1575
+      Width           =   1695
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
@@ -457,11 +457,11 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton Command5 
       Caption         =   "Show &Remarks, FQA"
       Height          =   375
-      Left            =   240
+      Left            =   120
       TabIndex        =   49
       TabStop         =   0   'False
       Top             =   9405
-      Width           =   1695
+      Width           =   1815
    End
    Begin VB.CommandButton emailButton 
       Caption         =   "E-Mail to"
@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55443459
+      Format          =   68288515
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1799,6 +1799,15 @@ If isEditionActive = False Then Exit Sub
         Tree.Nodes.Clear
         StockNumber = .TextMatrix(r, 1)
         QTYpo = 0
+        
+        translationCondition = translator.getIt("translationCondition") + ": "
+        translationLogical = translator.getIt("translationLogical") + ": "
+        translationSublocation = translator.getIt("translationSubLocation") + ": "
+        translationSerial = translator.getIt("translationSerial") + ": "
+        translationPool = translator.getIt("translationPool") + ": "
+        translationTotal = translator.getIt("translationTotal") + ": "
+        translationTot = translator.getIt("translationTot")
+        
         Select Case frmWarehouse.tag
             'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
             'AdjustmentIssue,WarehouseToWarehouse,Sales,ReturnFromWell
@@ -1809,27 +1818,28 @@ If isEditionActive = False Then Exit Sub
                 subloca = .TextMatrix(r, 10)
                 serial = .TextMatrix(r, 2)
                 QTYpo = .TextMatrix(r, 17)
-                Tree.Nodes.Add , tvwChild, "@" + cond, "Condition " + cond + " - " + condName, "thing"
+                
+                Tree.Nodes.Add , tvwChild, "@" + cond, translationCondition + cond + " - " + condName, "thing"
                 Tree.Nodes("@" + cond).Bold = True
                 Tree.Nodes("@" + cond).backcolor = &HE0E0E0
-                Tree.Nodes.Add "@" + cond, tvwChild, "@" + cond + "{{" + loca, "Logical Warehouse: " + loca, "thing 0"
+                Tree.Nodes.Add "@" + cond, tvwChild, "@" + cond + "{{" + loca, translationLogical + loca, "thing 0"
                 'If (frmWarehouse.tag = "02040400" Or frmWarehouse.tag = "02040500" Or frmWarehouse.tag = "02040300") Then
                     logicname = .TextMatrix(r, 9)
                     sublocaname = subloca
                     key = cond + "-" + condName + "{{" + loca + "{{" + subloca
                     If UCase(serial) = "POOL" Then
-                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 1"
+                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, translationSublocation + sublocaname, "thing 1"
                         Call setupBoxes2(Tree.Nodes.Count, r, False, QTYpo)
                     Else
                         isSerial = True
-                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 0"
+                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, translationSublocation + sublocaname, "thing 0"
                     End If
                 'End If
                 If isSerial Then
-                    Tree.Nodes.Add key, tvwChild, key + "#" + serial, "Serial #: " + serial, "thing 1"
+                    Tree.Nodes.Add key, tvwChild, key + "#" + serial, translationSerial + serial, "thing 1"
                     Call setupBoxes2(Tree.Nodes.Count, r, True, .TextMatrix(r, 17))
                 End If
-                Tree.Nodes.Add , , "Total", Space(53) + "Total Available:"
+                Tree.Nodes.Add , , translationTot, Space(53) + translationTotal
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
@@ -1840,22 +1850,23 @@ If isEditionActive = False Then Exit Sub
                 unitLABEL(0) = .TextMatrix(r, 6)
                 unitLABEL(1) = .TextMatrix(r, 15)
                 descriptionLABEL = .TextMatrix(r, 5)
-                Tree.Nodes.Add , tvwChild, "@AE", "Adjustement Entry ", "thing"
+                translationAdjustmentEntry = translator.getIt("translationAdjustmentEntry") + " "
+                Tree.Nodes.Add , tvwChild, "@AE", translationAdjustmentEntry, "thing"
                 Tree.Nodes("@AE").Bold = True
                 Tree.Nodes("@AE").backcolor = &HE0E0E0
                 key = "AE-NEW{"
                 If UCase(serial) = "POOL" Then
-                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Pool", "Pool", "thing 1"
+                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Pool", translationPool, "thing 1"
                     Call setupBoxes2(Tree.Nodes.Count, r, False)
                 Else
                     isSerial = True
-                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Serial", "Serial:", "thing 1"
-                    Tree.Nodes(Tree.Nodes.Count).text = "Serial #: " + serial
+                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Serial", translationSerial, "thing 1"
+                    Tree.Nodes(Tree.Nodes.Count).text = translationSerial + serial
                     Call setupBoxes2(Tree.Nodes.Count, r, True)
                 End If
                 Call setupBoxes2(Tree.Nodes.Count, r, isSerial)
                 
-                Tree.Nodes.Add , , "Total", Space(53) + "Total Available:"
+                Tree.Nodes.Add , , translationTot, Space(53) + translationTotal
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
@@ -1904,20 +1915,20 @@ If isEditionActive = False Then Exit Sub
                 Tree.Nodes("@" + cond).backcolor = &HE0E0E0
                 key = cond + "-" + condName + "{{"
                 If serial = "Pool" Then
-                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Pool", "Pool", "thing 1"
+                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Pool", translationPool, "thing 1"
                     Call setupBoxes2(Tree.Nodes.Count, r, False, QTYpo)
                 Else
                     isSerial = True
-                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Serial", "Serial", "thing 1"
-                    Tree.Nodes(Tree.Nodes.Count).text = "Serial #: " + serial
+                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Serial", translationSerial, "thing 1"
+                    Tree.Nodes(Tree.Nodes.Count).text = translationSerial + serial
                     Call setupBoxes2(Tree.Nodes.Count, r, True, QTYpo)
                 End If
             
                 Select Case frmWarehouse.tag
                     Case "02040100" 'WarehouseReceipt
-                        Tree.Nodes.Add , , "Total", Space(90) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), "")
+                        Tree.Nodes.Add , , translationTot, Space(90) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), "")
                     Case Else
-                        Tree.Nodes.Add , , "Total", Space(53) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), "Total Available:")
+                        Tree.Nodes.Add , , translationTot, Space(53) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), translationTotal)
                 End Select
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
@@ -2440,7 +2451,13 @@ Dim paraVECTOR
 Dim i, n, rec, list, size, totalwidth, cols, wide(), title(), extraW, sql, clue, Flag
 Dim datax As New ADODB.Recordset
     Err.Clear
+Dim translationLogical, translationCode, translationDescription, translationSublocation, translationCondition
     
+    translationLogical = translator.getIt("translationLogical")
+    translationCode = translator.getIt("translationCode")
+    translationDescription = translator.getIt("translationDescription")
+    translationSublocation = translator.getIt("translationSubLocation")
+    translationCondition = translator.getIt("translationCondition")
     Select Case box.name
         Case "logicBOX"
             clue = "Code"
@@ -2449,12 +2466,13 @@ Dim datax As New ADODB.Recordset
             wide(0) = 3000
             wide(1) = 1200
             ReDim title(2)
-            title(0) = "Logical Warehouse"
-            title(1) = "Code"
+            'title(0) = "Logical Warehouse"
+            title(0) = translationLogical
+            title(1) = translationCode
             sql = "select lw_code Code , lw_desc Description from LOGWAR" _
                 & " where lw_actvflag = 1 AND lw_npecode = '" & nameSP & "' order by lw_desc "
             Set datax = New ADODB.Recordset
-            list = Array("description", "code")
+            list = Array("Description", "Code")
         Case "sublocaBOX"
             clue = "Code"
             cols = 2
@@ -2462,10 +2480,10 @@ Dim datax As New ADODB.Recordset
             wide(0) = 3000
             wide(1) = 1200
             ReDim title(2)
-            title(0) = "Sublocation"
-            title(1) = "Code"
+            title(0) = translationSublocation
+            title(1) = translationCode
             Set datax = getDATA("getSUBLOCA", nameSP)
-            list = Array("description", "code")
+            list = Array("Description", "Code")
         Case "NEWconditionBOX"
             clue = "Code"
             cols = 2
@@ -2473,8 +2491,8 @@ Dim datax As New ADODB.Recordset
             wide(0) = 500
             wide(1) = 2400
             ReDim title(2)
-            title(0) = "Code"
-            title(1) = "Condition"
+            title(0) = translationCode
+            title(1) = translationCondition
             sql = "SELECT cond_condcode as Code, cond_desc as Condition FROM condition WHERE " _
                 & "cond_npecode = '" + nameSP + "' " _
                 & "ORDER BY cond_condcode"
@@ -2851,11 +2869,40 @@ End Sub
 
 Sub makeLists()
 Dim i, col, c, dark As Integer
+Dim translationCommodity, translationUnit, translationUnitPrice, translationDescription
+Dim translationQty, translationSerial, translationPurchaseQty, translationQtyToRec
+Dim translationPrimaryUnit, translationSecondaryUnit, translationOriginal, translationItem
+Dim translationCondition, translationLogicalWarehouse, translationBalance, translationSublocation
+Dim translationFrom, translationTo, translationLogical, translationNewCond, translationNewConditionDescription
+Dim translationSecondaryQty
+
     For i = 0 To 4
         If cell(i).Visible Then cell(i).tabindex = i
     Next
     STOCKlist.tabindex = 5
     Tree.tabindex = 6
+    translationCommodity = translator.getIt("translationCommodity") + ": "
+    translationUnit = translator.getIt("translationUnit")
+    translationUnitPrice = translator.getIt("translationUnitPrice")
+    translationDescription = translator.getIt("translationDescription")
+    translationQty = translator.getIt("translationQty")
+    translationSerial = translator.getIt("translationSerial")
+    translationPurchaseQty = translator.getIt("translationPurchaseQty")
+    translationQtyToRec = translator.getIt("translationQtyToRec")
+    translationPrimaryUnit = translator.getIt("translationPrimaryUnit")
+    translationSecondaryUnit = translator.getIt("translationSecondaryUnit")
+    translationOriginal = translator.getIt("translationOriginal")
+    translationItem = translator.getIt("translationItem")
+    translationCondition = translator.getIt("translationCondition")
+    translationLogicalWarehouse = translator.getIt("translationLogicalWarehouse")
+    translationBalance = translator.getIt("translationBalance")
+    translationSublocation = translator.getIt("translationSublocation")
+    translationFrom = translator.getIt("translationFrom")
+    translationTo = translator.getIt("translationTo")
+    translationLogical = translator.getIt("translationLogical")
+    translationNewCond = translator.getIt("translationNewCond")
+    translationNewConditionDescription = translator.getIt("translationNewConditionDescription")
+    translationSecondaryQty = translator.getIt("translationSecondaryQty")
     
     dark = 1
     With STOCKlist
@@ -2866,7 +2913,8 @@ Dim i, col, c, dark As Integer
         .row = 0
         .col = 0
         .TextMatrix(0, 0) = "#"
-        .TextMatrix(0, 1) = "Commodity"
+        '.TextMatrix(0, 1) = "Commodity"
+        .TextMatrix(0, 1) = translationCommodity '2015/03/24
         .ColWidth(1) = 1400
         For i = 1 To .cols - 1
             .ColAlignment(i) = 0
@@ -2878,39 +2926,52 @@ Dim i, col, c, dark As Integer
             'AdjustmentIssue,WarehouseToWarehouse,Sales
             Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
                 dark = 1
-                .TextMatrix(0, 2) = "Unit Price"
+                '.TextMatrix(0, 2) = "Unit Price"
+                .TextMatrix(0, 2) = translationUnitPrice
                 .ColWidth(2) = 1000
-                .TextMatrix(0, 3) = "Description"
+                '.TextMatrix(0, 3) = "Description"
+                .TextMatrix(0, 3) = translationDescription
                 .ColWidth(3) = 6200
-                .TextMatrix(0, 4) = "Unit"
+                '.TextMatrix(0, 4) = "Unit"
+                .TextMatrix(0, 4) = translationUnit
                 .ColWidth(4) = 1200
                 .ColAlignment(5) = 6
-                .TextMatrix(0, 5) = "Qty"
+                '.TextMatrix(0, 5) = "Qty"
+                .TextMatrix(0, 5) = translationQty
                 .ColWidth(5) = 1200
             'WarehouseIssue 2012-3-23 to add serial
             Case "02040200"
                 .cols = .cols + 1
                 dark = 1
-                .TextMatrix(0, 2) = "Serial"
+                '.TextMatrix(0, 2) = "Serial"
+                .TextMatrix(0, 2) = translationSerial
                 .ColWidth(2) = 1000
-                .TextMatrix(0, 3) = "Unit Price"
+                '.TextMatrix(0, 3) = "Unit Price"
+                .TextMatrix(0, 3) = translationUnitPrice
                 .ColWidth(3) = 1000
-                .TextMatrix(0, 4) = "Description"
+                '.TextMatrix(0, 4) = "Description"
+                .TextMatrix(0, 4) = translationDescription
                 .ColWidth(4) = 6200
-                .TextMatrix(0, 5) = "Unit"
+                '.TextMatrix(0, 5) = "Unit"
+                .TextMatrix(0, 5) = translationUnit
                 .ColWidth(5) = 1200
                 .ColAlignment(6) = 6
-                .TextMatrix(0, 6) = "Qty"
+                '.TextMatrix(0, 6) = "Qty"
+                .TextMatrix(0, 6) = translationQty
                 .ColWidth(6) = 1200
             Case "02050200" 'AdjustmentEntry
                 dark = 0
                 .cols = 4
-                .TextMatrix(0, 2) = "Description"
+                '.TextMatrix(0, 2) = "Description"
+                .TextMatrix(0, 2) = translationDescription
                 .ColAlignment(2) = 0
                 .ColWidth(2) = 8400
-                .TextMatrix(0, 3) = "Unit"
+                '.TextMatrix(0, 3) = "Unit"
+                .TextMatrix(0, 3) = translationUnit
                 .ColWidth(3) = 1200
             Case "02040100" 'WarehouseReceipt
+                dark = 1
+                .cols = 14
                 'Juan 2010-6-6
                 For i = 1 To .cols - 1
                     .col = i
@@ -2920,16 +2981,18 @@ Dim i, col, c, dark As Integer
                     '.ColAlignmentFixed(i) = 4
                 Next
                 '-----------------------
-                dark = 1
-                .cols = 14
+
                 .ColAlignment(2) = 6
                 .ColAlignment(3) = 6
                 .ColAlignment(4) = 4
-                .TextMatrix(0, 2) = "Purchase Qty"
+                '.TextMatrix(0, 2) = "Purchase Qty"
+                .TextMatrix(0, 2) = translationPurchaseQty
                 .ColWidth(2) = 1100
-                .TextMatrix(0, 3) = "1Qty to Rec"
+                '.TextMatrix(0, 3) = "1Qty to Rec"
+                .TextMatrix(0, 3) = translationQtyToRec
                 .ColWidth(3) = 1100
-                .TextMatrix(0, 4) = "Primary Unit"
+                '.TextMatrix(0, 4) = "Primary Unit"
+                .TextMatrix(0, 4) = translationPrimaryUnit
                 .ColWidth(4) = 1200
                 
                 
@@ -2938,24 +3001,30 @@ Dim i, col, c, dark As Integer
                 '.ColWidth(5) = 6200
                 '.TextMatrix(0, 6) = "Item #"
                 '.ColWidth(6) = 0
-                .TextMatrix(0, 5) = "2Qty to Rec"
+                '.TextMatrix(0, 5) = "2Qty to Rec"
+                .TextMatrix(0, 5) = "2 " + translationQtyToRec
                 .ColWidth(5) = 1100
-                .TextMatrix(0, 6) = "Secundary Unit"
+                '.TextMatrix(0, 6) = "Secundary Unit"
+                .TextMatrix(0, 6) = translationSecondaryUnit
                 .ColWidth(6) = 1200
-                .TextMatrix(0, 7) = "Description"
+                '.TextMatrix(0, 7) = "Description"
+                .TextMatrix(0, 7) = translationDescription
                 .ColWidth(7) = 6200
-                .TextMatrix(0, 8) = "Item #"
+                '.TextMatrix(0, 8) = "Item #"
+                .TextMatrix(0, 8) = translationItem + "#"
                 .ColWidth(8) = 0
-                .TextMatrix(0, 9) = "original Qty to Rec"
+                '.TextMatrix(0, 9) = "original Qty to Rec"
+                .TextMatrix(0, 9) = translationOriginal + " " + translationQtyToRec
                 .ColWidth(9) = 0
-                .TextMatrix(0, 10) = "original 2Qty to Rec"
+                '.TextMatrix(0, 10) = "original 2Qty to Rec"
+                .TextMatrix(0, 10) = translationOriginal + " 2" + translationQtyToRec
                 .ColWidth(10) = 0
                 '---------------------
         End Select
         .RowHeight(0) = 240
         .RowHeightMin = 0
         .RowHeight(1) = 0
-        .WordWrap = True
+        '.WordWrap = True
         .tag = ""
     End With
     
@@ -2973,18 +3042,31 @@ Dim i, col, c, dark As Integer
         Select Case frmWarehouse.tag
             Case "02040100" 'WarehouseReceipt
                 .cols = 9
+                For i = 1 To .cols - 1
+                    .col = i
+                    .CellFontName = "Arial"
+                    .CellFontSize = 7
+                Next
                 c = 9
-                .TextMatrix(0, 0) = "Condition / Serial-Pool"
-                .TextMatrix(0, 1) = "Qty po"
-                .TextMatrix(0, 2) = "Logical Warehouse"
-                .TextMatrix(0, 3) = "Sublocation"
+                '.TextMatrix(0, 0) = "Condition / Serial-Pool"
+                .TextMatrix(0, 0) = translationCondition + " / " + translationSerial + "-Pool"
+                '.TextMatrix(0, 1) = "Qty po"
+                .TextMatrix(0, 1) = translationQty + " PO"
+                '.TextMatrix(0, 2) = "Logical Warehouse"
+                .TextMatrix(0, 2) = translationLogicalWarehouse
+                '.TextMatrix(0, 3) = "Sublocation"
+                .TextMatrix(0, 3) = translationSublocation
                 'Juan 2010-6-6
-                .TextMatrix(0, 4) = "Prim Unit"
-                .TextMatrix(0, 5) = "Qty"
-                .TextMatrix(0, 6) = "Sec Unit"
-                .TextMatrix(0, 7) = "Qty"
-
-                .TextMatrix(0, 8) = "Balance"
+                '.TextMatrix(0, 4) = "Prim Unit"
+                .TextMatrix(0, 4) = translationPrimaryUnit
+                '.TextMatrix(0, 5) = "Qty"
+                .TextMatrix(0, 5) = .TextMatrix(0, 5) = translationQty
+                '.TextMatrix(0, 6) = "Sec Unit"
+                .TextMatrix(0, 6) = translationSecondaryUnit
+                '.TextMatrix(0, 7) = "Qty"
+                .TextMatrix(0, 7) = translationQty
+                '.TextMatrix(0, 8) = "Balance"
+                .TextMatrix(0, 8) = translationBalance
                 '---------------------
             .ColWidth(0) = 3970
             .ColWidth(5) = 1000
@@ -2993,12 +3075,18 @@ Dim i, col, c, dark As Integer
             .ColWidth(8) = 1000
             .ColWidth(9) = 260
             Case Else
-                .TextMatrix(0, 0) = "Condition / Logical Warehouse / Sublocation"
-                .TextMatrix(0, 1) = "Qty"
-                .TextMatrix(0, 2) = "Logical Warehouse"
-                .TextMatrix(0, 3) = "Sublocation"
-                .TextMatrix(0, 4) = "Qty"
-                .TextMatrix(0, 5) = "Balance"
+                '.TextMatrix(0, 0) = "Condition / Logical Warehouse / Sublocation"
+                .TextMatrix(0, 0) = translationCondition + " / " + translationLogicalWarehouse + " / " + translationSublocation
+                '.TextMatrix(0, 1) = "Qty"
+                .TextMatrix(0, 1) = translationQty
+                '.TextMatrix(0, 2) = "Logical Warehouse"
+                .TextMatrix(0, 2) = translationLogicalWarehouse
+                '.TextMatrix(0, 3) = "Sublocation"
+                .TextMatrix(0, 3) = translationSublocation
+                '.TextMatrix(0, 4) = "Qty"
+                .TextMatrix(0, 4) = translationQty
+                '.TextMatrix(0, 5) = "Balance"
+                .TextMatrix(0, 5) = translationBalance
                 .ColWidth(2) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
                 .ColWidth(3) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
         End Select
@@ -3007,11 +3095,15 @@ Dim i, col, c, dark As Integer
             Case "02040400" 'ReturnFromRepair
                 .cols = 9
                 c = 9
-                .TextMatrix(0, 2) = "Logical Ware."
-                .TextMatrix(0, 4) = "Condition"
+                '.TextMatrix(0, 2) = "Logical Ware."
+                .TextMatrix(0, 2) = translationLogicalWarehouse
+                '.TextMatrix(0, 4) = "Condition"
+                .TextMatrix(0, 4) = translationCondition
                 .TextMatrix(0, 5) = "Repair Cost"
-                .TextMatrix(0, 6) = "Qty"
-                .TextMatrix(0, 7) = "Balance"
+                '.TextMatrix(0, 6) = "Qty"
+                .TextMatrix(0, 6) = translationQty
+                '.TextMatrix(0, 7) = "Balance"
+                .TextMatrix(0, 7) = translationBalance
                 .ColWidth(1) = 950
                 .ColWidth(2) = 1040
                 .ColWidth(3) = 1040
@@ -3023,12 +3115,18 @@ Dim i, col, c, dark As Integer
             Case "02050200" 'AdjustmentEntry
                 .cols = 7
                 c = 6
-                .TextMatrix(0, 0) = "Condition"
-                .TextMatrix(0, 1) = "Logical Warehouse"
-                .TextMatrix(0, 2) = "Sublocation"
-                .TextMatrix(0, 3) = "Unit Price"
-                .TextMatrix(0, 4) = "Condition"
-                .TextMatrix(0, 5) = "Qty"
+                '.TextMatrix(0, 0) = "Condition"
+                .TextMatrix(0, 0) = translationCondition
+                '.TextMatrix(0, 1) = "Logical Warehouse"
+                .TextMatrix(0, 1) = translationLogicalWarehouse
+                '.TextMatrix(0, 2) = "Sublocation"
+                .TextMatrix(0, 2) = translationSublocation
+                '.TextMatrix(0, 3) = "Unit Price"
+                .TextMatrix(0, 3) = translationUnitPrice
+                '.TextMatrix(0, 4) = "Condition"
+                .TextMatrix(0, 4) = translationCondition
+                '.TextMatrix(0, 5) = "Qty"
+                .TextMatrix(0, 5) = translationQty
                 .TextMatrix(0, 6) = ""
                 .ColWidth(0) = 5000
                 .ColWidth(1) = 2800 'Juan 2014-01-02 it was 2230 but made it longer
@@ -3046,9 +3144,12 @@ Dim i, col, c, dark As Integer
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
                 .cols = 7
-                .TextMatrix(0, 4) = "Condition"
-                .TextMatrix(0, 5) = "Qty"
-                .TextMatrix(0, 6) = "Balance"
+                '.TextMatrix(0, 4) = "Condition"
+                .TextMatrix(0, 4) = translationCondition
+                '.TextMatrix(0, 5) = "Qty"
+                .TextMatrix(0, 5) = translationQty
+                '.TextMatrix(0, 6) = "Balance"
+                .TextMatrix(0, 6) = translationBalance
                 .ColWidth(0) = 4400
                 .ColWidth(2) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
                 .ColWidth(3) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
@@ -3085,35 +3186,56 @@ Dim i, col, c, dark As Integer
         .ColAlignment(4) = 6
         .ColAlignment(7) = 6
         .ColAlignment(23) = 6
-        .TextMatrix(0, 1) = "Commodity"
+        '.TextMatrix(0, 1) = "Commodity"
+        .TextMatrix(0, 1) = translationCommodity
         .ColWidth(1) = 1400
-        .TextMatrix(0, 2) = "Serial"
+        '.TextMatrix(0, 2) = "Serial"
+        .TextMatrix(0, 2) = translationSerial
         .ColWidth(2) = 800
-        .TextMatrix(0, 3) = "Condition"
+        '.TextMatrix(0, 3) = "Condition"
+        .TextMatrix(0, 3) = translationCondition
         .ColWidth(3) = 1000
-        .TextMatrix(0, 4) = "Prim. Unit Price"
+        '.TextMatrix(0, 4) = "Prim. Unit Price"
+        .TextMatrix(0, 4) = translationUnitPrice
         .ColWidth(4) = 1200
-        .TextMatrix(0, 5) = "Description"
+        '.TextMatrix(0, 5) = "Description"
+        .TextMatrix(0, 5) = translationDescription
         .ColWidth(5) = 4400
-        .TextMatrix(0, 6) = "Unit"
+        '.TextMatrix(0, 6) = "Unit"
+        .TextMatrix(0, 6) = translationUnit
         .ColWidth(6) = 1100
-        .TextMatrix(0, 7) = "Qty"
+        '.TextMatrix(0, 7) = "Qty"
+        .TextMatrix(0, 7) = translationQty
         .ColWidth(7) = 1200
         .TextMatrix(0, 8) = "node"
-        .TextMatrix(0, 9) = "From Logical"
-        .TextMatrix(0, 10) = "From Subloca"
-        .TextMatrix(0, 11) = "To Logical"
-        .TextMatrix(0, 12) = "To Subloca"
-        .TextMatrix(0, 13) = "New Cond."
-        .TextMatrix(0, 14) = "New Condition Description"
-        .TextMatrix(0, 15) = "Unit Code"
+        '.TextMatrix(0, 9) = "From Logical"
+        .TextMatrix(0, 9) = translationFrom + " " + translationLogical
+        '.TextMatrix(0, 10) = "From Subloca"
+        .TextMatrix(0, 10) = translationFrom + " " + translationSublocation
+
+        '.TextMatrix(0, 11) = "To Logical"
+        .TextMatrix(0, 11) = translationTo + " " + translationLogical
+        '.TextMatrix(0, 12) = "To Subloca"
+        .TextMatrix(0, 12) = translationTo + " " + translationSublocation
+
+        '.TextMatrix(0, 13) = "New Cond."
+        .TextMatrix(0, 13) = translationNewCond
+        
+        '.TextMatrix(0, 14) = "New Condition Description"
+        .TextMatrix(0, 14) = translationNewConditionDescription
+        
+        '.TextMatrix(0, 15) = "Unit Code"
+        .TextMatrix(0, 15) = translationUnit
+        
         .TextMatrix(0, 16) = "Computer Factor"
         .TextMatrix(0, 20) = "Original Condition Code"
-        '.TextMatrix(0, 21) = "Secundary Qty"
-        .TextMatrix(0, 21) = "Unit 2"
-        .TextMatrix(0, 22) = "Po Item"
+        '.TextMatrix(0, 21) = "Secundary Qty"  'It will be just secondary unit and not 'qty'
+        .TextMatrix(0, 21) = translationSecondaryUnit
+        '.TextMatrix(0, 22) = "Po Item"
+        .TextMatrix(0, 22) = "PO " + translationItem
         '.TextMatrix(0, 23) = "Unit 2"
-        .TextMatrix(0, 23) = "Secundary Qty"
+        '.TextMatrix(0, 23) = "Secundary Qty"
+        .TextMatrix(0, 23) = translationSecondaryQty
         .TextMatrix(0, 25) = "ratio"
         c = 8
         For i = c To .cols
@@ -3139,9 +3261,11 @@ Dim i, col, c, dark As Integer
                 .TextMatrix(0, 17) = "originalcondition"
             Case "02040700" 'InternalTransfer
                 .ColWidth(11) = 1200
-                .TextMatrix(0, 11) = "Logical WH"
+                '.TextMatrix(0, 11) = "Logical WH"
+                .TextMatrix(0, 11) = translationLogicalWarehouse
                 .ColWidth(12) = 1200
-                .TextMatrix(0, 12) = "Sub Location"
+                '.TextMatrix(0, 12) = "Sub Location"
+                .TextMatrix(0, 12) = translationSublocation
             Case "02050300" 'AdjustmentIssue
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
@@ -5240,7 +5364,7 @@ Dim rights As Boolean
     newBUTTON.Enabled = rights
     
     'Added by Juan (2015/02/13) for Multilingual
-    'Call translator.Translate_Forms("frmWarehouse")
+    Call translator.Translate_Forms("frmWarehouse")
     '------------------------------------------
     
     Me.Visible = True

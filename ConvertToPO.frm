@@ -1,6 +1,6 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frm_ConvertToPO 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Convert a transaction"
@@ -54,12 +54,13 @@ Begin VB.Form frm_ConvertToPO
       Width           =   1215
    End
    Begin VB.Label Label1 
+      Alignment       =   1  'Right Justify
       Caption         =   "Requisition Number"
       Height          =   255
-      Left            =   260
+      Left            =   135
       TabIndex        =   2
-      Top             =   260
-      Width           =   1455
+      Top             =   255
+      Width           =   2040
    End
 End
 Attribute VB_Name = "frm_ConvertToPO"
@@ -91,6 +92,10 @@ Private Sub Form_Load()
 Me.Height = 2100
 Me.Width = 4800
 
+    'Added by Juan (2015-02-13) for Multilingual
+    Call translator.Translate_Forms("frm_ConvertToPO")
+    '------------------------------------------
+
 Call GetPosForDoctype
 ssOleDbPO.Columns(0).Width = ssOleDbPO.Width
 
@@ -117,7 +122,7 @@ rs.Open
         
         Do While Not rs.EOF
            
-           ssOleDbPO.AddItem rs!po_ponumb
+           ssOleDbPO.AddItem rs!PO_PONUMB
            rs.MoveNext
            
         Loop

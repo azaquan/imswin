@@ -48,19 +48,20 @@ Public Sub Translate_Forms(Form_name As String)
     Dim i, j, k, indexARRAY, indexTAB, indexCOL As Integer
     Dim originalFILTER, nameCONTROLs, nameCONTROLs2  As String
     Dim withARRAY, withTAB As Boolean
+    Dim lilControl As NavBar
     
     If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
         On Error Resume Next
         With deIms.Recordsets("TR_CONTROLS")
             originalFILTER = .Filter
-            For i = 0 To VB.Forms.count - 1
+            For i = 0 To VB.Forms.Count - 1
                 If VB.Forms(i).Name = Form_name Then
                     .Filter = "trs_enty = '" + Form_name + "'"
                     If .RecordCount > 0 Then
                         .Find "trs_obj = '" + Form_name + "'"
                         If Not .EOF Then VB.Forms(i).Caption = !msg_text
                         
-                            For j = 0 To VB.Forms(i).Controls.count - 1
+                            For j = 0 To VB.Forms(i).Controls.Count - 1
                                 nameCONTROLs = VB.Forms(i).Controls(j).Name
                                 If TypeOf VB.Forms(i).Controls(j) Is lrnavigators.NavBar Or TypeOf VB.Forms(i).Controls(j) Is lrnavigators.LROleDBNavBar Then
                                     Set VB.Forms(i).Controls(j).ActiveConnection = deIms.cnIms
@@ -72,7 +73,7 @@ Public Sub Translate_Forms(Form_name As String)
                                     nameCONTROLs = nameCONTROLs + "(" + Format(indexARRAY) + ")"
                                     .MoveFirst
                                     .Find "trs_obj = '" + nameCONTROLs + "'"
-                                    If Not .EOF Then VB.Forms(i).Controls(j) = !msg_text
+                                    If Not .EOF Then VB.Forms(i).Controls(j).Caption = !msg_text
                                 Else
                                     indexTAB = -1
                                     indexTAB = VB.Forms(i).Controls(j).Tabs
@@ -85,7 +86,7 @@ Public Sub Translate_Forms(Form_name As String)
                                         Next
                                     Else
                                         indexCOL = -1
-                                        indexCOL = VB.Forms(i).Controls(j).Columns.count
+                                        indexCOL = VB.Forms(i).Controls(j).Columns.Count
                                         If indexCOL >= 0 Then
                                             For k = 0 To indexCOL - 1
                                                 nameCONTROLs2 = nameCONTROLs + "." + VB.Forms(i).Controls(j).Columns(k).Caption

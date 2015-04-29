@@ -64,52 +64,33 @@ Begin VB.Form frm_NewPurchase
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Line1"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lbl_Recipients"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "Lbl_search"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "dgRecipientList"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "fra_FaxSelect"
-      Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmd_Add"
-      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(0)=   "OptEmail"
+      Tab(1).Control(1)=   "OptFax"
+      Tab(1).Control(2)=   "Text1"
+      Tab(1).Control(3)=   "CmdAddSupEmail"
+      Tab(1).Control(4)=   "cmdRemove"
+      Tab(1).Control(5)=   "dgRecepients"
       Tab(1).Control(6)=   "txt_Recipient"
-      Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "dgRecepients"
-      Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "cmdRemove"
-      Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "CmdAddSupEmail"
-      Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "Text1"
-      Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "OptFax"
-      Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "OptEmail"
-      Tab(1).Control(12).Enabled=   0   'False
+      Tab(1).Control(7)=   "cmd_Add"
+      Tab(1).Control(8)=   "fra_FaxSelect"
+      Tab(1).Control(9)=   "dgRecipientList"
+      Tab(1).Control(10)=   "Lbl_search"
+      Tab(1).Control(11)=   "lbl_Recipients"
+      Tab(1).Control(12)=   "Line1"
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fra_LineItem"
-      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(0)=   "fra_LI"
       Tab(2).Control(1)=   "Fra_ToFqa"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "fra_LI"
-      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(2)=   "fra_LineItem"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtRemarks"
-      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(0)=   "Txt_RemNo"
       Tab(3).Control(1)=   "CmdcopyLI(1)"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "Txt_RemNo"
-      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(2)=   "txtRemarks"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
@@ -117,11 +98,8 @@ Begin VB.Form frm_NewPurchase
       Tab(4).Control(0)=   "cmd_Addterms"
       Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "txtClause"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "CmdcopyLI(2)"
-      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "Txt_ClsNo"
-      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
          BorderStyle     =   0  'None
@@ -419,7 +397,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   3120
             TabIndex        =   169
             Top             =   225
-            Width           =   855
+            Width           =   735
          End
          Begin VB.Label Label14 
             Alignment       =   1  'Right Justify
@@ -3285,21 +3263,21 @@ Begin VB.Form frm_NewPurchase
          Begin VB.OptionButton showAll 
             Caption         =   "2 yrs only"
             Height          =   255
-            Index           =   1
+            Index           =   2
             Left            =   3240
             TabIndex        =   178
             Top             =   220
             Value           =   -1  'True
-            Width           =   1455
+            Width           =   1575
          End
          Begin VB.OptionButton showAll 
             Caption         =   "Show all"
             Height          =   255
-            Index           =   0
+            Index           =   1
             Left            =   3240
             TabIndex        =   177
             Top             =   20
-            Width           =   1335
+            Width           =   1575
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssOleDbPO 
             Bindings        =   "NewPurchaseOrder.frx":09AC
@@ -3648,7 +3626,7 @@ Begin VB.Form frm_NewPurchase
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   65
       Top             =   7560
       Width           =   4500
@@ -4071,7 +4049,10 @@ End Sub
 
 Private Sub dgRecipientList_BeforeDelete(Cancel As Integer, DispPromptMsg As Integer)
 DispPromptMsg = 0
-If MsgBox("Are you sure you want to Delete the Recepient?", vbYesNo) = vbYes Then
+'2015-04-13 juan
+msg = Trans(M00781)
+msg = IIf(msg = "", "Are you sure you want to Delete the Recepient?", msg)
+If MsgBox(msg, vbYesNo) = vbYes Then
      PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).Text)
 Else
      Cancel = -1
@@ -4117,8 +4098,11 @@ End Sub
 Private Sub dtpRequestedDate_Validate(Cancel As Boolean)
 If FormMode <> mdvisualization And dtpRequestedDate.value < Now() Then
    Cancel = True
-   MsgBox "Date Required cannot be less than Today's Date."
-   dtpRequestedDate.SetFocus
+    '2015-04-13 juan
+    msg = Trans(M00782)
+    msg = IIf(msg = "", "Date Required cannot be less than Today's Date.", msg)
+    MsgBox msg
+    dtpRequestedDate.SetFocus
 End If
 End Sub
 
@@ -4144,8 +4128,10 @@ Dim PoHeaderErrors As Boolean
    
    mpo = Poheader.Ponumb
    If CInt(LblRevNumb) = 0 And Len(Trim(LblAppBy)) = 0 Then
-   
-        If MsgBox("Are you sure you want to Delete  Transaction number " & mpo & "?", vbCritical + vbYesNo, "Imswin") = vbNo Then Exit Sub
+    '2015-04-13 juan
+    msg = Trans(M00783)
+    msg = IIf(msg = "", "Are you sure you want to Delete the transaction number", msg)
+        If MsgBox(msg + " " + mpo & "?", vbCritical + vbYesNo, "Imswin") = vbNo Then Exit Sub
                    Me.MousePointer = vbHourglass
              
                              
@@ -4160,7 +4146,12 @@ Dim PoHeaderErrors As Boolean
                                  
                                  If Poheader.MoveFirst = True Then Call LoadFromPOHEADER
                                    mIsPoNumbComboLoaded = False
-                                   MsgBox "Transaction Order # " & mpo & " was deleted successfully."
+                                   '2015-04-13 juan
+                                    msg = Trans(L00060)
+                                    msg = IIf(msg = "", "Transaction Order", msg)
+                                    msg2 = Trans(M00784)
+                                    msg2 = IIf(msg = "", "was deleted successfully.", msg)
+                                   MsgBox msg + " # " & mpo & " " + msg2
                                  
                                  
                                   
@@ -4189,8 +4180,13 @@ Dim PoHeaderErrors As Boolean
                                 
                                  
                       Else
+                                '2015-04-13 juan
+                                msg = Trans(M00785)
+                                msg = IIf(msg = "", "Errors Occured.Could Not Delete The Transaction Order # ", msg)
+                                msg2 = Trans(M00786)
+                                msg2 = IIf(msg = "", "Please Close the Form and start it once more.", msg2)
                                   deIms.cnIms.RollbackTrans
-                                   MsgBox "Errors Occured.Could Not Delete The Transaction Order # " & mpo & ".Please Close the Form and start it once more.", vbCritical, "Imswin"
+                                   MsgBox msg & mpo & msg2, vbCritical, "Imswin"
                                    Poheader.CancelUpdate: LoadFromPOHEADER
                                  
                                  
@@ -4198,7 +4194,13 @@ Dim PoHeaderErrors As Boolean
                       End If
            Me.MousePointer = vbArrow
   Else
-       MsgBox "This Transaction order # " & mpo & " can not be deleted.", vbInformation, "Imswin"
+    '2015-04-13 juan
+    msg = Trans(M00787)
+    msg = IIf(msg = "", "This Transaction order #", msg)
+    msg2 = Trans(M00788)
+    msg2 = IIf(msg = "", " can not be deleted.", msg2)
+       MsgBox msg + " " & mpo & msg2 + " ", vbInformation, "Imswin"
+       
   End If
    
  Dim imsLock As imsLock.Lock
@@ -4218,12 +4220,16 @@ Dim PoHeaderErrors As Boolean
                   If x = 0 Then
                     
                          If UCase(Trim$(PoItem.Stasliit)) = "OP" Then
-                              
-                                  MsgBox "Can not delete this Line Item.It is being carried from Previous Revision.", vbInformation, "Imswin"
+                            '2015-04-13 juan
+                            msg = Trans("M00788")
+                            msg = IIf(msg = "", "Can not delete this Line Item. It is being carried from Previous Revision.", msg)
+                                  MsgBox msg, vbInformation, "Imswin"
                          
                          Else
-                         
-                                 If MsgBox("Are you sure you want to Delete this Record?", vbCritical + vbYesNo, "Imswin") = vbYes Then
+                            '2015-04-13 juan
+                            msg = Trans("M00789")
+                            msg = IIf(msg = "", "Are you sure you want to Delete this Record?", msg)
+                                 If MsgBox(msg, vbCritical + vbYesNo, "Imswin") = vbYes Then
                                          If PoItem.DeleteCurrentLI Then
                                             If PoItem.Count > 0 Then
                                               LoadFromPOITEM
@@ -4242,7 +4248,11 @@ Dim PoHeaderErrors As Boolean
                       If Poheader.revinumb = 1 And PoItem.EditMode = 2 Then
                            If PoItem.DeleteCurrentLI Then LoadFromPOITEM
                       ElseIf (Poheader.revinumb = 1 Or Poheader.revinumb > 1) And PoItem.EditMode <> 2 Then
-                            MsgBox "Can not delete the Line Item.It is being carried over from the previous Revisions.", vbInformation, "Imswin"
+                             '2015-04-13 juan
+                            msg = Trans("M00788")
+                            msg = IIf(msg = "", "Can not delete this Line Item. It is being carried from Previous Revision.", msg)
+                           
+                            MsgBox msg, vbInformation, "Imswin"
                       End If
                       
                   End If
@@ -4409,9 +4419,11 @@ deIms.rsActiveStockmasterLookup.MoveFirst
 deIms.rsActiveStockmasterLookup.Find " stk_stcknumb ='" & Trim(ssdcboCommoditty) & "'"
 
 If deIms.rsActiveStockmasterLookup.AbsolutePosition = adPosBOF Or deIms.rsActiveStockmasterLookup.AbsolutePosition = adPosEOF Or deIms.rsActiveStockmasterLookup.AbsolutePosition = adPosUnknown Then
-
+    '2015-04-13 juan
+    msg = Trans("M00790")
+    msg = IIf(msg = "", "Stock Number does not exist. Please enter one from the list.", msg)
         Cancel = True
-        MsgBox " Stock Number does not exist. Please enter one from the list.", vbInformation, "Imswin"
+        MsgBox msg, vbInformation, "Imswin"
         
 ElseIf Trim(ssdcboCommoditty.Text) <> Trim(ssdcboCommoditty.Tag) Then
     
@@ -4459,7 +4471,10 @@ ssdcboDelivery.SelLength = 0
 ssdcboDelivery.Tag = ssdcboDelivery.Columns(0).Text
 Exit Sub
 Handler:
- MsgBox "Error occurred during ssdcboDelivery_Click.Please try again.Error description  " & Err.Description, vbInformation, "Imswin"
+    '2015-04-13 juan
+    msg = Trans("M00791")
+    msg = IIf(msg = "", "Error occurred during ssdcboDelivery_Click.Please try again.Error description", msg)
+ MsgBox msg + "  " & Err.Description, vbInformation, "Imswin"
  Err.Clear
 End Sub
 
@@ -4496,7 +4511,10 @@ Private Sub ssdcboDelivery_Validate(Cancel As Boolean)
 If Len(Trim$(ssdcboDelivery.Text)) > 0 And Not ssdcboDelivery.IsItemInList Then
   Cancel = True
    ssdcboDelivery.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-13 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+ MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -4517,7 +4535,12 @@ End Sub
 Private Sub ssdcboManNumber_KeyPress(KeyAscii As Integer)
 
  If Len(ssdcboManNumber & Chr(KeyAscii)) > 30 And KeyAscii <> 8 Then
-   MsgBox "Input is restricted to 30 cahracters"
+    '2015-04-13 juan
+    msg = Trans("M00792")
+    msg = IIf(msg = "", "", msg)
+    msg2 = Trans("M00793")
+    msg2 = IIf(msg = "", "", msg2)
+   MsgBox msg + "30 " + msg2
    KeyAscii = 0
 End If
 
@@ -4537,7 +4560,13 @@ If Len(Trim$(ssdcboManNumber.Text)) > 0 Then
     If Len(ssdcboManNumber) > 30 Then
        Cancel = True
        ssdcboManNumber.SetFocus
-       MsgBox "Manufacturer text can not be more than 30 characters."
+        '2015-04-15 juan
+        msg = Trans("M00792")
+        msg = IIf(msg = "", "Input is restricted to ", msg)
+        msg2 = Trans("M00793")
+        msg2 = IIf(msg2 = "", "Characters", msg2)
+        MsgBox msg + "30 " + msg2
+       'MsgBox "Manufacturer text can not be more than 30 characters."
     End If
 End If
 End Sub
@@ -4562,8 +4591,10 @@ If Len(Trim(ssdcboRequisition.Text)) = 0 Then
 End If
     
 If ssdcboRequisition.IsItemInList = False Then
-
-    MsgBox "Requisition does not exist. Please select one from the list.", vbInformation, "Ims"
+    '2015-04-13 juan
+    msg = Trans("M00794")
+    msg = IIf(msg = "", "Requisition does not exist. Please select one from the list.", msg)
+    MsgBox msg, vbInformation, "Ims"
     Cancel = True
     ssdcboRequisition.SetFocus
 Else
@@ -4604,42 +4635,49 @@ Private Sub ssdcboShipper_Validate(Cancel As Boolean)
 If Len(Trim$(ssdcboShipper.Text)) > 0 And Not ssdcboShipper.IsItemInList Then
   Cancel = True
    ssdcboShipper.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+ MsgBox msg, , "Imswin"
 End If
 End Sub
 
 Private Sub SSOleDBCompany_DropDown()
-SSOleDBcompany.RemoveAll
+SSOleDBCompany.RemoveAll
 If deIms.rsActiveCompany.State = 1 Then deIms.rsActiveCompany.Close
 Call deIms.ActiveCompany(FNameSpace)
 
 Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
 End Sub
 
 Private Sub SSOleDBCompany_GotFocus()
-SSOleDBcompany.SelLength = 0
-SSOleDBcompany.SelStart = 0
-Call HighlightBackground(SSOleDBcompany)
+SSOleDBCompany.SelLength = 0
+SSOleDBCompany.SelStart = 0
+Call HighlightBackground(SSOleDBCompany)
 End Sub
 
 Private Sub SSOleDBCompany_KeyDown(KeyCode As Integer, Shift As Integer)
-If Not SSOleDBcompany.DroppedDown Then SSOleDBcompany.DroppedDown = True
+If Not SSOleDBCompany.DroppedDown Then SSOleDBCompany.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBCompany_LostFocus()
-Call NormalBackground(SSOleDBcompany)
+Call NormalBackground(SSOleDBCompany)
 End Sub
 
 Private Sub SSOleDBCompany_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBcompany.Text)) > 0 Then
-   If SSOleDBcompany.IsItemInList = False Then
+If Len(Trim$(SSOleDBCompany.Text)) > 0 Then
+   If SSOleDBCompany.IsItemInList = False Then
         Cancel = True
-        SSOleDBcompany.SetFocus
-        MsgBox "Invalid Value For Company Code.", , "Imswin"
+        SSOleDBCompany.SetFocus
+        '2015-04-13 juan
+        msg = Trans("M00122")
+        msg = IIf(msg = "", "Invalid Value", msg)
+        MsgBox msg, , "imswin"
+        'MsgBox "Invalid Value For Company Code.", , "Imswin"
    
      
     End If
@@ -4676,13 +4714,16 @@ If Len(Trim$(SSOleDBCurrency.Text)) > 0 Then
     If Not SSOleDBCurrency.IsItemInList Then
          Cancel = True
           SSOleDBCurrency.SetFocus
-        MsgBox "Invalid Value", , "Imswin"
+        '2015-04-13 juan
+        msg = Trans("M00122")
+        msg = IIf(msg = "", "Invalid Value", msg)
+        MsgBox msg, , "Imswin"
     Else
       If lookups Is Nothing Then Set lookups = Mainpo.lookups
       If lookups.CurrencyDetlExist(SSOleDBCurrency.Columns(0).Text) = False Then
          MsgBox "No Currency Detail for today.Please Update Currency Table"
-         SSOleDBcompany.Text = ""
-         SSOleDBcompany.SetFocus
+         SSOleDBCompany.Text = ""
+         SSOleDBCompany.SetFocus
          Cancel = True
       End If
           
@@ -4729,7 +4770,11 @@ If Len(Trim$(SSOleDBCustCategory.Text)) > 0 Then
    If SSOleDBCustCategory.IsItemInList = False Then
         Cancel = True
         SSOleDBCustCategory.SetFocus
-        MsgBox "Invalid Value For Customs category.", , "Imswin"
+        '2015-04-13 juan
+        msg = Trans("M00122")
+        msg = IIf(msg = "", "Invalid Value", msg)
+        MsgBox msg, , "Imswin"
+        'MsgBox "Invalid Value For Customs category.", , "Imswin"
     End If
 End If
 End Sub
@@ -4843,7 +4888,10 @@ Private Sub SSOleDBDocType_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBDocType.Text)) > 0 And Not SSOleDBDocType.IsItemInList Then
   Cancel = True
    SSOleDBDocType.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "", msg)
+ MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -4870,7 +4918,10 @@ Private Sub SSOleDBInvLocation_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBInvLocation.Text)) > 0 And Not SSOleDBInvLocation.IsItemInList Then
   Cancel = True
    SSOleDBInvLocation.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -4917,7 +4968,10 @@ Private Sub SSOleDBOriginator_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBOriginator.Text)) > 0 And Not SSOleDBOriginator.IsItemInList Then
   Cancel = True
    SSOleDBOriginator.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -5011,7 +5065,10 @@ Private Sub SSOleDBPriority_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBPriority.Text)) > 0 And Not SSOleDBPriority.IsItemInList Then
   Cancel = True
    SSOleDBPriority.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -5049,7 +5106,10 @@ Private Sub SSOleDBShipTo_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBShipTo.Text)) > 0 And Not SSOleDBShipTo.IsItemInList Then
   Cancel = True
    SSOleDBShipTo.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -5151,7 +5211,10 @@ Private Sub SSOleDBsupplier_Validate(Cancel As Boolean)
 If Len(Trim$(SSoledbSupplier.Text)) > 0 And Not SSoledbSupplier.IsItemInList Then
   Cancel = True
    SSoledbSupplier.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 Else 'JCG 2008/01/14
     newSupplier = True 'JCG 2008/01/14
 End If
@@ -5191,7 +5254,10 @@ Private Sub SSOleDBToBeUsedFor_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDBToBeUsedFor.Text)) > 0 And Not SSOleDBToBeUsedFor.IsItemInList Then
   Cancel = True
    SSOleDBToBeUsedFor.SetFocus
- MsgBox "Invalid Value", , "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00122")
+    msg = IIf(msg = "", "Invalid Value", msg)
+    MsgBox msg, , "Imswin"
 End If
 End Sub
 
@@ -5280,8 +5346,10 @@ If Len(Trim$(SSOleDBUnit.Text)) > 0 Then
       
       If chk_FrmStkMst.value = 1 And Len(ssdcboCommoditty) > 0 Then
         Cancel = True
-        
-        MsgBox "Unit missing", , "Imswin"
+        '2015-04-15 juan
+        msg = Trans("M00795")
+        msg = IIf(msg = "", "Unit missing", msg)
+        MsgBox msg, , "Imswin"
         SSOleDBUnit.SetFocus
        End If
    End If
@@ -5290,7 +5358,7 @@ If Len(Trim$(SSOleDBUnit.Text)) > 0 Then
 End Sub
 
 Private Sub SSoleEccnNo_Click()
-SSoleEccnNo.Tag = Trim(UCase(SSoleEccnNo.Columns(0).Text))
+SSoleEccnno.Tag = Trim(UCase(SSoleEccnno.Columns(0).Text))
 End Sub
 
 Private Sub SSoleEccnNo_DropDown()
@@ -5298,31 +5366,33 @@ Call FillEccnCombos(lookups)
 End Sub
 
 Private Sub SSoleEccnNo_GotFocus()
-Call HighlightBackground(SSoleEccnNo)
+Call HighlightBackground(SSoleEccnno)
 End Sub
 
 Private Sub SSoleEccnNo_KeyDown(KeyCode As Integer, Shift As Integer)
  If FormMode <> mdvisualization Then
-    If Not SSoleEccnNo.DroppedDown Then SSoleEccnNo.DroppedDown = True
+    If Not SSoleEccnno.DroppedDown Then SSoleEccnno.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleEccnNo_KeyPress(KeyAscii As Integer)
-If FormMode <> mdvisualization Then SSoleEccnNo.MoveNext
+If FormMode <> mdvisualization Then SSoleEccnno.MoveNext
 End Sub
 
 Private Sub SSoleEccnNo_LostFocus()
-Call NormalBackground(SSoleEccnNo)
+Call NormalBackground(SSoleEccnno)
 End Sub
 
 Private Sub SSoleEccnno_Validate(Cancel As Boolean)
 
 If chk_usexportLI.value = 0 Then Exit Sub
 
-If SSoleEccnNo.IsItemInList = False Then
-
-        MsgBox "Eccn # does not exist in the list, please select a valid one.", , "Imswin"
-        SSoleEccnNo.SetFocus
+If SSoleEccnno.IsItemInList = False Then
+        '2015-04-15 juan
+        msg = Trans("M00796")
+        msg = IIf(msg = "", "Eccn # does not exist in the list, please select a valid one.", msg)
+        MsgBox msg, , "Imswin"
+        SSoleEccnno.SetFocus
         Cancel = True
         
 End If
@@ -5360,8 +5430,10 @@ Private Sub SSoleSourceofInfo_Validate(Cancel As Boolean)
 If chk_usexportLI.value = 0 Then Exit Sub
 
 If SSOleSourceofinfo.IsItemInList = False Then
-
-        MsgBox "Source Of Info does not exist in the list, please select a valid one.", , "Imswin"
+        '2015-04-15 juan
+        msg = Trans("M00797")
+        msg = IIf(msg = "", "Source Of Info does not exist in the list, please select a valid one.", msg)
+        MsgBox msg, , "Imswin"
         SSOleSourceofinfo.SetFocus
         Cancel = True
         
@@ -5407,7 +5479,10 @@ If (OptEmail.value = True Or OptFax.value = True) Then
         '    dgRecepients_DblClick
         End If
  Else
-    MsgBox "Please check Email or Fax.", vbInformation, "Imswin"
+    '2015-04-15 juan
+    msg = Trans("M00798")
+    msg = IIf(msg = "", "Please check Email or Fax.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
  End If
     Exit Sub
@@ -5503,7 +5578,9 @@ On Error GoTo errorHandler
 If FormMode = mdCreation Then
 
     dgRecipientList.DeleteSelected
-    
+'2015-04-15 juan
+msg = Trans("M00788")
+msg = IIf(msg = "", "Can not Delete the Recepient ,it is being carried over from the Previous Revisions.", msg)
 ElseIf FormMode = mdModification Then
     If IsNothing(lookups) Then Set lookups = Mainpo.lookups
       x = lookups.CanUserDeleteRecepient(Poheader.Ponumb, IIf(Poheader.revinumb = 0, 0, Poheader.Originalrevinumb - 1), dgRecipientList.Columns(0).Text)
@@ -5513,14 +5590,14 @@ ElseIf FormMode = mdModification Then
                         If PoReceipients.EditMode = 2 Then
                                dgRecipientList.DeleteSelected
                            Else
-                               MsgBox "Can not Delete the Recepient ,it is being carried over from the Previous Revisions.", vbInformation, "Imswin"
+                               MsgBox msg, vbInformation, "Imswin"
                            End If
                  Else
                                dgRecipientList.DeleteSelected
                  End If
                  
          ElseIf x = 1 Then
-                                 MsgBox "Can not Delete the Recepient ,it is being carried over from the Previous Revisions.", vbInformation, "Imswin"
+                                 MsgBox msg, vbInformation, "Imswin"
                 
          End If
                    
@@ -5540,9 +5617,11 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 Dim x As Integer
-
+'2015-04-15 juan
+msg = Trans("M00799")
+msg = IIf(msg = "", "You will lose any unsaved changes you might have made. Are you sure you want to exit?", msg)
 If FormMode = mdModification Or FormMode = mdCreation Then
-   x = MsgBox("You will lose any unsaved changes you might have made. Are you sure you want to exit?", vbCritical + vbYesNo, "Imswin")
+   x = MsgBox(msg, vbCritical + vbYesNo, "Imswin")
 Else
   x = vbYes
 End If
@@ -5618,6 +5697,21 @@ Dim poFqaErrors As Boolean
 
 On Error GoTo Handler
 
+'2015-04-15 juan
+msg = Trans("M00800")
+msg = IIf(msg = "", "You did not enter any Transaction number. Would you like the system to generate one for you ?", msg)
+msg2 = Trans("M00801")
+msg2 = IIf(msg2 = "", "Could not save the Transaction. Error occurred while trying to implement autonumbering. Please try again.", msg2)
+msg3 = Trans("M00802")
+msg3 = IIf(msg3 = "", "Could not save the Transaction. There is no Auto-numbering associated with this document type. Please fill in a Transaction Number and try saving again.", msg3)
+msg4 = Trans("M00803")
+msg4 = IIf(msg4 = "", "The Transaction number you just saved is ", msg4)
+msg5 = Trans("M00804")
+msg5 = IIf(msg5 = "", "Errors Occured.Could Not Save The Transaction Order.", msg5)
+msg6 = Trans("M00805")
+msg6 = IIf(msg6 = "", "Unknown errors occurred while saving ", msg6)
+msg7 = Trans("M00806")
+msg7 = IIf(msg7 = "", " .Could not save the po.", msg7)
 Select Case sst_PO.Tab
         Case 0
         
@@ -5625,8 +5719,7 @@ Select Case sst_PO.Tab
             
             If Len(Trim(ssOleDbPO)) = 0 And FormMode = mdCreation Then 'AM
             
-                    Response_ = MsgBox("You did not enter any Transaction number. Would you like" & _
-                      " the system to generate one for you ?", vbInformation + vbYesNo, "Imswin") 'AM
+                    Response_ = MsgBox(msg, vbInformation + vbYesNo, "Imswin") 'AM
                          
                     If Response_ = vbNo Then 'AM
                         NavBar1.SaveEnabled = True
@@ -5704,7 +5797,7 @@ Select Case sst_PO.Tab
                         
                         Case 1
                         
-                            MsgBox "Could not save the Transaction. Error occurred while trying to implement autonumbering. Please try again.", vbOKOnly, "Imswin" 'AM
+                            MsgBox msg2, vbOKOnly, "Imswin" 'AM
                             GoTo Handler
                             Exit Sub 'AM
                             
@@ -5712,7 +5805,7 @@ Select Case sst_PO.Tab
                             
                         Case 2
                             
-                            MsgBox "Could not save the Transaction. There is no Auto-numbering associated with this document type. Please fill in a Transaction Number and try saving again.", vbCritical + vbOKOnly, "Imswin" 'AM
+                            MsgBox msg3, vbCritical + vbOKOnly, "Imswin" 'AM
                                                 deIms.cnIms.RollbackTrans
                                                 NavBar1.SaveEnabled = True
                                                 Screen.MousePointer = vbArrow
@@ -5816,7 +5909,7 @@ Select Case sst_PO.Tab
                          
                          
                           If Response_ = vbYes Then
-                                MsgBox "The Transaction number you just saved is " & mpo & " .", vbOKOnly, "Imswin"
+                                MsgBox msg4 & mpo & " .", vbOKOnly, "Imswin"
                           End If
                         
                            Poheader.Requery
@@ -5824,7 +5917,12 @@ Select Case sst_PO.Tab
                            'LoadFromPOHEADER
                            If Poheader.Move(mpo) = True Then Call LoadFromPOHEADER
                            mIsPoNumbComboLoaded = False
-                           FrmShowApproving.Label2.Caption = "Transaction Order # " & mpo & " saved successfully"
+                            '2015-04-16 juan
+                            msg8 = Trans("L00060")
+                            msg8 = IIf(msg8 = "", "Transaction Order # ", msg8)
+                            msg9 = Trans("M00024")
+                            msg9 = IIf(msg9 = "", "saved successfully", msg9)
+                           FrmShowApproving.Label2.Caption = msg8 & mpo & " " + msg9
                           'So that we are on the Po which the user has just saved
                         
                            WriteStatus ("")
@@ -5832,7 +5930,7 @@ Select Case sst_PO.Tab
                          
                          deIms.cnIms.RollbackTrans
                          FrmShowApproving.Label2.Caption = "Errors Occured. Could not save the transaction order."
-                         MsgBox "Errors Occured.Could Not Save The Transaction Order.", vbCritical, "Ims" ' Added on 06/25
+                         MsgBox msg5, vbCritical, "Ims" ' Added on 06/25
                          WriteStatus ("Rolling Back the Transaction")
                          Poheader.CancelUpdate: LoadFromPOHEADER
                          
@@ -5894,7 +5992,8 @@ Handler:
  Err.Clear
   Unload FrmShowApproving
   Err.Clear
- MsgBox "Unknown errors occurred while saving " & ErrorSource & " .Could not save the po." & vbCrLf & "Error description   " & str, vbCritical, "Imswin"
+  
+ MsgBox msg6 & ErrorSource & msg7 & vbCrLf & "Error description   " & str, vbCritical, "Imswin"
 
 If IsErrorinTransaction = 1 Then deIms.cnIms.RollbackTrans
 IsErrorinTransaction = 0
@@ -6080,9 +6179,17 @@ Private Sub NavBar1_OnEditClick()
                         End If
                         
                         'jawdat, end copy
-
+    '2015-04-16 juan
+    msg = Trans("M00807")
+    msg = IIf(msg = "", " Can not Edit this Document ,It is Closed", msg)
+    msg2 = Trans("M00808")
+    msg2 = IIf(msg2 = "", " You will Create a new Revision. Do You want to Continue ?", msg2)
+    msg3 = Trans("M00809")
+    msg3 = IIf(msg3 = "", "The Transaction Order can not be modified. The Document type does not allow any Revisions.", msg3)
+    msg4 = Trans("M00810")
+    msg4 = IIf(msg4 = "", "User can not Edit this Document", msg4)
     If Trim$(Poheader.stas) = "CA" Or Trim$(Poheader.stas) = "CL" Then
-         MsgBox " Can not Edit this Document ,It is Closed"
+         MsgBox msg
          GoTo CANNOTEDIT
     End If
      
@@ -6092,7 +6199,7 @@ Private Sub NavBar1_OnEditClick()
          
          If Len(Trim$(LblAppBy)) > 0 And CanDocTypeBeRevised(Poheader.Docutype) Then
                 
-                If MsgBox(" You will Create a new Revision. Do You want to Continue ?", vbYesNo) = vbYes Then
+                If MsgBox(msg2, vbYesNo) = vbYes Then
                     
                     LblRevNumb.Caption = IIf(Len(LblRevNumb.Caption) = 0, 0, CInt(LblRevNumb.Caption) + 1)
                     LblRevDate = Format(Now(), "MM/DD/YY")
@@ -6105,7 +6212,7 @@ Private Sub NavBar1_OnEditClick()
                  
         ElseIf Len(Trim$(LblAppBy)) > 0 And CanDocTypeBeRevised(Poheader.Docutype) = False Then
                  
-            Call MsgBox("The Transaction Order can not be modified. The Document type does not allow any Revisions.", vbInformation, "Imswin")
+            Call MsgBox(msg3, vbInformation, "Imswin")
              
             GoTo CANNOTEDIT
         
@@ -6150,7 +6257,7 @@ Private Sub NavBar1_OnEditClick()
                        
                       
      Else
-        MsgBox " User can not Edit this Document "
+        MsgBox msg4
              
      End If
     
@@ -6163,6 +6270,11 @@ CANNOTEDIT:
 End Sub
 
 Private Sub NavBar1_OnFirstClick()
+'2015-04-16 juan
+msg = Trans("M00811")
+msg = IIf(msg = "", "Remarks can not be empty.", msg)
+msg2 = Trans("M00812")
+msg2 = IIf(msg2 = "", "Clause can not be empty.", msg2)
 Select Case sst_PO.Tab
         Case 0
             If Poheader.MoveFirst Then LoadFromPOHEADER
@@ -6201,7 +6313,7 @@ Select Case sst_PO.Tab
                           If Len(Trim$(txtRemarks)) > 0 Then
                              savetoPORemarks
                           Else
-                             MsgBox "Remarks can not be empty."
+                             MsgBox msg
                              Exit Sub
                           End If
                End If
@@ -6217,7 +6329,7 @@ Select Case sst_PO.Tab
                           If Len(Trim$(txtClause)) > 0 Then
                              savetoPOclause
                           Else
-                             MsgBox "Clause can not be empty."
+                             MsgBox msg2
                              Exit Sub
                           End If
                End If
@@ -6230,7 +6342,11 @@ Select Case sst_PO.Tab
 End Sub
 
 Private Sub NavBar1_OnLastClick()
- 
+ '2015-04-16 juan
+msg = Trans("M00811")
+msg = IIf(msg = "", "Remarks can not be empty.", msg)
+msg2 = Trans("M00812")
+msg2 = IIf(msg2 = "", "Clause can not be empty.", msg2)
  Select Case sst_PO.Tab
         Case 0
             If Poheader.MoveLast Then LoadFromPOHEADER
@@ -6274,7 +6390,7 @@ Private Sub NavBar1_OnLastClick()
                           If Len(Trim$(txtRemarks)) > 0 Then
                              savetoPORemarks
                           Else
-                             MsgBox "Remarks can not be empty."
+                             MsgBox msg
                              Exit Sub
                           End If
             End If
@@ -6290,7 +6406,7 @@ Private Sub NavBar1_OnLastClick()
                           If Len(Trim$(txtClause)) > 0 Then
                              savetoPOclause
                           Else
-                             MsgBox "Clause can not be empty."
+                             MsgBox msg2
                              Exit Sub
                           End If
                End If
@@ -6306,7 +6422,23 @@ Private Sub NavBar1_OnLastClick()
 End Sub
 
 Private Sub NavBar1_OnNewClick()
-  
+'2015-04-16 juan
+msg = Trans("M00813")
+msg = IIf(msg = "", "Some error has occurred, Could not create a New Transaction. Please close the form and try once more, also check if AUTONUMBERING is also configured.", msg)
+msg2 = Trans("M00814")
+msg2 = IIf(msg2 = "", "Error occurred while trying to create a new record for FQA. Please close the form try again.", msg2)
+msg3 = Trans("M00815")
+msg3 = IIf(msg3 = "", "Error In Adding A POITEM", msg3)
+msg4 = Trans("M00811")
+msg4 = IIf(msg4 = "", "Error In Adding A POITEM", msg4)
+msg5 = Trans("M00816")
+msg5 = IIf(msg5 = "", "Error In Adding An FQA", msg5)
+msg6 = Trans("M00817")
+msg6 = IIf(msg6 = "", "Error In Adding A Remarks", msg6)
+msg7 = Trans("M00818")
+msg7 = IIf(msg7 = "", "Clause can not be empty.", msg7)
+msg8 = Trans("M00819")
+msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
   Select Case (sst_PO.Tab)
    
    Case 0
@@ -6344,7 +6476,7 @@ Private Sub NavBar1_OnNewClick()
            
            If CheckErrors = False Then
            
-               MsgBox "Some error has occurred, Could not create a New Transaction. Please close the form and try once more, also check if AUTONUMBERING is also configured." 'AM
+               MsgBox msg 'AM
            
            Else
            
@@ -6354,11 +6486,11 @@ Private Sub NavBar1_OnNewClick()
                                 
                                 If CheckErrors = False Then
                                 
-                                    MsgBox "Error occurred while trying to create a new record for FQA. Please close the form try again." & Err.Description, vbCritical, "Ims"
+                                    MsgBox msg2 + " " + Err.Description, vbCritical, "Ims"
                                 
                                 Else
                                 
-                                     Call FillFromFQAControls(SSOleDBcompany.Tag, "Purch")
+                                     Call FillFromFQAControls(SSOleDBCompany.Tag, "Purch")
                                      Call SavetoFROMFQA
                                      POFqa.Ponumb = Poheader.Ponumb
                                      SetInitialVAluesPoHeader
@@ -6406,7 +6538,7 @@ Private Sub NavBar1_OnNewClick()
                 
                 If CheckErrors = False Then
                    
-                   MsgBox "Error In Adding A POITEM"
+                   MsgBox msg3
                 
                 Else
                    
@@ -6418,7 +6550,7 @@ Private Sub NavBar1_OnNewClick()
                             
                             CheckErrors = POFqa.AddNew
                            
-                           Call InitializeNewTOFQARecord(SSOleDBcompany.Tag, SSOleDBInvLocation.Tag)
+                           Call InitializeNewTOFQARecord(SSOleDBCompany.Tag, SSOleDBInvLocation.Tag)
                            
                   Else
                   
@@ -6428,7 +6560,7 @@ Private Sub NavBar1_OnNewClick()
                            
                            If CheckErrors = False Then
                            
-                                MsgBox "Error In Adding An FQA"
+                                MsgBox msg5
                         
                            Else
                            
@@ -6462,7 +6594,7 @@ Private Sub NavBar1_OnNewClick()
                 If Len(Trim$(txtRemarks)) > 0 Then
                    savetoPORemarks
                 Else
-                   MsgBox "Remarks can not be empty."
+                   MsgBox msg4
                    Exit Sub
                 End If
             
@@ -6473,7 +6605,7 @@ Private Sub NavBar1_OnNewClick()
         
         CheckErrors = PORemark.AddNew
         If CheckErrors = False Then
-             MsgBox "Error In Adding A Remarks"
+             MsgBox msg6
         Else
              ClearPoRemarks
              txtRemarks.Text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
@@ -6489,7 +6621,7 @@ Private Sub NavBar1_OnNewClick()
                          If Len(Trim$(txtClause)) > 0 Then
                              savetoPOclause
                           Else
-                             MsgBox "Clause can not be empty."
+                             MsgBox mag7
                              Exit Sub
                           End If
           End If
@@ -6497,7 +6629,7 @@ Private Sub NavBar1_OnNewClick()
           
         CheckErrors = POClause.AddNew
         If CheckErrors = False Then
-             MsgBox "Error In Adding A Notes/Clause"
+             MsgBox msg8
         Else
              ClearPoclause
              txtClause.Text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
@@ -6511,7 +6643,11 @@ Private Sub NavBar1_OnNewClick()
 End Sub
 
 Private Sub NavBar1_OnNextClick()
-
+'2015-04-17 juan
+msg = Trans("M00811")
+msg = IIf(msg = "", "Remarks can not be empty.", msg)
+msg2 = Trans("M00812")
+msg2 = IIf(msg2 = "", "Clause can not be empty.", msg2)
  Select Case sst_PO.Tab
         Case 0
             
@@ -6556,7 +6692,7 @@ Private Sub NavBar1_OnNextClick()
               If Len(Trim$(txtRemarks)) > 0 Then
                        savetoPORemarks
                     Else
-                       MsgBox "Remarks can not be empty."
+                       MsgBox msg
                        Exit Sub
                     End If
               End If
@@ -6572,7 +6708,7 @@ Private Sub NavBar1_OnNextClick()
                           If Len(Trim$(txtClause)) > 0 Then
                              savetoPOclause
                           Else
-                             MsgBox "Clause can not be empty."
+                             MsgBox msg2
                              Exit Sub
                           End If
                End If
@@ -6587,8 +6723,11 @@ Private Sub NavBar1_OnNextClick()
 End Sub
 
 Private Sub NavBar1_OnPreviousClick()
-
-
+'2015-04-17 juan
+msg = Trans("M00820")
+msg = IIf(msg = "", "Can not be empty", msg)
+msg2 = Trans("M00812")
+msg2 = IIf(msg2 = "", "Clause can not be empty.", msg2)
  Select Case sst_PO.Tab
         Case 0
             If Poheader.MovePrevious Then LoadFromPOHEADER
@@ -6626,7 +6765,7 @@ Private Sub NavBar1_OnPreviousClick()
               If Len(Trim$(txtRemarks)) > 0 Then
                        savetoPORemarks
                     Else
-                       MsgBox " can not be empty"
+                       MsgBox msg
                        Exit Sub
                     End If
               End If
@@ -6642,7 +6781,7 @@ Private Sub NavBar1_OnPreviousClick()
                           If Len(Trim$(txtClause)) > 0 Then
                              savetoPOclause
                           Else
-                             MsgBox "Clause can not be empty."
+                             MsgBox msg2
                              Exit Sub
                           End If
                End If
@@ -6813,8 +6952,8 @@ On Error GoTo Handler
             
             Else
                 
-                SSoleEccnNo.Tag = Eccnid
-                SSoleEccnNo = Eccnno
+                SSoleEccnno.Tag = Eccnid
+                SSoleEccnno = Eccnno
                 Chk_license.value = IIf(EcnLicense = True, 1, 0)
                 SSOleSourceofinfo.Tag = Sourceid
                 SSOleSourceofinfo = Sourceno
@@ -6823,15 +6962,15 @@ On Error GoTo Handler
             
         End If
         
-        If Len(Trim(SSoleEccnNo.Tag)) = 0 Then SSoleEccnNo.Tag = 0
+        If Len(Trim(SSoleEccnno.Tag)) = 0 Then SSoleEccnno.Tag = 0
         If Len(Trim(SSOleSourceofinfo.Tag)) = 0 Then SSOleSourceofinfo.Tag = 0
         
-        If SSoleEccnNo.Tag > 0 Then
+        If SSoleEccnno.Tag > 0 Then
                    
-                   SSoleEccnNo.Enabled = False
-        ElseIf SSoleEccnNo.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
+                   SSoleEccnno.Enabled = False
+        ElseIf SSoleEccnno.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
                    
-                   SSoleEccnNo.Enabled = True
+                   SSoleEccnno.Enabled = True
         End If
         
         If SSOleSourceofinfo.Tag > 0 Then
@@ -6847,7 +6986,10 @@ On Error GoTo Handler
   
  Exit Sub
 Handler:
-  MsgBox "Error occurred while processing the units of the selected commoditty number." & vbCrLf & "Error Description   " & Err.Description
+'2015-04-17 juan
+msg = Trans("M00821")
+msg = IIf(msg = "", "Error occurred while processing the units of the selected commoditty number.", msg)
+  MsgBox msg & vbCrLf & "Error Description   " & Err.Description
   Err.Clear
   ssdcboCommoditty = ""
   
@@ -6887,7 +7029,7 @@ Private Sub SSOleDBCompany_Click()
     Dim value As String
     
     deIms.rsCompanyLocations.Filter = ""
-    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBcompany.Columns(0).Text) & "'"
+    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBCompany.Columns(0).Text) & "'"
 
     If deIms.rsCompanyLocations.EOF Then
          SSOleDBInvLocation.RemoveAll
@@ -6905,9 +7047,9 @@ Private Sub SSOleDBCompany_Click()
        Loop
 
     End If
-SSOleDBcompany.SelStart = 0
-SSOleDBcompany.SelLength = 0
-SSOleDBcompany.Tag = SSOleDBcompany.Columns(0).Text
+SSOleDBCompany.SelStart = 0
+SSOleDBCompany.SelLength = 0
+SSOleDBCompany.Tag = SSOleDBCompany.Columns(0).Text
 End Sub
 
 Private Sub SSOleDBCurrency_Click()
@@ -7138,12 +7280,12 @@ LblCompanyCode.Caption = Poheader.CompCode
 deIms.rsActiveCompany.MoveFirst
 deIms.rsActiveCompany.Find ("com_compcode='" & Poheader.CompCode & "'")
 
-SSOleDBcompany.Tag = Poheader.CompCode
+SSOleDBCompany.Tag = Poheader.CompCode
 
 If Not deIms.rsActiveCompany.AbsolutePosition = adPosEOF Then
-       SSOleDBcompany.Text = deIms.rsActiveCompany!com_name
+       SSOleDBCompany.Text = deIms.rsActiveCompany!com_name
 Else
-       SSOleDBcompany.Text = Poheader.CompCode
+       SSOleDBCompany.Text = Poheader.CompCode
        MsgBox "Invalid company code. Company Does not exist"
 End If
 
@@ -7452,7 +7594,7 @@ End If
    chk_usexportLI = IIf(PoItem.usexport = True, 1, 0)
    Chk_license = IIf(PoItem.Eccnlicsreq = True, 1, 0)
  
- SSoleEccnNo.Tag = PoItem.Eccnid
+ SSoleEccnno.Tag = PoItem.Eccnid
  'SSoleEccnno.Text = PoItem.Eccnno
  
 If GRsEccnNo Is Nothing Then
@@ -7467,9 +7609,9 @@ If Len(PoItem.Eccnid) > 0 And GRsEccnNo.RecordCount > 0 Then
  GRsEccnNo.MoveFirst
  GRsEccnNo.Find "eccnid='" & PoItem.Eccnid & "'"
          If GRsEccnNo.EOF = False Then
-            SSoleEccnNo.Text = GRsEccnNo!eccn_no
+            SSoleEccnno.Text = GRsEccnNo!eccn_no
         Else
-            SSoleEccnNo.Text = ""
+            SSoleEccnno.Text = ""
         End If
          
   
@@ -7662,9 +7804,9 @@ SSOleDBShipTo.RemoveAll 'JCGFIXES 2007/24/1
        IntiClass.InitCompanyCode = Trim$(deIms.rsActiveCompany!com_compcode)
        IntiClass.InitCompanyName = Trim$(deIms.rsActiveCompany!com_name)
    End If
-SSOleDBcompany.RemoveAll 'JCGFIXES 2007/24/1
+SSOleDBCompany.RemoveAll 'JCGFIXES 2007/24/1
    Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
@@ -7712,7 +7854,7 @@ Private Sub SSOleDBInvLocation_DropDown()
         
             Dim value As String
         '
-        LblCompanyCode.Caption = Trim$(SSOleDBcompany.Columns(0).Text)
+        LblCompanyCode.Caption = Trim$(SSOleDBCompany.Columns(0).Text)
             deIms.rsCompanyLocations.Filter = ""
             deIms.rsCompanyLocations.Filter = "LOC_COMPCODE= '" & Trim$(LblCompanyCode.Caption) & "'"
         
@@ -7834,7 +7976,7 @@ Poheader.priocode = Trim$(SSOleDBPriority.Tag)
   
   Poheader.currCODE = Trim$(SSOleDBCurrency.Tag)
   
-  Poheader.CompCode = Trim$(SSOleDBcompany.Tag)
+  Poheader.CompCode = Trim$(SSOleDBCompany.Tag)
    
    Poheader.invloca = Trim$(SSOleDBInvLocation.Tag)
   
@@ -7963,8 +8105,8 @@ If lookups Is Nothing Then Set lookups = Mainpo.lookups
   SSOleDBCurrency = ""
   
   
-  SSOleDBcompany.Tag = ""
-  SSOleDBcompany.Text = ""
+  SSOleDBCompany.Tag = ""
+  SSOleDBCompany.Text = ""
   
   SSOleDBInvLocation.Tag = ""
   SSOleDBInvLocation = ""
@@ -8725,8 +8867,8 @@ ssdcboRequisition = ""
 lblReqLineitem = ""
 
 
-SSoleEccnNo.Tag = 0
-SSoleEccnNo = ""
+SSoleEccnno.Tag = 0
+SSoleEccnno = ""
 
 SSOleSourceofinfo.Tag = 0
 SSOleSourceofinfo = ""
@@ -8808,7 +8950,7 @@ PoItem.Requliitnumb = (lblReqLineitem)
 
 PoItem.usexport = chk_usexportLI
 PoItem.Eccnlicsreq = Chk_license
-PoItem.Eccnid = SSoleEccnNo.Tag
+PoItem.Eccnid = SSoleEccnno.Tag
 PoItem.Sourceofinfoid = IIf(Len(SSOleSourceofinfo.Tag) = 0, 0, SSOleSourceofinfo.Tag)
 'PoItem.Eccnno = Trim(SSoleEccnno)
 
@@ -9111,8 +9253,8 @@ dcbostatus(2) = ""
 dcbostatus(3) = ""
 dcbostatus(0) = ""
 
-SSoleEccnNo.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
-SSoleEccnNo = rs("eccn_no") & ""
+SSoleEccnno.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
+SSoleEccnno = rs("eccn_no") & ""
 
 SSOleSourceofinfo.Tag = IIf(IsNull(rs("poi_sourceid")), 0, rs("poi_sourceid"))
 SSOleSourceofinfo = rs("source") & ""
@@ -9589,14 +9731,14 @@ Dim i As Long
 ''''    End If
     
     
-    If Len(Trim$(SSOleDBcompany.Text)) = 0 Then  'M
+    If Len(Trim$(SSOleDBCompany.Text)) = 0 Then  'M
     
         'Modified by Juan (9/13/2000) for Multilingual
        ' msg1 = translator.Trans("M00023") 'J added
         'MsgBox IIf(msg1 = "", "Company Can not be left empty", msg1), , "Imswin" 'J modified
         '---------------------------------------------
         MsgBox "Company can not be left Empty."
-      SSOleDBcompany.SetFocus
+      SSOleDBCompany.SetFocus
       Exit Function 'M
         
     'Else  'M
@@ -9817,9 +9959,9 @@ Dim i As Long
     
     If ShouldEccnControlsBeEnabled = True And chk_usexportLI.value = 1 Then
     
-       If Len(Trim(SSoleEccnNo & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
+       If Len(Trim(SSoleEccnno & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Eccn# and Source of Info."
-       ElseIf Len(Trim(SSoleEccnNo & "")) = 0 Then
+       ElseIf Len(Trim(SSoleEccnno & "")) = 0 Then
         MsgBox "Line item does not have Eccn#."
        ElseIf Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Source of Info."
@@ -9872,7 +10014,7 @@ Dim msg1 As String  '////
         lblStatus.ForeColor = vbRed
         
         'Modified by Juan (8/28/2000) for Multilingual
-        'msg1 = translator.Trans("L00125") 'J added
+        msg1 = translator.Trans("L00125") 'J added
         lblStatus.Caption = IIf(msg1 = "", "Creation", msg1) 'J modified
         '---------------------------------------------
         
@@ -9880,7 +10022,7 @@ Dim msg1 As String  '////
         lblStatus.ForeColor = vbBlue
                 
         'Modified by Juan (8/28/2000) for Multilingual
-        'msg1 = translator.Trans("L00126") 'J added
+        msg1 = translator.Trans("L00126") 'J added
        lblStatus.Caption = IIf(msg1 = "", "Modification", msg1) 'J modified
         '---------------------------------------------
   
@@ -9888,7 +10030,7 @@ Dim msg1 As String  '////
         lblStatus.ForeColor = vbGreen
         
         'Modified by Juan (8/28/2000) for Multilingual
-        'msg1 = translator.Trans("L00092") 'J added
+        msg1 = translator.Trans("L00092") 'J added
         lblStatus.Caption = IIf(msg1 = "", "Visualization", msg1) 'J modified
         '---------------------------------------------
     
@@ -9935,14 +10077,14 @@ On Error Resume Next
             chk_USExportH.Enabled = True
             chk_usexportLI.Enabled = True
             Chk_license.Enabled = True
-            SSoleEccnNo.Enabled = True
+            SSoleEccnno.Enabled = True
             SSOleSourceofinfo.Enabled = True
         Else
         
             chk_USExportH.Enabled = False
             chk_usexportLI.Enabled = False
             Chk_license.Enabled = False
-            SSoleEccnNo.Enabled = False
+            SSoleEccnno.Enabled = False
             SSOleSourceofinfo.Enabled = False
                 
         End If
@@ -10148,12 +10290,12 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
          
         If Not Trim$(UCase(Poheader.StasINvt)) = "NI" Then
           
-          SSOleDBcompany.Enabled = False
+          SSOleDBCompany.Enabled = False
           SSOleDBInvLocation.Enabled = False
         
         Else
           
-          SSOleDBcompany.Enabled = True
+          SSOleDBCompany.Enabled = True
           SSOleDBInvLocation.Enabled = True
         
         End If
@@ -10163,7 +10305,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         SSOleDBDocType.Enabled = True
         SSoledbSupplier.Enabled = False
         SSOleDBCurrency.Enabled = True
-        SSOleDBcompany.Enabled = True
+        SSOleDBCompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
           
    End If
@@ -10179,7 +10321,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         
         SSoledbSupplier.Enabled = True
         SSOleDBCurrency.Enabled = True
-        SSOleDBcompany.Enabled = True
+        SSOleDBCompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
         
         
@@ -11335,7 +11477,7 @@ Dim x
     If POFqa.Count = 0 Then Exit Function
 
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
-    Call lookups.LoadFQAFromLocation(Trim(SSOleDBcompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, Location, UsChart, CamChart, stocktype)
+    Call lookups.LoadFQAFromLocation(Trim(SSOleDBCompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, Location, UsChart, CamChart, stocktype)
     
     POFqa.MoveFirst
     
@@ -11496,13 +11638,13 @@ On Error GoTo ErrHand
                
          'if SSoleEccnno SSoleEccnno.Enabled = True
               
-              Set SSoleEccnNo.DataSourceList = RsEccnNo  ' RSStockNos
-              SSoleEccnNo.DataFieldToDisplay = "eccn_no"
-              SSoleEccnNo.DataFieldList = "eccnid"
-              SSoleEccnNo.Columns(0).Visible = False
+              Set SSoleEccnno.DataSourceList = RsEccnNo  ' RSStockNos
+              SSoleEccnno.DataFieldToDisplay = "eccn_no"
+              SSoleEccnno.DataFieldList = "eccnid"
+              SSoleEccnno.Columns(0).Visible = False
 
-               SSoleEccnNo.Columns(2).Width = 6000
-               SSoleEccnNo.RowHeight = 500
+               SSoleEccnno.Columns(2).Width = 6000
+               SSoleEccnno.RowHeight = 500
 
        Set GRsEccnNo = lookups.GetListofEccns(0)
         
