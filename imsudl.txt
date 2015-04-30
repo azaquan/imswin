@@ -1,2 +1,2 @@
-Provider=SQLOLEDB.1;PASSWORD=D0gM0use;Persist security info=true;user id=sa;initial catalog=exxonDev;data source=PC245002996426\SQLEXPRESS
+Provider=SQLOLEDB.1;PASSWORD=D0gM0use;Persist security info=true;user id=sa;initial catalog=exxonDev;data source=MMSCACHE02\SQLEXPRESS
 
