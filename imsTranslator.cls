@@ -43,6 +43,24 @@ Public Function Trans(MessageCode) As String
     End If
 End Function
 
+
+Public Function TranslateObject(cn As ADODB.Connection, entity, object) As String
+'Function for retrieve direct texts for translation
+Dim sql As String
+Dim datax As New ADODB.Recordset
+Set datax = New ADODB.Recordset
+    If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
+        sql = "SELECT  msg_text FROM TRTRANSLATION, TRMESSAGE WHERE trs_mesgnum = msg_numb " _
+            + "AND msg_lang = '" + TR_LANGUAGE + "' AND trs_enty='" + entity + "' AND trs_obj='" + RTrim(object) + "'"
+        datax.Open sql, cn, adOpenStatic
+        If datax.RecordCount > 0 Then
+            TranslateObject = datax!msg_text
+        Else
+            TranslateObject = ""
+        End If
+        Err.Clear
+    End If
+End Function
 Public Sub Translate_Forms(Form_name As String)
 'Procedure for captions translations in every form
     Dim i, j, k, indexARRAY, indexTAB, indexCOL As Integer

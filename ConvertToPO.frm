@@ -68,13 +68,17 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Private Sub CmdConvert_Click()
 ''Dim CmdConvertToRequisition As ADODB.Command
 ''Set CmdConvertToRequisition = New ADODB.Command
-
+'2015-06-12 juan
+Dim msg
+msg = translator.Trans("M00824")
+msg = IIf(msg = "", "Please fill in a Valid Transaction Number.", msg)
 If Len(Trim(ssOleDbPO)) = 0 Or ssOleDbPO.IsItemInList = False Then
     
-    MsgBox " Please fill in a Valid Transaction Number.", vbInformation, "Ims"
+    MsgBox msg, vbInformation, "Ims"
     
     ssOleDbPO.SetFocus
     
@@ -130,8 +134,10 @@ rs.Open
 Exit Function
 
 ErrHandler:
-
-MsgBox "Errors Occurred while tying to get the Requisitions. Error Description : " & Err.Description
+'2015-04-13 juan
+msg = translator.Trans("M00825")
+msg = IIf(msg = "", "Errors Occurred while tying to get the Requisitions. Error Description : ", msg)
+MsgBox msg & Err.Description
 
 Err.Clear
 End Function

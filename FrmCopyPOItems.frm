@@ -229,6 +229,9 @@ Private Sub Form_Load()
 Dim ObjPo As New imsPO
 Dim RsPONumbs As New ADODB.Recordset
 
+'Added by Juan (2015-06-12) for Multilingual
+Call translator.Translate_Forms("FrmCopyPOItems")
+'------------------------------------------
 
 non_stock = False
 txt_Remk1.locked = True

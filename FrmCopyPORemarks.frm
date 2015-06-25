@@ -180,34 +180,38 @@ Dim ObjPo As New imsPO
 Dim RsPONumbs As New ADODB.Recordset
 Dim RsRemarks As New ADODB.Recordset
 
+'Added by Juan (2015-06-12) for Multilingual
+Call translator.Translate_Forms("FrmCopyPORemarks")
+'------------------------------------------
+
 ObjPo.NameSpace = deIms.NameSpace
 Set RsPONumbs = ObjPo.GetAllPOnumb("POREM")
 
 txtRemarks.locked = True
 
 Do While Not RsPONumbs.EOF
-   ssOleDbPO.AddItem RsPONumbs!POR_PONUMB
+   SSOleDBPO.AddItem RsPONumbs!POR_PONUMB
    RsPONumbs.MoveNext
 Loop
    
-Set NavBar1.ActiveConnection = deIms.cnIms
+Set Navbar1.ActiveConnection = deIms.cnIms
    
-   Set NavBar1.Recordset = ObjPo.GetRemarks
+   Set Navbar1.Recordset = ObjPo.GetRemarks
    
    Set ObjPo = Nothing
    'SSOleDBPO.SetFocus
    
-NavBar1.CancelLastSepVisible = False
-NavBar1.LastPrintSepVisible = False
-NavBar1.PrintSaveSepVisible = False
+Navbar1.CancelLastSepVisible = False
+Navbar1.LastPrintSepVisible = False
+Navbar1.PrintSaveSepVisible = False
    
     Me.Left = Round((Screen.Width - Me.Width) / 2)
     Me.Top = Round((Screen.Height - Me.Height) / 2)
 End Sub
 
 Private Sub Form_Paint()
-ssOleDbPO.SetFocus
-Call HighlightBackground(ssOleDbPO)
+SSOleDBPO.SetFocus
+Call HighlightBackground(SSOleDBPO)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -220,7 +224,7 @@ End Sub
 
 Private Sub NavBar1_OnFirstClick()
 
-If Not NavBar1.Recordset.BOF Then
+If Not Navbar1.Recordset.BOF Then
 '  NavBar1.Recordset.MoveFirst
   ShowRecords
 End If
@@ -229,7 +233,7 @@ End Sub
 
 Private Sub NavBar1_OnLastClick()
 
-If Not NavBar1.Recordset.EOF Then
+If Not Navbar1.Recordset.EOF Then
  ' NavBar1.Recordset.MoveLast
   ShowRecords
 End If
@@ -238,7 +242,7 @@ End Sub
 
 Private Sub NavBar1_OnNextClick()
 
-If Not NavBar1.Recordset.EOF Then
+If Not Navbar1.Recordset.EOF Then
 '  NavBar1.Recordset.MoveNext
   ShowRecords
 End If
@@ -247,7 +251,7 @@ End Sub
 
 Private Sub NavBar1_OnPreviousClick()
 
-If Not NavBar1.Recordset.BOF Then
+If Not Navbar1.Recordset.BOF Then
   'NavBar1.Recordset.MovePrevious
   ShowRecords
 End If
@@ -255,25 +259,25 @@ End If
 End Sub
 
 Private Sub SSOleDBPO_Click()
-NavBar1.Recordset.Filter = ""
-NavBar1.Recordset.Filter = "por_ponumb='" & Trim$(ssOleDbPO.Text) & "'"
+Navbar1.Recordset.Filter = ""
+Navbar1.Recordset.Filter = "por_ponumb='" & Trim$(SSOleDBPO.Text) & "'"
  
  Dim Count As Integer
- Count = NavBar1.Recordset.RecordCount
+ Count = Navbar1.Recordset.RecordCount
  
 If Count > 0 Then
-   NavBar1.Recordset.MoveFirst
+   Navbar1.Recordset.MoveFirst
    
    If Count = 1 Then
-      NavBar1.PreviousEnabled = False
-      NavBar1.FirstEnabled = False
-      NavBar1.NextEnabled = False
-      NavBar1.LastEnabled = False
+      Navbar1.PreviousEnabled = False
+      Navbar1.FirstEnabled = False
+      Navbar1.NextEnabled = False
+      Navbar1.LastEnabled = False
    Else
-      NavBar1.PreviousEnabled = False
-      NavBar1.FirstEnabled = False
-      NavBar1.NextEnabled = True
-      NavBar1.LastEnabled = True
+      Navbar1.PreviousEnabled = False
+      Navbar1.FirstEnabled = False
+      Navbar1.NextEnabled = True
+      Navbar1.LastEnabled = True
    End If
    
    ShowRecords
@@ -281,10 +285,10 @@ If Count > 0 Then
 Else
    txtRemarks.Text = ""
    TxtLineNumb = ""
-   NavBar1.PreviousEnabled = False
-      NavBar1.FirstEnabled = False
-      NavBar1.NextEnabled = False
-      NavBar1.LastEnabled = False
+   Navbar1.PreviousEnabled = False
+      Navbar1.FirstEnabled = False
+      Navbar1.NextEnabled = False
+      Navbar1.LastEnabled = False
    'NavBar1.PreviousEnabled = NavBar1.FirstEnabled = _
 
 
@@ -297,29 +301,29 @@ End Sub
 
 Public Sub ShowRecords()
 
-If Not (NavBar1.Recordset.EOF = True Or NavBar1.Recordset.BOF = True) Then
-txtRemarks.Text = IIf(IsNull(NavBar1.Recordset!por_remk) = True, "", NavBar1.Recordset!por_remk)
-TxtLineNumb = NavBar1.Recordset!por_linenumb
-TxtTotalLI = NavBar1.Recordset.RecordCount
+If Not (Navbar1.Recordset.EOF = True Or Navbar1.Recordset.BOF = True) Then
+txtRemarks.Text = IIf(IsNull(Navbar1.Recordset!por_remk) = True, "", Navbar1.Recordset!por_remk)
+TxtLineNumb = Navbar1.Recordset!por_linenumb
+TxtTotalLI = Navbar1.Recordset.RecordCount
 End If
    
 End Sub
 
 Public Sub CleanUp()
 On Error Resume Next
-NavBar1.Recordset.Close
+Navbar1.Recordset.Close
 If Err.number > 0 Then Err.Clear
-Set NavBar1.Recordset = Nothing
+Set Navbar1.Recordset = Nothing
 End Sub
 
 Private Sub SSOleDBPO_KeyDown(KeyCode As Integer, Shift As Integer)
-If Not ssOleDbPO.DroppedDown Then ssOleDbPO.DroppedDown = True
+If Not SSOleDBPO.DroppedDown Then SSOleDBPO.DroppedDown = True
 End Sub
 Private Sub SSOleDBPO_GotFocus()
-Call HighlightBackground(ssOleDbPO)
+Call HighlightBackground(SSOleDBPO)
 End Sub
 
 
 Private Sub SSOleDBPO_LostFocus()
-Call NormalBackground(ssOleDbPO)
+Call NormalBackground(SSOleDBPO)
 End Sub
