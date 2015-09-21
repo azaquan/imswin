@@ -120,7 +120,7 @@ Screen.MousePointer = 11
         .matrix.TextMatrix(5, 0) = "0"
         .matrix.TextMatrix(7, 0) = ""
         '.matrix.TextMatrix(8, 0) = "Transaction #"
-        .matrix.TextMatrix(8, 0) = translator.getIt(getName("cel0"))
+        .matrix.TextMatrix(8, 0) = getName("cel0")
         .matrix.TextMatrix(9, 0) = "1200"
         .matrix.TextMatrix(10, 0) = 0
         

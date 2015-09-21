@@ -8,8 +8,8 @@ Begin VB.Form frmGlobalWH
    ClientTop       =   345
    ClientWidth     =   14910
    LinkTopic       =   "Form1"
-   ScaleHeight     =   7440
-   ScaleWidth      =   14910
+   ScaleHeight     =   10095
+   ScaleWidth      =   15240
    StartUpPosition =   3  'Windows Default
    Tag             =   "02050801"
    Begin VB.TextBox dateBOX 
@@ -1012,9 +1012,9 @@ Dim t As String
     With frmGlobalWH.combo(Index)
         Do While Not datax.EOF
             If Index = 0 Then
-                .AddItem Trim(datax.Fields(0))
+                .addITEM Trim(datax.Fields(0))
             Else
-                .AddItem Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
+                .addITEM Trim(datax.Fields(0)) + vbTab + Trim(datax.Fields(1))
             End If
             datax.MoveNext
         Loop
@@ -1345,7 +1345,7 @@ onDetailListInProcess = True
             rec = rec + Format(!qty, "0.00") + vbTab
             rec = rec + Format(!qty2, "0.00") + vbTab
             rec = rec + Trim(!condition)
-            STOCKlist.AddItem rec
+            STOCKlist.addITEM rec
             ratioList(n) = IIf(!qty = 0, 1, !qty2 / !qty)
             If n = 20 Then
                 DoEvents
@@ -1471,6 +1471,8 @@ Dim rights As Boolean
     If newBUTTON.Enabled Then newBUTTON.SetFocus
     Me.Refresh
     Call makeLists
+    userNAMEbox = CurrentUser
+    dateBOX = Format(Now, "mm/dd/yyyy")
 End Sub
 
 Private Sub Form_Load()

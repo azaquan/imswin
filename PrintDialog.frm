@@ -88,7 +88,7 @@ End Sub
 Private Sub Form_Load()
 
     'Added by Juan (9/15/2000) for Multilingual
-    'Call Translate_Forms("frmPrintDialog")
+    Call translator.Translate_Forms("frmPrintDialog")
     '------------------------------------------
 
     FOpts = poNone

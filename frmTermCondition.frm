@@ -30,6 +30,8 @@ Begin VB.Form frmTermCondition
       AllowCancel     =   0   'False
       AllowDelete     =   0   'False
       CommandType     =   8
+      EditEnabled     =   0   'False
+      EditVisible     =   0   'False
       CancelToolTipText=   "Undo the changes made to the current Screen"
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSDBGTermCondition 
@@ -200,10 +202,10 @@ Begin VB.Form frmTermCondition
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   5160
+      Left            =   4320
       TabIndex        =   3
       Top             =   3840
-      Width           =   2460
+      Width           =   3300
    End
    Begin VB.Label lbl_ServiceCode 
       Alignment       =   2  'Center
@@ -244,15 +246,15 @@ Dim CAncelGrid As Boolean
 Dim TableLocked As Boolean, currentformname As String   'jawdat
 
 Private Function validate_fields(colnum As Integer) As Boolean
-Dim x As Boolean
+Dim X As Boolean
 
 validate_fields = True
 If SSDBGTermCondition.IsAddRow Then
    If colnum = 0 Or colnum = 2 Then
-      x = NotValidLen(SSDBGTermCondition.Columns(colnum).Text)
-      If x = True Then
+      X = NotValidLen(SSDBGTermCondition.Columns(colnum).Text)
+      If X = True Then
          RecSaved = False
-         msg1 = translator.Trans("M00702")
+         msg1 = translator.Trans("M00921")
          MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
          SSDBGTermCondition.SetFocus
          SSDBGTermCondition.Col = colnum
@@ -261,8 +263,8 @@ If SSDBGTermCondition.IsAddRow Then
       End If
     End If
       If colnum = 0 Then
-        x = CheckDesCode(SSDBGTermCondition.Columns(0).Text)
-        If x <> False Then
+        X = CheckDesCode(SSDBGTermCondition.Columns(0).Text)
+        If X <> False Then
              RecSaved = False
              msg1 = translator.Trans("M00703")
              MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)
@@ -290,16 +292,16 @@ Dim rs As ADODB.Recordset
 
     Screen.MousePointer = vbHourglass
    CAncelGrid = False
-   msg1 = translator.Trans("M00126")
+   msg1 = translator.Trans("L00126")
    Modify = IIf(msg1 = "", "Modification", msg1)
-   msg1 = translator.Trans("M00092")
+   msg1 = translator.Trans("L00684")
    Visualize = IIf(msg1 = "", "Visualization", msg1)
-   msg1 = translator.Trans("M00125")
+   msg1 = translator.Trans("L00125")
    Create = IIf(msg1 = "", "Creation", msg1)
    GoodColMove = True
    RecSaved = True
    InUnload = False
-    
+    lblStatus.Caption = Visualize
     'Added by Juan (9/25/2000) for Multilingual
     Call translator.Translate_Forms("frmTermCondition")
     '------------------------------------------
@@ -651,7 +653,7 @@ Dim ret As Integer
   
           If SSDBGTermCondition.IsAddRow And ColIndex = 0 Then 'And TMPCTL.RecordToProcess.editmode = adEditAdd Then
              If NotValidLen(SSDBGTermCondition.Columns(ColIndex).Text) Then
-                msg1 = translator.Trans("M00702")
+                msg1 = translator.Trans("M00921")
                 MsgBox IIf(msg1 = "", "Required field, please enter value.", msg1)
                 Cancel = 1
                 SSDBGTermCondition.SetFocus
@@ -672,7 +674,7 @@ Dim ret As Integer
         
         ElseIf SSDBGTermCondition.IsAddRow And ColIndex = 2 Then
               If NotValidLen(SSDBGTermCondition.Columns(ColIndex).Text) Then
-                msg1 = translator.Trans("M00702")
+                msg1 = translator.Trans("M00921")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
                 RecSaved = False
@@ -682,7 +684,7 @@ Dim ret As Integer
                End If
         ElseIf Not SSDBGTermCondition.IsAddRow And ColIndex = 2 Then
                 If NotValidLen(SSDBGTermCondition.Columns(ColIndex).Text) Then
-               msg1 = translator.Trans("M00702")
+               msg1 = translator.Trans("M00921")
                 MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                 Cancel = 1
                 SSDBGTermCondition.SetFocus
@@ -706,7 +708,7 @@ End Sub
 
 Private Sub SSDBGTermCondition_BeforeUpdate(Cancel As Integer)
  Dim response As Integer
- Dim x, y As Boolean
+ Dim X, Y As Boolean
   response = 0
 
  RecSaved = True
@@ -726,18 +728,18 @@ Private Sub SSDBGTermCondition_BeforeUpdate(Cancel As Integer)
  If (InUnload = False) Or (response = vbYes) Then
  
   If SSDBGTermCondition.IsAddRow Then
-      x = NotValidLen(SSDBGTermCondition.Columns(2).Text)
-      If (x = True) Then
+      X = NotValidLen(SSDBGTermCondition.Columns(2).Text)
+      If (X = True) Then
          RecSaved = False
          Cancel = True
-         msg1 = translator.Trans("M00702")
+         msg1 = translator.Trans("M00921")
          MsgBox IIf(msg1 = "", "Required field, please enter value", msg1)
                   SSDBGTermCondition.SetFocus
          SSDBGTermCondition.Col = 2
          Exit Sub
       End If
-      x = CheckDesCode(SSDBGTermCondition.Columns(0).Text)
-      If x <> False Then
+      X = CheckDesCode(SSDBGTermCondition.Columns(0).Text)
+      If X <> False Then
          RecSaved = False
          msg1 = translator.Trans("M00703")
          MsgBox IIf(msg1 = "", "This code already exists. Please choose a unique value.", msg1)

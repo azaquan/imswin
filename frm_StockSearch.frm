@@ -257,6 +257,9 @@ Dim rst As ADODB.Recordset
 Dim ShowOnlyActive As Boolean
 Dim retval As Boolean, fshoweditor As Boolean
 
+Dim msg As String
+Dim msg2 As String
+
 Event Unloading(Cancel As Integer)
 Event Completed(Cancelled As Boolean, sStockNumber As String)
 
@@ -296,7 +299,10 @@ Dim i As Integer
             Loop
             
             If Len(list) > 255 Then
-                MsgBox "Your selection is too long, please reduce the number of records to print"
+                '2015-07-06 juan
+                msg = translator.Trans("M00927")
+                msg = IIf(msg = "", "Your selection is too long, please reduce the number of records to print", msg)
+                MsgBox msg
                 Screen.MousePointer = 0
                 Exit Sub
             End If
@@ -467,7 +473,7 @@ On Error Resume Next
         
         On Error Resume Next
         
-        Dim P As Integer, Y As Integer, s As String
+        Dim P As Integer, y As Integer, s As String
         
         Err.Clear
         
@@ -477,8 +483,8 @@ On Error Resume Next
         P = IIf(x >= i, 1, -1)
         
         'x = x + 1
-        For Y = i To x Step P
-            s = s & " stk_desc like " & "'%" & str(Y) & "%'" & IIf(Y = x, "", " AND ")
+        For y = i To x Step P
+            s = s & " stk_desc like " & "'%" & str(y) & "%'" & IIf(y = x, "", " AND ")
         Next
         Debug.Print s
          sSqlWhere = sSqlWhere & s
@@ -532,7 +538,7 @@ On Error Resume Next
     If Err Then Call LogErr(Name & "::dgSearchList_DblClick", Err.Description, Err.number, True)
 End Sub
 
-Private Sub dgSearchList_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub dgSearchList_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 'On Error Resume Next
 'Dim sFilter As String, BK As Variant
 '

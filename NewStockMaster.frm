@@ -1,26 +1,26 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form Frm_StockMaster 
    Caption         =   "Stock Master"
    ClientHeight    =   7125
    ClientLeft      =   60
    ClientTop       =   345
-   ClientWidth     =   11610
+   ClientWidth     =   12870
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    ScaleHeight     =   7125
-   ScaleWidth      =   11610
+   ScaleWidth      =   12870
    Tag             =   "02010100"
    Begin TabDlg.SSTab SSTab1 
       Height          =   6495
       Left            =   0
       TabIndex        =   19
       Top             =   120
-      Width           =   11565
-      _ExtentX        =   20399
+      Width           =   12765
+      _ExtentX        =   22516
       _ExtentY        =   11456
       _Version        =   393216
       Tabs            =   4
@@ -58,41 +58,69 @@ Begin VB.Form Frm_StockMaster
       TabPicture(1)   =   "NewStockMaster.frx":001C
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "txtTechSpec"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "Manufacturer"
       TabPicture(2)   =   "NewStockMaster.frx":0038
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "Label3"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Label2"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Label1"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "Label5"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "Label6"
+      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "Label8"
+      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).Control(6)=   "SSoleManufacturer"
+      Tab(2).Control(6).Enabled=   0   'False
       Tab(2).Control(7)=   "ChkManufActive"
+      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).Control(8)=   "TxtEstPrice"
+      Tab(2).Control(8).Enabled=   0   'False
       Tab(2).Control(9)=   "txtManSpecs"
+      Tab(2).Control(9).Enabled=   0   'False
       Tab(2).Control(10)=   "TxtPartnumb"
+      Tab(2).Control(10).Enabled=   0   'False
       Tab(2).Control(11)=   "TxtLineNumber"
+      Tab(2).Control(11).Enabled=   0   'False
       Tab(2).Control(12)=   "txtTotal"
+      Tab(2).Control(12).Enabled=   0   'False
       Tab(2).Control(13)=   "TxtManuStock"
+      Tab(2).Control(13).Enabled=   0   'False
       Tab(2).ControlCount=   14
       TabCaption(3)   =   "Recepients"
       TabPicture(3)   =   "NewStockMaster.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "TxtRecpStockNumb"
-      Tab(3).Control(1)=   "fra_FaxSelect"
-      Tab(3).Control(2)=   "cmd_Add"
-      Tab(3).Control(3)=   "txt_Recipient"
-      Tab(3).Control(4)=   "cmdRemove"
-      Tab(3).Control(5)=   "Txt_search"
+      Tab(3).Control(0)=   "Lbl_search"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "Label7"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "SSOLEDBFax"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "SSOLEDBEmail"
+      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(4)=   "dgRecipientList"
+      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).Control(5)=   "OptEmail"
+      Tab(3).Control(5).Enabled=   0   'False
       Tab(3).Control(6)=   "OptFax"
-      Tab(3).Control(7)=   "OptEmail"
-      Tab(3).Control(8)=   "dgRecipientList"
-      Tab(3).Control(9)=   "SSOLEDBEmail"
-      Tab(3).Control(10)=   "SSOLEDBFax"
-      Tab(3).Control(11)=   "Label7"
-      Tab(3).Control(12)=   "Lbl_search"
+      Tab(3).Control(6).Enabled=   0   'False
+      Tab(3).Control(7)=   "Txt_search"
+      Tab(3).Control(7).Enabled=   0   'False
+      Tab(3).Control(8)=   "cmdRemove"
+      Tab(3).Control(8).Enabled=   0   'False
+      Tab(3).Control(9)=   "txt_Recipient"
+      Tab(3).Control(9).Enabled=   0   'False
+      Tab(3).Control(10)=   "cmd_Add"
+      Tab(3).Control(10).Enabled=   0   'False
+      Tab(3).Control(11)=   "fra_FaxSelect"
+      Tab(3).Control(11).Enabled=   0   'False
+      Tab(3).Control(12)=   "TxtRecpStockNumb"
+      Tab(3).Control(12).Enabled=   0   'False
       Tab(3).ControlCount=   13
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSoleSource 
          Height          =   375
@@ -128,11 +156,11 @@ Begin VB.Form Frm_StockMaster
          Left            =   4150
          TabIndex        =   39
          Top             =   420
-         Width           =   7335
+         Width           =   8415
          Begin VB.Frame unitsRatio 
             Caption         =   "Units Ratio"
             Height          =   975
-            Left            =   3840
+            Left            =   4920
             TabIndex        =   71
             Top             =   1560
             Width           =   3375
@@ -177,22 +205,23 @@ Begin VB.Form Frm_StockMaster
                Width           =   900
             End
             Begin VB.Label Label11 
+               Alignment       =   1  'Right Justify
                BackStyle       =   0  'Transparent
                Caption         =   "to make..."
                Height          =   225
-               Left            =   1320
+               Left            =   1080
                TabIndex        =   76
                Top             =   600
-               Width           =   855
+               Width           =   1215
             End
             Begin VB.Label Label10 
                BackStyle       =   0  'Transparent
                Caption         =   "Secondary"
                Height          =   225
-               Left            =   2400
+               Left            =   2160
                TabIndex        =   75
                Top             =   360
-               Width           =   855
+               Width           =   1095
             End
             Begin VB.Label Label9 
                BackStyle       =   0  'Transparent
@@ -201,7 +230,7 @@ Begin VB.Form Frm_StockMaster
                Left            =   120
                TabIndex        =   73
                Top             =   360
-               Width           =   855
+               Width           =   1335
             End
          End
          Begin VB.TextBox TxtStockNumber 
@@ -210,7 +239,7 @@ Begin VB.Form Frm_StockMaster
             DataMember      =   "GetStockManufacturer"
             Enabled         =   0   'False
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             MaxLength       =   50
             TabIndex        =   1
             Top             =   240
@@ -221,17 +250,17 @@ Begin VB.Form Frm_StockMaster
             DataField       =   "stk_flag"
             DataMember      =   "STOCKMASTER"
             Height          =   195
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   7
             Top             =   1680
             Value           =   1  'Checked
-            Width           =   1335
+            Width           =   2055
          End
          Begin VB.TextBox txt_Minimum 
             DataField       =   "stk_mini"
             DataMember      =   "STOCKMASTER"
             Height          =   315
-            Left            =   3000
+            Left            =   3600
             TabIndex        =   6
             Top             =   1320
             Width           =   540
@@ -249,7 +278,7 @@ Begin VB.Form Frm_StockMaster
             EndProperty
             DataMember      =   "STOCKMASTER"
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   10
             Top             =   1920
             Width           =   2100
@@ -267,7 +296,7 @@ Begin VB.Form Frm_StockMaster
             EndProperty
             DataMember      =   "STOCKMASTER"
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   5
             Top             =   1320
             Width           =   540
@@ -285,7 +314,7 @@ Begin VB.Form Frm_StockMaster
             EndProperty
             DataMember      =   "STOCKMASTER"
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   12
             Top             =   2280
             Width           =   2100
@@ -293,23 +322,23 @@ Begin VB.Form Frm_StockMaster
          Begin VB.OptionButton optPool 
             Caption         =   "Pool"
             Height          =   255
-            Left            =   5145
+            Left            =   4800
             TabIndex        =   8
             Top             =   225
-            Width           =   975
+            Width           =   1695
          End
          Begin VB.OptionButton optSpecific 
             Caption         =   "Specific"
             Height          =   255
-            Left            =   6240
+            Left            =   6720
             TabIndex        =   40
             Top             =   225
-            Width           =   1065
+            Width           =   1665
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SsoleSecUnit 
             Bindings        =   "NewStockMaster.frx":0070
             Height          =   315
-            Left            =   5160
+            Left            =   6240
             TabIndex        =   4
             Top             =   840
             Width           =   2100
@@ -338,7 +367,7 @@ Begin VB.Form Frm_StockMaster
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SsoleStockType 
             Bindings        =   "NewStockMaster.frx":007B
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   9
             Top             =   960
             Width           =   2100
@@ -359,7 +388,7 @@ Begin VB.Form Frm_StockMaster
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleCharge 
             Bindings        =   "NewStockMaster.frx":0086
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   11
             Top             =   2640
             Width           =   2100
@@ -380,7 +409,7 @@ Begin VB.Form Frm_StockMaster
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOlePrimUnit 
             Bindings        =   "NewStockMaster.frx":0091
             Height          =   315
-            Left            =   5160
+            Left            =   6240
             TabIndex        =   3
             Top             =   480
             Width           =   2100
@@ -408,7 +437,7 @@ Begin VB.Form Frm_StockMaster
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SsOleCategory 
             Bindings        =   "NewStockMaster.frx":009C
             Height          =   315
-            Left            =   1440
+            Left            =   2040
             TabIndex        =   2
             Top             =   600
             Width           =   2100
@@ -438,10 +467,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Computer Factor"
             Height          =   225
-            Left            =   3720
+            Left            =   4320
             TabIndex        =   78
             Top             =   2640
-            Width           =   1335
+            Width           =   1815
          End
          Begin VB.Label lbl_CompFactor 
             BackColor       =   &H00FFFFC0&
@@ -450,7 +479,7 @@ Begin VB.Form Frm_StockMaster
             DataMember      =   "STOCKMASTER"
             ForeColor       =   &H00FF0000&
             Height          =   315
-            Left            =   5160
+            Left            =   6240
             TabIndex        =   77
             Top             =   2640
             Width           =   2025
@@ -460,19 +489,19 @@ Begin VB.Form Frm_StockMaster
             BorderStyle     =   1  'Fixed Single
             ForeColor       =   &H00FF0000&
             Height          =   315
-            Left            =   5160
+            Left            =   6240
             TabIndex        =   67
             Top             =   1200
-            Width           =   540
+            Width           =   1980
          End
          Begin VB.Label LblManufno 
             Alignment       =   1  'Right Justify
             Caption         =   "Manufacturers"
             Height          =   255
-            Left            =   3720
+            Left            =   4440
             TabIndex        =   66
             Top             =   1245
-            Width           =   1335
+            Width           =   1695
          End
          Begin VB.Label lbl_Category 
             Alignment       =   1  'Right Justify
@@ -480,10 +509,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Category"
             Height          =   195
-            Left            =   240
+            Left            =   120
             TabIndex        =   50
             Top             =   600
-            Width           =   975
+            Width           =   1695
          End
          Begin VB.Label lbl_PrimaryUnit 
             Alignment       =   1  'Right Justify
@@ -491,10 +520,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Primary Unit"
             Height          =   195
-            Left            =   3720
+            Left            =   4200
             TabIndex        =   49
             Top             =   480
-            Width           =   1215
+            Width           =   1935
          End
          Begin VB.Label lbl_SecondaryUnit 
             Alignment       =   1  'Right Justify
@@ -502,10 +531,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Secondary Unit"
             Height          =   195
-            Left            =   3720
+            Left            =   4320
             TabIndex        =   48
             Top             =   840
-            Width           =   1335
+            Width           =   1815
          End
          Begin VB.Label lbl_StockNum 
             Alignment       =   1  'Right Justify
@@ -514,10 +543,10 @@ Begin VB.Form Frm_StockMaster
             Caption         =   "Stock Number"
             Height          =   195
             Index           =   0
-            Left            =   0
+            Left            =   120
             TabIndex        =   47
             Top             =   255
-            Width           =   1215
+            Width           =   1695
          End
          Begin VB.Label lbl_Charge 
             Alignment       =   1  'Right Justify
@@ -525,10 +554,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Charge Account"
             Height          =   195
-            Left            =   0
+            Left            =   120
             TabIndex        =   46
             Top             =   2640
-            Width           =   1335
+            Width           =   1815
          End
          Begin VB.Label lbl_Minimum 
             Alignment       =   1  'Right Justify
@@ -536,10 +565,10 @@ Begin VB.Form Frm_StockMaster
             BackStyle       =   0  'Transparent
             Caption         =   "Minimum"
             Height          =   195
-            Left            =   2160
+            Left            =   2640
             TabIndex        =   45
             Top             =   1320
-            Width           =   615
+            Width           =   855
          End
          Begin VB.Label lbl_Maximum 
             Alignment       =   1  'Right Justify
@@ -549,27 +578,27 @@ Begin VB.Form Frm_StockMaster
             Left            =   120
             TabIndex        =   44
             Top             =   1320
-            Width           =   1095
+            Width           =   1695
          End
          Begin VB.Label lbl_Standard 
             Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Standard Cost"
             Height          =   225
-            Left            =   0
+            Left            =   120
             TabIndex        =   43
             Top             =   2280
-            Width           =   1215
+            Width           =   1695
          End
          Begin VB.Label lbl_Estimate 
             Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Estimated Price"
             Height          =   225
-            Left            =   0
+            Left            =   120
             TabIndex        =   42
             Top             =   1920
-            Width           =   1215
+            Width           =   1695
          End
          Begin VB.Label lbl_StockNum 
             Alignment       =   1  'Right Justify
@@ -581,7 +610,7 @@ Begin VB.Form Frm_StockMaster
             Left            =   120
             TabIndex        =   41
             Top             =   960
-            Width           =   1095
+            Width           =   1695
          End
       End
       Begin VB.TextBox TxtRecpStockNumb 
@@ -598,14 +627,14 @@ Begin VB.Form Frm_StockMaster
       End
       Begin VB.Frame fra_FaxSelect 
          Height          =   690
-         Left            =   -73545
+         Left            =   -74625
          TabIndex        =   57
          Top             =   4035
-         Width           =   2835
+         Width           =   3915
          Begin VB.OptionButton opt_Email 
             Caption         =   "Email"
             Height          =   288
-            Left            =   1680
+            Left            =   2400
             TabIndex        =   59
             Top             =   240
             Width           =   795
@@ -616,7 +645,7 @@ Begin VB.Form Frm_StockMaster
             Left            =   120
             TabIndex        =   58
             Top             =   240
-            Width           =   1275
+            Width           =   1995
          End
       End
       Begin VB.CommandButton cmd_Add 
@@ -633,7 +662,7 @@ Begin VB.Form Frm_StockMaster
          MaxLength       =   60
          TabIndex        =   55
          Top             =   3270
-         Width           =   6150
+         Width           =   7695
       End
       Begin VB.CommandButton cmdRemove 
          Caption         =   "Remove"
@@ -689,7 +718,7 @@ Begin VB.Form Frm_StockMaster
          ScrollBars      =   2  'Vertical
          TabIndex        =   17
          Top             =   4620
-         Width           =   7260
+         Width           =   8340
       End
       Begin VB.TextBox txt_ShortDescript 
          DataField       =   "stk_hazmatclau"
@@ -710,7 +739,7 @@ Begin VB.Form Frm_StockMaster
          ScrollBars      =   2  'Vertical
          TabIndex        =   16
          Top             =   3720
-         Width           =   7260
+         Width           =   8340
       End
       Begin VB.TextBox TxtManuStock 
          BackColor       =   &H00FFFFC0&
@@ -752,7 +781,7 @@ Begin VB.Form Frm_StockMaster
          DataField       =   "stm_partnumb"
          DataMember      =   "GetStockManufacturer"
          Height          =   315
-         Left            =   -71640
+         Left            =   -70560
          MaxLength       =   50
          TabIndex        =   20
          Top             =   1380
@@ -768,7 +797,7 @@ Begin VB.Form Frm_StockMaster
          ScrollBars      =   2  'Vertical
          TabIndex        =   28
          Top             =   780
-         Width           =   11115
+         Width           =   12315
       End
       Begin VB.TextBox txtManSpecs 
          DataField       =   "stm_techspec"
@@ -780,7 +809,7 @@ Begin VB.Form Frm_StockMaster
          ScrollBars      =   2  'Vertical
          TabIndex        =   22
          Top             =   2040
-         Width           =   11055
+         Width           =   12255
       End
       Begin VB.TextBox TxtEstPrice 
          DataField       =   "stm_estmpric"
@@ -795,10 +824,10 @@ Begin VB.Form Frm_StockMaster
          EndProperty
          DataMember      =   "GetStockManufacturer"
          Height          =   315
-         Left            =   -66480
+         Left            =   -63960
          MaxLength       =   9
          TabIndex        =   21
-         Top             =   1380
+         Top             =   1320
          Width           =   1455
       End
       Begin VB.CheckBox ChkManufActive 
@@ -807,7 +836,7 @@ Begin VB.Form Frm_StockMaster
          DataField       =   "stm_flag"
          DataMember      =   "GetStockManufacturer"
          Height          =   195
-         Left            =   -74240
+         Left            =   -74760
          TabIndex        =   24
          Top             =   1380
          Value           =   1  'Checked
@@ -841,7 +870,7 @@ Begin VB.Form Frm_StockMaster
          Bindings        =   "NewStockMaster.frx":00A7
          DataSource      =   "deIms"
          Height          =   315
-         Left            =   -69360
+         Left            =   -68760
          TabIndex        =   18
          Top             =   900
          Width           =   3180
@@ -881,7 +910,7 @@ Begin VB.Form Frm_StockMaster
          TabIndex        =   60
          TabStop         =   0   'False
          Top             =   570
-         Width           =   6195
+         Width           =   7740
          _Version        =   196617
          DataMode        =   2
          ColumnHeaders   =   0   'False
@@ -932,7 +961,7 @@ Begin VB.Form Frm_StockMaster
          Columns(0).DataType=   8
          Columns(0).FieldLen=   256
          TabNavigation   =   1
-         _ExtentX        =   10927
+         _ExtentX        =   13652
          _ExtentY        =   3678
          _StockProps     =   79
          Caption         =   "Recepients"
@@ -962,7 +991,7 @@ Begin VB.Form Frm_StockMaster
          TabStop         =   0   'False
          Top             =   4080
          Visible         =   0   'False
-         Width           =   6195
+         Width           =   7755
          _Version        =   196617
          DataMode        =   2
          Col.Count       =   2
@@ -982,7 +1011,7 @@ Begin VB.Form Frm_StockMaster
          Columns(1).DataType=   8
          Columns(1).FieldLen=   256
          Columns(1).Locked=   -1  'True
-         _ExtentX        =   10927
+         _ExtentX        =   13679
          _ExtentY        =   3625
          _StockProps     =   79
          Caption         =   "Email"
@@ -1050,8 +1079,8 @@ Begin VB.Form Frm_StockMaster
          Height          =   255
          Left            =   240
          TabIndex        =   69
-         Top             =   5360
-         Width           =   1815
+         Top             =   5355
+         Width           =   3375
       End
       Begin VB.Label Label8 
          Caption         =   "Part Specification"
@@ -1059,23 +1088,25 @@ Begin VB.Form Frm_StockMaster
          Left            =   -74760
          TabIndex        =   68
          Top             =   1800
-         Width           =   1575
+         Width           =   7215
       End
       Begin VB.Label Label7 
+         Alignment       =   1  'Right Justify
          Caption         =   "Stock Number"
          Height          =   255
          Left            =   -74640
          TabIndex        =   65
          Top             =   720
-         Width           =   1335
+         Width           =   1695
       End
       Begin VB.Label Lbl_search 
+         Alignment       =   1  'Right Justify
          Caption         =   "Search by name"
          Height          =   255
-         Left            =   -72165
+         Left            =   -72765
          TabIndex        =   62
          Top             =   3720
-         Width           =   1215
+         Width           =   2295
       End
       Begin VB.Label lbl_Long 
          BackStyle       =   0  'Transparent
@@ -1085,24 +1116,25 @@ Begin VB.Form Frm_StockMaster
          Left            =   4200
          TabIndex        =   38
          Top             =   4380
-         Width           =   1695
+         Width           =   2415
       End
       Begin VB.Label lbl_ShortDescript 
          BackStyle       =   0  'Transparent
-         Caption         =   "Haz. Mat."
+         Caption         =   "Short Description"
          Height          =   225
          Left            =   4200
          TabIndex        =   37
          Top             =   3480
-         Width           =   1575
+         Width           =   3495
       End
       Begin VB.Label Label6 
+         Alignment       =   1  'Right Justify
          Caption         =   "StockNumber"
          Height          =   255
-         Left            =   -74400
+         Left            =   -74760
          TabIndex        =   36
-         Top             =   900
-         Width           =   975
+         Top             =   960
+         Width           =   1575
       End
       Begin VB.Label Label5 
          Caption         =   "/"
@@ -1123,29 +1155,30 @@ Begin VB.Form Frm_StockMaster
       End
       Begin VB.Label Label1 
          Alignment       =   1  'Right Justify
-         Caption         =   "ManuFacturer"
+         Caption         =   "Manufacturer"
          Height          =   255
-         Left            =   -70920
+         Left            =   -70800
          TabIndex        =   27
-         Top             =   900
-         Width           =   1335
+         Top             =   960
+         Width           =   1935
       End
       Begin VB.Label Label2 
+         Alignment       =   1  'Right Justify
          Caption         =   "Part Number"
          Height          =   255
-         Left            =   -72720
+         Left            =   -72480
          TabIndex        =   26
-         Top             =   1380
-         Width           =   975
+         Top             =   1440
+         Width           =   1815
       End
       Begin VB.Label Label3 
          Alignment       =   1  'Right Justify
          Caption         =   "Estimated Price"
          Height          =   255
-         Left            =   -68040
+         Left            =   -66600
          TabIndex        =   25
          Top             =   1440
-         Width           =   1335
+         Width           =   2535
       End
    End
    Begin LRNavigators.LROleDBNavBar LROleDBNavBar1 
@@ -1189,7 +1222,7 @@ Begin VB.Form Frm_StockMaster
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   480
-      Left            =   7560
+      Left            =   10080
       TabIndex        =   30
       Top             =   6600
       Width           =   2700
@@ -1226,6 +1259,9 @@ Dim GInitiliazeParams As InitiliazeParams
 Dim rowguid, locked As Boolean
 Dim GRsEccnNo As ADODB.Recordset
 Dim GRsSource As ADODB.Recordset
+
+Dim msg As String
+Dim msg2 As String
 Function getRatio() As Double
     Dim ratio1, ratio2 As Double
     getRatio = 0
@@ -1247,10 +1283,14 @@ End Function
 Private Sub Form_Load()
 txt_ShortDescript.Font.Charset = 204 'RUSSIAN_CHARSET
 
+'Added by Juan (2015/06/25) for Multilingual
+Call translator.Translate_Forms("Frm_StockMaster")
+'------------------------------------------
+
 If deIms.cnIms.State = 0 Then deIms.cnIms.Open
 
 Me.Height = 7530
-Me.Width = 11730
+Me.Width = 12990
 
 Set Main = New ImsStockMaster.Main
 Main.Configure deIms.NameSpace, deIms.cnIms
@@ -1258,9 +1298,9 @@ Main.Configure deIms.NameSpace, deIms.cnIms
 'SSoleEccnNo.DataFieldList = SSoleEccnNo.Columns(1)
 'SSoleEccnNo.DataFieldToDisplay = SSoleEccnNo.Columns(1)
 
-SSoleEccnno.Columns(0).Visible = False
-SSoleEccnno.Columns(1).Caption = "Eccn#"
-SSoleEccnno.Columns(2).Caption = "Desc"
+SSoleEccnNo.Columns(0).Visible = False
+SSoleEccnNo.Columns(1).Caption = "Eccn#"
+SSoleEccnNo.Columns(2).Caption = "Desc"
 
 SSoleSource.Columns(1).Width = SSoleSource.Width
 SSoleSource.Columns(0).Visible = False
@@ -1312,8 +1352,8 @@ GFormmode = ChangeMode(mdvisualization)
     fra_FaxSelect.Enabled = True
     '__________________________________
     
-    SSoleEccnno.Columns(2).Width = 6000
-    SSoleEccnno.RowHeight = 500
+    SSoleEccnNo.Columns(2).Width = 6000
+    SSoleEccnNo.RowHeight = 500
 End Sub
 
 Private Sub SSOleDBGrid2_InitColumnProps()
@@ -1388,8 +1428,8 @@ txt_Standard = ""
 txt_ShortDescript = ""
 txt_LongDescript = ""
 txtTechSpec = ""
-SSoleEccnno = ""
-SSoleEccnno.Tag = 0
+SSoleEccnNo = ""
+SSoleEccnNo.Tag = 0
 SSoleSource = ""
 SSoleSource.Tag = 0
 chkLicense.value = False
@@ -1453,7 +1493,7 @@ txt_LongDescript = StockHeader.Description
 txtTechSpec = StockHeader.Techspec
 
 'SSoleEccnno = StockHeader.Eccnno
-SSoleEccnno.Tag = StockHeader.Eccnid
+SSoleEccnNo.Tag = StockHeader.Eccnid
 
 'SSoleSource = StockHeader.Eccnsourcename
 SSoleSource.Tag = StockHeader.Eccnsource
@@ -1470,7 +1510,7 @@ If Len(StockHeader.Eccnid) > 0 And GRsEccnNo.RecordCount > 0 Then
 
  GRsEccnNo.MoveFirst
  GRsEccnNo.Find "eccnid=" & StockHeader.Eccnid
- If GRsEccnNo.EOF = False Then SSoleEccnno.Text = GRsEccnNo!eccn_no
+ If GRsEccnNo.EOF = False Then SSoleEccnNo.Text = GRsEccnNo!eccn_no
  
 End If
 
@@ -1627,11 +1667,11 @@ Set lookups = InitializeLookup
 
 Set RsGetEccn = lookups.GetListofEccns(1)
 
-SSoleEccnno.RemoveAll
+SSoleEccnNo.RemoveAll
 
 Do While Not RsGetEccn.EOF
 
-    SSoleEccnno.AddItem RsGetEccn("eccnid") & vbTab & RsGetEccn("eccn_no") & vbTab & RsGetEccn("eccn_desc")
+    SSoleEccnNo.AddItem RsGetEccn("eccnid") & vbTab & RsGetEccn("eccn_no") & vbTab & RsGetEccn("eccn_desc")
     
     RsGetEccn.MoveNext
 
@@ -1832,8 +1872,12 @@ If ValidateStockHeaderValues = True Then
     x = Main.SAVE
     
     If Len(Trim(x)) > 0 Then
-    
-        MsgBox "Errors Occurred while trying to save the StockNumber. Please try again. Error Description :" & x, vbCritical, "Imswin"
+        '2015-06-26 juan
+        msg = translator.Trans("M00882")
+        msg = IIf(msg = "", "Errors Occurred while trying to save the StockNumber. ", msg)
+        msg2 = translator.Trans("M00883")
+        msg2 = IIf(msg2 = "", "Please try again. Error Description :", msg2)
+        MsgBox msg + msg2 & x, vbCritical, "Imswin"
         
         LROleDBNavBar1.SaveEnabled = True
         
@@ -1861,7 +1905,10 @@ If ValidateStockHeaderValues = True Then
         Call MoveGridTo(TxtStockNumber)
         Call LoadStockMaster
         
-         MsgBox "Saved Successfully"
+        '2015-06-26 juan
+        msg = translator.Trans("M00024")
+        msg = IIf(msg = "", "Saved Successfully", msg)
+        MsgBox msg
          
          
          Dim imsLock As imsLock.Lock
@@ -1974,8 +2021,12 @@ End Sub
 Private Sub LROleDBNavBar1_OnEditClick()
 
 If Len(Trim(TxtStockNumber)) = 0 Then
-
-    MsgBox "No Stock Number selected to modify. Please make a selection first.", vbInformation, "Ims"
+    '2015-06-26 juan
+    msg = translator.Trans("M00884")
+    msg = IIf(msg = "", "xx?", msg)
+    msg2 = translator.Trans("M00885")
+    msg2 = IIf(msg2 = "", "Please make a selection first.", msg2)
+    MsgBox msg + msg2, vbInformation, "Ims"
     Exit Sub
 End If
                           Dim currentformname, currentformname1
@@ -2069,8 +2120,10 @@ If dgRecipientList.Rows = 0 Then Exit Sub
         Call SendAttFaxAndEmail("stckmaster1.rpt", ParamsForRPTI, MDI_IMS.CrystalReport1, ParamsForCrystalReports, Recipients, subject, Message, FieldName)
 
     ElseIf ConnInfo.EmailClient = Unknown Then
-    
-        MsgBox "Email is not set up Properly. Please configure the database for emails.", vbCritical, "Imswin"
+        '2015-06-26 juan
+        msg = translator.Trans("M00877")
+        msg = IIf(msg = "", "Email is not set up Properly. Please configure the database for emails.", msg)
+        MsgBox msg, vbCritical, "Imswin"
 
     End If
 
@@ -2081,8 +2134,12 @@ If dgRecipientList.Rows = 0 Then Exit Sub
 Exit Sub
 
 ErrHandler:
-
-MsgBox "Errors occurred while trying to generate the Stock master report. Error Description : " & Err.Description, vbCritical, "Ims"
+    '2015-06-26 juan
+    msg = translator.Trans("M00886")
+    msg = IIf(msg = "", "Errors occurred while trying to generate the Stock master report.", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = "", "xx?", msg2)
+    MsgBox msg + msg2 & Err.Description, vbCritical, "Ims"
 
 Err.Clear
 
@@ -2143,8 +2200,10 @@ Select Case SSTab1.Tab
              RsStockNameDesc.AddNew
             
             If StockHeader.AddNew = False Then
-            
-                MsgBox "Errors Occurred while trying to Add a new record(in the Dll).", vbCritical, "Imswin"
+                '2015-06-26 juan
+                msg = translator.Trans("M00887")
+                msg = IIf(msg = "", "Errors Occurred while trying to Add a new record(in the Dll).", msg)
+                MsgBox msg, vbCritical, "Imswin"
         
             End If
 SSOleCharge = "N/A"
@@ -2188,8 +2247,10 @@ txt_Minimum = 0
                 Set manufacturer = InitializeManufacturer
                 
                 If manufacturer.AddNew = False Then
-                
-                        MsgBox "Errors Occurred while trying to Add a new record", vbCritical, "Imswin"
+                        '2015-06-26 juan
+                        msg = translator.Trans("M00888")
+                        msg = IIf(msg = "", "Errors Occurred while trying to Add a new record", msg)
+                        MsgBox msg, vbCritical, "Imswin"
                         
                         Exit Sub
                     
@@ -2420,8 +2481,10 @@ Private Sub SsOleCategory_Validate(Cancel As Boolean)
 
 
 If SsOleCategory.IsItemInList = False And GFormmode <> mdvisualization Then
-    
-    MsgBox "Please select a valid Category.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00900")
+    msg = IIf(msg = "", "Please select a valid Category.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
     Cancel = True
     
@@ -2448,8 +2511,10 @@ End Sub
 Private Sub SSOleCharge_Validate(Cancel As Boolean)
 
 If SSOleCharge.IsItemInList = False And GFormmode <> mdvisualization Then
-    
-    MsgBox "Please select a valid Account.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00901")
+    msg = IIf(msg = "", "Please select a valid Account.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
     Cancel = True
     
@@ -2460,10 +2525,12 @@ Private Sub SSoleEccnno_Validate(Cancel As Boolean)
 
 If ConnInfo.Eccnactivate = Constno Then Exit Sub
 
-If SSoleEccnno.IsItemInList = False And GFormmode <> mdvisualization Then
-
-        MsgBox "Eccn # does not exist in the list, please select a valid one.", , "Imswin"
-        SSoleEccnno.SetFocus
+If SSoleEccnNo.IsItemInList = False And GFormmode <> mdvisualization Then
+        '2015-06-27 juan
+        msg = translator.Trans("M00918")
+        msg = IIf(msg = "", "Eccn # does not exist in the list, please select a valid one.", msg)
+        MsgBox msg, , "Imswin"
+        SSoleEccnNo.SetFocus
         Cancel = True
         
 End If
@@ -2496,8 +2563,10 @@ End Sub
 
 Private Sub SSoleManufacturer_Validate(Cancel As Boolean)
 If SSoleManufacturer.IsItemInList = False And GFormmode <> mdvisualization Then
-    
-    MsgBox "Please select a valid Manufacturer.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00902")
+    msg = IIf(msg = "", "Please select a valid Manufacturer.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
     Cancel = True
     
@@ -2548,8 +2617,10 @@ End Sub
 Private Sub SSOlePrimUnit_Validate(Cancel As Boolean)
 
 If SSOlePrimUnit.IsItemInList = False And GFormmode <> mdvisualization Then
-    
-    MsgBox "Please select a valid Unit.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00903")
+    msg = IIf(msg = "", "Please select a valid Unit.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
     Cancel = True
     
@@ -2563,8 +2634,11 @@ End Sub
 
 Private Sub SsoleSecUnit_Validate(Cancel As Boolean)
 If SsoleSecUnit.IsItemInList = False And GFormmode <> mdvisualization Then
-    
-    MsgBox "Please select a valid Unit.", vbInformation, "Imswin"
+
+    '2015-06-26 juan
+    msg = translator.Trans("M00903")
+    msg = IIf(msg = "", "Please select a valid Unit.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     
     Cancel = True
     
@@ -2594,25 +2668,25 @@ Private Sub SSoleSource_LostFocus()
 Call NormalBackground(SSoleSource)
 End Sub
 Private Sub SSoleEccnNo_Click()
-SSoleEccnno.Tag = Trim(UCase(SSoleEccnno.Columns(0).Text))
+SSoleEccnNo.Tag = Trim(UCase(SSoleEccnNo.Columns(0).Text))
 End Sub
 
 Private Sub SSoleEccnNo_GotFocus()
-Call HighlightBackground(SSoleEccnno)
+Call HighlightBackground(SSoleEccnNo)
 End Sub
 
 Private Sub SSoleEccnNo_KeyDown(KeyCode As Integer, Shift As Integer)
  If GFormmode <> mdvisualization Then
-    If Not SSoleEccnno.DroppedDown Then SSoleEccnno.DroppedDown = True
+    If Not SSoleEccnNo.DroppedDown Then SSoleEccnNo.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleEccnNo_KeyPress(KeyAscii As Integer)
-If GFormmode <> mdvisualization Then SSoleEccnno.MoveNext
+If GFormmode <> mdvisualization Then SSoleEccnNo.MoveNext
 End Sub
 
 Private Sub SSoleEccnNo_LostFocus()
-Call NormalBackground(SSoleEccnno)
+Call NormalBackground(SSoleEccnNo)
 End Sub
 Private Sub SsoleStockType_KeyDown(KeyCode As Integer, Shift As Integer)
  If GFormmode <> mdvisualization Then
@@ -2742,8 +2816,10 @@ Select Case PreviousTab
          ElseIf GFormmode = mdvisualization Then
          
             If Len(Trim(TxtStockNumber)) = 0 Then
-            
-            MsgBox "Please select a Stock Number before moving to any other tab.", vbInformation, "IMS"
+            '2015-06-27 juan
+            msg = translator.Trans("M00919")
+            msg = IIf(msg = "", "Please select a Stock Number before moving to any other tab.", msg)
+            MsgBox msg, vbInformation, "IMS"
             
             mcheckStockHeader = False
             
@@ -2836,8 +2912,10 @@ Select Case SSTab1.Tab
                         End If
                     
                     Case 1
-                    
-                        MsgBox "Unidentified error occurred while trying to "
+                        '2015-06-27 juan
+                        msg = translator.Trans("M00920")
+                        msg = IIf(msg = "", "Unidentified error occurred while trying to ", msg)
+                        MsgBox msg
                     
                     Case 2
                     
@@ -2895,8 +2973,10 @@ On Error GoTo ErrHandler
 Set lookups = InitializeLookup
 
 If lookups.GetManufacturers(rsMANUFACTURER) = 1 Then
-
-    MsgBox "Errors Occurrred while trying to Populate the Manufaturer Combo in the Dll. Please Try again.", vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00889")
+    msg = IIf(msg = "", "Errors Occurrred while trying to Populate the Manufaturer Combo in the Dll. Please Try again.", msg)
+    MsgBox msg, vbCritical, "Imswin"
 
     Exit Function
     
@@ -2918,8 +2998,10 @@ PopulateManufacturer = True
 Exit Function
 
 ErrHandler:
-
-MsgBox "Error Occurred while trying to Populate manufacturer in the EXE. Please try again.", vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00890")
+    msg = IIf(msg = "", "Error Occurred while trying to Populate manufacturer in the EXE. Please try again.", msg)
+    MsgBox msg, vbCritical, "Imswin"
 
 Err.Clear
 End Function
@@ -2971,7 +3053,7 @@ On Error GoTo ErrHandler
         
         StockHeader.ModiUser = CurrentUser ' 07/02/02 Modified to make sure the creation user and modification user is stored.
         
-        StockHeader.Eccnid = IIf(Len(SSoleEccnno.Tag) = 0, 0, SSoleEccnno.Tag)
+        StockHeader.Eccnid = IIf(Len(SSoleEccnNo.Tag) = 0, 0, SSoleEccnNo.Tag)
         
         'StockHeader.Eccnno = Trim(SSoleEccnNo.Text)
         
@@ -2986,8 +3068,12 @@ On Error GoTo ErrHandler
 Exit Function
 
 ErrHandler:
-
-MsgBox "Errors occurred while trying to Save the Stock Record. Please try again. Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00891")
+    msg = IIf(msg = "", "Errors occurred while trying to Save the Stock Record. Please try again.", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = "", "Error Description ", msg2)
+    MsgBox msg + " " + msg2 & Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3021,8 +3107,12 @@ SaveToManufacturer = True
 Exit Function
 
 ErrHandler:
-
-MsgBox "Errors occurred while trying to Save the manufacturer record. Please try again. Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00892")
+    msg = IIf(msg = "", "Errors occurred while trying to Save the manufacturer record. ", msg)
+    msg2 = translator.Trans("M00883")
+    msg2 = IIf(msg2 = "", "xx?", msg2)
+    MsgBox msg + msg2 & Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3036,7 +3126,10 @@ Dim i As Long
 
        
     If Len(Trim(TxtStockNumber)) = 0 Then
-       MsgBox "StockNumber can not be left empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00911")
+        msg = IIf(msg = "", "StockNumber can not be left empty.", msg)
+       MsgBox msg
        TxtStockNumber.SetFocus
        Exit Function
     End If
@@ -3054,13 +3147,19 @@ Dim i As Long
 '    End If
     
     If Len(Trim$(SSOlePrimUnit)) = 0 Then
-        MsgBox "Primary Unit can not be Left Empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00912")
+        msg = IIf(msg = "", "Primary Unit can not be Left Empty.", msg)
+        MsgBox msg
         TxtPartnumb.SetFocus
         Exit Function
     End If
         
     If Len(Trim$(SsoleSecUnit)) = 0 Then
-        MsgBox "Secondary Unit can not be Left Empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00913")
+        msg = IIf(msg = "", "Secondary Unit can not be Left Empty.", msg)
+        MsgBox msg
         TxtPartnumb.SetFocus
         Exit Function
     End If
@@ -3078,7 +3177,10 @@ Dim i As Long
 ''    End If
     
         If Len(Trim$(txt_LongDescript)) = 0 Then
-        MsgBox "Long Description can not be Left Empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00914")
+        msg = IIf(msg = "", "Long Description can not be Left Empty.", msg)
+        MsgBox msg
         txt_LongDescript.SetFocus
         Exit Function
     End If
@@ -3106,8 +3208,10 @@ Dim i As Long
     Exit Function
         
 Handled:
-    
-MsgBox " Errors Occurred while trying to Validate the enteries made in the Stock record.", vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00893")
+    msg = IIf(msg = "", " Errors Occurred while trying to Validate the enteries made in the Stock record.", msg)
+    MsgBox msg, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3124,19 +3228,28 @@ Dim i As Long
     If manufacturer.Count = 0 Then ValidatemanufacturerValues = True: Exit Function
        
     If Len(Trim(SSoleManufacturer)) = 0 Then
-       MsgBox "Manufacturer can not be left empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00909")
+        msg = IIf(msg = "", "Manufacturer can not be left empty.", msg)
+       MsgBox msg
        SSoleManufacturer.SetFocus
        Exit Function
     End If
     
     If SSoleManufacturer.IsItemInList = False Then
-       MsgBox "Manufacturer is not valid."
-       SSoleManufacturer.SetFocus
-       Exit Function
+        '2015-06-26 juan
+        msg = translator.Trans("M00898")
+        msg = IIf(msg = "", "Manufacturer is not valid.", msg)
+        MsgBox msg
+        SSoleManufacturer.SetFocus
+        Exit Function
     End If
     
     If Len(Trim$(TxtPartnumb.Text)) = 0 Then
-        MsgBox "Partnumber can not be Left Empty."
+        '2015-06-27 juan
+        msg = translator.Trans("M00910")
+        msg = IIf(msg = "", "Partnumber can not be Left Empty.", msg)
+        MsgBox msg
         TxtPartnumb.SetFocus
         Exit Function
     End If
@@ -3153,7 +3266,10 @@ Dim i As Long
 ''    End If
     
     If IsNumeric(TxtEstPrice.Text) = False Then
-        MsgBox "Please enter a valid value for the Estimated price."
+        '2015-06-26 juan
+        msg = translator.Trans("M00908")
+        msg = IIf(msg = "", "Please enter a valid value for the Estimated price.", msg)
+        MsgBox msg
         TxtEstPrice.SetFocus
         Exit Function
     End If
@@ -3164,7 +3280,10 @@ Dim i As Long
         
 Handled:
     
-MsgBox " Errors Occurred while trying to Validate the enteries made in the manufacturer.", vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00894")
+    msg = IIf(msg = "", " Errors Occurred while trying to Validate the enteries made in the manufacturer.", msg)
+    MsgBox msg, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3188,7 +3307,7 @@ Select Case GFormmode
         TxtStockSearch = ""
         lblManufacNo.Visible = False
         
-        SSoleEccnno.Enabled = True
+        SSoleEccnNo.Enabled = True
         SSoleSource.Enabled = True
         chkLicense.Enabled = True
                 
@@ -3205,7 +3324,7 @@ Select Case GFormmode
         TxtStockSearch = ""
         lblManufacNo.Visible = False
         
-        SSoleEccnno.Enabled = True
+        SSoleEccnNo.Enabled = True
         SSoleSource.Enabled = True
         chkLicense.Enabled = True
         
@@ -3222,7 +3341,7 @@ Select Case GFormmode
         TxtStockSearch = ""
         lblManufacNo.Visible = True
         
-        SSoleEccnno.Enabled = False
+        SSoleEccnNo.Enabled = False
         SSoleSource.Enabled = False
         chkLicense.Enabled = False
         
@@ -3232,8 +3351,12 @@ ToogleStockHeaderControls = True
 
 Exit Function
 ErrHandler:
-
-MsgBox " Errors occured while trying to Toggle the controls on stock header.Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00895")
+    msg = IIf(msg = "", "Errors occured while trying to Toggle the controls on stock header.", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = "", "Error Description ", msg2)
+    MsgBox msg + " " + msg2 & Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3295,7 +3418,12 @@ ToogleManufacturerControls = True
 Exit Function
 ErrHandler:
 
-MsgBox " Errors occured while trying to Toggle the controls on manufacturer.Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00896")
+    msg = IIf(msg = "", "Errors occured while trying to Toggle the controls on manufacturer.", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = "", "Error Description ", msg2)
+    MsgBox msg + " " + msg2 & Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3434,21 +3562,21 @@ ChkManufActive.Enabled = True 'JCG 2007/01/10
     If FMode = mdCreation Then
         lblStatus.ForeColor = vbRed
         
-        
+        msg1 = translator.Trans("L00125") 'J added
         lblStatus.Caption = IIf(msg1 = "", "Creation", msg1)
         
         
     ElseIf FMode = mdModification Then
         lblStatus.ForeColor = vbBlue
                 
-        
+        msg1 = translator.Trans("L00126") 'J added
        lblStatus.Caption = IIf(msg1 = "", "Modification", msg1)
         
   
      ElseIf FMode = mdvisualization Then
         lblStatus.ForeColor = vbGreen
         
-        
+        msg1 = translator.Trans("L00092") 'J added
         lblStatus.Caption = IIf(msg1 = "", "Visualization", msg1)
         
         ChkManufActive.Enabled = False 'JCG 2007/01/10
@@ -3479,8 +3607,12 @@ SetInitialValuesManufacturer = True
 Exit Function
 
 ErrHandler:
-
-MsgBox "Errors Occurred while trying to Initialize Manufacturer record.Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00896")
+    msg = IIf(msg = "", "Errors Occurred while trying to Initialize Manufacturer record", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = "", "Error Description ", msg2)
+    MsgBox msg + " " + msg2 + Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3498,7 +3630,12 @@ Exit Function
 
 ErrHandler:
 
-MsgBox "Errors Occurred while trying to Initialize Stock header record. Error Description " & Err.Description, vbCritical, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00897")
+    msg = IIf(msg = "", "Errors Occurred while trying to Initialize Stock header record.", msg)
+    msg2 = translator.Trans("M00829")
+    msg2 = IIf(msg2 = " Error Description ", "xxx", msg2)
+    MsgBox msg + msg2 & Err.Description, vbCritical, "Imswin"
 
 Err.Clear
 
@@ -3506,7 +3643,10 @@ End Function
 
 Private Sub txt_Estimate_Validate(Cancel As Boolean)
 If Not IsNumeric(txt_Estimate) And Len(Trim(txt_Estimate)) > 0 Then
-    MsgBox "Please enter a valid Estimate amount.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00904")
+    msg = IIf(msg = "", "Please enter a valid Estimate amount.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     Cancel = True
     
  ElseIf IsNumeric(txt_Estimate) And Len(Trim(txt_Estimate)) > 0 Then
@@ -3551,7 +3691,10 @@ End Sub
 
 Private Sub txt_Maximum_Validate(Cancel As Boolean)
 If Not IsNumeric(txt_Maximum) And Len(Trim(txt_Maximum)) > 0 Then
-    MsgBox "Please enter a valid Maximum amount.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00905")
+    msg = IIf(msg = "", "Please enter a valid Maximum amount.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     Cancel = True
     
   ElseIf IsNumeric(txt_Maximum) And Len(Trim(txt_Maximum)) > 0 Then
@@ -3574,8 +3717,10 @@ End Sub
 
 Private Sub txt_Minimum_Validate(Cancel As Boolean)
 If Not IsNumeric(txt_Minimum) And Len(Trim(txt_Minimum)) > 0 Then
-    
-    MsgBox "Please enter a valid Minimum amount.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00905")
+    msg = IIf(msg = "", "Please enter a valid Maximum amount.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     Cancel = True
     
  ElseIf IsNumeric(txt_Minimum) And Len(Trim(txt_Minimum)) > 0 Then
@@ -3595,7 +3740,10 @@ Call NormalBackground(txt_ShortDescript)
 End Sub
 Private Sub txt_Standard_Validate(Cancel As Boolean)
 If Not IsNumeric(txt_Standard) And Len(Trim(txt_Standard)) > 0 Then
-    MsgBox "Please enter a valid Standard Cost.", vbInformation, "Imswin"
+    '2015-06-26 juan
+    msg = translator.Trans("M00906")
+    msg = IIf(msg = "", "Please enter a valid Standard Cost.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     Cancel = True
     
    ElseIf IsNumeric(txt_Standard) And Len(Trim(txt_Standard)) > 0 Then
@@ -3633,7 +3781,11 @@ End Sub
 Private Sub TxtEstPrice_Validate(Cancel As Boolean)
 
 If Not IsNumeric(TxtEstPrice) And Len(Trim(TxtEstPrice)) > 0 Then
-    MsgBox "Please enter a valid Estimated Cost.", vbInformation, "Imswin"
+    
+    '2015-06-26 juan
+    msg = translator.Trans("M00907")
+    msg = IIf(msg = "", "Please enter a valid Estimated Cost.", msg)
+    MsgBox msg, vbInformation, "Imswin"
     Cancel = True
     
    ElseIf IsNumeric(TxtEstPrice) And Len(Trim(TxtEstPrice)) > 0 Then
@@ -3705,8 +3857,10 @@ If GFormmode = mdCreation Then
     Set lookups = InitializeLookup
     
     If lookups.DoesStockExist(TxtStockNumber) > 0 Then
-    
-        MsgBox "Stock with that name already exist. Please use a different one.", vbInformation, "Imswin"
+        '2015-06-27 juan
+        msg = translator.Trans("M00915")
+        msg = IIf(msg = "", "Stock with that name already exist. Please use a different one.", msg)
+        MsgBox msg, vbInformation, "Imswin"
         
         Cancel = True
         
@@ -3831,8 +3985,10 @@ Dim Count As Integer
     Do While Not dgRecipientList.Rows = Count
 
         If dgRecipientList.Columns(0).value = RecepientAddress Then
-
-            MsgBox "Recepient already exists, Please choose a different one.", vbInformation + vbOKOnly, "Imswin"
+            '2015-06-27 juan
+            msg = translator.Trans("M00916")
+            msg = IIf(msg = "", "Recepient already exists, Please choose a different one.", msg)
+            MsgBox msg, vbInformation + vbOKOnly, "Imswin"
 
             Exit Function
 
@@ -3927,13 +4083,13 @@ Public Sub GetSupplierPhoneDirFAX()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim Sql As String
+Dim sql As String
 
-Sql = "select sup_name Names,  upper( sup_contaFax) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_contaFax is not null and len(sup_contaFax) > 0   union"
+sql = "select sup_name Names,  upper( sup_contaFax) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_contaFax is not null and len(sup_contaFax) > 0   union"
 
-Sql = Sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
+sql = sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
 
-rst.Source = Sql
+rst.Source = sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -3967,13 +4123,13 @@ Public Sub GetSupplierPhoneDirEmails()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim Sql As String
+Dim sql As String
 
-Sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
+sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
 
-Sql = Sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
+sql = sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
 
-rst.Source = Sql
+rst.Source = sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -4119,7 +4275,10 @@ If (OptEmail.value = True Or OptFax.value = True) Then
 
         End If
  Else
-    MsgBox "Please check Email or Fax.", vbInformation, "Imswin"
+    '2015-06-27 juan
+    msg = translator.Trans("M00917")
+    msg = IIf(msg = "", "Please check Email or Fax.", msg)
+    MsgBox msg, vbInformation, "Imswin"
 
  End If
 End Sub
@@ -4129,8 +4288,10 @@ Private Sub cmdRemove_Click()
 Dim x As Integer
 
 If Len(dgRecipientList.SelBookmarks(0)) = 0 Then
-
-    MsgBox "Please make a selection first.", vbInformation, "Imswin"
+    '2015-06-27 juan
+    msg = translator.Trans("M00885")
+    msg = IIf(msg = "", "Please make a selection first.", msg)
+    MsgBox msg, vbInformation, "Imswin"
 
     Exit Sub
 

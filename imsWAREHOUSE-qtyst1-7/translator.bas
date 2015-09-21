@@ -47,58 +47,58 @@ Public Sub Translate_Forms(Form_name As String)
                 If VB.Forms(i).name = Form_name Then
                     If .RecordCount > 0 Then
                         .Find "trs_obj = '" + Form_name + "'"
-                        If Not .EOF Then VB.Forms(i).Caption = !msg_text
-                            For j = 0 To VB.Forms(i).Controls.Count - 1
-                                nameCONTROLs = VB.Forms(i).Controls(j).name
-                                If TypeOf VB.Forms(i).Controls(j) Is LRNavigators.NavBar Or TypeOf VB.Forms(i).Controls(j) Is LRNavigators.LROleDBNavBar Then
-                                    Set VB.Forms(i).Controls(j).ActiveConnection = cn
-                                    VB.Forms(i).Controls(j).language = TR_LANGUAGE
-                                End If
-                                indexARRAY = -1
-                                indexARRAY = VB.Forms(i).Controls(j).Index
-                                If indexARRAY >= 0 Then
-                                    nameCONTROLs = nameCONTROLs + "(" + Format(indexARRAY) + ")"
-                                    .MoveFirst
-                                    .Find "trs_obj = '" + nameCONTROLs + "'"
-                                    If Not .EOF Then VB.Forms(i).Controls(j) = !msg_text
+                        'If Not .EOF Then VB.Forms(i).Caption = !msg_text
+                        For j = 0 To VB.Forms(i).Controls.Count - 1
+                            nameCONTROLs = VB.Forms(i).Controls(j).name
+                            If TypeOf VB.Forms(i).Controls(j) Is LRNavigators.NavBar Or TypeOf VB.Forms(i).Controls(j) Is LRNavigators.LROleDBNavBar Then
+                                Set VB.Forms(i).Controls(j).ActiveConnection = cn
+                                VB.Forms(i).Controls(j).language = TR_LANGUAGE
+                            End If
+                            indexARRAY = -1
+                            indexARRAY = VB.Forms(i).Controls(j).Index
+                            If indexARRAY >= 0 Then
+                                nameCONTROLs = nameCONTROLs + "(" + Format(indexARRAY) + ")"
+                                .MoveFirst
+                                .Find "trs_obj = '" + nameCONTROLs + "'"
+                                If Not .EOF Then VB.Forms(i).Controls(j) = !msg_text
+                            Else
+                                indexTAB = -1
+                                indexTAB = VB.Forms(i).Controls(j).Tabs
+                                If indexTAB >= 0 Then
+                                    For k = 0 To indexTAB - 1
+                                        nameCONTROLs2 = nameCONTROLs + ".Tab(" + Format(k) + ")"
+                                        .MoveFirst
+                                        .Find "trs_obj = '" + nameCONTROLs2 + "'"
+                                        If Not .EOF Then VB.Forms(i).Controls(j).TabCaption(k) = !msg_text
+                                    Next
                                 Else
-                                    indexTAB = -1
-                                    indexTAB = VB.Forms(i).Controls(j).Tabs
-                                    If indexTAB >= 0 Then
-                                        For k = 0 To indexTAB - 1
-                                            nameCONTROLs2 = nameCONTROLs + ".Tab(" + Format(k) + ")"
+                                    indexCOL = -1
+                                    indexCOL = VB.Forms(i).Controls(j).columns.Count
+                                    If indexCOL >= 0 Then
+                                        For k = 0 To indexCOL - 1
+                                            nameCONTROLs2 = nameCONTROLs + "." + VB.Forms(i).Controls(j).columns(k).Caption
                                             .MoveFirst
                                             .Find "trs_obj = '" + nameCONTROLs2 + "'"
-                                            If Not .EOF Then VB.Forms(i).Controls(j).TabCaption(k) = !msg_text
-                                        Next
-                                    Else
-                                        indexCOL = -1
-                                        indexCOL = VB.Forms(i).Controls(j).columns.Count
-                                        If indexCOL >= 0 Then
-                                            For k = 0 To indexCOL - 1
-                                                nameCONTROLs2 = nameCONTROLs + "." + VB.Forms(i).Controls(j).columns(k).Caption
+                                            If Not .EOF Then
+                                                VB.Forms(i).Controls(j).columns(k).Caption = !msg_text
+                                            Else
+                                                nameCONTROLs2 = nameCONTROLs + ".Columns(" + Format(k) + ")"
                                                 .MoveFirst
                                                 .Find "trs_obj = '" + nameCONTROLs2 + "'"
-                                                If Not .EOF Then
-                                                    VB.Forms(i).Controls(j).columns(k).Caption = !msg_text
-                                                Else
-                                                    nameCONTROLs2 = nameCONTROLs + ".Columns(" + Format(k) + ")"
-                                                    .MoveFirst
-                                                    .Find "trs_obj = '" + nameCONTROLs2 + "'"
-                                                    If Not .EOF Then VB.Forms(i).Controls(j).columns(k).Caption = !msg_text
-                                                End If
-                                            Next
-                                            .MoveFirst
-                                            .Find "trs_obj = '" + nameCONTROLs + "'"
-                                            If Not .EOF Then VB.Forms(i).Controls(j).Caption = !msg_text
-                                        Else
-                                            .MoveFirst
-                                            .Find "trs_obj = '" + nameCONTROLs + "'"
-                                            If Not .EOF Then VB.Forms(i).Controls(j).Caption = !msg_text
-                                        End If
+                                                If Not .EOF Then VB.Forms(i).Controls(j).columns(k).Caption = !msg_text
+                                            End If
+                                        Next
+                                        .MoveFirst
+                                        .Find "trs_obj = '" + nameCONTROLs + "'"
+                                        If Not .EOF Then VB.Forms(i).Controls(j).Caption = !msg_text
+                                    Else
+                                        .MoveFirst
+                                        .Find "trs_obj = '" + nameCONTROLs + "'"
+                                        If Not .EOF Then VB.Forms(i).Controls(j).Caption = !msg_text
                                     End If
                                 End If
-                            Next
+                            End If
+                        Next
                             
                         End If
                     Exit For

@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   68288515
+      Format          =   55181315
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1753,6 +1753,7 @@ Dim qtyColumn
 Dim datax As ADODB.Recordset
 Dim sql As String
 Dim isEditionActive  As Boolean
+Dim translationAdjustmentEntry
 isSerial = False
 isEditionActive = False
 Screen.MousePointer = 11
@@ -1799,7 +1800,7 @@ If isEditionActive = False Then Exit Sub
         Tree.Nodes.Clear
         StockNumber = .TextMatrix(r, 1)
         QTYpo = 0
-        
+        Dim translationCondition, translationLogical, translationSublocation, translationSerial, translationPool, translationTotal, translationTot
         translationCondition = translator.getIt("translationCondition") + ": "
         translationLogical = translator.getIt("translationLogical") + ": "
         translationSublocation = translator.getIt("translationSubLocation") + ": "
@@ -5537,6 +5538,7 @@ skipExistance = True
         End If
         
         Dim tempRow As Integer
+        If .row = 0 Then Exit Sub
         tempRow = .row
         Select Case name
             Case "logicBOX"

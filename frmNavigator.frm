@@ -4598,8 +4598,8 @@ Begin VB.Form frmNavigator
          TabIndex        =   1
          Tag             =   "01000000"
          Top             =   3735
-         Width           =   2040
-         _ExtentX        =   3598
+         Width           =   2760
+         _ExtentX        =   4868
          _ExtentY        =   741
          ForeColor       =   255
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -5408,8 +5408,8 @@ Case 1
 Case 2
     Set frm = frmClose
 Case 3
-    Set frm = FrmRequisition
-    'Set frm = frm_transact_order
+    'Set frm = FrmRequisition
+    Set frm = frm_transact_order
 Case 4
     Set frm = frmPOApproval
 Case 5

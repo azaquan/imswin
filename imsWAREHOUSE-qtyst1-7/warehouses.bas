@@ -3115,7 +3115,7 @@ On Error Resume Next
 '            .STOCKlist.TextMatrix(i, colTot + 2) = .STOCKlist.TextMatrix(i, colRef + 1)
 '        Next
         'WarehouseReceipt
-        r = 0
+        r = .STOCKlist.row
         If .tag = "02040100" Then
             r = findSTUFF(.commodityLABEL, .STOCKlist, 1, .poItemLabel, 8)
         Else
@@ -3395,7 +3395,10 @@ Dim findIT As Boolean
                         Exit For
                     Else
                          If UCase(Trim(.TextMatrix(i, col2))) = UCase(Trim(toFIND2)) Then
-                            If mainItemRow = 0 Then mainItemRow = i
+                            If mainItemRow = 0 Then
+                                mainItemRow = i
+                                findSTUFF = mainItemRow
+                            End If
                             If invoice = "" Then
                                 findSTUFF = i
                                 Exit For

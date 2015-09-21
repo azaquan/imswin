@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Begin VB.Form frmCurrency 
    Caption         =   "Currency"
@@ -37,10 +37,10 @@ Begin VB.Form frmCurrency
    Begin VB.CommandButton HistoryButton 
       Caption         =   "&History"
       Height          =   375
-      Left            =   4920
+      Left            =   4680
       TabIndex        =   5
       Top             =   4440
-      Width           =   1215
+      Width           =   1455
    End
    Begin VB.TextBox box 
       Appearance      =   0  'Flat
@@ -107,7 +107,7 @@ Begin VB.Form frmCurrency
       ForeColor       =   -2147483630
       BackColor       =   -2147483633
       Appearance      =   1
-      StartOfWeek     =   60227585
+      StartOfWeek     =   52822017
       CurrentDate     =   36972
    End
    Begin VB.Label Label1 
@@ -143,6 +143,12 @@ Dim originalVALUE As String
 Dim SaveEnabled As Boolean
 Dim lastDATE As Date
 Dim TableLocked As Boolean, currentformname As String   'jawdat
+
+Dim msg As String
+Dim msg2 As String
+Dim msg3 As String
+Dim msg4 As String
+
 Function topROW(row, Optional bottom As Boolean) As Integer
 Dim Y As Integer
 Dim i As Integer
@@ -173,7 +179,7 @@ Dim n As Integer
 End Function
 
 Sub fillHISTORY()
-Dim Sql As String
+Dim sql As String
 Dim mark As String
 Dim rec As String
 Dim currDATA As New ADODB.Recordset
@@ -189,7 +195,7 @@ Screen.MousePointer = 11
         .Height = currencyLIST.Height - 375
     End With
     currCODE = currencyLIST.TextMatrix(currencyLIST.row, 0)
-    Sql = "SELECT curr_code, curr_desc, " _
+    sql = "SELECT curr_code, curr_desc, " _
         & "curd_from, curd_to, curd_value " _
         & "FROM CURRENCY LEFT OUTER JOIN CURRENCYDETL ON " _
         & "curr_code = curd_code AND " _
@@ -199,7 +205,7 @@ Screen.MousePointer = 11
         & "ORDER BY curr_code ASC, curd_to DESC"
     Set currDATA = New ADODB.Recordset
     With currDATA
-        .Open Sql, deIms.cnIms, adOpenForwardOnly
+        .Open sql, deIms.cnIms, adOpenForwardOnly
         If .RecordCount > 0 Then
             Do While Not .EOF
                 rec = !curr_code & vbTab
@@ -224,13 +230,13 @@ Screen.MousePointer = 11
 Screen.MousePointer = 0
 End Sub
 Sub fillLIST()
-Dim Sql As String
+Dim sql As String
 Dim mark As String
 Dim rec As String
 Dim currDATA As New ADODB.Recordset
 Screen.MousePointer = 11
     currencyLIST.Rows = 2
-    Sql = "SELECT curr_code, curr_desc, " _
+    sql = "SELECT curr_code, curr_desc, " _
         & "curd_from, curd_to, curd_value " _
         & "FROM CURRENCY LEFT OUTER JOIN CURRENCYDETL ON " _
         & "curr_code = curd_code AND " _
@@ -242,7 +248,7 @@ Screen.MousePointer = 11
         '-------------------
     Set currDATA = New ADODB.Recordset
     With currDATA
-        .Open Sql, deIms.cnIms, adOpenForwardOnly
+        .Open sql, deIms.cnIms, adOpenForwardOnly
         If .RecordCount > 0 Then
             mark = ""
             Do While Not .EOF
@@ -268,17 +274,17 @@ Screen.MousePointer = 0
 End Sub
 
 Function leftCOL(Col) As Integer
-Dim x As Integer
+Dim X As Integer
 Dim i As Integer
     With currencyLIST
-        x = .Left + 10
+        X = .Left + 10
         If Col > 0 Then
             For i = 0 To Col - 1
-                x = x + .ColWidth(i)
+                X = X + .ColWidth(i)
             Next
         End If
     End With
-    leftCOL = x + 10
+    leftCOL = X + 10
 End Function
 
 Sub SETcurrencyLIST()
@@ -288,19 +294,34 @@ Dim i As Integer
             .ColAlignmentFixed(i) = 4
         Next
         .ColWidth(0) = 800
-        .TextMatrix(0, 0) = "Code"
+        '2015-07-03 juan
+        msg = translator.Trans("L00028")
+        msg = IIf(msg = "", "Code", msg)
+        .TextMatrix(0, 0) = msg
         .ColAlignment(0) = 0
         .ColWidth(1) = 2000
-        .TextMatrix(0, 1) = "Description"
+        '2015-07-03 juan
+        msg = translator.Trans("L00029")
+        msg = IIf(msg = "", "Description", msg)
+        .TextMatrix(0, 1) = msg
         .ColAlignment(1) = 0
         .ColWidth(2) = 1000
-        .TextMatrix(0, 2) = "From Date"
+        '2015-07-03 juan
+        msg = translator.Trans("L00015")
+        msg = IIf(msg = "", "From Date", msg)
+        .TextMatrix(0, 2) = msg
         .ColAlignment(2) = 3
         .ColWidth(3) = 1000
-        .TextMatrix(0, 3) = "To Date"
+        '2015-07-03 juan
+        msg = translator.Trans("L00021")
+        msg = IIf(msg = "", "To Date", msg)
+        .TextMatrix(0, 3) = msg
         .ColAlignment(3) = 3
         .ColWidth(4) = 1000
-        .TextMatrix(0, 4) = "Value"
+        '2015-07-03 juan
+        msg = translator.Trans("L00558")
+        msg = IIf(msg = "", "Value", msg)
+        .TextMatrix(0, 4) = msg
         .ColAlignment(4) = 6
     End With
     With history
@@ -393,16 +414,16 @@ End Sub
 
 
 Public Sub box_Validate(Cancel As Boolean)
-Dim Sql As String
+Dim sql As String
 Dim currDATA As New ADODB.Recordset
         
     With currencyLIST
         If .Col = 0 Then
-            Sql = "SELECT curr_code  FROM CURRENCY WHERE " _
+            sql = "SELECT curr_code  FROM CURRENCY WHERE " _
                 & "curr_code = '" + Trim(box) + "' AND " _
                 & "curr_npecode = '" + deIms.NameSpace + "'"
             Set currDATA = New ADODB.Recordset
-            currDATA.Open Sql, deIms.cnIms, adOpenForwardOnly
+            currDATA.Open sql, deIms.cnIms, adOpenForwardOnly
             If currDATA.RecordCount > 0 Then
                 currencyLIST.Col = 0
                 box = ""
@@ -604,7 +625,7 @@ Private Sub currencyLIST_DblClick()
 End Sub
 
 Sub showBOX(Col As Integer)
-Dim x As Integer
+Dim X As Integer
 Dim Y As Integer
     With currencyLIST
         If .row = 0 And .FixedRows > 0 Then .row = 1
@@ -614,8 +635,8 @@ Dim Y As Integer
         Else
             box.Height = box.Height + 10
         End If
-        x = leftCOL(Col)
-        box.Left = x
+        X = leftCOL(Col)
+        box.Left = X
         Y = topROW(.row)
         box.Top = Y + .Top
         box.Width = .ColWidth(Col) + 10
@@ -646,17 +667,17 @@ Dim Y As Integer
 End Sub
 
 Sub showCALENDAR(Col As Integer)
-Dim x As Integer
+Dim X As Integer
 Dim Y As Integer
     With currencyLIST
         .Col = Col
         If .row = 0 And .FixedRows > 0 Then .row = 1
-        x = leftCOL(Col)
+        X = leftCOL(Col)
         If Col > 2 Then
-            x = x + .ColWidth(Col)
-            x = x - calendar.Width + 10
+            X = X + .ColWidth(Col)
+            X = X - calendar.Width + 10
         End If
-        calendar.Left = x
+        calendar.Left = X
         Y = topROW(.row, True)
         If (frmCurrency.Height - Y) <= (calendar.Height + 1200) Then
             Y = Y - calendar.Height - .RowHeight(.row)
@@ -711,6 +732,10 @@ Private Sub Form_Load()
 Dim currentformname
 Dim imsLock As imsLock.Lock
 Set imsLock = New imsLock.Lock
+'Added by Juan (7/3/2015) for Multilingual
+Call translator.Translate_Forms("frmCurrency")
+'------------------------------------------
+
 currentformname = Forms(3).Name
 Call imsLock.CHECK_TABLE(TableLocked, currentformname, deIms.cnIms, CurrentUser)
 
@@ -774,15 +799,24 @@ End Sub
 
 
 Private Sub HistoryButton_Click()
+'2015-07-03 juan
+msg = translator.Trans("M00923")
+msg = IIf(msg = "", "&History", "&" + msg)
+msg2 = translator.Trans("M00924")
+msg2 = IIf(msg2 = "", "&Current", "&" + msg2)
+msg3 = translator.Trans("M00925")
+msg3 = IIf(msg3 = "", "Currency History", msg3)
+msg4 = translator.Trans("M00926")
+msg4 = IIf(msg4 = "", "Actual Currency", msg4)
     With HistoryButton
-        If .Caption = "&History" Then
-            .Caption = "&Current"
-            Label1 = "Currency History"
+        If .Caption = msg Then
+            .Caption = msg2
+            Label1 = msg3
             history.Visible = True
             Call fillHISTORY
         Else
-            .Caption = "&History"
-            Label1 = "Actual Currency"
+            .Caption = msg
+            Label1 = msg4
             history.Visible = False
         End If
     End With
@@ -791,7 +825,7 @@ End Sub
 Private Sub NavBar1_BeforeSaveClick()
 Dim i As Integer
 Dim id As Integer
-Dim Sql As String
+Dim sql As String
 Dim currDATA As New ADODB.Recordset
 Dim dateFROM As Date
 Dim dateTO As Date
@@ -823,13 +857,13 @@ On Error GoTo errCLOSE
     
     Select Case mode
         Case "editing"
-            Sql = "UPDATE CURRENCY SET " _
+            sql = "UPDATE CURRENCY SET " _
                 & "curr_modidate = '" + Format(Now, "yyyy/mm/dd") + "', " _
                 & "curr_modiuser = '" + CurrentUser + "' WHERE " _
                 & "curr_code = '" + currencyLIST.TextMatrix(currentROW, 0) + "' AND " _
                 & "curr_npecode = '" + deIms.NameSpace + "' "
         Case "new"
-            Sql = "INSERT INTO CURRENCY (curr_code, curr_npecode, curr_desc, curr_creauser) " _
+            sql = "INSERT INTO CURRENCY (curr_code, curr_npecode, curr_desc, curr_creauser) " _
                 & "VALUES ( " _
                 & "'" + currencyLIST.TextMatrix(currentROW, 0) + "', " _
                 & "'" + deIms.NameSpace + "', " _
@@ -838,13 +872,13 @@ On Error GoTo errCLOSE
     End Select
     dateFROM = Format(CDate(currencyLIST.TextMatrix(currentROW, 2)), "yyyy/mm/dd")
     dateTO = Format(CDate(currencyLIST.TextMatrix(currentROW, 3)), "yyyy/mm/dd")
-    deIms.cnIms.Execute Sql
+    deIms.cnIms.Execute sql
     
-    Sql = "SELECT max(curd_id) as id FROM CURRENCYDETL WHERE " _
+    sql = "SELECT max(curd_id) as id FROM CURRENCYDETL WHERE " _
         & "curd_code = '" + currencyLIST.TextMatrix(currentROW, 0) + "' AND " _
         & "curd_npecode = '" + deIms.NameSpace + "' "
     Set currDATA = New ADODB.Recordset
-    currDATA.Open Sql, deIms.cnIms, adOpenForwardOnly
+    currDATA.Open sql, deIms.cnIms, adOpenForwardOnly
     If currDATA.RecordCount > 0 Then
         If IsNull(currDATA!id) Then
             id = 1
@@ -855,7 +889,7 @@ On Error GoTo errCLOSE
         id = 1
     End If
     
-    Sql = "INSERT INTO CURRENCYDETL (" _
+    sql = "INSERT INTO CURRENCYDETL (" _
         & "curd_id, " _
         & "curd_npecode, " _
         & "curd_code, " _
@@ -871,7 +905,7 @@ On Error GoTo errCLOSE
         & "'" + Format(dateTO, "yyyy/mm/dd") + "', " _
         & currencyLIST.TextMatrix(currentROW, 4) + ", " _
         & "'" + CurrentUser + "')"
-    deIms.cnIms.Execute Sql
+    deIms.cnIms.Execute sql
     Call NavBar1_OnCancelClick
     Unload FrmShowApproving
     Me.ZOrder

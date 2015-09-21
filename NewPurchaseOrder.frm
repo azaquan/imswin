@@ -941,7 +941,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   69271555
+            Format          =   68288515
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1603,7 +1603,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   69271555
+            Format          =   68288515
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2198,7 +2198,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   69271555
+            Format          =   68288515
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -4312,7 +4312,7 @@ On Error GoTo ErrHandler
         Dim lbl_doc_desc As String
         lbl_doc_desc = translator.TranslateObject(deIms.cnIms, "doctype", Poheader.Docutype)
         If lbl_doc_desc <> "" Then
-            .Formulas(100) = "lbl_doc_desc = '" + lbl_doc_desc + "'"
+            .Formulas(101) = "lbl_doc_desc = '" + lbl_doc_desc + "'"
         End If
         If Poheader.confordr And translator.TR_LANGUAGE <> "US" Then
             msg = translator.Trans("M00881")
@@ -7107,14 +7107,12 @@ SSOleDBCurrency.Tag = SSOleDBCurrency.Columns(0).Text
 End Sub
 
 Private Sub Form_Load()
-
 NavBar1.CancelLastSepVisible = False
 NavBar1.LastPrintSepVisible = False
 NavBar1.PrintSaveSepVisible = False
 NavBar1.DeleteVisible = True
 
 FNameSpace = deIms.NameSpace
-
 Dim mLoadForm As Boolean
 Dim x As String
 Dim Count As Integer
@@ -7123,12 +7121,9 @@ Dim Count As Integer
     NavBar1.EditEnabled = True
     mDidUserOpenStkMasterForm = False
     Mainpo.Configure deIms.NameSpace, deIms.cnIms
-
     Set Poheader = Mainpo.Poheader
-    
 
     InitializePOheaderRecordset
-
     'Added by Juan (2015-02-13) for Multilingual
     Call translator.Translate_Forms("frm_NewPurchase")
     '------------------------------------------
@@ -7165,7 +7160,7 @@ Dim Count As Integer
     NavBar1.SaveEnabled = False
     NavBar1.DeleteEnabled = NavBar1.EditEnabled
     
-    
+
     FormMode = ChangeMode(mdvisualization)
     
     If NavBar1.EditEnabled = False Then
@@ -7193,7 +7188,7 @@ Dim Count As Integer
     End If
     
     Caption = Caption + " - " + Tag
-    
+
     With frm_NewPurchase
         .Left = Round((Screen.Width - .Width) / 2)
         .Top = Round((Screen.Height - .Height) / 2)

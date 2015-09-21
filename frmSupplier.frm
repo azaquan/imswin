@@ -1,21 +1,21 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{27609682-380F-11D5-99AB-00D0B74311D4}#1.0#0"; "ImsMailVBX.ocx"
 Begin VB.Form frm_IntSupe 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Supplier "
-   ClientHeight    =   7590
+   ClientHeight    =   7695
    ClientLeft      =   180
    ClientTop       =   210
-   ClientWidth     =   10890
+   ClientWidth     =   11700
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
-   ScaleHeight     =   7590
-   ScaleWidth      =   10890
+   ScaleHeight     =   7695
+   ScaleWidth      =   11700
    Tag             =   "01010101"
    Begin MSComCtl2.MonthView MonthView1 
       Height          =   2370
@@ -30,7 +30,7 @@ Begin VB.Form frm_IntSupe
       ForeColor       =   -2147483630
       BackColor       =   -2147483633
       Appearance      =   1
-      StartOfWeek     =   60096513
+      StartOfWeek     =   54853633
       CurrentDate     =   37316
    End
    Begin MSComCtl2.MonthView MonthView2 
@@ -46,7 +46,7 @@ Begin VB.Form frm_IntSupe
       ForeColor       =   -2147483630
       BackColor       =   -2147483633
       Appearance      =   1
-      StartOfWeek     =   60096513
+      StartOfWeek     =   54853633
       CurrentDate     =   37316
    End
    Begin LRNavigators.NavBar NavBar1 
@@ -65,9 +65,9 @@ Begin VB.Form frm_IntSupe
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown ssdddContacts 
       Height          =   1335
-      Left            =   8040
+      Left            =   8880
       TabIndex        =   14
-      Top             =   2400
+      Top             =   4440
       Width           =   1215
       _Version        =   196617
       ForeColorEven   =   8388608
@@ -83,9 +83,9 @@ Begin VB.Form frm_IntSupe
       Height          =   6855
       Left            =   120
       TabIndex        =   17
-      Top             =   0
-      Width           =   9135
-      _ExtentX        =   16113
+      Top             =   120
+      Width           =   11415
+      _ExtentX        =   20135
       _ExtentY        =   12091
       _Version        =   393216
       Style           =   1
@@ -139,17 +139,16 @@ Begin VB.Form frm_IntSupe
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmSupplier.frx":0054
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lbl_Recipients"
-      Tab(2).Control(1)=   "ssdbRecepientList"
+      Tab(2).Control(0)=   "Picture1(0)"
+      Tab(2).Control(1)=   "cmd_Add"
       Tab(2).Control(2)=   "cmd_Remove"
-      Tab(2).Control(3)=   "cmd_Add"
-      Tab(2).Control(4)=   "Picture1(0)"
+      Tab(2).Control(3)=   "ssdbRecepientList"
+      Tab(2).Control(4)=   "lbl_Recipients"
       Tab(2).ControlCount=   5
       TabCaption(3)   =   "Contacts"
       TabPicture(3)   =   "frmSupplier.frx":0070
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "ssdbgContacts"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).ControlCount=   1
       TabCaption(4)   =   "Contract"
       TabPicture(4)   =   "frmSupplier.frx":008C
@@ -172,37 +171,39 @@ Begin VB.Form frm_IntSupe
          Left            =   120
          TabIndex        =   37
          Top             =   2160
-         Width           =   3495
+         Width           =   5655
          Begin VB.TextBox Txt_contaname 
             DataField       =   "sup_contaname"
             DataMember      =   "INtSupplier"
             DataSource      =   "deIms"
             Height          =   288
-            Left            =   1560
+            Left            =   2400
             MaxLength       =   35
             TabIndex        =   10
             Top             =   480
-            Width           =   1830
+            Width           =   3015
          End
          Begin VB.TextBox txt_FaxNumber 
             DataField       =   "sup_faxnumb"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   1560
+            Left            =   2400
             MaxLength       =   50
             TabIndex        =   9
             Top             =   120
-            Width           =   1830
+            Width           =   3015
          End
          Begin VB.Label Lbl_Name 
+            Alignment       =   1  'Right Justify
             Caption         =   "Contact Name"
             Height          =   255
             Left            =   120
             TabIndex        =   39
             Top             =   480
-            Width           =   1095
+            Width           =   2175
          End
          Begin VB.Label lbl_FaxNum 
+            Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
             Caption         =   "Fax #"
             DataMember      =   "SUPPLIER"
@@ -210,7 +211,7 @@ Begin VB.Form frm_IntSupe
             Left            =   120
             TabIndex        =   38
             Top             =   120
-            Width           =   585
+            Width           =   2175
          End
       End
       Begin VB.TextBox TxtSuppCode 
@@ -219,7 +220,7 @@ Begin VB.Form frm_IntSupe
          DataSource      =   "deIms"
          Enabled         =   0   'False
          Height          =   288
-         Left            =   4920
+         Left            =   6000
          TabIndex        =   28
          Top             =   360
          Visible         =   0   'False
@@ -231,17 +232,17 @@ Begin VB.Form frm_IntSupe
          Index           =   0
          Left            =   -74880
          ScaleHeight     =   3135
-         ScaleWidth      =   6735
+         ScaleWidth      =   11175
          TabIndex        =   20
          Top             =   2760
-         Width           =   6735
+         Width           =   11175
          Begin ImsMailVB.Imsmail Imsmail1 
             Height          =   3135
             Left            =   0
             TabIndex        =   21
             Top             =   0
-            Width           =   6735
-            _ExtentX        =   11880
+            Width           =   10845
+            _ExtentX        =   19129
             _ExtentY        =   5530
          End
       End
@@ -251,7 +252,7 @@ Begin VB.Form frm_IntSupe
          Left            =   -74760
          TabIndex        =   19
          Top             =   2115
-         Width           =   1215
+         Width           =   1455
       End
       Begin VB.CommandButton cmd_Remove 
          Caption         =   "Remove"
@@ -259,7 +260,7 @@ Begin VB.Form frm_IntSupe
          Left            =   -74775
          TabIndex        =   18
          Top             =   2460
-         Width           =   1215
+         Width           =   1455
       End
       Begin VB.TextBox TxtRemarks 
          DataField       =   "sup_remk"
@@ -271,14 +272,14 @@ Begin VB.Form frm_IntSupe
          ScrollBars      =   2  'Vertical
          TabIndex        =   13
          Top             =   5760
-         Width           =   8895
+         Width           =   11175
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBGrid ssdbRecepientList 
          Height          =   2115
          Left            =   -73245
          TabIndex        =   22
          Top             =   585
-         Width           =   5010
+         Width           =   9090
          _Version        =   196617
          AllowUpdate     =   0   'False
          AllowGroupSizing=   0   'False
@@ -297,7 +298,7 @@ Begin VB.Form frm_IntSupe
          Columns(0).Name =   "Recp"
          Columns(0).DataField=   "Recipients"
          Columns(0).FieldLen=   256
-         _ExtentX        =   8837
+         _ExtentX        =   16034
          _ExtentY        =   3731
          _StockProps     =   79
          BeginProperty PageFooterFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -324,7 +325,7 @@ Begin VB.Form frm_IntSupe
          Left            =   120
          TabIndex        =   23
          Top             =   3360
-         Width           =   8835
+         Width           =   11115
          _Version        =   196617
          BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -386,7 +387,7 @@ Begin VB.Form frm_IntSupe
          Columns(4).DataType=   8
          Columns(4).FieldLen=   256
          TabNavigation   =   1
-         _ExtentX        =   15584
+         _ExtentX        =   19606
          _ExtentY        =   3625
          _StockProps     =   79
          BackColor       =   -2147483638
@@ -415,7 +416,7 @@ Begin VB.Form frm_IntSupe
          Left            =   -74880
          TabIndex        =   24
          Top             =   480
-         Width           =   8820
+         Width           =   11100
          _Version        =   196617
          DataMode        =   2
          BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -506,7 +507,7 @@ Begin VB.Form frm_IntSupe
          Columns(4).DataField=   "Column 4"
          Columns(4).DataType=   8
          Columns(4).FieldLen=   256
-         _ExtentX        =   15557
+         _ExtentX        =   19579
          _ExtentY        =   10610
          _StockProps     =   79
          BeginProperty PageFooterFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -535,13 +536,13 @@ Begin VB.Form frm_IntSupe
          TabIndex        =   0
          Top             =   360
          Visible         =   0   'False
-         Width           =   2535
+         Width           =   3495
          ListAutoValidate=   0   'False
          AutoRestore     =   0   'False
          _Version        =   196617
          Cols            =   6
          Columns(0).Width=   3200
-         _ExtentX        =   4471
+         _ExtentX        =   6165
          _ExtentY        =   582
          _StockProps     =   93
          ForeColor       =   -2147483640
@@ -550,7 +551,7 @@ Begin VB.Form frm_IntSupe
       Begin VB.Frame Frame1 
          BorderStyle     =   0  'None
          Height          =   2535
-         Left            =   5880
+         Left            =   8160
          TabIndex        =   35
          Top             =   480
          Width           =   3135
@@ -559,7 +560,7 @@ Begin VB.Form frm_IntSupe
             DataMember      =   "INtSupplier"
             DataSource      =   "deIms"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   50
             TabIndex        =   11
             Top             =   1800
@@ -570,7 +571,7 @@ Begin VB.Form frm_IntSupe
             DataMember      =   "INtSupplier"
             DataSource      =   "deIms"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   25
             TabIndex        =   12
             Top             =   2160
@@ -582,7 +583,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_actvflag"
             DataMember      =   "INTSUPPLIER"
             Height          =   192
-            Left            =   1920
+            Left            =   1800
             TabIndex        =   36
             Top             =   0
             Width           =   1095
@@ -591,7 +592,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_phonnumb"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   25
             TabIndex        =   8
             Top             =   1320
@@ -601,7 +602,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_mail"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   59
             TabIndex        =   1
             Top             =   240
@@ -611,7 +612,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_adr2"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   25
             TabIndex        =   3
             Top             =   600
@@ -621,7 +622,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_city"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   120
+            Left            =   0
             MaxLength       =   25
             TabIndex        =   6
             Top             =   960
@@ -631,15 +632,15 @@ Begin VB.Form frm_IntSupe
       Begin VB.Frame Frame3 
          BorderStyle     =   0  'None
          Height          =   1695
-         Left            =   240
+         Left            =   120
          TabIndex        =   40
          Top             =   600
-         Width           =   4575
+         Width           =   5535
          Begin VB.TextBox txt_Name 
             DataField       =   "sup_name"
             DataMember      =   "intsupplier"
             Height          =   285
-            Left            =   1440
+            Left            =   2400
             MaxLength       =   35
             TabIndex        =   45
             Top             =   120
@@ -649,7 +650,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_adr1"
             DataMember      =   "intsupplier"
             Height          =   288
-            Left            =   1440
+            Left            =   2400
             MaxLength       =   25
             TabIndex        =   2
             Top             =   480
@@ -659,7 +660,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_stat"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   1440
+            Left            =   2400
             MaxLength       =   2
             TabIndex        =   4
             Top             =   840
@@ -669,23 +670,24 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_ctry"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   1440
+            Left            =   2400
             MaxLength       =   25
             TabIndex        =   7
             Top             =   1200
-            Width           =   2775
+            Width           =   3015
          End
          Begin VB.TextBox txt_Zipcode 
             DataField       =   "sup_zipc"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   2940
+            Left            =   4260
             MaxLength       =   11
             TabIndex        =   5
             Top             =   840
-            Width           =   1515
+            Width           =   1155
          End
          Begin VB.Label lbl_Sup_Name 
+            Alignment       =   1  'Right Justify
             BackColor       =   &H00004080&
             BackStyle       =   0  'Transparent
             Caption         =   "Supplier Name"
@@ -702,9 +704,10 @@ Begin VB.Form frm_IntSupe
             Left            =   0
             TabIndex        =   46
             Top             =   120
-            Width           =   1365
+            Width           =   2325
          End
          Begin VB.Label lbl_Address1 
+            Alignment       =   1  'Right Justify
             BackColor       =   &H00004080&
             BackStyle       =   0  'Transparent
             Caption         =   "Address"
@@ -712,9 +715,10 @@ Begin VB.Form frm_IntSupe
             Left            =   0
             TabIndex        =   44
             Top             =   480
-            Width           =   2205
+            Width           =   2325
          End
          Begin VB.Label lbl_State 
+            Alignment       =   1  'Right Justify
             BackColor       =   &H00004080&
             BackStyle       =   0  'Transparent
             Caption         =   "State"
@@ -722,20 +726,22 @@ Begin VB.Form frm_IntSupe
             Left            =   0
             TabIndex        =   43
             Top             =   840
-            Width           =   525
+            Width           =   2325
          End
          Begin VB.Label lbl_Zip 
+            Alignment       =   1  'Right Justify
             BackColor       =   &H00004080&
             BackStyle       =   0  'Transparent
             Caption         =   "Zip Code"
             DataMember      =   "SUPPLIER"
             Height          =   285
-            Left            =   2160
+            Left            =   3000
             TabIndex        =   42
             Top             =   885
-            Width           =   765
+            Width           =   1125
          End
          Begin VB.Label lbl_Country 
+            Alignment       =   1  'Right Justify
             BackColor       =   &H00004080&
             BackStyle       =   0  'Transparent
             Caption         =   "Country"
@@ -743,7 +749,7 @@ Begin VB.Form frm_IntSupe
             Left            =   0
             TabIndex        =   41
             Top             =   1200
-            Width           =   645
+            Width           =   2325
          End
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBGrid ssdbContract 
@@ -751,7 +757,7 @@ Begin VB.Form frm_IntSupe
          Left            =   -74760
          TabIndex        =   50
          Top             =   840
-         Width           =   8595
+         Width           =   10875
          _Version        =   196617
          DataMode        =   2
          BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -805,7 +811,7 @@ Begin VB.Form frm_IntSupe
          Columns(2).DataType=   8
          Columns(2).FieldLen=   256
          TabNavigation   =   1
-         _ExtentX        =   15161
+         _ExtentX        =   19182
          _ExtentY        =   9340
          _StockProps     =   79
          BackColor       =   -2147483638
@@ -835,7 +841,7 @@ Begin VB.Form frm_IntSupe
          Left            =   4440
          TabIndex        =   49
          Top             =   3060
-         Width           =   1335
+         Width           =   2535
       End
       Begin VB.Label Label2 
          Caption         =   "ß"
@@ -856,60 +862,66 @@ Begin VB.Form frm_IntSupe
          Width           =   255
       End
       Begin VB.Label Lbl_Fax 
+         Alignment       =   1  'Right Justify
          Caption         =   "Contact Fax #"
          Height          =   255
-         Left            =   4800
+         Left            =   5880
          TabIndex        =   34
          Top             =   2280
-         Width           =   1095
+         Width           =   2175
       End
       Begin VB.Label Lbl_telNo 
+         Alignment       =   1  'Right Justify
          Caption         =   "Contact Telephone #"
          Height          =   255
-         Left            =   4200
+         Left            =   5280
          TabIndex        =   33
          Top             =   2640
-         Width           =   1695
+         Width           =   2775
       End
       Begin VB.Label lbl_PhoneNum 
+         Alignment       =   1  'Right Justify
          BackColor       =   &H00004080&
          BackStyle       =   0  'Transparent
          Caption         =   "Telephone #"
          Height          =   285
-         Left            =   4920
+         Left            =   6000
          TabIndex        =   32
          Top             =   1800
-         Width           =   1005
+         Width           =   2085
       End
       Begin VB.Label lbl_Email 
+         Alignment       =   1  'Right Justify
          BackColor       =   &H00004080&
          BackStyle       =   0  'Transparent
          Caption         =   "Email ID"
          Height          =   285
-         Left            =   4920
+         Left            =   6000
          TabIndex        =   31
          Top             =   720
-         Width           =   765
+         Width           =   2085
       End
       Begin VB.Label lbl_Address2 
+         Alignment       =   1  'Right Justify
          BackColor       =   &H00004080&
          BackStyle       =   0  'Transparent
          Caption         =   "Address"
          Height          =   285
-         Left            =   4920
+         Left            =   6000
          TabIndex        =   30
          Top             =   1080
-         Width           =   765
+         Width           =   2085
       End
       Begin VB.Label lbl_City 
+         Alignment       =   1  'Right Justify
          BackColor       =   &H00004080&
          BackStyle       =   0  'Transparent
          Caption         =   "City"
          Height          =   285
-         Left            =   4920
+         Left            =   6000
          TabIndex        =   29
          Top             =   1440
-         Width           =   285
+         Width           =   2085
       End
       Begin VB.Label lbl_InterSupp 
          Alignment       =   2  'Center
@@ -927,7 +939,7 @@ Begin VB.Form frm_IntSupe
             Strikethrough   =   0   'False
          EndProperty
          Height          =   315
-         Left            =   4560
+         Left            =   5880
          TabIndex        =   27
          Top             =   0
          Width           =   2835
@@ -955,7 +967,7 @@ Begin VB.Form frm_IntSupe
          Left            =   120
          TabIndex        =   25
          Top             =   5520
-         Width           =   855
+         Width           =   2415
       End
    End
    Begin VB.Label lblStatus 
@@ -976,7 +988,7 @@ Begin VB.Form frm_IntSupe
       Left            =   6360
       TabIndex        =   16
       Top             =   6960
-      Width           =   2580
+      Width           =   3300
    End
 End
 Attribute VB_Name = "frm_IntSupe"
@@ -999,7 +1011,7 @@ Dim dbtablename As String 'jawdat
 
 
 Private Function SaveContract()
-Dim x As Integer, Y As Integer
+Dim x As Integer, y As Integer
 Dim SupCode As String, np As String
 Dim cmd As ADODB.Command
 
@@ -1030,12 +1042,12 @@ On Error Resume Next
         Call CommitTransaction(deIms.cnIms)
 
         Call BeginTransaction(deIms.cnIms)
-        Dim Sql As String
+        Dim sql As String
         
         .CommandText = "Insert into SUPPLIERCONTRACT(scrt_npecode, scrt_supcode, scrt_contractnum,scrt_startdate,scrt_stopdate)"
         .CommandText = .CommandText & "VALUES(?,?,?,?,?)"
         cmd.parameters.Refresh
-        For Y = 0 To x
+        For y = 0 To x
             Call .Execute(0, Array(np, SupCode, ssdbContract.Columns(0).value, ssdbContract.Columns(1).value, ssdbContract.Columns(2).value), adExecuteNoRecords)
             ssdbContract.MoveNext
         Next
@@ -1070,16 +1082,16 @@ Private Sub MonthView1_LostFocus()
     MonthView1.Visible = False
 End Sub
 
-Private Sub MonthView1_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub MonthView1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
  Dim dates As Date
  Dim s
-s = MonthView1.HitTest(x, Y, dates)
+s = MonthView1.HitTest(x, y, dates)
 
 If s = 1 Or s = 2 Or s = 3 Then
 
     MonthView1.value = dates
 
-    ssdbContract.Columns(1).text = dates
+    ssdbContract.Columns(1).Text = dates
 
     MonthView1.Visible = False
 
@@ -1098,16 +1110,16 @@ Private Sub MonthView2_LostFocus()
     MonthView2.Visible = False
 End Sub
 
-Private Sub MonthView2_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub MonthView2_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
  Dim dates As Date
  Dim s
-s = MonthView1.HitTest(x, Y, dates)
+s = MonthView1.HitTest(x, y, dates)
 
 If s = 1 Or s = 2 Or s = 3 Then
 
     MonthView1.value = dates
 
-    ssdbContract.Columns(2).text = dates
+    ssdbContract.Columns(2).Text = dates
 
     MonthView2.Visible = False
 
@@ -1227,7 +1239,7 @@ Call deIms.INTSUPPLIERLOOKUP(deIms.NameSpace)
 End Sub
 
 Private Sub SSOleDBCombo1_KeyDown(KeyCode As Integer, Shift As Integer)
-   If FormMode = mdVisualization Then
+   If FormMode = mdvisualization Then
     If Not SSOleDBCombo1.DroppedDown Then SSOleDBCombo1.DroppedDown = True
    End If
 End Sub
@@ -1235,7 +1247,7 @@ End Sub
 Private Sub SSOleDBCombo1_KeyPress(KeyAscii As Integer)
  
  If KeyAscii = 13 Then
-       SSOleDBCombo1.text = SSOleDBCombo1.SelText
+       SSOleDBCombo1.Text = SSOleDBCombo1.SelText
           deIms.rsINtSupplier.CancelUpdate
           deIms.rsINtSupplier.MoveFirst
           If Not deIms.rsINtSupplier.State = 0 Then deIms.rsINtSupplier.Find "sup_code='" & (SSOleDBCombo1.Columns(0).value) & "'", adSearchForward
@@ -1308,7 +1320,7 @@ End Sub
 
 
 Private Sub txtRemarks_GotFocus()
-    If FormMode = mdVisualization Then NavBar1.SaveEnabled = False
+    If FormMode = mdvisualization Then NavBar1.SaveEnabled = False
 End Sub
 
 
@@ -1552,8 +1564,8 @@ Private Sub NavBar1_OnCancelClick()
 
  
  
-  FormMode = ChangeModeOfForm(lblStatus, mdVisualization)
- If FormMode = mdVisualization Then MakeReadOnly (False)
+  FormMode = ChangeModeOfForm(lblStatus, mdvisualization)
+ If FormMode = mdvisualization Then MakeReadOnly (False)
  
     'Added by Juan Gonzalez 2007-7-11
     If sstSup.Tab = 4 Then
@@ -2102,8 +2114,8 @@ sstSup.TabVisible(1) = False
     'Added By Muzammil - 12/18/00
     'Reason - To make The Form Operate in Modes
     
-    FormMode = ChangeModeOfForm(lblStatus, mdVisualization)
-    If FormMode = mdVisualization Then MakeReadOnly (False)
+    FormMode = ChangeModeOfForm(lblStatus, mdvisualization)
+    If FormMode = mdvisualization Then MakeReadOnly (False)
     
     txt_forSEARCH.Enabled = True
 txt_forSEARCH.BackColor = "&H00C0E0FF&"
@@ -2152,7 +2164,7 @@ If sstSup.Tab = 4 Then
      msg1 = translator.Trans("M00255") 'J added
      If Err.number = 0 Then
           MsgBox "Contracts Updated Successfully"
-         FormMode = ChangeModeOfForm(lblStatus, mdVisualization)
+         FormMode = ChangeModeOfForm(lblStatus, mdvisualization)
          NavBar1.EditEnabled = True
          NavBar1.SaveEnabled = False
      End If
@@ -2164,7 +2176,7 @@ Else '----------------------
          msg1 = translator.Trans("M00255") 'J added
          If Err.number = 0 Then
               MsgBox "Contacts Updated Successfully"
-             FormMode = ChangeModeOfForm(lblStatus, mdVisualization)
+             FormMode = ChangeModeOfForm(lblStatus, mdvisualization)
              NavBar1.EditEnabled = True
              NavBar1.SaveEnabled = False
              NavBar1.NewEnabled = True
@@ -2208,16 +2220,16 @@ Else '----------------------
                         deIms.rsINtSupplier.Update
 
                        'Added by juan 2007/9/14
-                        Dim Sql As String
-                        Sql = "update SUPPLIER set "
+                        Dim sql As String
+                        sql = "update SUPPLIER set "
                         If FormMode = mdCreation Then
-                            Sql = Sql + "sup_creauser='" + CurrentUser + "', "
+                            sql = sql + "sup_creauser='" + CurrentUser + "', "
                              deIms.rsINtSupplier!sup_creauser = CurrentUser
                         End If
-                        Sql = Sql + "sup_modiuser='" + CurrentUser + "' "
-                        Sql = Sql + "where sup_code='" + deIms.rsINtSupplier!sup_code + "'"
+                        sql = sql + "sup_modiuser='" + CurrentUser + "' "
+                        sql = sql + "where sup_code='" + deIms.rsINtSupplier!sup_code + "'"
                         deIms.rsINtSupplier!sup_modiuser = CurrentUser
-                        deIms.cnIms.Execute Sql + Err.Description
+                        deIms.cnIms.Execute sql + Err.Description
                          '---------------------------------------------
 
                         'Call deIms.rsINtSupplier.UpdateBatch(adAffectCurrent)
@@ -2251,8 +2263,8 @@ Else '----------------------
                         
                         'SSOleDBCombo1.Refresh
                          
-                         FormMode = ChangeModeOfForm(lblStatus, mdVisualization)
-                         If FormMode = mdVisualization Then MakeReadOnly (False)
+                         FormMode = ChangeModeOfForm(lblStatus, mdvisualization)
+                         If FormMode = mdvisualization Then MakeReadOnly (False)
                          
          Else
              FormMode = ChangeModeOfForm(lblStatus, mdCreation)
@@ -2739,9 +2751,9 @@ Private Sub AddContracts()
 'On Error Resume Next
     ssdbContract.RemoveAll
     Dim rs As New ADODB.Recordset
-    Dim Sql As String
-    Sql = "SELECT * FROM SUPPLIERCONTRACT WHERE scrt_supcode='" + TxtSuppCode + "' AND scrt_npecode='" + deIms.NameSpace + "'"
-    rs.Source = Sql
+    Dim sql As String
+    sql = "SELECT * FROM SUPPLIERCONTRACT WHERE scrt_supcode='" + TxtSuppCode + "' AND scrt_npecode='" + deIms.NameSpace + "'"
+    rs.Source = sql
     rs.ActiveConnection = deIms.cnIms
     rs.Open
 
@@ -2759,7 +2771,7 @@ Private Sub AddContracts()
 End Sub
 
 Public Sub SetFocusOnDatesColumns(column As Integer)
-If FormMode <> mdVisualization Then 'JCG 2007/01/12
+If FormMode <> mdvisualization Then 'JCG 2007/01/12
     If column = 1 Then
         MonthView1.value = Now
        MonthView1.Top = 1200
@@ -2784,7 +2796,7 @@ End Sub
 Private Function ContactExist() As Boolean
 On Error Resume Next
 Dim i As Integer, x As Integer
-Dim Contact As String, Y As Integer
+Dim Contact As String, y As Integer
 
     x = ssdbgContacts.Rows - 1
     If x < 0 Then Exit Function
@@ -2792,17 +2804,17 @@ Dim Contact As String, Y As Integer
     ssdbgContacts.MoveFirst
 
     For i = 0 To x
-        If ssdbgContacts.Columns(0).value = Contact Then Y = Y + 1
-        If Y > 1 Then Exit For
+        If ssdbgContacts.Columns(0).value = Contact Then y = y + 1
+        If y > 1 Then Exit For
         ssdbgContacts.MoveNext
     Next
 
-    ContactExist = Y > 1
+    ContactExist = y > 1
 End Function
 
 'save contacts values
 Private Function SaveContacts() As Boolean
-Dim x As Integer, Y As Integer
+Dim x As Integer, y As Integer
 Dim SupCode As String, np As String
 Dim cmd As ADODB.Command
 On Error Resume Next
@@ -2849,9 +2861,9 @@ On Error Resume Next
 
         cmd.parameters.Refresh
 
-        For Y = 0 To x
+        For y = 0 To x
             'Call .Execute(0, Array(np, SupCode, ssdbgContacts.Columns(0).value), adExecuteNoRecords)  Commented out by JCG 2008/01/13
-            Call .Execute(0, Array(np, SupCode, Format(Y), ssdbgContacts.Columns(1).value, ssdbgContacts.Columns(2).value, ssdbgContacts.Columns(3).value, ssdbgContacts.Columns(4).value), adExecuteNoRecords)
+            Call .Execute(0, Array(np, SupCode, Format(y), ssdbgContacts.Columns(1).value, ssdbgContacts.Columns(2).value, ssdbgContacts.Columns(3).value, ssdbgContacts.Columns(4).value), adExecuteNoRecords)
             ssdbgContacts.MoveNext
         Next
 
@@ -3068,7 +3080,7 @@ Public Sub MakeReadOnly(value As Boolean)
 Frame1.Enabled = value
 Frame2.Enabled = value
 Frame3.Enabled = value
-TxtRemarks.locked = Not value
+txtRemarks.locked = Not value
 ''SSOleDBCombo1.AllowInput = Value
 Imsmail1.Enabled = value
 ssdbRecepientList.AllowUpdate = value
@@ -3092,7 +3104,7 @@ Select Case FormMode
              NavBar1.CancelEnabled = True
              NavBar1.SaveEnabled = True
              
-     Case mdVisualization
+     Case mdvisualization
              NavBar1.EditEnabled = OrigEdit
              NavBar1.NewEnabled = OrigNew
              NavBar1.CancelEnabled = False
@@ -3121,7 +3133,7 @@ txt_PhoneNumber = IIf(IsNull(deIms.rsINtSupplier("sup_phonnumb").originalVALUE),
 Txt_contaname = IIf(IsNull(deIms.rsINtSupplier("sup_contaname").originalVALUE), "", deIms.rsINtSupplier("sup_contaname").originalVALUE)
 Txt_contaPH = IIf(IsNull(deIms.rsINtSupplier("sup_contaph").originalVALUE), "", deIms.rsINtSupplier("sup_contaph").originalVALUE)
 Txt_contaFax = IIf(IsNull(deIms.rsINtSupplier("sup_contafax").originalVALUE), "", deIms.rsINtSupplier("sup_contafax").originalVALUE)
-TxtRemarks = IIf(IsNull(deIms.rsINtSupplier("sup_remk").originalVALUE), "", deIms.rsINtSupplier("sup_remk").originalVALUE)
+txtRemarks = IIf(IsNull(deIms.rsINtSupplier("sup_remk").originalVALUE), "", deIms.rsINtSupplier("sup_remk").originalVALUE)
 End Function
 
 
