@@ -67,18 +67,19 @@ Global originalQty
 Global mainItemRow
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
-Sub calculateMainItem(stockReference)   'Juan 2014-7-5
+Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)    'Juan 2014-7-5
 mainItemToReceive = 0
 subTot = 0
 With frmWarehouse.STOCKlist
     If mainItemRow > 0 Then
-        For i = mainItemRow + 1 To .Rows - 1
-            If .TextMatrix(i, 1) <> stockReference Then Exit For
+        For i = mainItemRow To mainItemRow 'this only run once
+            'If .TextMatrix(i, 1) <> stockReference Then Exit For
             If IsNumeric(.TextMatrix(i, 3)) Then subTot = .TextMatrix(i, 3)
             mainItemToReceive = mainItemToReceive + subTot
         Next
         .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
-        .TextMatrix(mainItemRow, 9) = .TextMatrix(mainItemRow, 3)
+        If IsMissing(updateOriginalQty) Then updateOriginalQty = False
+        If updateOriginalQty Then .TextMatrix(mainItemRow, 9) = .TextMatrix(mainItemRow, 3)
     End If
 End With
 End Sub
@@ -485,6 +486,8 @@ On Error GoTo errorHandler
             Case "02040400" 'ReturnFromRepair
             Case "02050200" 'AdjustmentEntry
             Case "02040200" 'WarehouseIssue
+                colRef = 7
+                colTot = 3
             Case "02040500" 'WellToWell
             Case "02040700" 'InternalTransfer
             Case "02050300" 'AdjustmentIssue
@@ -665,6 +668,7 @@ With frmWarehouse
         End If
         .quantity(totalNode).Enabled = True
         .quantity(totalNode) = Format(total, "0.00")
+        .quantity(totalNode) = vbGreen
         
         
         Load .NEWconditionBOX(totalNode)
@@ -1428,7 +1432,8 @@ On Error GoTo ErrHandler
                             Set datax = New ADODB.Recordset
                             sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
                                 "and invd_invcnumb = '" + frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) + "' " + _
-                                 "and invd_liitnumb = '" + Trim(frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 13)) + "'"
+                                 "and invd_liitnumb = '" + Trim(frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 13)) + "'" + _
+                                 "and invd_ponumb = '" + .cell(4).text + "'"
                             datax.Open sql, cn, adOpenStatic
                             If datax.RecordCount > 0 Then
                                 ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
@@ -2086,7 +2091,6 @@ onDetailListInProcess = True
                     'Juan 2010-6-5
                     'rec = rec + Format(!qty) + vbTab
                     rec = rec + Format(!qty, "0.00") + vbTab
-                    '------------------------
                     rec = rec + IIf(IsNull(!unit), "", !unit)
                 'WarehouseIssue Juan 2012-3-23 to add serial
                 Case "02040200"
@@ -2101,7 +2105,7 @@ onDetailListInProcess = True
                     'rec = rec + Format(!qty) + vbTab
                     rec = rec + Format(!qty, "0.00") + vbTab
                     '------------------------
-                    rec = rec + IIf(IsNull(!unit), "", !unit)
+                    rec = rec + Format(!qty, "0.00") 'original qty
                 Case "02040100" 'WarehouseReceipt
                     frmWarehouse.STOCKlist.ColAlignment(7) = 0
                     frmWarehouse.STOCKlist.ColAlignment(5) = 7
@@ -2112,7 +2116,7 @@ onDetailListInProcess = True
                              lineNumber = !poItem
                         Else
                             If !poItem <> lineNumber Then
-                                Call calculateMainItem(stockReference)
+                                Call calculateMainItem(stockReference, False)
                                 firstTime = True
                                 lineNumber = !poItem
                             End If
@@ -2697,14 +2701,30 @@ End Sub
 Sub unmarkRow(stock, Optional unmarkIt As Boolean)
     'Juan 2010-7-4
     Dim imsLock As imsLock.Lock
+    Dim tempMove As Boolean
+    Dim commodity
+    tempMove = False
     If IsMissing(unmarkIt) Then unmarkIt = True
     If unmarkIt Then
         With frmWarehouse.STOCKlist
-            If .text = "?" Then
+            If (.Rows - 1) > .row Then
+                comoddity = .TextMatrix(.row, 1)
+                .row = .row + 1
+                If commodity = .TextMatrix(.row, 1) Then
+                    tempMove = True
+                Else
+                    .row = .row - 1
+                End If
+            End If
+            If .text = "?" Or .text = "Æ" Then
                 .col = 0
                 .CellFontName = "MS Sans Serif"
                 .CellFontSize = 8.5
                 .text = .row
+            End If
+            If tempMove Then
+                tempMove = False
+                .row = .row - 1
             End If
         End With
     End If
@@ -2961,7 +2981,7 @@ On Error Resume Next
                                     End Select
                                     If i = size Then
                                         If Not .newBUTTON.Enabled Then Call putBOX(.quantity(totalNode), .linesV(1).Left + 20, topNODE(size) + topvalue, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
-                                        Call putBOX(.quantityBOX(totalNode), .linesV(5 + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
+                                        Call putBOX(.quantityBOX(totalNode), .linesV(4 + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
                                         If Not .newBUTTON.Enabled Then Call putBOX(.balanceBOX(totalNode), .linesV(balanceCol + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
                                     Else
                                         If Not .newBUTTON.Enabled Then Call putBOX(.quantity(i), .linesV(1).Left + 40, topNODE(i) + topvalue2, .detailHEADER.ColWidth(1) - 80, vbWhite)
@@ -3063,6 +3083,8 @@ End Sub
 
 Sub calculations(updateStockList As Boolean, Optional isDynamic As Boolean, Optional isPool As Boolean)
 Dim this, r, summary, balance, balance2, balanceTotal, col
+Dim sumByQtyBox, sumByLine, sumByQty, sumByLines
+Dim qtyBoxTotal  As Double
 Dim i As Integer
 Dim once As Boolean
 Dim originalQty As Double
@@ -3091,6 +3113,7 @@ On Error Resume Next
             Case "02050200" 'AdjustmentEntry
             Case "02040200" 'WarehouseIssue
                 colTot = 6
+                colRef = 7
             Case "02040500" 'WellToWell
             Case "02040700" 'InternalTransfer
             Case "02050300" 'AdjustmentIssue
@@ -3130,6 +3153,8 @@ On Error Resume Next
                     originalQty = CDbl(.STOCKlist.TextMatrix(r, colRef))
                     If originalQty > 0 Then
                         this = 0
+                        'qtyBoxTotal = 0
+                        'originalQty = 0
                         balance = originalQty
                     Else
                         Exit Sub
@@ -3141,6 +3166,10 @@ On Error Resume Next
         End If
         
         'Main cycle to scan the active tree nodes-------------
+        sumByQty = 0
+        sumByQtyBox = 0
+        sumByLine = 0
+        sumByLines = 0
         For i = 1 To .Tree.Nodes.Count
             If i <> totalNode Then
                 If Err.Number = 0 Then
@@ -3201,10 +3230,23 @@ On Error Resume Next
                     End If '-----------------------------------
                     'Step to update cells on screen-----------------
                     If qBoxExists Then
+                        'new
+                        sumByQty = sumByQty + .quantity(i)
+                        sumByQtyBox = sumByQtyBox + .quantityBOX(i)
+                        sumByLine = .quantity(i) - .quantityBOX(i)
+                        sumByLines = sumByLines + sumByLine
+                        '-------------
+                          
                         balance = balance - .quantityBOX(i)
-                        this = this + CDbl(.quantityBOX(i))
-                        .balanceBOX(i) = Format(balance, "0.00")
-                        balanceTotal = balanceTotal + balance
+'                        this = this + CDbl(.quantityBOX(i))
+'                        qtyBoxTotal = qtyBoxTotal + CDbl(.quantity(i))
+'                        originalQty = originalQty + CDbl(.quantityBOX(i))
+'                        .balanceBOX(i) = Format(balance, "0.00")
+'                        balanceTotal = balanceTotal + balance
+                        
+                        'new
+                        .balanceBOX(i) = Format(sumByLine, "0.00")
+                        '------------------
                     End If
                 Else
                     Err.Clear
@@ -3212,10 +3254,22 @@ On Error Resume Next
             End If
         Next
         'Final step to totalize--------------------
-        .quantityBOX(totalNode) = Format(this, "0.00")
+'        .quantityBOX(totalNode) = Format(this, "0.00")
+'        .quantity(totalNode) = Format(qtyBoxTotal, "0.00")
+        
+        'New
+        .quantityBOX(totalNode) = Format(sumByQtyBox, "0.00")
+        .quantity(totalNode) = Format(sumByQty, "0.00")
+        '------------------
         If isDynamic Then
             .balanceBOX(totalNode) = Format(balanceTotal, "0.00")
+            .balanceBOX(totalNode) = Format(sumByLines, "0.00")
             balance = balanceTotal
+            Select Case frmWarehouse.tag
+                'WarehouseIssue
+                Case "02040200"
+                    .quantity(totalNode) = Format(sumByQty, "0.00")
+            End Select
         Else
             .balanceBOX(totalNode) = Format(balance, "0.00")
         End If
@@ -3235,6 +3289,7 @@ On Error Resume Next
             Case "02040400" 'ReturnFromRepair
             Case "02050200" 'AdjustmentEntry
             Case "02040200" 'WarehouseIssue
+                If updateStockList Then .STOCKlist.TextMatrix(r, 6) = Format(sumByLines, "0.00")
             Case "02040500" 'WellToWell
             Case "02040700" 'InternalTransfer
             Case "02050300" 'AdjustmentIssue

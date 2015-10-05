@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55181315
+      Format          =   55640067
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2556,6 +2556,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
         Loop
         If datax.RecordCount <= 10 Then .RemoveItem (1)
         .row = Flag
+        .RowHeightMin = 240
         If .Rows < 6 Then
             .Height = 300 * (.Rows + 1)
             .width = .width - extraW
@@ -2942,7 +2943,7 @@ Dim translationSecondaryQty
                 .ColWidth(5) = 1200
             'WarehouseIssue 2012-3-23 to add serial
             Case "02040200"
-                .cols = .cols + 1
+                .cols = 8
                 dark = 1
                 '.TextMatrix(0, 2) = "Serial"
                 .TextMatrix(0, 2) = translationSerial
@@ -2960,6 +2961,8 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 6) = "Qty"
                 .TextMatrix(0, 6) = translationQty
                 .ColWidth(6) = 1200
+                .TextMatrix(0, 7) = "original qty"
+                .ColWidth(7) = 0
             Case "02050200" 'AdjustmentEntry
                 dark = 0
                 .cols = 4
@@ -2973,6 +2976,9 @@ Dim translationSecondaryQty
             Case "02040100" 'WarehouseReceipt
                 dark = 1
                 .cols = 14
+                For i = 8 To .cols - 1
+                    .ColWidth(i) = 0
+                Next
                 'Juan 2010-6-6
                 For i = 1 To .cols - 1
                     .col = i
@@ -2986,6 +2992,7 @@ Dim translationSecondaryQty
                 .ColAlignment(2) = 6
                 .ColAlignment(3) = 6
                 .ColAlignment(4) = 4
+                .ColAlignment(6) = 4
                 '.TextMatrix(0, 2) = "Purchase Qty"
                 .TextMatrix(0, 2) = translationPurchaseQty
                 .ColWidth(2) = 1100
@@ -2994,7 +3001,7 @@ Dim translationSecondaryQty
                 .ColWidth(3) = 1100
                 '.TextMatrix(0, 4) = "Primary Unit"
                 .TextMatrix(0, 4) = translationPrimaryUnit
-                .ColWidth(4) = 1200
+                .ColWidth(4) = 1100
                 
                 
                 'Juan 2010-6-6
@@ -3003,11 +3010,11 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 6) = "Item #"
                 '.ColWidth(6) = 0
                 '.TextMatrix(0, 5) = "2Qty to Rec"
-                .TextMatrix(0, 5) = "2 " + translationQtyToRec
-                .ColWidth(5) = 1100
+                .TextMatrix(0, 5) = "Sec " + translationQtyToRec
+                .ColWidth(5) = 1300
                 '.TextMatrix(0, 6) = "Secundary Unit"
                 .TextMatrix(0, 6) = translationSecondaryUnit
-                .ColWidth(6) = 1200
+                .ColWidth(6) = 1100
                 '.TextMatrix(0, 7) = "Description"
                 .TextMatrix(0, 7) = translationDescription
                 .ColWidth(7) = 6200
@@ -3061,7 +3068,7 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 4) = "Prim Unit"
                 .TextMatrix(0, 4) = translationPrimaryUnit
                 '.TextMatrix(0, 5) = "Qty"
-                .TextMatrix(0, 5) = .TextMatrix(0, 5) = translationQty
+                .TextMatrix(0, 5) = translationQty
                 '.TextMatrix(0, 6) = "Sec Unit"
                 .TextMatrix(0, 6) = translationSecondaryUnit
                 '.TextMatrix(0, 7) = "Qty"
@@ -4770,13 +4777,18 @@ Dim answer, i
                 Exit For
             End If
         Next
+        Select Case frmWarehouse.tag
+            'WarehouseIssue
+            Case "02040200"
+                .TextMatrix(i, 6) = .TextMatrix(i, 7)
+        End Select
     End With
     If Tree.Nodes.Count > 0 Then
         If IsNumeric(quantityBOX(totalNode)) Then
             If CDbl(quantityBOX(totalNode)) > 0 Then
                 answer = MsgBox("Are you sure you want to lose last changes?", vbYesNo)
                 If answer = vbYes Then
-                    Call hideDETAILS(True, True)
+                    Call hideDETAILS(True, True, False)
                 End If
             Else
                 hideDETAILS (True)
@@ -5741,6 +5753,9 @@ On Error Resume Next
 '                    End If
                     '--------------------
                     Select Case frmWarehouse.tag
+                        'WarehouseIssue
+                        Case "02040200"
+                            
                         Case "02050200" 'AdjustmentEntry
                         Case Else
                             If CDbl(.text) > CDbl(quantity(Index)) Then .text = quantity(Index)
@@ -6903,6 +6918,7 @@ summaryValueFirstTime = True
                 Next
                 If .Rows > 2 And .TextMatrix(1, 0) = "" Then .RemoveItem 1
                 Call reNUMBER(SUMMARYlist)
+                .RowHeight(.Rows - 1) = .RowHeight(1)
             End With
             If serialText = "" Or UCase(serialText) = "POOL" Then
                 Call hideDETAILS(False, , True)

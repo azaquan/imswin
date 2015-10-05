@@ -1,9 +1,9 @@
 VERSION 5.00
-Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{27609682-380F-11D5-99AB-00D0B74311D4}#1.0#0"; "ImsMailVBX.ocx"
 Begin VB.Form frmInvoice 
    BorderStyle     =   1  'Fixed Single
@@ -29,75 +29,84 @@ Begin VB.Form frmInvoice
       _Version        =   393216
       Style           =   1
       Tabs            =   4
-      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Header"
       TabPicture(0)   =   "frmInvoice.frx":0000
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Picture1"
-      Tab(0).Control(1)=   "supplierDATA"
-      Tab(0).Control(2)=   "cell(9)"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "Label5"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "Label(0)"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "Label(1)"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "cell(8)"
+      Tab(0).Control(3)=   "Label(2)"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "cell(7)"
+      Tab(0).Control(4)=   "Label(3)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cell(6)"
+      Tab(0).Control(5)=   "Label(4)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cell(5)"
+      Tab(0).Control(6)=   "Label(5)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cell(4)"
+      Tab(0).Control(7)=   "Label(6)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cell(3)"
-      Tab(0).Control(9)=   "cell(2)"
+      Tab(0).Control(8)=   "Label(7)"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "Label(8)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cell(1)"
-      Tab(0).Control(11)=   "cell(0)"
-      Tab(0).Control(12)=   "DTPicker1"
-      Tab(0).Control(13)=   "remark"
-      Tab(0).Control(14)=   "InvoiceComboList"
-      Tab(0).Control(15)=   "POComboList"
-      Tab(0).Control(16)=   "Shape1"
-      Tab(0).Control(17)=   "Label(9)"
-      Tab(0).Control(18)=   "Label(8)"
-      Tab(0).Control(19)=   "Label(7)"
-      Tab(0).Control(20)=   "Label(6)"
-      Tab(0).Control(21)=   "Label(5)"
-      Tab(0).Control(22)=   "Label(4)"
-      Tab(0).Control(23)=   "Label(3)"
-      Tab(0).Control(24)=   "Label(2)"
-      Tab(0).Control(25)=   "Label(1)"
-      Tab(0).Control(26)=   "Label(0)"
-      Tab(0).Control(27)=   "Label5"
+      Tab(0).Control(10)=   "Label(9)"
+      Tab(0).Control(10).Enabled=   0   'False
+      Tab(0).Control(11)=   "Shape1"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "POComboList"
+      Tab(0).Control(12).Enabled=   0   'False
+      Tab(0).Control(13)=   "InvoiceComboList"
+      Tab(0).Control(13).Enabled=   0   'False
+      Tab(0).Control(14)=   "remark"
+      Tab(0).Control(14).Enabled=   0   'False
+      Tab(0).Control(15)=   "DTPicker1"
+      Tab(0).Control(15).Enabled=   0   'False
+      Tab(0).Control(16)=   "cell(0)"
+      Tab(0).Control(16).Enabled=   0   'False
+      Tab(0).Control(17)=   "cell(1)"
+      Tab(0).Control(17).Enabled=   0   'False
+      Tab(0).Control(18)=   "cell(2)"
+      Tab(0).Control(18).Enabled=   0   'False
+      Tab(0).Control(19)=   "cell(3)"
+      Tab(0).Control(19).Enabled=   0   'False
+      Tab(0).Control(20)=   "cell(4)"
+      Tab(0).Control(20).Enabled=   0   'False
+      Tab(0).Control(21)=   "cell(5)"
+      Tab(0).Control(21).Enabled=   0   'False
+      Tab(0).Control(22)=   "cell(6)"
+      Tab(0).Control(22).Enabled=   0   'False
+      Tab(0).Control(23)=   "cell(7)"
+      Tab(0).Control(23).Enabled=   0   'False
+      Tab(0).Control(24)=   "cell(8)"
+      Tab(0).Control(24).Enabled=   0   'False
+      Tab(0).Control(25)=   "cell(9)"
+      Tab(0).Control(25).Enabled=   0   'False
+      Tab(0).Control(26)=   "supplierDATA"
+      Tab(0).Control(26).Enabled=   0   'False
+      Tab(0).Control(27)=   "Picture1"
+      Tab(0).Control(27).Enabled=   0   'False
       Tab(0).ControlCount=   28
       TabCaption(1)   =   "Line Item List"
       TabPicture(1)   =   "frmInvoice.frx":001C
-      Tab(1).ControlEnabled=   -1  'True
-      Tab(1).Control(0)=   "invoiceLABEL"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "nomLabel(0)"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "nomLabel(1)"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "currencyLABEL"
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "nomPicture(2)"
+      Tab(1).Control(1)=   "nomPicture(1)"
+      Tab(1).Control(2)=   "nomPicture(0)"
+      Tab(1).Control(3)=   "Command1"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "nomLabel(2)"
-      Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "POtitles"
-      Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "POlist"
-      Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "TextLINE"
-      Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "Command1"
-      Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "nomPicture(0)"
-      Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "nomPicture(1)"
-      Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "nomPicture(2)"
-      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).Control(4)=   "TextLINE"
+      Tab(1).Control(5)=   "POlist"
+      Tab(1).Control(6)=   "POtitles"
+      Tab(1).Control(7)=   "nomLabel(2)"
+      Tab(1).Control(8)=   "currencyLABEL"
+      Tab(1).Control(9)=   "nomLabel(1)"
+      Tab(1).Control(10)=   "nomLabel(0)"
+      Tab(1).Control(11)=   "invoiceLABEL"
       Tab(1).ControlCount=   12
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
@@ -122,7 +131,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   2
-         Left            =   8760
+         Left            =   -66240
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   66
@@ -379,7 +388,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          ForeColor       =   &H80000008&
          Height          =   1695
-         Left            =   -70320
+         Left            =   4680
          ScaleHeight     =   1665
          ScaleWidth      =   2865
          TabIndex        =   44
@@ -412,7 +421,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   1
-         Left            =   7560
+         Left            =   -67440
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   41
@@ -425,7 +434,7 @@ Begin VB.Form frmInvoice
          ForeColor       =   &H80000008&
          Height          =   255
          Index           =   0
-         Left            =   6360
+         Left            =   -68640
          ScaleHeight     =   225
          ScaleWidth      =   225
          TabIndex        =   39
@@ -451,7 +460,7 @@ Begin VB.Form frmInvoice
       Begin VB.CommandButton Command1 
          Caption         =   "&Show Only Selection"
          Height          =   375
-         Left            =   9960
+         Left            =   -65040
          TabIndex        =   30
          TabStop         =   0   'False
          Top             =   900
@@ -463,7 +472,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H0000FFFF&
          BorderStyle     =   0  'None
          Height          =   285
-         Left            =   10680
+         Left            =   -64320
          TabIndex        =   29
          Top             =   660
          Visible         =   0   'False
@@ -471,7 +480,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid supplierDATA 
          Height          =   2055
-         Left            =   -66960
+         Left            =   8040
          TabIndex        =   28
          Top             =   1020
          Width           =   3975
@@ -495,7 +504,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   9
-         Left            =   -69600
+         Left            =   5400
          Locked          =   -1  'True
          TabIndex        =   25
          TabStop         =   0   'False
@@ -507,7 +516,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   8
-         Left            =   -69600
+         Left            =   5400
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   23
@@ -520,7 +529,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   7
-         Left            =   -69600
+         Left            =   5400
          Locked          =   -1  'True
          TabIndex        =   21
          TabStop         =   0   'False
@@ -532,7 +541,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   6
-         Left            =   -69600
+         Left            =   5400
          Locked          =   -1  'True
          TabIndex        =   19
          TabStop         =   0   'False
@@ -544,7 +553,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   5
-         Left            =   -69600
+         Left            =   5400
          Locked          =   -1  'True
          MaxLength       =   25
          TabIndex        =   17
@@ -557,7 +566,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   4
-         Left            =   -73080
+         Left            =   1920
          Locked          =   -1  'True
          MaxLength       =   20
          TabIndex        =   15
@@ -569,7 +578,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   3
-         Left            =   -73080
+         Left            =   1920
          TabIndex        =   13
          Top             =   2340
          Width           =   1815
@@ -579,7 +588,7 @@ Begin VB.Form frmInvoice
          BackColor       =   &H00FFFFC0&
          Height          =   285
          Index           =   2
-         Left            =   -73080
+         Left            =   1920
          Locked          =   -1  'True
          TabIndex        =   11
          TabStop         =   0   'False
@@ -590,7 +599,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   1
-         Left            =   -73080
+         Left            =   1920
          TabIndex        =   9
          Top             =   1380
          Width           =   1815
@@ -599,7 +608,7 @@ Begin VB.Form frmInvoice
          Appearance      =   0  'Flat
          Height          =   285
          Index           =   0
-         Left            =   -73080
+         Left            =   1920
          MaxLength       =   15
          TabIndex        =   7
          Top             =   1020
@@ -608,7 +617,7 @@ Begin VB.Form frmInvoice
       Begin MSComCtl2.DTPicker DTPicker1 
          CausesValidation=   0   'False
          Height          =   285
-         Left            =   -74520
+         Left            =   480
          TabIndex        =   5
          TabStop         =   0   'False
          Top             =   6180
@@ -619,12 +628,12 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   63438851
+         Format          =   55050243
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
          Height          =   3675
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   1000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
@@ -634,7 +643,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid InvoiceComboList 
          Height          =   975
-         Left            =   -73080
+         Left            =   1920
          TabIndex        =   27
          Top             =   1650
          Visible         =   0   'False
@@ -654,7 +663,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POComboList 
          Height          =   975
-         Left            =   -73080
+         Left            =   1920
          TabIndex        =   6
          Top             =   1290
          Visible         =   0   'False
@@ -673,7 +682,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POlist 
          Height          =   5720
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   31
          Top             =   1740
          Width           =   11775
@@ -693,7 +702,7 @@ Begin VB.Form frmInvoice
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid POtitles 
          Height          =   450
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   32
          Top             =   1440
          Width           =   11775
@@ -808,7 +817,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Not invoiced"
          Height          =   375
          Index           =   2
-         Left            =   9120
+         Left            =   -65880
          TabIndex        =   67
          Top             =   840
          Width           =   735
@@ -859,7 +868,7 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   3240
+         Left            =   -71760
          TabIndex        =   43
          Top             =   1020
          Width           =   3375
@@ -868,7 +877,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Already Invoiced"
          Height          =   375
          Index           =   1
-         Left            =   7920
+         Left            =   -67080
          TabIndex        =   42
          Top             =   840
          Width           =   735
@@ -877,7 +886,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Purchase Unit"
          Height          =   375
          Index           =   0
-         Left            =   6720
+         Left            =   -68280
          TabIndex        =   40
          Top             =   900
          Width           =   855
@@ -901,14 +910,14 @@ Begin VB.Form frmInvoice
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   33
          Top             =   1020
          Width           =   3015
       End
       Begin VB.Shape Shape1 
          Height          =   1935
-         Left            =   -74760
+         Left            =   240
          Top             =   1020
          Width           =   15
       End
@@ -917,7 +926,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Telephone"
          Height          =   255
          Index           =   9
-         Left            =   -71160
+         Left            =   3840
          TabIndex        =   26
          Top             =   2745
          Width           =   1455
@@ -927,7 +936,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Buyer"
          Height          =   255
          Index           =   8
-         Left            =   -71160
+         Left            =   3840
          TabIndex        =   24
          Top             =   2385
          Width           =   1455
@@ -937,7 +946,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Requested"
          Height          =   255
          Index           =   7
-         Left            =   -71160
+         Left            =   3840
          TabIndex        =   22
          Top             =   1785
          Width           =   1455
@@ -947,7 +956,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Issued"
          Height          =   255
          Index           =   6
-         Left            =   -71160
+         Left            =   3840
          TabIndex        =   20
          Top             =   1425
          Width           =   1455
@@ -957,7 +966,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Currency"
          Height          =   255
          Index           =   5
-         Left            =   -71160
+         Left            =   3840
          TabIndex        =   18
          Top             =   1065
          Width           =   1455
@@ -967,7 +976,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date Created"
          Height          =   255
          Index           =   4
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   16
          Top             =   2745
          Width           =   1575
@@ -977,7 +986,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Date of Invoice"
          Height          =   255
          Index           =   3
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   14
          Top             =   2385
          Width           =   1575
@@ -987,7 +996,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Created By"
          Height          =   255
          Index           =   2
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   12
          Top             =   2025
          Width           =   1575
@@ -997,7 +1006,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Vendor Invoice"
          Height          =   255
          Index           =   1
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   10
          Top             =   1425
          Width           =   1575
@@ -1007,7 +1016,7 @@ Begin VB.Form frmInvoice
          Caption         =   "Transaction #"
          Height          =   255
          Index           =   0
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   8
          Top             =   1065
          Width           =   1575
@@ -1015,7 +1024,7 @@ Begin VB.Form frmInvoice
       Begin VB.Label Label5 
          Caption         =   "Remarks"
          Height          =   255
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   4
          Top             =   3420
          Width           =   4455
@@ -1348,7 +1357,7 @@ End Sub
 Sub getINVOICE(Invoice As String)
 On Error Resume Next
 Dim dataINVOICE  As New ADODB.Recordset
-Dim Sql As String
+Dim sql As String
         
     Screen.MousePointer = 11
     Call clearDOCUMENT
@@ -1357,24 +1366,24 @@ Dim Sql As String
     If Left(cell(0), 1) <> "(" And Right(cell(0), 1) <> ")" Then cell(0) = UCase(cell(0))
     If Invoice = "*" Then
         cell(1) = ""
-        Sql = "SELECT * from PO_Header_for_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
+        sql = "SELECT * from PO_Header_for_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
         & "AND PO = '" + cell(0) + "'"
     Else
         If cell(1) = "" Then
-            Sql = "SELECT * from PO_Header_for_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
+            sql = "SELECT * from PO_Header_for_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
             & "AND PO = '" + cell(0) + "'"
         Else
             If cell(0) = "" Or cell(0) = "(By Invoice)" Then
-                Sql = "SELECT * from Invoice_Header WHERE NameSpace = '" + deIms.NameSpace + "' " _
+                sql = "SELECT * from Invoice_Header WHERE NameSpace = '" + deIms.NameSpace + "' " _
                     & "AND Invoice = '" + Trim(cell(1).Text) + "'"
             Else
-                Sql = "SELECT * from Invoice_Header WHERE NameSpace = '" + deIms.NameSpace + "' " _
+                sql = "SELECT * from Invoice_Header WHERE NameSpace = '" + deIms.NameSpace + "' " _
                     & "AND PO = '" + cell(0) + "' AND Invoice = '" + Trim(cell(1).Text) + "'"
             End If
         End If
     End If
     Set dataINVOICE = New ADODB.Recordset
-    dataINVOICE.Open Sql, deIms.cnIms, adOpenForwardOnly
+    dataINVOICE.Open sql, deIms.cnIms, adOpenForwardOnly
     If Err.number <> 0 Then Exit Sub
         
     With dataINVOICE
@@ -1432,17 +1441,17 @@ Dim Sql As String
 End Sub
 
 Sub getInvoiceComboList()
-Dim Sql As String
+Dim sql As String
 Dim dataLIST As ADODB.Recordset
     Err.Clear
     Set dataLIST = New ADODB.Recordset
-    Sql = "SELECT inv_invcnumb FROM INVOICE " _
+    sql = "SELECT inv_invcnumb FROM INVOICE " _
         & "WHERE inv_npecode = '" + deIms.NameSpace + "'"
     If cell(0) <> "(By Invoice)" And cell(0) <> "" Then
-        Sql = Sql + " AND inv_ponumb = '" + Trim(cell(0).Text) + "' "
+        sql = sql + " AND inv_ponumb = '" + Trim(cell(0).Text) + "' "
     End If
-    Sql = Sql + " ORDER BY inv_creadate desc"
-    dataLIST.Open Sql, deIms.cnIms, adOpenForwardOnly
+    sql = sql + " ORDER BY inv_creadate desc"
+    dataLIST.Open sql, deIms.cnIms, adOpenForwardOnly
     
     With InvoiceComboList
         .Visible = False
@@ -1465,15 +1474,15 @@ End Sub
 
 
 Function isOPEN(PO As String) As Boolean
-Dim Sql As String
+Dim sql As String
 Dim dataPO  As New ADODB.Recordset
     On Error Resume Next
     isOPEN = False
     PO = Trim(cell(0))
-    Sql = "SELECT po_ponumb, po_stas from PO WHERE po_npecode = '" + deIms.NameSpace + "' " _
+    sql = "SELECT po_ponumb, po_stas from PO WHERE po_npecode = '" + deIms.NameSpace + "' " _
         & "AND po_ponumb = '" + cell(0) + "'"
     Set dataPO = New ADODB.Recordset
-    dataPO.Open Sql, deIms.cnIms, adOpenForwardOnly
+    dataPO.Open sql, deIms.cnIms, adOpenForwardOnly
     If Err.number <> 0 Then Exit Function
     If dataPO.RecordCount > 0 Then
         If dataPO!po_stas = "OP" Then
@@ -1685,7 +1694,7 @@ End Sub
 
 Sub getPOComboList()
 On Error Resume Next
-Dim Sql As String
+Dim sql As String
 Dim datPO As New ADODB.Recordset
 
     Err.Clear
@@ -1697,13 +1706,13 @@ Dim datPO As New ADODB.Recordset
     
     Set datPO = New ADODB.Recordset
         
-    Sql = "SELECT po_ponumb FROM PO WHERE po_npecode = '" + deIms.NameSpace + "'  " _
+    sql = "SELECT po_ponumb FROM PO WHERE po_npecode = '" + deIms.NameSpace + "'  " _
          + "AND po_stas NOT IN ('CA')  " _
         & "ORDER BY po_creadate desc"
     
     POComboList.Rows = 0
     With datPO
-        .Open Sql, deIms.cnIms, adOpenForwardOnly
+        .Open sql, deIms.cnIms, adOpenForwardOnly
         If Err.number <> 0 Then Exit Sub
         POComboList.Rows = .RecordCount  'Juan 2010-9-15 to add better performance
         Dim r As Integer
@@ -1716,7 +1725,7 @@ Dim datPO As New ADODB.Recordset
             Do While Not .EOF
                 'Juan 2010-9-15 to add better performance
                 'POComboList.AddItem Trim(!po_ponumb)
-                POComboList.TextMatrix(r, 0) = Trim(!po_ponumb)
+                POComboList.TextMatrix(r, 0) = Trim(!PO_PONUMB)
                 '----------------
                 .MoveNext
                 r = r + 1
@@ -1729,7 +1738,7 @@ End Sub
 
 Sub getLINEitems(Invoice As String, Optional lineITEM As Integer)
 Dim dataPO As New ADODB.Recordset
-Dim Sql, rowTEXT, stock As String
+Dim sql, rowTEXT, stock As String
 Dim Q, U, P, qtyValue
 Dim i As Integer
 Dim qty As Double
@@ -1739,21 +1748,21 @@ Dim lockRow As Boolean
     Screen.MousePointer = 11
     If lineITEM < 1 Then Call makeDETAILgrid
     If Invoice = "*" Then
-        Sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
+        sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
             & "AND PO = '" + cell(0) + "' "
             If lineITEM > 0 Then
-                Sql = Sql + "AND lineItem = " + Format(lineITEM) + " "
+                sql = sql + "AND lineItem = " + Format(lineITEM) + " "
             End If
-            Sql = Sql + "ORDER BY PO, CONVERT(integer, LineItem) "
-            Sql = Sql + ", sequence" 'Juan 2014-06-05
+            sql = sql + "ORDER BY PO, CONVERT(integer, LineItem) "
+            sql = sql + ", sequence" 'Juan 2014-06-05
     Else
         Invoice = Trim(Invoice)
-        Sql = "SELECT * from Invoice_Details WHERE NameSpace = '" + deIms.NameSpace + "' " _
+        sql = "SELECT * from Invoice_Details WHERE NameSpace = '" + deIms.NameSpace + "' " _
             & "AND PO = '" + cell(0) + "' AND Invoice = '" + Invoice + "' ORDER BY PO, CONVERT(integer, LineItem)"
     End If
     POlist.RowHeightMin = 0
     Set dataPO = New ADODB.Recordset
-    dataPO.Open Sql, deIms.cnIms, adOpenForwardOnly
+    dataPO.Open sql, deIms.cnIms, adOpenForwardOnly
     If Err.number <> 0 Then Exit Sub
     With dataPO
         If .RecordCount > 0 Then
@@ -1903,7 +1912,7 @@ Dim lockRow As Boolean
                     POlist.Col = 1
                     If POlist = "" Then
                         POlist = "?"
-                        POlist.CellFontName = "Wingdings"
+                        POlist.CellFontName = "Wingdings 3"
                     End If
                     Call differences(POlist.row)
                     If UCase(Trim(!UnitSwitch)) = "P" Or IsNull(!UnitSwitch) Then POlist.row = POlist.Rows - 2
@@ -2041,7 +2050,7 @@ Dim i, Col As Integer
         .ColWidth(0) = 285
         .row = 0
         .Col = 0
-        .CellFontName = "Wingdings"
+        .CellFontName = "Wingdings 3"
         .CellFontSize = 12
         .TextMatrix(0, 0) = "?"
         
@@ -2105,15 +2114,15 @@ Dim i, Col As Integer
 End Sub
 
 Function Iexists() As Boolean
-Dim Sql, Invoice As String
+Dim sql, Invoice As String
 Dim dataPO  As New ADODB.Recordset
     On Error Resume Next
     Iexists = True
     Invoice = Trim(cell(0))
-    Sql = "SELECT inv_invcnumb from Invoice WHERE inv_npecode = '" + deIms.NameSpace + "' " _
+    sql = "SELECT inv_invcnumb from Invoice WHERE inv_npecode = '" + deIms.NameSpace + "' " _
         & "AND inv_ponumb = '" + cell(0) + "' AND inv_invcnumb = '" + cell(1) + "'"
     Set dataPO = New ADODB.Recordset
-    dataPO.Open Sql, deIms.cnIms, adOpenForwardOnly
+    dataPO.Open sql, deIms.cnIms, adOpenForwardOnly
     If Err.number <> 0 Then
         Iexists = False
         Exit Function
@@ -2886,7 +2895,7 @@ End Sub
 
 Private Sub NavBar1_OnNewClick()
 Dim i As Integer
-Dim Sql, response As String
+Dim sql, response As String
 Dim dataUSER As ADODB.Recordset
    'jawdat, start copy
 Dim currentformname, currentformname1
@@ -2931,8 +2940,8 @@ Else
                 Call ChangeMode(mdCreation)
                 Call begining
                 Set dataUSER = New ADODB.Recordset
-                Sql = "SELECT usr_username FROM XUSERPROFILE WHERE usr_npecode = '" + deIms.NameSpace + "' AND usr_userid = '" + CurrentUser + "'"
-                dataUSER.Open Sql, deIms.cnIms, adOpenForwardOnly
+                sql = "SELECT usr_username FROM XUSERPROFILE WHERE usr_npecode = '" + deIms.NameSpace + "' AND usr_userid = '" + CurrentUser + "'"
+                dataUSER.Open sql, deIms.cnIms, adOpenForwardOnly
                 If dataUSER.RecordCount > 0 Then
                     cell(2) = dataUSER!usr_username
                 End If
@@ -3017,7 +3026,7 @@ Dim details As New ADODB.Recordset
 Dim remarks As New ADODB.Recordset
 Dim INVitem As New ADODB.Recordset
 Dim i, row As Integer
-Dim Sql As String
+Dim sql As String
 Dim Q, Quantity, PRICE As Double
 Dim RsinvoiceFQA As ADODB.Recordset
 On Error Resume Next
@@ -3034,8 +3043,8 @@ On Error Resume Next
         MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Header", msg1)
         deIms.cnIms.BeginTrans
         Set header = New ADODB.Recordset
-        Sql = "SELECT * FROM INVOICE WHERE inv_ponumb = ''"
-        header.Open Sql, deIms.cnIms, adOpenDynamic, adLockPessimistic
+        sql = "SELECT * FROM INVOICE WHERE inv_ponumb = ''"
+        header.Open sql, deIms.cnIms, adOpenDynamic, adLockPessimistic
         With header
             .AddNew
             !inv_creauser = CurrentUser
@@ -3051,8 +3060,8 @@ On Error Resume Next
         msg1 = translator.Trans("M00719")
         MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Remarks", msg1)
         Set header = New ADODB.Recordset
-        Sql = "SELECT * FROM INVOICEREM WHERE invr_ponumb = ''"
-        remarks.Open Sql, deIms.cnIms, adOpenDynamic, adLockPessimistic
+        sql = "SELECT * FROM INVOICEREM WHERE invr_ponumb = ''"
+        remarks.Open sql, deIms.cnIms, adOpenDynamic, adLockPessimistic
         
         With remarks
             .AddNew
@@ -3071,8 +3080,8 @@ On Error Resume Next
         msg1 = translator.Trans("M00710")
         MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Details", msg1)
         Set details = New ADODB.Recordset
-        Sql = "SELECT * FROM INVOICEDETL WHERE invd_ponumb = ''"
-        details.Open Sql, deIms.cnIms, adOpenKeyset, adLockPessimistic
+        sql = "SELECT * FROM INVOICEDETL WHERE invd_ponumb = ''"
+        details.Open sql, deIms.cnIms, adOpenKeyset, adLockPessimistic
         With details
             For i = 1 To POlist.Rows - 1
                 If POlist.TextMatrix(i, 0) <> "" Then
@@ -3112,8 +3121,8 @@ On Error Resume Next
             msg1 = translator.Trans("M00710")
             MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Misc charges FQA", msg1)
             Set RsinvoiceFQA = New ADODB.Recordset
-            Sql = "SELECT * FROM INVOICEfqa WHERE 1=2"
-            RsinvoiceFQA.Open Sql, deIms.cnIms, adOpenKeyset, adLockBatchOptimistic
+            sql = "SELECT * FROM INVOICEfqa WHERE 1=2"
+            RsinvoiceFQA.Open sql, deIms.cnIms, adOpenKeyset, adLockBatchOptimistic
             
             For i = 0 To SSGrdFQA.Rows - 1
             
@@ -3328,7 +3337,7 @@ Dim changeCOLORS As Boolean
     End If
 End Sub
 
-Private Sub POlist_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub POlist_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 Dim i, n
 
     With POlist
@@ -3363,7 +3372,7 @@ Dim i, n
     
 End Sub
 
-Private Sub POlist_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub POlist_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 Dim row, Col As Integer
     With POlist
         row = .MouseRow
@@ -3503,7 +3512,7 @@ End Sub
 
 Private Sub SSGrdFQA_InitColumnProps()
 SSGrdFQA.Columns("company").DropDownHwnd = SSOleCompany.HWND
-SSGrdFQA.Columns("location").DropDownHwnd = SSOleDBLocation.HWND
+SSGrdFQA.Columns("location").DropDownHwnd = SSOleDBlocation.HWND
 SSGrdFQA.Columns("uschart#").DropDownHwnd = SSOleDBUsChart.HWND
 SSGrdFQA.Columns("camchart#").DropDownHwnd = SSOleDBCamChart.HWND
 SSGrdFQA.Columns("currency").DropDownHwnd = SSDDCURRENCY.HWND
@@ -3785,7 +3794,7 @@ End Sub
 
 Public Sub TextLINE_Validate(Cancel As Boolean)
 Dim i, Col, row As Integer
-Dim qty, switch, Sql, t As String
+Dim qty, switch, sql, t As String
 Dim newPRICE, qty1, qty2, uPRICE1, uPRICE2, sumQTY, sumPRICE As Double
 Dim newPRICEok As Boolean
 Dim answer, sequence
@@ -3807,10 +3816,10 @@ Dim dataLINE As New ADODB.Recordset
                         End If
                     End If
                     sequence = POlist.TextMatrix(t, 18)
-                    Sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
+                    sql = "SELECT * from PO_Details_For_Invoice WHERE NameSpace = '" + deIms.NameSpace + "' " _
                         & "AND PO = '" + cell(0) + "' AND lineItem = " + t + " AND sequence = '" + sequence + "' "
                     Set dataLINE = New ADODB.Recordset
-                    dataLINE.Open Sql, deIms.cnIms, adOpenForwardOnly
+                    dataLINE.Open sql, deIms.cnIms, adOpenForwardOnly
                     If dataLINE.RecordCount > 0 Then
                         If IsNumeric(POlist.TextMatrix(currentROW, 1)) Then
                             sumQTY = CDbl(.Text) + IIf(IsNull(dataLINE!sumqty1), 0, dataLINE!sumqty1)
@@ -3942,10 +3951,10 @@ RsLocation.Source = "select distinct(FQA) from FQA where Namespace ='" & deIms.N
 
 RsLocation.Open , deIms.cnIms
 
-If RsLocation.RecordCount = 0 Then SSOleDBLocation.AddItem LocationCode
+If RsLocation.RecordCount = 0 Then SSOleDBlocation.AddItem LocationCode
 Do While Not RsLocation.EOF
 
-    SSOleDBLocation.AddItem RsLocation("FQA")
+    SSOleDBlocation.AddItem RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop
