@@ -61,10 +61,9 @@ Global dsnName As String
 Global emailOutFolder As String
 Global skipAlphaSearch As Boolean
 Global skipExistance As Boolean
-'
 Global originalQty
-
 Global mainItemRow
+Global serialStockNumber As Boolean
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
 Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)    'Juan 2014-7-5
@@ -483,20 +482,18 @@ On Error GoTo errorHandler
         colRef2 = 7 'summaryList qty column
         colTot = 5
         Select Case .tag
-            Case "02040400" 'ReturnFromRepair
+            'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
+            'AdjustmentIssue,WarehouseToWarehouse,Sales
+            Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
+                colRef = 6
+                colTot = 5
             Case "02050200" 'AdjustmentEntry
             Case "02040200" 'WarehouseIssue
                 colRef = 7
                 colTot = 3
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
                 colRef = 9
                 colTot = 3
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
         End Select
         'Get initial values
         ReDim originalQTY1(.STOCKlist.Rows)
@@ -549,7 +546,9 @@ On Error GoTo errorHandler
                 End If
             'Next
         Next
-        Call calculateMainItem(StockNumber)
+        If .tag = "02040100" Then 'Receipt
+            Call calculateMainItem(StockNumber)
+        End If
     End With
     Exit Sub
 errorHandler:
@@ -1325,6 +1324,7 @@ Dim sNumber As String
 Dim thisSubLoca, thisLogic As String
 Dim multipleLine As Boolean
 mutipleLine = False
+serialStockNumber = False
 sqlKey = ""
 'On Error Resume Next
 On Error GoTo ErrHandler
@@ -1426,6 +1426,20 @@ On Error GoTo ErrHandler
                     Else
                         ratioValue = 1
                     End If
+                    'Juan 2015-10-8 calculation based on po <> above ratio
+                    Select Case frmWarehouse.tag
+                        Case "02040100" 'WarehouseReceipt
+                            Set datax = New ADODB.Recordset
+                            sql = "select * from poitem where poi_npecode = '" + nameSP + "'  " + _
+                                 "and poi_ponumb = '" + .cell(4).text + "' " + _
+                                 "and poi_liitnumb = '" + Format(.STOCKlist.row) + "' "
+                            datax.Open sql, cn, adOpenStatic
+                            If datax.RecordCount > 0 Then
+                                ratioValue = datax!poi_secoreqdqty / datax!poi_primreqdqty
+                            End If
+                        Case Else
+                    End Select
+                    datax.Close
                     'Juan 2014-8-27 new version of calculation based on invoice if exists
                     Select Case frmWarehouse.tag
                         Case "02040100" 'WarehouseReceipt
@@ -1693,6 +1707,7 @@ On Error GoTo ErrHandler
                                         .Nodes.Add cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 1"
                                         Call setupBOXES(.Nodes.Count, datax.Fields, False)
                                     Else
+                                        serialStockNumber = True
                                         moreSerial = True
                                         .Nodes.Add cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 0"
                                         Dim bookMark
@@ -1737,6 +1752,7 @@ On Error GoTo ErrHandler
                                 Call setupBOXES(.Nodes.Count, datax.Fields, False)
                             Else
                                 moreSerial = True
+                                serialStockNumber = True
                                 .Nodes.Add cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 0"
                             End If
                             total = total + datax!qty
@@ -1778,6 +1794,7 @@ On Error GoTo ErrHandler
                         Else
                             pool = IIf(datay!stk_poolspec = True, True, False)
                             If Not pool Then
+                                serialStockNumber = True
                                 frmWarehouse.STOCKlist.col = 0
                                 frmWarehouse.STOCKlist.text = "?"
                             End If
@@ -2091,7 +2108,7 @@ onDetailListInProcess = True
                     'Juan 2010-6-5
                     'rec = rec + Format(!qty) + vbTab
                     rec = rec + Format(!qty, "0.00") + vbTab
-                    rec = rec + IIf(IsNull(!unit), "", !unit)
+                    rec = rec + Format(!qty, "0.00")
                 'WarehouseIssue Juan 2012-3-23 to add serial
                 Case "02040200"
                     n = n + 1
@@ -2125,7 +2142,7 @@ onDetailListInProcess = True
                     stockReference = Trim(!StockNumber)
                     rec = Format(!poItem) + vbTab
                     rec = rec + Trim(!StockNumber) + vbTab
-                    rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) + vbTab
+                    rec = rec + IIf(IsNull(!QTY2po), "0.00", Format(!QTY2po, "0.00")) + vbTab
                     'Juan 2010-9-19
                     ' rec = rec + Format(!qty1, "0.00") + vbTab
                     Dim toBeReceived, toBeReceived2 As Double
@@ -2980,8 +2997,17 @@ On Error Resume Next
                                             point = 0
                                     End Select
                                     If i = size Then
+                                        Dim qtyCol
+                                        Select Case .tag
+                                            Case "02040200" 'WarehouseIssue
+                                                qtyCol = 4
+                                            Case "02040100" 'WarehouseReceipt
+                                                qtyCol = 5
+                                            Case Else
+                                                qtyCol = 4
+                                        End Select
                                         If Not .newBUTTON.Enabled Then Call putBOX(.quantity(totalNode), .linesV(1).Left + 20, topNODE(size) + topvalue, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
-                                        Call putBOX(.quantityBOX(totalNode), .linesV(4 + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
+                                        Call putBOX(.quantityBOX(totalNode), .linesV(qtyCol + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                         If Not .newBUTTON.Enabled Then Call putBOX(.balanceBOX(totalNode), .linesV(balanceCol + point).Left + 30, topNODE(size) + topvalue, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
                                     Else
                                         If Not .newBUTTON.Enabled Then Call putBOX(.quantity(i), .linesV(1).Left + 40, topNODE(i) + topvalue2, .detailHEADER.ColWidth(1) - 80, vbWhite)
@@ -3117,6 +3143,7 @@ On Error Resume Next
             Case "02040500" 'WellToWell
             Case "02040700" 'InternalTransfer
             Case "02050300" 'AdjustmentIssue
+            
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
                 If IsMissing(isPool) Then isPool = True
@@ -3231,10 +3258,11 @@ On Error Resume Next
                     'Step to update cells on screen-----------------
                     If qBoxExists Then
                         'new
-                        sumByQty = sumByQty + .quantity(i)
-                        sumByQtyBox = sumByQtyBox + .quantityBOX(i)
                         sumByLine = .quantity(i) - .quantityBOX(i)
                         sumByLines = sumByLines + sumByLine
+                        '.quantity(i) = Format(sumByLine, "0.00")
+                        sumByQty = sumByQty + .quantity(i)
+                        sumByQtyBox = sumByQtyBox + .quantityBOX(i)
                         '-------------
                           
                         balance = balance - .quantityBOX(i)
@@ -3245,6 +3273,7 @@ On Error Resume Next
 '                        balanceTotal = balanceTotal + balance
                         
                         'new
+                        '.quantity(i) = Format(sumByLine, "0.00")
                         .balanceBOX(i) = Format(sumByLine, "0.00")
                         '------------------
                     End If
@@ -3280,6 +3309,7 @@ On Error Resume Next
         End If
         If updateStockList Then
             .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
+            .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
             stockReference = .STOCKlist.TextMatrix(mainItemRow, 1)
             'Juan 2014-07-05 it does calculate the total to be received for the main item
             Call calculateMainItem(stockReference)  'r before next
@@ -3293,6 +3323,7 @@ On Error Resume Next
             Case "02040500" 'WellToWell
             Case "02040700" 'InternalTransfer
             Case "02050300" 'AdjustmentIssue
+            
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
                 If updateStockList Then .STOCKlist.TextMatrix(r, colTot + 2) = Format(balance2, "0.00")

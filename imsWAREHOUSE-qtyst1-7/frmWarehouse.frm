@@ -726,7 +726,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55640067
+      Format          =   68878339
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2927,6 +2927,7 @@ Dim translationSecondaryQty
             'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
             'AdjustmentIssue,WarehouseToWarehouse,Sales
             Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
+                .cols = 7
                 dark = 1
                 '.TextMatrix(0, 2) = "Unit Price"
                 .TextMatrix(0, 2) = translationUnitPrice
@@ -2941,6 +2942,7 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 5) = "Qty"
                 .TextMatrix(0, 5) = translationQty
                 .ColWidth(5) = 1200
+                .ColWidth(6) = 0
             'WarehouseIssue 2012-3-23 to add serial
             Case "02040200"
                 .cols = 8
@@ -3072,7 +3074,7 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 6) = "Sec Unit"
                 .TextMatrix(0, 6) = translationSecondaryUnit
                 '.TextMatrix(0, 7) = "Qty"
-                .TextMatrix(0, 7) = translationQty
+                .TextMatrix(0, 7) = translationSecondaryQty
                 '.TextMatrix(0, 8) = "Balance"
                 .TextMatrix(0, 8) = translationBalance
                 '---------------------
@@ -4778,9 +4780,15 @@ Dim answer, i
             End If
         Next
         Select Case frmWarehouse.tag
+            'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
+            'AdjustmentIssue,WarehouseToWarehouse,Sales
+            Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
+                .TextMatrix(i, 5) = .TextMatrix(i, 6)
+            Case "02050200" 'AdjustmentEntry
             'WarehouseIssue
             Case "02040200"
                 .TextMatrix(i, 6) = .TextMatrix(i, 7)
+            Case "02040100" 'WarehouseReceipt
         End Select
     End With
     If Tree.Nodes.Count > 0 Then
@@ -5713,6 +5721,7 @@ On Error Resume Next
         If Index <> totalNode Then
             If IsNumeric(.text) Then
                 If CDbl(.text) > 0 Then
+                    If serialStockNumber Then .text = 1
                     'Juan 2010-6-5
                     '.text = Format(.text, 0)
                     .text = Format(.text, "0.00")
@@ -5753,8 +5762,9 @@ On Error Resume Next
 '                    End If
                     '--------------------
                     Select Case frmWarehouse.tag
-                        'WarehouseIssue
-                        Case "02040200"
+                        Case "02040100" 'WarehouseReceipt
+                            
+                        Case "02040200" 'WarehouseIssue
                             
                         Case "02050200" 'AdjustmentEntry
                         Case Else
