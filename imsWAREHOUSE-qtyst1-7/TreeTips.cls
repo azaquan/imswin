@@ -71,11 +71,11 @@ End Function
 Private Function TreeView_GetNextItem(hWnd As Long, hItem As Long, Flag As Long) As Long
    TreeView_GetNextItem = SendMessageAny(hWnd, TVM_GETNEXTITEM, Flag, ByVal hItem)
 End Function
-Private Function GetFirstVisibleNode() As MSComctlLib.Node
+Private Function GetFirstVisibleNode() As MSComctlLib.node
 Dim hItem As Long
 Dim rc As RECT
 Dim ret As Boolean
-Dim nodX As Node
+Dim nodX As node
 Dim fItemRect As Long
 Dim Flag As Long
     'Get First Visible Item
@@ -95,22 +95,24 @@ End Function
 
 Private Sub cSub_WndProc(Msg As Long, wParam As Long, lParam As Long, nResult As Long)
 Static bVisible As Boolean
-Dim nodX As Node
+Dim nodX As node
 Dim TipText As String
-    On Error Resume Next
-                 
-        If Msg = WM_VSCROLL Then
-            Select Case LowWord(wParam)
-                'Drag na scrollbar
-                Case SB_THUMBTRACK, 1
-                    Set nodX = GetFirstVisibleNode()
-                    If Not nodX Is Nothing Then
-                        TipText = nodX.key
-                    End If
-            End Select
-        End If
-        If nodeONtop <> nodX.Index Then
-            nodeONtop = nodX.Index
-            Call workBOXESlist("FIX")
-        End If
+On Error Resume Next
+             
+    If Msg = WM_VSCROLL Then
+        Select Case LowWord(wParam)
+            'Drag na scrollbar
+            Case SB_THUMBTRACK, 1
+                Set nodX = GetFirstVisibleNode()
+                If Not nodX Is Nothing Then
+                    TipText = nodX.key
+                End If
+        End Select
+    End If
+    If nodeONtop <> nodX.Index Then
+        nodeONtop = nodX.Index
+        frmWarehouse.invoiceLabel = nodeONtop
+        'Call workBOXESlist("FIX")
+        Call reArrangeBoxes(nodeONtop)
+    End If
 End Sub

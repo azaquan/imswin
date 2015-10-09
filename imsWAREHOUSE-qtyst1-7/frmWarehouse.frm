@@ -14,6 +14,45 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.PictureBox baseFrame 
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   1935
+      Left            =   1800
+      ScaleHeight     =   1935
+      ScaleWidth      =   6975
+      TabIndex        =   102
+      Top             =   3960
+      Width           =   6975
+      Begin VB.PictureBox treeFrame 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   2895
+         Left            =   0
+         ScaleHeight     =   2895
+         ScaleWidth      =   4815
+         TabIndex        =   103
+         Top             =   0
+         Width           =   4815
+         Begin VB.PictureBox linesH 
+            BackColor       =   &H00C0C0C0&
+            BorderStyle     =   0  'None
+            Height          =   375
+            Index           =   0
+            Left            =   0
+            ScaleHeight     =   375
+            ScaleWidth      =   10650
+            TabIndex        =   104
+            Top             =   0
+            Visible         =   0   'False
+            Width           =   10650
+         End
+      End
+   End
    Begin VB.TextBox invoiceLineBOX 
       Alignment       =   1  'Right Justify
       BorderStyle     =   0  'None
@@ -21,7 +60,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   7920
       MousePointer    =   1  'Arrow
-      TabIndex        =   101
+      TabIndex        =   100
       Text            =   "invoiceListBOX"
       Top             =   0
       Visible         =   0   'False
@@ -34,37 +73,11 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   6480
       MousePointer    =   1  'Arrow
-      TabIndex        =   98
+      TabIndex        =   97
       Text            =   "invoiceBOX"
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
-   End
-   Begin VB.PictureBox treeFrame 
-      Appearance      =   0  'Flat
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   2895
-      Left            =   1200
-      ScaleHeight     =   2895
-      ScaleWidth      =   4815
-      TabIndex        =   96
-      Top             =   4080
-      Width           =   4815
-      Begin VB.PictureBox linesH 
-         BackColor       =   &H00C0C0C0&
-         BorderStyle     =   0  'None
-         Height          =   375
-         Index           =   0
-         Left            =   0
-         ScaleHeight     =   375
-         ScaleWidth      =   10650
-         TabIndex        =   103
-         Top             =   0
-         Visible         =   0   'False
-         Width           =   10650
-      End
    End
    Begin VB.TextBox emailRecepient 
       Height          =   375
@@ -726,7 +739,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   68878339
+      Format          =   54788099
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1270,7 +1283,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   12000
-      TabIndex        =   102
+      TabIndex        =   101
       Top             =   0
       Visible         =   0   'False
       Width           =   1095
@@ -1291,7 +1304,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   6405
-      TabIndex        =   100
+      TabIndex        =   99
       Top             =   3840
       Width           =   2655
    End
@@ -1312,7 +1325,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   4560
-      TabIndex        =   99
+      TabIndex        =   98
       Top             =   3840
       Width           =   1575
    End
@@ -1321,7 +1334,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Label5"
       Height          =   255
       Left            =   10560
-      TabIndex        =   97
+      TabIndex        =   96
       Top             =   120
       Visible         =   0   'False
       Width           =   1335
@@ -1793,9 +1806,16 @@ If isEditionActive = False Then Exit Sub
        
         Tree.width = frmWarehouse.detailHEADER.width
          'Juan 2014-01-12, resizing treeFrame ------
-        treeFrame.Left = detailHEADER.ColWidth(0) + 5200
-        treeFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
-        treeFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
+'        treeFrame.Left = detailHEADER.ColWidth(0) + 5200
+'        treeFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
+'        treeFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
+        
+        baseFrame.Left = detailHEADER.ColWidth(0) + 5200
+        baseFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
+        baseFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
+        treeFrame.Top = 500
+        treeFrame.width = baseFrame.width
+        
         ' ------------
         Tree.Nodes.Clear
         StockNumber = .TextMatrix(r, 1)
@@ -2333,7 +2353,8 @@ Dim shot
     searchFIELD(0).Visible = False
     searchFIELD(1).Visible = False
     searchButton.Visible = False
-    treeFrame.Visible = False
+    'treeFrame.Visible = False
+    baseFrame.Visible = True
     
     Tree.Height = 2000
     SUMMARYlist.Top = searchFIELD(0).Top
@@ -3312,7 +3333,13 @@ Dim translationSecondaryQty
     
     
     'Juan 2014-01-12, resizing treeFrame ------
-    With treeFrame
+'    With treeFrame
+'        .Left = detailHEADER.ColWidth(0) + Tree.Left
+'        .width = detailHEADER.width - .Left - 800
+'        .Top = detailHEADER.Top + detailHEADER.Height + 300
+'        .Height = Tree.Height - 420
+'    End With
+    With baseFrame
         .Left = detailHEADER.ColWidth(0) + Tree.Left
         .width = detailHEADER.width - .Left - 800
         .Top = detailHEADER.Top + detailHEADER.Height + 300
@@ -3394,7 +3421,8 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
     removeDETAIL.Visible = False
     Label4(0).Visible = False
     Label4(1).Visible = False
-    treeFrame.Visible = False
+    'treeFrame.Visible = False
+    baseFrame.Visible = False
     If isReset Then
         isReset = False
     Else
@@ -3487,13 +3515,16 @@ Dim n
             Else
                 .Left = box.Left
             End If
-            .Left = .Left + treeFrame.Left 'Juan 2014-02-04, to move cell
-            If (box.Top) < (treeFrame.Height - .Height - 800) Then
+            '.Left = .Left + treeFrame.Left 'Juan 2014-02-04, to move cell
+            .Left = .Left + baseFrame.Left 'Juan 2014-02-04, to move cell
+            'If (box.Top) < (treeFrame.Height - .Height - 800) Then
+            If (box.Top) < (baseFrame.Height - .Height - 800) Then
                 .Top = box.Top + box.Height + 10
             Else
                 .Top = box.Top - .Height - 10
             End If
-            .Top = .Top + treeFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
+            '.Top = .Top + treeFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
+            .Top = .Top + baseFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
             .ZOrder
             .Visible = True
         End If
@@ -3544,7 +3575,8 @@ Sub showREMARKS()
     Command5.Caption = "&Hide Remarks"
     remarks.locked = False
     Tree.Visible = False 'M
-    treeFrame.Visible = False
+    'treeFrame.Visible = False
+    baseFrame.Visible = False
     remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
@@ -3642,7 +3674,7 @@ End Sub
 
 Private Sub addITEM_Click()
 Dim n As Integer
-Dim nody As Node
+Dim nody As node
     With Tree
         n = .SelectedItem.Index + .SelectedItem.Children
         Call moveBOXES(n, 1)
@@ -7056,7 +7088,7 @@ End Sub
 
 
 Private Sub Tree_AfterLabelEdit(Cancel As Integer, NewString As String)
-Dim nody As Node
+Dim nody As node
 Dim sql
 Dim datax As New ADODB.Recordset
 Dim n As Integer
@@ -7134,8 +7166,8 @@ Dim n
     End With
 End Sub
 
-Private Sub Tree_Collapse(ByVal Node As MSComctlLib.Node)
-    Node.Expanded = True
+Private Sub Tree_Collapse(ByVal node As MSComctlLib.node)
+    node.Expanded = True
 End Sub
 
 
@@ -7169,7 +7201,7 @@ End Sub
 
 Private Sub Tree_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 On Error GoTo getOUT
-Dim nody As Node
+Dim nody As node
     If newBUTTON.Enabled Then Exit Sub
     If Button = 2 Then
         Set nody = Tree.HitTest(x, y)

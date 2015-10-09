@@ -320,41 +320,43 @@ With frmWarehouse
                .logicBOX(i).Top = topNODE(i) - distance
                
                 Set .sublocaBOX(i).Container = .treeFrame
-                .sublocaBOX(i).Left = .sublocaBOX(i).Left - .treeFrame.Left
+                .sublocaBOX(i).Left = .sublocaBOX(i).Left - .baseFrame.Left
+
                 .sublocaBOX(i).Top = topNODE(i) - distance
                 
                 Set .quantityBOX(i).Container = .treeFrame
-                .quantityBOX(i).Left = .quantityBOX(i).Left - .treeFrame.Left
+                .quantityBOX(i).Left = .quantityBOX(i).Left - .baseFrame.Left
                 .quantityBOX(i).Top = topNODE(i) - distance
                 
                 Set .quantity2BOX(i).Container = .treeFrame
-                .quantity2BOX(i).Left = .quantity2BOX(i).Left - .treeFrame.Left
+                .quantity2BOX(i).Left = .quantity2BOX(i).Left - .baseFrame.Left
                 .quantity2BOX(i).Top = topNODE(i) - distance
                 
                 Set .NEWconditionBOX(i).Container = .treeFrame
-                .NEWconditionBOX(i).Left = .NEWconditionBOX(i).Left - .treeFrame.Left
+                .NEWconditionBOX(i).Left = .NEWconditionBOX(i).Left - .baseFrame.Left
                 .NEWconditionBOX(i).Top = topNODE(i) - distance
 
                 Set .priceBOX(i).Container = .treeFrame
-                .priceBOX(i).Left = .priceBOX(i).Left - .treeFrame.Left
+                .priceBOX(i).Left = .priceBOX(i).Left - .baseFrame.Left
                 .priceBOX(i).Top = topNODE(i) - distance
                 
                 Set .unitBOX(i).Container = .treeFrame
-                .unitBOX(i).Left = .unitBOX(i).Left - .treeFrame.Left
+                .unitBOX(i).Left = .unitBOX(i).Left - .baseFrame.Left
                 .unitBOX(i).Top = topNODE(i) - distance
                 
                 Set .unit2BOX(i).Container = .treeFrame
-                .unit2BOX(i).Left = .unit2BOX(i).Left - .treeFrame.Left
+                .unit2BOX(i).Left = .unit2BOX(i).Left - .baseFrame.Left
                 .unit2BOX(i).Top = topNODE(i) - distance
                 
                 Set .repairBOX(i).Container = .treeFrame
-                .repairBOX(i).Left = .repairBOX(i).Left - .treeFrame.Left
+                .repairBOX(i).Left = .repairBOX(i).Left - .baseFrame.Left
                 .repairBOX(i).Top = topNODE(i) - distance
                 
                 Set .balanceBOX(i).Container = .treeFrame
-                .balanceBOX(i).Left = .balanceBOX(i).Left - .treeFrame.Left
+                .balanceBOX(i).Left = .balanceBOX(i).Left - .baseFrame.Left
                 .balanceBOX(i).Top = topNODE(i) - distance
-                .treeFrame.width = .balanceBOX(i).Left + .balanceBOX(i).width + 20
+                .baseFrame.width = .balanceBOX(i).Left + .balanceBOX(i).width + 20
+                .treeFrame.width = .baseFrame.width
             End If
         Next
     End If
@@ -1859,7 +1861,8 @@ On Error GoTo ErrHandler
         End With
     End If
     '--------------------------------------------------
-    frmWarehouse.treeFrame.Visible = True
+    'frmWarehouse.treeFrame.Visible = True
+    frmWarehouse.baseFrame.Visible = True
     directCLICK = False
     Screen.MousePointer = 0
     frmWarehouse.MousePointer = 0
@@ -2876,14 +2879,14 @@ summaryQTYshort = 0
     End With
 End Function
 
-Function summaryQTY(StockNumber, conditionCODE, fromlogic, sublocation, serial, Node) As Integer
+Function summaryQTY(StockNumber, conditionCODE, fromlogic, sublocation, serial, node) As Integer
 Dim i, condition, key
     With frmWarehouse.SUMMARYlist
         For i = 1 To .Rows - 1
             summaryPOSITION = i
             If Trim(.TextMatrix(i, 1)) = Trim(StockNumber) And .TextMatrix(i, 20) = conditionCODE And .TextMatrix(i, 9) = fromlogic And .TextMatrix(i, 10) = sublocation Then
                 If IsNull(serial) Or serial = "" Or UCase(serial) = "POOL" Then
-                    key = frmWarehouse.Tree.Nodes(Node).key
+                    key = frmWarehouse.Tree.Nodes(node).key
                     condition = Mid(key, InStr(key, "-") + 1, InStr(key, "{{") - InStr(key, "-") - 1)
                     If condition = .TextMatrix(i, 3) Then
                         summaryQTY = .TextMatrix(i, 7)
@@ -3058,6 +3061,18 @@ On Error Resume Next
 '    End If
     Err.Clear
 End Sub
+
+Sub reArrangeBoxes(node As Integer)
+Dim c As textBOX
+Dim i, size, distance
+On Error Resume Next
+
+With frmWarehouse
+    .treeFrame.Top = (node * 320) * -1
+End With
+Err.Clear
+End Sub
+
 
 Sub selectROW(grid As MSHFlexGrid, Optional clean As Boolean)
 On Error GoTo getOUT
