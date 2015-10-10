@@ -217,7 +217,7 @@ With frmWarehouse
     
     size = .Tree.Nodes.Count
     If size > 0 Then
-        distance = 0 ' .Tree.Top + 320
+        distance = .Tree.Top + 320
         For i = 2 To size
             newY = topNODE(yPosition) + distance 'for moving check if + distance is necessary, otherwise  comment it back
             Err.Clear
@@ -277,6 +277,7 @@ With frmWarehouse
         '.logLabel.Visible = True
         Call putThingsInsideExtension(1)
         distance = .Tree.Top
+
         Select Case .tag
             Case "02040400" 'ReturnFromRepair
                 distance = distance + 320
@@ -359,6 +360,8 @@ With frmWarehouse
                 .treeFrame.width = .baseFrame.width
             End If
         Next
+        .baseFrame.Height = size * 320
+        .treeFrame.Height = .baseFrame.Height
     End If
 End With
 Err.Clear
@@ -2571,7 +2574,7 @@ Sub SHOWdetails()
         .otherLABEL(0).Visible = True
         .commodityLABEL.Visible = True
         .descriptionLABEL.Visible = True
-        .remarksLabel.Visible = False
+        .remarksLABEL.Visible = False
         .remarks.Visible = False
         .SUMMARYlist.Visible = False
         .hideDETAIL.Visible = True
@@ -3068,7 +3071,11 @@ Dim i, size, distance
 On Error Resume Next
 
 With frmWarehouse
-    .treeFrame.Top = (node * 320) * -1
+    size = .Tree.Nodes.Count
+    distance = .Tree.Height / size
+    .treeFrame.Top = 260 + ((node * distance) * -1)
+    .treeFrame.Refresh
+    .baseFrame.Refresh
 End With
 Err.Clear
 End Sub

@@ -97,6 +97,7 @@ Private Sub cSub_WndProc(Msg As Long, wParam As Long, lParam As Long, nResult As
 Static bVisible As Boolean
 Dim nodX As node
 Dim TipText As String
+Dim diff
 On Error Resume Next
              
     If Msg = WM_VSCROLL Then
@@ -110,8 +111,9 @@ On Error Resume Next
         End Select
     End If
     If nodeONtop <> nodX.Index Then
+        diff = 1
         nodeONtop = nodX.Index
-        frmWarehouse.invoiceLabel = nodeONtop
+        'frmWarehouse.invoiceLabel = nodeONtop 'just to display and testing
         'Call workBOXESlist("FIX")
         Call reArrangeBoxes(nodeONtop)
     End If
