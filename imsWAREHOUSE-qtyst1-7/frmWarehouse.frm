@@ -739,7 +739,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   54788099
+      Format          =   55115779
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1598,7 +1598,7 @@ Begin VB.Form frmWarehouse
       Left            =   10920
       TabIndex        =   14
       Top             =   720
-      Width           =   975
+      Width           =   1095
    End
    Begin VB.Label remarksLABEL 
       Caption         =   "Remarks"
@@ -1684,7 +1684,6 @@ Dim doChanges As Boolean
 'Juan 2010-7-17
 Dim inProgress As Boolean
 Dim isReset As Boolean
-
 
 
 
@@ -1995,6 +1994,24 @@ Sub getEmail()
         emailRecepient.text = emailText
     End If
     datax.Close
+End Sub
+
+Sub limitQty(Index As Integer)
+    Select Case frmWarehouse.tag
+        Case "02040100" 'WarehouseReceipt
+            If (invoiceBOX(Index) <> "" And invoiceBOX(Index) <> "invoiceBOX") And CDbl(quantityBOX(Index)) > CDbl(quantity(Index)) Then quantityBOX(Index).text = quantity(Index)
+        'Case "02050300" 'AdjustmentIssue
+        'Case "02040200" 'WarehouseIssue
+        'Case "02040500" 'WellToWell
+        'Case "02040300" 'Return from Well
+        'Case "02040600" 'WarehouseToWarehouse
+        Case "02040400" 'ReturnFromRepair
+        Case "02050200" 'AdjustmentEntry
+        Case "02040700" 'InternalTransfer
+        Case "02050400" 'Sales
+        Case Else
+            If CDbl(quantityBOX(Index)) > CDbl(quantity(Index)) Then quantityBOX(Index).text = quantity(Index)
+    End Select
 End Sub
 
 Function locateLine(StockNumber As String, searchValue As String, Optional col As Integer) As Integer
@@ -2354,7 +2371,7 @@ Dim shot
     searchFIELD(1).Visible = False
     searchButton.Visible = False
     'treeFrame.Visible = False
-    baseFrame.Visible = True
+    baseFrame.Visible = False
     
     Tree.Height = 2000
     SUMMARYlist.Top = searchFIELD(0).Top
@@ -3505,6 +3522,7 @@ Dim n
     With grid
         'juan 2012-1-14 to avoid t he problem when logical warehouse shows up with no reason
         If SUMMARYlist.Visible Then Exit Sub
+        If remarks.Visible Then Exit Sub
         If Tree.Visible = False Then Exit Sub
         '------------
         If Not noFILLING Then Call fillGRID(grid, box, Index)
@@ -3559,8 +3577,8 @@ Sub hideREMARKS()
     'removeDETAIL.Visible = True
     submitDETAIL.Visible = True
     Tree.Visible = True 'M
-    'sublocaBOX(0).Visible = True ' M 'Juan 2010-6-27
-    grid(2).Visible = True 'M
+    'sublocaBOX(0).Visible = True ' M 'Juan 2010-6-2
+    'grid(2).Visible = True 'M 'Juan 2015-10-15
 End Sub
 
 Sub showREMARKS()
@@ -5764,6 +5782,8 @@ On Error Resume Next
                         If IsNumeric(.text) Then
                             qty = CDbl(.text)
                             If qty > 0 Then
+                                Call limitQty(Index)
+                                'If (invoiceBOX(index) <> "" And invoiceBOX(index) <> "invoiceBOX") And qty > CDbl(quantity(index)) Then .text = quantity(index)
                                 qty2 = qty * ratioValue
                                 quantity2BOX(Index).text = Format(qty2, "0.00")
                             Else
@@ -5771,6 +5791,8 @@ On Error Resume Next
                             End If
                         End If
                     Else
+                        Call limitQty(Index)
+                        'If (invoiceBOX(index) <> "" And invoiceBOX(index) <> "invoiceBOX") And CDbl(.text) > CDbl(quantity(index)) Then .text = quantity(index)
                         quantity2BOX(Index).text = .text
                     End If
                     If Err.Number = 340 Then Err.Clear 'if error is about element n doesn't exist it clear errors variables
@@ -5800,7 +5822,7 @@ On Error Resume Next
                             
                         Case "02050200" 'AdjustmentEntry
                         Case Else
-                            If CDbl(.text) > CDbl(quantity(Index)) Then .text = quantity(Index)
+                            'If CDbl(.text) > CDbl(quantity(Index)) Then .text = quantity(Index)
                     End Select
                 Else
                     'Juan 2010-6-5

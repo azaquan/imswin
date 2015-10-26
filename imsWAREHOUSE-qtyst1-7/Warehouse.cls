@@ -174,7 +174,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(10, 2) = 1
                 
                 '.Label(2).Caption = "From"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -189,7 +189,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(10, 3) = 1
                 
                 '.Label(3).Caption = "To Warehouse"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 .label(3).Visible = True
                 .cell(3).Visible = True
                 
@@ -247,7 +247,7 @@ Screen.MousePointer = 11
                 
                 'cell 2
                 '.Label(2).Caption = "From Warehouse"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
                 .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
@@ -262,7 +262,7 @@ Screen.MousePointer = 11
                 
                 'cell 3
                 '.Label(3).Caption = "Issue To"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 .label(3).Visible = True
                 .cell(3).Visible = True
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -291,7 +291,7 @@ Screen.MousePointer = 11
                 
                 'cell 2
                 '.Label(2).Caption = "From Well"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
@@ -307,7 +307,7 @@ Screen.MousePointer = 11
                 
                 'cell 3
                 '.Label(3).Caption = "To Well"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 
                 .label(3).Visible = True
                 .cell(3).Visible = True
@@ -339,7 +339,7 @@ Screen.MousePointer = 11
                 .cell(2).Top = .cell(1).Top
                 .label(2).Top = .label(1).Top
                 '.Label(2).Caption = "Warehouse"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
@@ -370,7 +370,7 @@ Screen.MousePointer = 11
                 
                 'cell 2
                 '.Label(2).Caption = "Warehouse"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .cell(2).Top = .cell(1).Top
                 .label(2).Top = .label(1).Top
@@ -403,7 +403,7 @@ Screen.MousePointer = 11
                                 
                 'cell 2
                 '.Label(2).Caption = "From Warehouse"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
@@ -418,7 +418,7 @@ Screen.MousePointer = 11
                 
                 'cell 3
                 '.Label(3).Caption = "To Warehouse"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 
                 .label(3).Visible = True
                 .cell(3).Visible = True
@@ -466,7 +466,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(9, 2) = "4000, 1000"
                 .matrix.TextMatrix(10, 2) = 1
                 '.Label(2).Caption = "Receipt From"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -480,14 +480,14 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
                 '.Label(3).Caption = "To Warehouse"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 
                 .label(3).Visible = True
                 .cell(3).Visible = True
                 
                 'cell 4
                 '.Label(4).Caption = "Purchase Order"
-                .label(4).Caption = translator.getIt(getName(transaction) + "Label(4)")
+                .label(4).Caption = translator.getIt(getName(transaction) + ".Label(4)")
                 
                 .label(4).Visible = True
                 .cell(4).Visible = True
@@ -514,7 +514,7 @@ Screen.MousePointer = 11
                 
                 'cell 2
                 '.Label(2).Caption = "From Warehouse"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
                 .matrix.TextMatrix(1, 2) = 2
@@ -529,7 +529,7 @@ Screen.MousePointer = 11
                 
                 'cell 3
                 .label(3).Caption = "Sold to"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 
                 .label(3).Visible = True
                 .cell(3).Visible = True
@@ -546,7 +546,7 @@ Screen.MousePointer = 11
                 
                 'cell 4
                 '.Label(4).Caption = "Sold To"
-                .label(4).Caption = translator.getIt(getName(transaction) + "Label(3)") 'same as label(4)
+                .label(4).Caption = translator.getIt(getName(transaction) + ".Label(3)") 'same as label(4)
                 
                 .label(4).Visible = True
                 .cell(4).Visible = True
@@ -591,7 +591,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(10, 2) = 1
                 
                 '.label(2).Caption = "From Site"
-                .label(2).Caption = translator.getIt(getName(transaction) + "Label(2)")
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 'cell 3
                 .matrix.TextMatrix(0, 3) = "Get_Location2"
@@ -605,7 +605,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(9, 3) = "4000, 1000"
                 .matrix.TextMatrix(10, 3) = 1
                 .label(3).Caption = "To Warehouse"
-                .label(3).Caption = translator.getIt(getName(transaction) + "Label(3)")
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
                 
                 .label(3).Visible = True
                 .cell(3).Visible = True

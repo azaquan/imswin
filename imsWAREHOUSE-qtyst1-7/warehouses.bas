@@ -1515,11 +1515,11 @@ On Error GoTo ErrHandler
                         End If
                     End If
                     
-                    If docTYPE!doc_invcreqd Then
                     'Juan 2014-03-29: fixing bug replacing parameter stocknumber by item#
                         'Set datax = getDATA("statusINVOICE", Array(nameSP, .cell(4), Format(StockNumber)))
                         Set datax = getDATA("statusINVOICE", Array(nameSP, .cell(4), .STOCKlist.TextMatrix(stockListRow, 8)))
                         '----------------------------------------------------------
+                    If docTYPE!doc_invcreqd Then
                         If datax.RecordCount = 0 Then
                             Screen.MousePointer = 0
                             MsgBox "Error on Warehouse Module referent to a non existing invoice"
@@ -1550,8 +1550,17 @@ On Error GoTo ErrHandler
                             End If
                         End If
                     Else
-                        .invoiceLabel.Visible = False
-                        .invoiceNumberLabel.Visible = False
+                        If datax.RecordCount = 0 Then
+                            .invoiceLabel.Visible = False
+                            .invoiceNumberLabel.Visible = False
+                        Else
+                            'Juan 2014-5-1
+                            .invoiceLabel.Visible = True
+                            .invoiceNumberLabel.Caption = .STOCKlist.TextMatrix(.STOCKlist.row, 12)
+                            .invoiceLineLabel.Caption = .STOCKlist.TextMatrix(.STOCKlist.row, 13)
+                            .invoiceNumberLabel.Visible = True
+                            '-----------------------
+                        End If
                     End If
                     'sql = "SELECT TOP 1 * FROM StockInfoPO WHERE " _
                       '  & "NameSpace = '" + nameSP + "' AND " _
@@ -1722,7 +1731,7 @@ On Error GoTo ErrHandler
                                                 bookMark = datax.bookMark
                                                 datax.MoveFirst
                                                 Do While Not datax.EOF
-                                                    If RTrim(thisSubLoca) = RTrim(datax!subloca) And RTrim(thisLogic) = RTrim(datax!logic) Then
+                                                    If RTrim(thisSubLoca) = RTrim(datax!subloca) And RTrim(thisLogic) = RTrim(datax!logic) And RTrim(cond) = RTrim(datax!condition) Then
                                                         .Nodes.Add key, tvwChild, key + "{{#" + datax!serialNumber, "Serial #: " + datax!serialNumber, "thing 1"
                                                         Call setupBOXES(.Nodes.Count, datax.Fields, True)
                                                     End If
@@ -2574,7 +2583,7 @@ Sub SHOWdetails()
         .otherLABEL(0).Visible = True
         .commodityLABEL.Visible = True
         .descriptionLABEL.Visible = True
-        .remarksLABEL.Visible = False
+        .remarksLabel.Visible = False
         .remarks.Visible = False
         .SUMMARYlist.Visible = False
         .hideDETAIL.Visible = True
@@ -3330,8 +3339,27 @@ On Error Resume Next
             balance2 = balance
         End If
         If updateStockList Then
-            .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
-            .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
+            Select Case .tag
+                Case "02040100" 'WarehouseReceipt
+                    If balance < 0 Then
+                        .STOCKlist.TextMatrix(r, colTot) = "0.00"
+                    Else
+                        .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
+                    End If
+                Case Else
+                    .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
+            End Select
+            Select Case .tag
+                Case "02040100" 'WarehouseReceipt
+                    If sumByLines < 0 Then
+                        .STOCKlist.TextMatrix(r, colTot) = "0.00" 'new juan 2015-10-3
+                    Else
+                        .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
+                    End If
+                Case Else
+                    .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
+            End Select
+
             stockReference = .STOCKlist.TextMatrix(mainItemRow, 1)
             'Juan 2014-07-05 it does calculate the total to be received for the main item
             Call calculateMainItem(stockReference)  'r before next
@@ -3348,7 +3376,13 @@ On Error Resume Next
             
             Case "02040600" 'WarehouseToWarehouse
             Case "02040100" 'WarehouseReceipt
-                If updateStockList Then .STOCKlist.TextMatrix(r, colTot + 2) = Format(balance2, "0.00")
+                If updateStockList Then
+                    If balance2 < 0 Then
+                        .STOCKlist.TextMatrix(r, colTot + 2) = "0.00"
+                    Else
+                        .STOCKlist.TextMatrix(r, colTot + 2) = Format(balance2, "0.00")
+                    End If
+                End If
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
         End Select

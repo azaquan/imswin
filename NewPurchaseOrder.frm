@@ -64,42 +64,42 @@ Begin VB.Form frm_NewPurchase
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "OptEmail"
-      Tab(1).Control(1)=   "OptFax"
-      Tab(1).Control(2)=   "Text1"
-      Tab(1).Control(3)=   "CmdAddSupEmail"
-      Tab(1).Control(4)=   "cmdRemove"
-      Tab(1).Control(5)=   "dgRecepients"
+      Tab(1).Control(0)=   "Line1"
+      Tab(1).Control(1)=   "lbl_Recipients"
+      Tab(1).Control(2)=   "Lbl_search"
+      Tab(1).Control(3)=   "dgRecipientList"
+      Tab(1).Control(4)=   "fra_FaxSelect"
+      Tab(1).Control(5)=   "cmd_Add"
       Tab(1).Control(6)=   "txt_Recipient"
-      Tab(1).Control(7)=   "cmd_Add"
-      Tab(1).Control(8)=   "fra_FaxSelect"
-      Tab(1).Control(9)=   "dgRecipientList"
-      Tab(1).Control(10)=   "Lbl_search"
-      Tab(1).Control(11)=   "lbl_Recipients"
-      Tab(1).Control(12)=   "Line1"
+      Tab(1).Control(7)=   "dgRecepients"
+      Tab(1).Control(8)=   "cmdRemove"
+      Tab(1).Control(9)=   "CmdAddSupEmail"
+      Tab(1).Control(10)=   "Text1"
+      Tab(1).Control(11)=   "OptFax"
+      Tab(1).Control(12)=   "OptEmail"
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fra_LI"
+      Tab(2).Control(0)=   "fra_LineItem"
       Tab(2).Control(1)=   "Fra_ToFqa"
-      Tab(2).Control(2)=   "fra_LineItem"
+      Tab(2).Control(2)=   "fra_LI"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Txt_RemNo"
+      Tab(3).Control(0)=   "txtRemarks"
       Tab(3).Control(1)=   "CmdcopyLI(1)"
-      Tab(3).Control(2)=   "txtRemarks"
+      Tab(3).Control(2)=   "Txt_RemNo"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cmd_Addterms"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "txtClause"
-      Tab(4).Control(2)=   "CmdcopyLI(2)"
-      Tab(4).Control(3)=   "Txt_ClsNo"
+      Tab(4).Control(0)=   "Txt_ClsNo"
+      Tab(4).Control(1)=   "CmdcopyLI(2)"
+      Tab(4).Control(2)=   "txtClause"
+      Tab(4).Control(3)=   "cmd_Addterms"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
          BorderStyle     =   0  'None
@@ -617,6 +617,7 @@ Begin VB.Form frm_NewPurchase
             Left            =   4560
             TabIndex        =   23
             Top             =   4800
+            Value           =   1  'Checked
             Width           =   3585
          End
          Begin VB.CheckBox chk_FreightFard 
@@ -941,7 +942,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   68288515
+            Format          =   55115779
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1603,7 +1604,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   68288515
+            Format          =   55115779
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2198,7 +2199,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   68288515
+            Format          =   55115779
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -4422,7 +4423,7 @@ If Not ssdcboCommoditty.DroppedDown Then ssdcboCommoditty.DroppedDown = True
 End Sub
 
 Private Sub ssdcboCommoditty_KeyPress(KeyAscii As Integer)
-'ssdcboCommoditty.MoveNext
+ssdcboCommoditty.MoveNext
 End Sub
 
 Private Sub ssdcboCommoditty_LostFocus()
@@ -6488,7 +6489,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
         ssOleDbPO.SetFocus
         newSupplier = True 'JDCG 2008/1/20
         CmdConvert.Enabled = True
-        chk_FrmStkMst.value = 0
+        chk_FrmStkMst.value = 1
         FormMode = ChangeMode(mdCreation)
           
           If mIsDocTypeLoaded = False Then
