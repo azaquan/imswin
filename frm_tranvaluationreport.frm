@@ -1,7 +1,7 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frm_tranvaluationreport 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Transaction Valuation Report"
@@ -61,7 +61,7 @@ Begin VB.Form frm_tranvaluationreport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   60030979
+         Format          =   55115779
          CurrentDate     =   36524
       End
       Begin MSComCtl2.DTPicker DTdate1 
@@ -74,7 +74,7 @@ Begin VB.Form frm_tranvaluationreport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   60030979
+         Format          =   55115779
          CurrentDate     =   36524
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_company 
@@ -387,7 +387,7 @@ SSOleDB_company.FieldSeparator = Chr$(1)
 SSOleDB_ware.FieldSeparator = Chr$(1)
 
     With rs
-        .Source = "select com_compcode,com_name from company where com_npecode='" & deIms.NameSpace & "'"
+        .Source = "select com_compcode,com_name from company where com_npecode='" & deIms.NameSpace & "' AND com_actvflag = 1 "
         .Source = .Source & " order by com_compcode "
         .ActiveConnection = deIms.cnIms
         .Open
@@ -456,7 +456,7 @@ Dim rst As ADODB.Recordset
         .CommandText = .CommandText & " From location "
         .CommandText = .CommandText & " WHERE loc_npecode = '" & deIms.NameSpace & "'"
         .CommandText = .CommandText & " and loc_compcode = '" & Company & "'"
-        .CommandText = .CommandText & " and (UPPER(loc_gender) ='BASE') "
+        .CommandText = .CommandText & " and (UPPER(loc_gender) ='BASE') and loc_actvflag=1 "
         .CommandText = .CommandText & " order by loc_locacode"
          Set rst = .Execute
     End With
@@ -500,7 +500,7 @@ Dim rst As ADODB.Recordset
         .CommandText = " SELECT loc_locacode,loc_name "
         .CommandText = .CommandText & " From location "
         .CommandText = .CommandText & " WHERE loc_npecode = '" & deIms.NameSpace & "'"
-         .CommandText = .CommandText & " and (UPPER(loc_gender) ='BASE') "
+         .CommandText = .CommandText & " and (UPPER(loc_gender) ='BASE') and loc_actvflag=1 "
 '        .CommandText = .CommandText & " and loc_compcode = '" & SSOleDBCompany.Columns(0).Text & "'"
         .CommandText = .CommandText & " order by loc_locacode"
          Set rst = .Execute

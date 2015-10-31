@@ -415,6 +415,7 @@ Dim rst As ADODB.Recordset
         .CommandText = " SELECT com_compcode, com_name "
         .CommandText = .CommandText & " From Company "
         .CommandText = .CommandText & " WHERE com_npecode = '" & deIms.NameSpace & "'"
+        .CommandText = .CommandText + " AND com_actvflag = 1 "
         .CommandText = .CommandText & " order by com_compcode"
          Set rst = .Execute
     End With
@@ -627,7 +628,7 @@ Dim str As String
             
             .Source = "Select loc_locacode, loc_name from LOCATION"
             .Source = .Source & " where loc_npecode = '" & deIms.NameSpace & "'"
-            .Source = .Source & " and (UPPER(loc_gender) <> 'OTHER') "
+            .Source = .Source & " and (UPPER(loc_gender) <> 'OTHER') and loc_actvflag=1 "
             .Source = .Source & " order by loc_locacode "
             .Open
             ssdcbolocation.DataMode = ssDataModeAddItem
@@ -659,7 +660,7 @@ Dim str As String
             
             .Source = "Select loc_locacode, loc_name from LOCATION"
             .Source = .Source & " where loc_npecode = '" & deIms.NameSpace & "'"
-            .Source = .Source & " and (UPPER(loc_gender) <> 'OTHER') "
+            .Source = .Source & " and (UPPER(loc_gender) <> 'OTHER') and loc_actvflag=1 "
             .Source = .Source & " and loc_compcode = '" & SSOleDBCompa & "'"
             .Source = .Source & " order by loc_locacode "
             .Open
@@ -671,7 +672,8 @@ Dim str As String
             str = Chr$(1)
             ssdcbolocation.FieldSeparator = str
             
-            rs.MoveFirst
+            
+            If rs.RecordCount > 0 Then rs.MoveFirst
             
             'ssdcbolocation.AddItem (("ALL" & STR) & "ALL" & "")
             Do While Not .EOF

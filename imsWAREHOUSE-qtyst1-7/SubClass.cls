@@ -58,7 +58,7 @@ Dim i As Long
         
     Exit Sub
 ERRTAG:
-    MsgBox Err.Number & ": " & Err.Description, vbExclamation
+    MsgBox Err.Number & ": " & Err.description, vbExclamation
     Resume ERREND
 ERREND:
 

@@ -187,10 +187,10 @@ With MDI_IMS.CrystalReport1
         .Reset
         .ReportFileName = FixDir(App.Path) + "CRreports\histmovtstck.rpt"
         .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
-        .ParameterFields(1) = "company;" + Trim$(UCase(Combo_compcode.text)) + ";true"
-        .ParameterFields(2) = "ware;" + Trim$(UCase(SSOleDB_location.text)) + ";true"
-        .ParameterFields(3) = "fromstock;" + IIf(Trim$(combo_fromstock.text) = "ALL", "ALL", combo_fromstock.text) + ";true"
-        .ParameterFields(4) = "tostock;" + IIf(Trim$(combo_fromstock.text) = "ALL", "", combo_tostock.text) + ";true"
+        .ParameterFields(1) = "company;" + Trim$(UCase(Combo_compcode.Text)) + ";true"
+        .ParameterFields(2) = "ware;" + Trim$(UCase(SSOleDB_location.Text)) + ";true"
+        .ParameterFields(3) = "fromstock;" + IIf(Trim$(combo_fromstock.Text) = "ALL", "ALL", combo_fromstock.Text) + ";true"
+        .ParameterFields(4) = "tostock;" + IIf(Trim$(combo_fromstock.Text) = "ALL", "", combo_tostock.Text) + ";true"
         '.ParameterFields(5) = "curr;" + Trim$(SSOleDBCurrency.Columns("code").Text) + ";TRUE"
 '        .ParameterFields(5) = "curr;" + IIf(Trim$(SSOleDBCurrency.Columns("code").Text) = "ALL", "ALL", SSOleDBCurrency.Columns("code").Text) + ";TRUE"
 
@@ -216,8 +216,8 @@ End Sub
 
 Private Sub Combo_compcode_Click()
 Dim str As String
-    str = Trim$(Combo_compcode.Columns(0).text)
-    If Trim$(Combo_compcode.Columns(0).text) = "ALL" Then
+    str = Trim$(Combo_compcode.Columns(0).Text)
+    If Trim$(Combo_compcode.Columns(0).Text) = "ALL" Then
         SSOleDB_location = ""
         SSOleDB_location.RemoveAll
         Call GetalllocationName
@@ -260,7 +260,7 @@ End Sub
 Private Sub Combo_compcode_Validate(Cancel As Boolean)
 If Len(Trim$(Combo_compcode)) > 0 Then
          If Not Combo_compcode.IsItemInList Then
-               Combo_compcode.text = ""
+               Combo_compcode.Text = ""
             End If
             If Len(Trim$(Combo_compcode)) = 0 Then
             Combo_compcode.SetFocus
@@ -297,7 +297,7 @@ Private Sub Combo_fromstock_Validate(Cancel As Boolean)
     combo_tostock = combo_fromstock
     If Len(Trim$(combo_fromstock)) > 0 Then
          If Not combo_fromstock.IsItemInList Then
-               combo_fromstock.text = ""
+               combo_fromstock.Text = ""
             End If
             If Len(Trim$(combo_fromstock)) = 0 Then
             combo_fromstock.SetFocus
@@ -333,7 +333,7 @@ End Sub
 Private Sub Combo_tostock_Validate(Cancel As Boolean)
 If Len(Trim$(combo_tostock)) > 0 Then
          If Not combo_tostock.IsItemInList Then
-               combo_tostock.text = ""
+               combo_tostock.Text = ""
             End If
             If Len(Trim$(combo_tostock)) = 0 Then
             combo_tostock.SetFocus
@@ -365,16 +365,16 @@ Set rs1 = New ADODB.Recordset
     '------------------------------------------
 
     With rs
-        .Source = "select com_compcode,com_name from company where com_npecode='" & deIms.NameSpace & "'"
+        .Source = "select com_compcode,com_name from company where com_npecode='" & deIms.NameSpace & "' AND com_actvflag = 1 "
         .Source = .Source & " order by com_compcode "
         .ActiveConnection = deIms.cnIms
         .Open
     End With
     
-Combo_compcode.text = "ALL"
-combo_fromstock.text = "ALL"
-combo_tostock.text = "ALL"
-SSOleDB_location.text = "ALL"
+Combo_compcode.Text = "ALL"
+combo_fromstock.Text = "ALL"
+combo_tostock.Text = "ALL"
+SSOleDB_location.Text = "ALL"
 
 If get_status(rs) Then
 Combo_compcode.AddItem ("ALL") & vbTab & "ALL"
@@ -548,7 +548,7 @@ Dim rst As ADODB.Recordset
         .CommandText = .CommandText & " From location "
         .CommandText = .CommandText & " WHERE loc_npecode = '" & deIms.NameSpace & "'"
          .CommandText = .CommandText & " and (UPPER(loc_gender) <> 'OTHER') "
-        .CommandText = .CommandText & " and loc_compcode = '" & Combo_compcode & "'"
+        .CommandText = .CommandText & " and loc_compcode = '" & Combo_compcode & "' and loc_actvflag=1 "
         .CommandText = .CommandText & " order by loc_locacode"
          Set rst = .Execute
     End With
@@ -592,7 +592,7 @@ Dim rst As ADODB.Recordset
         .CommandText = " SELECT loc_locacode,loc_name "
         .CommandText = .CommandText & " From location "
         .CommandText = .CommandText & " WHERE loc_npecode = '" & deIms.NameSpace & "'"
-         .CommandText = .CommandText & " and (UPPER(loc_gender) <> 'OTHER') "
+         .CommandText = .CommandText & " and (UPPER(loc_gender) <> 'OTHER') and loc_actvflag=1 "
 '        .CommandText = .CommandText & " and loc_compcode = '" & SSOleDBCompany.Columns(0).Text & "'"
         .CommandText = .CommandText & " order by loc_locacode"
          Set rst = .Execute
@@ -632,9 +632,9 @@ Private Sub Combo_fromstock_click()
  'Set rs = New ADODB.Recordset
 
  
-If combo_fromstock.text = "ALL" Then
+If combo_fromstock.Text = "ALL" Then
     x = 0
-    combo_tostock.text = ""
+    combo_tostock.Text = ""
     combo_tostock.Enabled = False
 Else
 
@@ -651,7 +651,7 @@ combo_tostock.Enabled = True
 '  Loop
 End If
  combo_tostock.Bookmark = combo_fromstock.Bookmark
- combo_tostock.text = combo_fromstock.text
+ combo_tostock.Text = combo_fromstock.Text
  combo_tostock.Enabled = True
 End Sub
 
@@ -700,7 +700,7 @@ End Sub
 Private Sub SSOleDB_location_Validate(Cancel As Boolean)
 If Len(Trim$(SSOleDB_location)) > 0 Then
          If Not SSOleDB_location.IsItemInList Then
-               SSOleDB_location.text = ""
+               SSOleDB_location.Text = ""
             End If
             If Len(Trim$(SSOleDB_location)) = 0 Then
             SSOleDB_location.SetFocus

@@ -40,7 +40,7 @@ Global repoPATH As String
 Global dsnF, dsnDSQ, dsnUID, dsnPWD
 Global lang As String
 Global rowguid As String
-Global cTT As New cTreeTips
+'Global cTT As New cTreeTips
 Global GFQAComboFilled As Boolean
 Global GDefaultFQA As DefaultFQA
 Global GDefaultValue As Boolean
@@ -64,6 +64,7 @@ Global skipExistance As Boolean
 Global originalQty
 Global mainItemRow
 Global serialStockNumber As Boolean
+Dim treeTimes As Integer
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
 Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)    'Juan 2014-7-5
@@ -360,7 +361,7 @@ With frmWarehouse
                 .treeFrame.width = .baseFrame.width
             End If
         Next
-        .baseFrame.Height = size * 320
+        '.baseFrame.Height = size * 320
         .treeFrame.Height = .baseFrame.Height
     End If
 End With
@@ -615,13 +616,9 @@ End Sub
 
 
 
-Sub bottomLine(totalNode, total, pool As Boolean, StockNumber, doRecalculate As Boolean, lastLine)
+Sub bottomLine(totalNode, total, pool As Boolean, StockNumber, doRecalculate As Boolean, lastLine, ctt As cTreeTips)
 Dim thick
 On Error Resume Next
-'Scrolling stuff
-With cTT
-    Set .Tree = frmWarehouse.Tree
-End With
 
 With frmWarehouse
     totalNode = .Tree.Nodes.Count
@@ -735,8 +732,22 @@ With frmWarehouse
         If .Tree.Nodes.Count > 15 Then
             .linesV(lastLine).Visible = False
             .Tree.Nodes(1).EnsureVisible
+            
+            'Scrolling stuff
+            Err.Clear
+            Select Case treeTimes
+                Case 0
+                    Set ctt.Tree = frmWarehouse.Tree
+                Case 1
+                    Set ctt1.Tree = frmWarehouse.Tree
+                Case 2
+                    Set ctt2.Tree = frmWarehouse.Tree
+                Case 3
+                    Set ctt3.Tree = frmWarehouse.Tree
+            End Select
+            treeTimes = treeTimes + 1
+            .treeFrame.Top = 0
         End If
-        
 End With
 
 End Sub
@@ -1316,7 +1327,7 @@ ErrHandler:
 End Sub
 
 
-Sub fillDETAILlist(StockNumber, description, unit, Optional QTYpo, Optional stockListRow, Optional serialNum, Optional hasInvoice As Boolean)
+Sub fillDETAILlist(StockNumber, description, unit, Optional QTYpo, Optional stockListRow, Optional serialNum, Optional hasInvoice As Boolean, Optional ctt As cTreeTips)
 Dim i, n, sql, rec, cond, loca, subloca, stock, total, key, lastLine, thick, condName, currentLOGIC, currentSUBloca
 Dim sublocaname, logicname, currentCOND
 Dim pool As Boolean
@@ -1373,6 +1384,7 @@ On Error GoTo ErrHandler
             Call cleanDETAILS
             Screen.MousePointer = 0
             frmWarehouse.STOCKlist.MousePointer = Screen.MousePointer
+            'ctt.enable (False)
             Exit Sub
         End If
  
@@ -1602,7 +1614,10 @@ On Error GoTo ErrHandler
         total = CDbl(0)
         With frmWarehouse.Tree
             .width = frmWarehouse.detailHEADER.width
+            'ctt.enable (False)
+            
             .Nodes.Clear
+
             moreSerial = False
             Dim r As Integer
             r = 0
@@ -1850,7 +1865,7 @@ On Error GoTo ErrHandler
             .Nodes("Total").Bold = True
             .Nodes("Total").backcolor = &HC0C0C0
             originalQty = total
-            Call bottomLine(totalNode, total, pool, StockNumber, False, lastLine)
+            Call bottomLine(totalNode, total, pool, StockNumber, False, lastLine, ctt)
         End With
         'Juan 2014-02-28, horizontal line stuff
         With frmWarehouse
@@ -1875,6 +1890,7 @@ On Error GoTo ErrHandler
     '--------------------------------------------------
     'frmWarehouse.treeFrame.Visible = True
     frmWarehouse.baseFrame.Visible = True
+    frmWarehouse.treeFrame.Top = 0
     directCLICK = False
     Screen.MousePointer = 0
     frmWarehouse.MousePointer = 0
@@ -2432,7 +2448,7 @@ Dim c As Control
         Set controlOBJECT = c
     End With
 End Function
-Sub markROW(grid As MSHFlexGrid, Optional editing As Boolean)
+Sub markROW(grid As MSHFlexGrid, Optional editing As Boolean, Optional ctt As cTreeTips)
 Dim nextROW, purchaseUNIT As String
 Dim i  As Integer
 Dim stock
@@ -2490,14 +2506,14 @@ frmWarehouse.Refresh
             If .name = frmWarehouse.STOCKlist.name Then
                 If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 1) = "" Then
                 Else
-                    Call PREdetails
+                    Call PREdetails(ctt)
                 End If
             Else
                 'Issue + AdjustmentIssue juan 2012--3-24 to add serial + 2014-3-13
                 If frmWarehouse.tag = "02040200" Or frmWarehouse.tag = "02050300" Then
-                   Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row)
+                   Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row, , , , ctt)
                 Else
-                    Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 2), .row)
+                    Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 2), .row, , , ctt)
                 End If
             End If
         'Else
@@ -2730,7 +2746,7 @@ frmWarehouse.Refresh
 Screen.MousePointer = 0
 End Sub
 
-Sub unmarkRow(stock, Optional unmarkIt As Boolean)
+Sub unmarkRow(stock, Optional unmarkIt As Boolean, Optional ctt As cTreeTips)
     'Juan 2010-7-4
     Dim imsLock As imsLock.Lock
     Dim tempMove As Boolean
@@ -2762,7 +2778,7 @@ Sub unmarkRow(stock, Optional unmarkIt As Boolean)
     End If
     '------------------
     
-    Call fillDETAILlist("", "", "")
+    Call fillDETAILlist("", "", "", , , , , ctt)
     
     'Unlock
     Set imsLock = New imsLock.Lock
@@ -3081,8 +3097,8 @@ On Error Resume Next
 
 With frmWarehouse
     size = .Tree.Nodes.Count
-    distance = .Tree.Height / size
-    .treeFrame.Top = 260 + ((node * distance) * -1)
+    distance = (.Tree.Height - 1520) / size
+    .treeFrame.Top = distance + ((node * distance) * -1) - 80
     .treeFrame.Refresh
     .baseFrame.Refresh
 End With
@@ -3575,6 +3591,8 @@ On Error Resume Next
         .newDESCRIPTION.Visible = False
         .otherLABEL(2).Visible = False
         Call workBOXESlist("clean")
+        'Call ctt.enable(False)
+        
         .Tree.Nodes.Clear
     End With
     Err.Clear
@@ -3746,7 +3764,7 @@ End Function
 
 
 
-Sub PREdetails()
+Sub PREdetails(ctt As cTreeTips)
 Screen.MousePointer = 11
     frmWarehouse.Refresh
     With frmWarehouse.STOCKlist
@@ -3754,10 +3772,10 @@ Screen.MousePointer = 11
             'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
             'WarehouseToWarehouse,Sales
             Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 3), .TextMatrix(.row, 4), .row)
+                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 3), .TextMatrix(.row, 4), .row, , , , ctt)
             'AdjustmentIssue juan 2012--3-24 to add serial
             Case "02040200"
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row)
+                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 4), .TextMatrix(.row, 5), .row, , , , ctt)
             Case "02040100" 'WarehouseReceipt
                 Dim hasInvoice As Boolean
                 Dim goAhead As Boolean
@@ -3771,9 +3789,9 @@ Screen.MousePointer = 11
                 Else
                     hasInvoice = True
                 End If
-                If goAhead Then Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 7), .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row, , hasInvoice)
+                If goAhead Then Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 7), .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row, , hasInvoice, ctt)
             Case "02050200" 'AdjustmentEntry
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), -1, .row)
+                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), -1, .row, , , ctt)
         End Select
     End With
 Screen.MousePointer = 0

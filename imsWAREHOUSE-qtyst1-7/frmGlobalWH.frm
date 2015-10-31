@@ -8,8 +8,8 @@ Begin VB.Form frmGlobalWH
    ClientTop       =   345
    ClientWidth     =   14910
    LinkTopic       =   "Form1"
-   ScaleHeight     =   10095
-   ScaleWidth      =   15240
+   ScaleHeight     =   7440
+   ScaleWidth      =   14910
    StartUpPosition =   3  'Windows Default
    Tag             =   "02050801"
    Begin VB.TextBox dateBOX 
@@ -1028,6 +1028,7 @@ Dim t As String
             extraW = 280
             .Height = 2340
             .ScrollBars = flexScrollBarVertical
+
         End If
         If frmGlobalWH.cell(Index).width > (.width + extraW) Then
             .width = frmGlobalWH.cell(Index).width

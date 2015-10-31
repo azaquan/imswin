@@ -14,6 +14,19 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin MSComctlLib.TreeView treeNothing 
+      Height          =   735
+      Left            =   10320
+      TabIndex        =   106
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   615
+      _ExtentX        =   1085
+      _ExtentY        =   1296
+      _Version        =   393217
+      Style           =   7
+      Appearance      =   1
+   End
    Begin VB.PictureBox baseFrame 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -739,7 +752,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55115779
+      Format          =   22478851
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1267,6 +1280,15 @@ Begin VB.Form frmWarehouse
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label nothing 
+      Caption         =   "nothing"
+      Height          =   135
+      Left            =   12720
+      TabIndex        =   105
+      Top             =   600
+      Visible         =   0   'False
+      Width           =   975
+   End
    Begin VB.Label invoiceLineLabel 
       Appearance      =   0  'Flat
       BackColor       =   &H8000000A&
@@ -1685,6 +1707,10 @@ Dim doChanges As Boolean
 Dim inProgress As Boolean
 Dim isReset As Boolean
 
+Dim ctt As New cTreeTips
+Dim ctt1 As New cTreeTips
+Dim ctt2 As New cTreeTips
+Dim ctt3 As New cTreeTips
 
 
 Sub arrowKEYS(direction As String, Index As Integer)
@@ -1812,10 +1838,12 @@ If isEditionActive = False Then Exit Sub
         baseFrame.Left = detailHEADER.ColWidth(0) + 5200
         baseFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
         baseFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
+        baseFrame.Height = 5000
         treeFrame.Top = 500
         treeFrame.width = baseFrame.width
         
         ' ------------
+        
         Tree.Nodes.Clear
         StockNumber = .TextMatrix(r, 1)
         QTYpo = 0
@@ -1863,7 +1891,7 @@ If isEditionActive = False Then Exit Sub
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
             Case "02050200" 'AdjustmentEntry
                 serial = .TextMatrix(r, 2)
                 commodityLABEL = StockNumber
@@ -1890,7 +1918,7 @@ If isEditionActive = False Then Exit Sub
                 Tree.Nodes("Total").Bold = True
                 Tree.Nodes("Total").backcolor = &HC0C0C0
                 Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
 
             Case "02040100" 'WarehouseReceipt
                 '17 "Qty po"
@@ -1955,7 +1983,7 @@ If isEditionActive = False Then Exit Sub
                 
                 totalNode = Tree.Nodes.Count
                 total = .TextMatrix(r, 7)
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine)
+                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
             Case "02050400" 'Sales
             Case "02040300" 'Return from Well
         End Select
@@ -3418,6 +3446,8 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
     Dim stockListRow  As String
     Dim i As Integer
     Dim selectedStockNumber As String
+    'Call ctt.enable(False)
+    'Set ctt = Nothing
     selectedStockNumber = commodityLABEL
     stockListRow = findSTUFF(commodityLABEL, STOCKlist, 1)
     'Juan 2010-6-4
@@ -3426,7 +3456,7 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
         Dim stock
         'TODO.... stocknumber search
         stock = STOCKlist.TextMatrix(STOCKlist.row, 1)
-        Call unmarkRow(stock, True)
+        Call unmarkRow(stock, True, ctt)
     End If
     inProgress = False
     '---------------------
@@ -3568,7 +3598,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLabel.Visible = False
+    remarksLABEL.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3599,7 +3629,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLabel.Visible = True
+    remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -5343,7 +5373,7 @@ Dim ratio As Integer
     End With
     If cleanDETAILS Then
         inProgress = False 'Juan 2010-7-22
-        Call fillDETAILlist("", "", "")
+        Call fillDETAILlist("", "", "", , , , , ctt)
         Call unlockBUNCH
     End If
     Select Case frmWarehouse.tag
@@ -5887,7 +5917,7 @@ Dim RowPosition As Integer
         End If
         Call VerifyAddDeleteFQAFromGrid(commodityLABEL, "delete", "", "", "", "", RowPosition)
         Call reNUMBER(SUMMARYlist)
-        Call fillDETAILlist("", "", "")
+        Call fillDETAILlist("", "", "", , , , , ctt)
         'Call updateStockListBalance
 'Juan 30-10-2010 this part is not useful any more
 '        With STOCKlist
@@ -6164,7 +6194,7 @@ Screen.MousePointer = 11
                 .col = 0
                 If .row > 0 Then
                     pointerCOL = 0
-                    Call markROW(STOCKlist)
+                    Call markROW(STOCKlist, , ctt)
                     hideDETAIL.Visible = True
                     submitDETAIL.Visible = True
                     'juan 2012-1-8 commented the line until edition mode works well
@@ -6319,7 +6349,7 @@ Screen.MousePointer = 11
                 'Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 17))
                 'Call editSummaryList 'Juan new procedure to edit items juan 2013-12-28 not working at this point
             Case "02050200" 'AdjustmentEntry
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), , .row)
+                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), , .row, , , ctt)
         End Select
     End With
 Screen.MousePointer = 0
@@ -6446,6 +6476,7 @@ askForLogic = False
 Dim askForQTy As Boolean
 askForQTy = False
 serialText = ""
+
 
 Select Case frmWarehouse.tag
     Case "02040400" 'ReturnFromRepair

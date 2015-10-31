@@ -15,12 +15,9 @@ Option Explicit
 
 'Properties
 Public ShowIconsInScrollTips As Boolean
-
 Private mTree As MSComctlLib.TreeView
-
 Private WithEvents cSub As cSubClass
 Attribute cSub.VB_VarHelpID = -1
-
 
 'General API
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
@@ -45,12 +42,30 @@ Private Const TVM_GETNEXTITEM  As Long = (TV_FIRST + 10)
 Private Const TVM_GETITEMRECT = (TV_FIRST + 4)
 Private Const TVGN_FIRSTVISIBLE = &H5
 
+
+
 Public Property Set Tree(TreeView1 As MSComctlLib.TreeView)
     Set mTree = TreeView1
     Set cSub = New cSubClass
     cSub.hWnd = mTree.hWnd
     cSub.AttachMessage WM_VSCROLL
 End Property
+
+
+
+
+
+
+
+'
+Private Sub Class_Initialize()
+On Error GoTo errorHandler
+
+errorHandler:
+If Err.Number > 0 Then
+    MsgBox "cTreeTips ->" + Err.description
+End If
+End Sub
 
 Private Sub Class_Terminate()
 
@@ -61,12 +76,12 @@ Private Sub Class_Terminate()
     
 End Sub
 
-Private Function LowWord(ByVal Value As Long) As Integer
-    CopyMemory LowWord, Value, 2
+Private Function LowWord(ByVal value As Long) As Integer
+    CopyMemory LowWord, value, 2
 End Function
 
-Private Function HiWord(ByVal Value As Long) As Integer
-    CopyMemory HiWord, ByVal VarPtr(Value) + 2, 2
+Private Function HiWord(ByVal value As Long) As Integer
+    CopyMemory HiWord, ByVal VarPtr(value) + 2, 2
 End Function
 Private Function TreeView_GetNextItem(hWnd As Long, hItem As Long, Flag As Long) As Long
    TreeView_GetNextItem = SendMessageAny(hWnd, TVM_GETNEXTITEM, Flag, ByVal hItem)
@@ -93,6 +108,7 @@ Dim Flag As Long
     End If
 End Function
 
+
 Private Sub cSub_WndProc(Msg As Long, wParam As Long, lParam As Long, nResult As Long)
 Static bVisible As Boolean
 Dim nodX As node
@@ -113,7 +129,7 @@ On Error Resume Next
     If nodeONtop <> nodX.Index Then
         diff = 1
         nodeONtop = nodX.Index
-        'frmWarehouse.invoiceLabel = nodeONtop 'just to display and testing
+        frmWarehouse.nothing = nodeONtop 'just to display and testing
         'Call workBOXESlist("FIX")
         Call reArrangeBoxes(nodeONtop)
     End If
