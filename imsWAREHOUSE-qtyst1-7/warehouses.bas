@@ -308,6 +308,7 @@ With frmWarehouse
                 Set .poItemBox(i).Container = .treeFrame
                 Set .positionBox(i).Container = .treeFrame
                 .quantity(i).Left = 40
+
                 .quantity(i).Top = topNODE(i) - distance
                 
                 Set .logicBOX(i).Container = .treeFrame
@@ -735,6 +736,7 @@ With frmWarehouse
             
             'Scrolling stuff
             Err.Clear
+            
             Select Case treeTimes
                 Case 0
                     Set ctt.Tree = frmWarehouse.Tree
@@ -747,6 +749,8 @@ With frmWarehouse
             End Select
             treeTimes = treeTimes + 1
             .treeFrame.Top = 0
+            treeFrame.Refresh
+            baseFrame.Refresh
         End If
 End With
 
@@ -1292,7 +1296,7 @@ On Error GoTo ErrHandler:
                 Else
                     '.quantityBOX(n) = "1.00"
                     '.quantity2BOX(n) = "1.00"
-                    .quantityBOX(n).Enabled = False
+                    .quantityBOX(n).Enabled = True
                     .quantity2BOX(n).Enabled = False
                 End If
             Else
@@ -1604,7 +1608,7 @@ On Error GoTo ErrHandler
     Set datax = New ADODB.Recordset
     datax.Open sql, cn, adOpenStatic
     If datax.RecordCount = 0 Then
-        cleanDETAILS
+        Call cleanDETAILS
     Else
         ReDim qtyArray(datax.RecordCount)
         ReDim subLocationArray(datax.RecordCount)
@@ -1719,6 +1723,10 @@ On Error GoTo ErrHandler
                         '2011-5-22 Juan - modified to optimize and add adjustementIssue and sales
                         'If subloca <> currentSUBloca(frmWarehouse.tag = "02040400" Or frmWarehouse.tag = "02040500" Or frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02050200") Then   'MUZAMMIL 10/20/05
                         If subloca <> currentSUBloca Then
+                            qtyArray(r) = datax!qty
+                            subLocationArray(r) = currentSUBloca
+                            thisSubLoca = currentSUBloca
+                            thisLogic = datax!logic
                             Select Case frmWarehouse.tag
                                 Case "02040400", "02040500", "02040300", "02050200", "02050300", "02050400", "02040700", "02040200"
                                     subloca = currentSUBloca
@@ -1780,9 +1788,25 @@ On Error GoTo ErrHandler
                                 .Nodes.Add cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 1"
                                 Call setupBOXES(.Nodes.Count, datax.Fields, False)
                             Else
-                                moreSerial = True
                                 serialStockNumber = True
+                                moreSerial = True
                                 .Nodes.Add cond + "{{" + loca, tvwChild, key, "Sublocation: " + sublocaname, "thing 0"
+                                
+                                Select Case frmWarehouse.tag
+                                    Case "02040600"  'WarehouseToWarehouse
+                                        bookMark = datax.bookMark
+                                        datax.MoveFirst
+                                        Do While Not datax.EOF
+                                            If RTrim(thisSubLoca) = RTrim(datax!subloca) And RTrim(thisLogic) = RTrim(datax!logic) And RTrim(cond) = RTrim(datax!condition) Then
+                                                .Nodes.Add key, tvwChild, key + "{{#" + datax!serialNumber, "Serial #: " + datax!serialNumber, "thing 1"
+                                                Call setupBOXES(.Nodes.Count, datax.Fields, True)
+                                            End If
+                                            datax.MoveNext
+                                        Loop
+                                        datax.bookMark = bookMark
+                                        
+                                    End Select
+
                             End If
                             total = total + datax!qty
                         End If
@@ -2456,6 +2480,7 @@ Screen.MousePointer = 11
 frmWarehouse.Refresh
     With grid
         .col = 0
+        Call cleanDETAILS
         Dim currentformname, currentformname1
         Dim imsLock As imsLock.Lock
         Dim ListOfPrimaryControls() As String
@@ -2676,7 +2701,7 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 240
             spaceFactor = 80
     End Select
-    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop))
+    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1))
 End Function
 
 Sub textBOX(ByVal mainCONTROL As MSHFlexGrid, standard As Boolean)
@@ -3092,13 +3117,28 @@ End Sub
 
 Sub reArrangeBoxes(node As Integer)
 Dim c As textBOX
-Dim i, size, distance
+Dim i, size, distance, adjustment
 On Error Resume Next
 
 With frmWarehouse
+    adjustment = 0
+    Select Case .tag
+        Case "02040400" 'ReturnFromRepair
+        Case "02050200" 'AdjustmentEntry
+        Case "02040200" 'WarehouseIssue
+            adjustment = 0
+        Case "02040500" 'WellToWell
+        Case "02040700" 'InternalTransfer
+        Case "02050300" 'AdjustmentIssue
+        Case "02040600" 'WarehouseToWarehouse
+            adjustment = 0
+        Case "02040100" 'WarehouseReceipt
+        Case "02050400" 'Sales
+        Case "02040300" 'Return from Repair
+    End Select
     size = .Tree.Nodes.Count
     distance = (.Tree.Height - 1520) / size
-    .treeFrame.Top = distance + ((node * distance) * -1) - 80
+    .treeFrame.Top = distance + ((node * distance) * -1) + adjustment
     .treeFrame.Refresh
     .baseFrame.Refresh
 End With
@@ -3580,7 +3620,7 @@ Sub cleanDETAILS()
 Dim i
 On Error Resume Next
     With frmWarehouse
-        nodeONtop = 1
+        nodeONtop = 0
         For i = 1 To 10
             Unload .linesV(i)
             If Err.Number <> 0 Then Err.Clear

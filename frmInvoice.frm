@@ -94,36 +94,36 @@ Begin VB.Form frmInvoice
       TabCaption(1)   =   "Line Item List"
       TabPicture(1)   =   "frmInvoice.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "nomPicture(2)"
-      Tab(1).Control(1)=   "nomPicture(1)"
-      Tab(1).Control(2)=   "nomPicture(0)"
-      Tab(1).Control(3)=   "Command1"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "TextLINE"
-      Tab(1).Control(5)=   "POlist"
-      Tab(1).Control(6)=   "POtitles"
-      Tab(1).Control(7)=   "nomLabel(2)"
-      Tab(1).Control(8)=   "currencyLABEL"
-      Tab(1).Control(9)=   "nomLabel(1)"
-      Tab(1).Control(10)=   "nomLabel(0)"
-      Tab(1).Control(11)=   "invoiceLABEL"
+      Tab(1).Control(0)=   "invoiceLABEL"
+      Tab(1).Control(1)=   "nomLabel(0)"
+      Tab(1).Control(2)=   "nomLabel(1)"
+      Tab(1).Control(3)=   "currencyLABEL"
+      Tab(1).Control(4)=   "nomLabel(2)"
+      Tab(1).Control(5)=   "POtitles"
+      Tab(1).Control(6)=   "POlist"
+      Tab(1).Control(7)=   "TextLINE"
+      Tab(1).Control(8)=   "Command1"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "nomPicture(0)"
+      Tab(1).Control(10)=   "nomPicture(1)"
+      Tab(1).Control(11)=   "nomPicture(2)"
       Tab(1).ControlCount=   12
       TabCaption(2)   =   "Recipients"
       TabPicture(2)   =   "frmInvoice.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmd_Add"
-      Tab(2).Control(1)=   "cmd_Remove"
+      Tab(2).Control(0)=   "lbl_Recipients"
+      Tab(2).Control(1)=   "Imsmail1"
       Tab(2).Control(2)=   "RecipientList"
-      Tab(2).Control(3)=   "Imsmail1"
-      Tab(2).Control(4)=   "lbl_Recipients"
+      Tab(2).Control(3)=   "cmd_Remove"
+      Tab(2).Control(4)=   "cmd_Add"
       Tab(2).ControlCount=   5
       TabCaption(3)   =   "Misc. Charges"
       TabPicture(3)   =   "frmInvoice.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "FrmSummary"
-      Tab(3).Control(1)=   "SSGrdFQA"
-      Tab(3).Control(2)=   "TxtMiscTranno"
-      Tab(3).Control(3)=   "Label(10)"
+      Tab(3).Control(0)=   "Label(10)"
+      Tab(3).Control(1)=   "TxtMiscTranno"
+      Tab(3).Control(2)=   "SSGrdFQA"
+      Tab(3).Control(3)=   "FrmSummary"
       Tab(3).ControlCount=   4
       Begin VB.PictureBox nomPicture 
          Appearance      =   0  'Flat
@@ -628,7 +628,7 @@ Begin VB.Form frmInvoice
          _Version        =   393216
          CalendarBackColor=   16777215
          CustomFormat    =   "MMMM/dd/yyyy"
-         Format          =   55050243
+         Format          =   22478851
          CurrentDate     =   36867
       End
       Begin VB.TextBox remark 
@@ -1485,7 +1485,8 @@ Dim dataPO  As New ADODB.Recordset
     dataPO.Open sql, deIms.cnIms, adOpenForwardOnly
     If Err.number <> 0 Then Exit Function
     If dataPO.RecordCount > 0 Then
-        If dataPO!po_stas = "OP" Then
+        'If dataPO!po_stas = "OP" Then
+        If dataPO!po_stas = "OP" Or dataPO!po_stas = "CL" Then
             isOPEN = True
         Else
             isOPEN = False
@@ -3512,7 +3513,7 @@ End Sub
 
 Private Sub SSGrdFQA_InitColumnProps()
 SSGrdFQA.Columns("company").DropDownHwnd = SSOleCompany.HWND
-SSGrdFQA.Columns("location").DropDownHwnd = SSOleDBlocation.HWND
+SSGrdFQA.Columns("location").DropDownHwnd = SSOleDBLocation.HWND
 SSGrdFQA.Columns("uschart#").DropDownHwnd = SSOleDBUsChart.HWND
 SSGrdFQA.Columns("camchart#").DropDownHwnd = SSOleDBCamChart.HWND
 SSGrdFQA.Columns("currency").DropDownHwnd = SSDDCURRENCY.HWND
@@ -3951,10 +3952,10 @@ RsLocation.Source = "select distinct(FQA) from FQA where Namespace ='" & deIms.N
 
 RsLocation.Open , deIms.cnIms
 
-If RsLocation.RecordCount = 0 Then SSOleDBlocation.AddItem LocationCode
+If RsLocation.RecordCount = 0 Then SSOleDBLocation.AddItem LocationCode
 Do While Not RsLocation.EOF
 
-    SSOleDBlocation.AddItem RsLocation("FQA")
+    SSOleDBLocation.AddItem RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop

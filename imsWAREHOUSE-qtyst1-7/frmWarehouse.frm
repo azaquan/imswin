@@ -752,7 +752,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   22478851
+      Format          =   55246851
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1839,7 +1839,7 @@ If isEditionActive = False Then Exit Sub
         baseFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
         baseFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
         baseFrame.Height = 5000
-        treeFrame.Top = 500
+        treeFrame.Top = 0
         treeFrame.width = baseFrame.width
         
         ' ------------
@@ -3598,7 +3598,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLABEL.Visible = False
+    remarksLabel.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3629,7 +3629,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLABEL.Visible = True
+    remarksLabel.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -4796,6 +4796,10 @@ End Sub
 
 Private Sub newBUTTON_Click()
 Dim i
+    nodeONtop = 0
+    treeFrame.Top = 0
+    treeFrame.Refresh
+    baseFrame.Refresh
     isReset = True
     label(0).Visible = False
     cell(0).Visible = False
@@ -4835,6 +4839,7 @@ Dim i
     Call CleanFQA
     Call ChangeMode(False)
     remarks = ""
+    
     'frmWarehouse.Height = 8910
     Call cell_Click(1)
 End Sub
