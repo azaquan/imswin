@@ -2205,17 +2205,21 @@ onDetailListInProcess = True
                         toBeReceived = !qty1
                     Else
                         If !qty1_invoice > 0 Then
-                            toBeReceived = !qty1_invoice - IIf(IsNull(!QTY1_receivedWithInvoice), 0, !QTY1_receivedWithInvoice) 'Juan 2014-5-3
+                            'Juan 2015-12-10
+                            'toBeReceived = !qty1_invoice - IIf(IsNull(!QTY_receivedWithInvoice), 0, !QTY1_receivedWithInvoice) 'Juan 2014-5-3
+                            toBeReceived = !qty1_invoice - !qtyinventory
                         Else
                             toBeReceived = !qty1_invoice
                         End If
                     End If
+                    toBeReceived = !QTYdelivered
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit), "", !unit) + vbTab
 
                     'Dim qty2
                     ' qty2 = Format(!qty2, "0.00")
                     ' rec = rec + qty2 + vbTab
+
                     If IsNull(!qty2_invoice) Then
                         If IsNull(!qty2) Then
                             toBeReceived2 = 0
@@ -2224,11 +2228,14 @@ onDetailListInProcess = True
                         End If
                     Else
                         If !qty2_invoice > 0 Then
+                            'Juan 2015-12-10
                             toBeReceived2 = !qty2_invoice - IIf(IsNull(!QTY2_receivedWithInvoice), 0, !QTY2_receivedWithInvoice) 'Juan 2014-5-3
+                            'toBeReceived2 = !qty2_invoice - !QTY2inventory
                         Else
                             toBeReceived2 = !qty2_invoice
                         End If
                     End If
+                    toBeReceived2 = (!QTYdelivered * (!qty2 / !qty1))
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit2), "", !unit2) + vbTab
                     '-----------------------
