@@ -14,6 +14,123 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.PictureBox imsMsgBox 
+      Appearance      =   0  'Flat
+      BackColor       =   &H0000FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   2055
+      Left            =   4560
+      ScaleHeight     =   2025
+      ScaleWidth      =   5145
+      TabIndex        =   107
+      Top             =   3600
+      Visible         =   0   'False
+      Width           =   5175
+      Begin VB.CommandButton noButton 
+         Caption         =   "NO"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   615
+         Left            =   2760
+         TabIndex        =   110
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.CommandButton yesButton 
+         Caption         =   "YES"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   615
+         Left            =   240
+         TabIndex        =   109
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.Label Label6 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "If YES it will be received with PO value"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   240
+         TabIndex        =   111
+         Top             =   1560
+         Width           =   4695
+      End
+      Begin VB.Label Label5 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "No supplier invoice has been entered, do you want to continue?"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   735
+         Left            =   240
+         TabIndex        =   108
+         Top             =   120
+         Width           =   4695
+      End
+   End
+   Begin VB.PictureBox savingLABEL 
+      Appearance      =   0  'Flat
+      BackColor       =   &H0000FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   975
+      Left            =   4320
+      ScaleHeight     =   945
+      ScaleWidth      =   3105
+      TabIndex        =   63
+      Top             =   3720
+      Visible         =   0   'False
+      Width           =   3135
+      Begin VB.Label Label3 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "SAVING..."
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   0
+         TabIndex        =   64
+         Top             =   360
+         Width           =   3135
+      End
+   End
    Begin MSComctlLib.TreeView treeNothing 
       Height          =   735
       Left            =   10320
@@ -309,38 +426,6 @@ Begin VB.Form frmWarehouse
       TabIndex        =   46
       Top             =   6240
       Width           =   11775
-   End
-   Begin VB.PictureBox savingLABEL 
-      Appearance      =   0  'Flat
-      BackColor       =   &H0000FFFF&
-      ForeColor       =   &H80000008&
-      Height          =   975
-      Left            =   4320
-      ScaleHeight     =   945
-      ScaleWidth      =   3105
-      TabIndex        =   63
-      Top             =   3720
-      Visible         =   0   'False
-      Width           =   3135
-      Begin VB.Label Label3 
-         Alignment       =   2  'Center
-         BackColor       =   &H0000FFFF&
-         Caption         =   "SAVING..."
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   0
-         TabIndex        =   64
-         Top             =   360
-         Width           =   3135
-      End
    End
    Begin VB.Timer Timer1 
       Left            =   2280
@@ -752,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55246851
+      Format          =   22413315
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2246,6 +2331,11 @@ With logicBOX(Index)
 End With
 End Sub
 
+Private Sub noButton_Click()
+    
+    msgBoxResponse = False
+End Sub
+
 Private Sub quantity2BOX_Change(Index As Integer)
     'If doChanges Then
         'Call quantity2BOX_Validate(Index, True)
@@ -2620,7 +2710,10 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
             datax.MoveNext
             n = n + 1
         Loop
-        If datax.RecordCount <= 10 Then .RemoveItem (1)
+        If datax.RecordCount <= 10 Then
+            .RemoveItem (1)
+            Flag = Flag - 1
+        End If
         .row = Flag
         .RowHeightMin = 240
         If .Rows < 6 Then
@@ -6701,6 +6794,18 @@ summaryValueFirstTime = True
                         End If
                         If positionBox(i - differenceWithTable) = "" And alreadyPosition = 0 Then
                             If Val(quantityBOX(i - differenceWithTable)) > 0 Then
+                                Dim Message
+                                If Val(quantity(i - differenceWithTable)) = Val(quantityBOX(i - differenceWithTable)) Then
+                                    Message = "This Receipt PO Item valuation is done with Supplier invoice item values"
+                                End If
+'                                If Val(quantity(i - differenceWithTable)) = Val(quantityBOX(i - differenceWithTable)) Then
+'                                    message = "This Receipt valuation is done with Supplier invoice Item values"
+'                                End If
+'                            "This PO Item has already been received.Please continue"
+                            
+                            
+                            
+                            
                                 If Err.Number = 0 Then
                                     rec = "" + vbTab
                                     rec = rec + commodityLABEL + vbTab
@@ -6931,7 +7036,7 @@ summaryValueFirstTime = True
                                                     If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Then  'Return from Well, 'WarehouseIssue
                                                         fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 2)
                                                     Else
-                                                        fromSubLoca = "GEN ERAL"
+                                                        fromSubLoca = "GENERAL"
                                                     End If
                                                 Else
                                                     fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 2)
@@ -8678,5 +8783,11 @@ ErrHand:
     Err.Clear
 
 End Function
+
+
+Private Sub yesButton_Click()
+    imsMsgBox.Visible = False
+    msgBoxResponse = True
+End Sub
 
 

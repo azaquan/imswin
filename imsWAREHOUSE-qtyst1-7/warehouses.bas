@@ -65,6 +65,7 @@ Global originalQty
 Global mainItemRow
 Global serialStockNumber As Boolean
 Dim treeTimes As Integer
+Global msgBoxResponse As Boolean
 
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
 Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)    'Juan 2014-7-5
@@ -1544,15 +1545,22 @@ On Error GoTo ErrHandler
                             If IsNull(datax(1)) Then
                                 If docTYPE!doc_invcreqd Then
                                     Screen.MousePointer = 0
-                                    MsgBox "There is no Supplier Invoice entered against selected line item."
-                                    NavBar1.SaveEnabled = False
-                                    Exit Sub
-                                Else
-                                    Msg = "There is no Supplier Invoice entered against selected line item.  Do you want to continue?"
-                                    response = MsgBox(Msg, 1)
-                                    If response = 1 Then
-                                    Else
+'                                    MsgBox "There is no Supplier Invoice entered against selected line item."
+'                                    NavBar1.SaveEnabled = False
+'                                    Exit Sub
+                                    Msg = "There is no Supplier Invoice entered against selected line item.  Do you want to continue? If YES it will be received with PO value"
+                                    response = MsgBox(Msg, vbYesNo, "Question")
+                                    If response = vbNo Then
                                         Screen.MousePointer = 0
+                                        Call unmarkRow("@thisRow", True)
+                                        Exit Sub
+                                    End If
+                                Else
+                                    Msg = "There is no Supplier Invoice entered against selected line item.  Do you want to continue? If YES it will be received with PO value"
+                                    response = MsgBox(Msg, vbYesNo, "Question")
+                                    If response = vbNo Then
+                                        Screen.MousePointer = 0
+                                        Call unmarkRow("@thisRow", True)
                                         Exit Sub
                                     End If
                                 End If
@@ -2788,12 +2796,15 @@ Sub unmarkRow(stock, Optional unmarkIt As Boolean, Optional ctt As cTreeTips)
     If unmarkIt Then
         With frmWarehouse.STOCKlist
             If (.Rows - 1) > .row Then
-                comoddity = .TextMatrix(.row, 1)
-                .row = .row + 1
-                If commodity = .TextMatrix(.row, 1) Then
-                    tempMove = True
+                If stock = "@thisRow" Then
                 Else
-                    .row = .row - 1
+                    comoddity = .TextMatrix(.row, 1)
+                    .row = .row + 1
+                    If commodity = .TextMatrix(.row, 1) Then
+                        tempMove = True
+                    Else
+                        .row = .row - 1
+                    End If
                 End If
             End If
             If .text = "?" Or .text = "Æ" Then
