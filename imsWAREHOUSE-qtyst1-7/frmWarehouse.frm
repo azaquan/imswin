@@ -837,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   22413315
+      Format          =   22347779
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2712,7 +2712,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
         Loop
         If datax.RecordCount <= 10 Then
             .RemoveItem (1)
-            Flag = Flag - 1
+            If Flag > 1 Then Flag = Flag - 1
         End If
         .row = Flag
         .RowHeightMin = 240

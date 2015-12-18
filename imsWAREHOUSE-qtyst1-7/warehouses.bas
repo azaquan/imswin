@@ -2214,13 +2214,14 @@ onDetailListInProcess = True
                     Else
                         If !qty1_invoice > 0 Then
                             'Juan 2015-12-10
-                            'toBeReceived = !qty1_invoice - IIf(IsNull(!QTY_receivedWithInvoice), 0, !QTY1_receivedWithInvoice) 'Juan 2014-5-3
-                            toBeReceived = !qty1_invoice - !qtyinventory
+                            toBeReceived = !qty1_invoice - IIf(IsNull(!QTY1_receivedWithInvoice), 0, !QTY1_receivedWithInvoice) 'Juan 2014-5-3
+                            'toBeReceived = !qty1_invoice - !qtyinventory
                         Else
                             toBeReceived = !qty1_invoice
+                            toBeReceived = !QTYdelivered
                         End If
                     End If
-                    toBeReceived = !QTYdelivered
+                    'toBeReceived = !QTYdelivered
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit), "", !unit) + vbTab
 
@@ -2241,13 +2242,13 @@ onDetailListInProcess = True
                             'toBeReceived2 = !qty2_invoice - !QTY2inventory
                         Else
                             toBeReceived2 = !qty2_invoice
+                            toBeReceived2 = (!QTYdelivered * (!qty2 / !qty1))
                         End If
                     End If
-                    toBeReceived2 = (!QTYdelivered * (!qty2 / !qty1))
+                    'toBeReceived2 = (!QTYdelivered * (!qty2 / !qty1))
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
                     rec = rec + IIf(IsNull(!unit2), "", !unit2) + vbTab
                     '-----------------------
-
                     rec = rec + IIf(IsNull(!description), "", !description) + vbTab
                     poItem = Format(!poItem)
                     rec = rec + Format(!poItem) + vbTab
@@ -2280,6 +2281,8 @@ onDetailListInProcess = True
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 10) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
+                        frmWarehouse.STOCKlist.col = 3
+                        frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
                             mainItemRow = frmWarehouse.STOCKlist.row
                         End If
                         frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
@@ -2292,9 +2295,11 @@ onDetailListInProcess = True
                         frmWarehouse.STOCKlist.CellForeColor = vbWhite
 
                         frmWarehouse.STOCKlist.col = 7
-                        frmWarehouse.STOCKlist.CellForeColor = vbWhite
+                        frmWarehouse.STOCKlist.CellForeColor = vbBlue
+                        frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 7) = "@@@ invoice: " + !invoice + "/line item: " + !invoiceLine
+
                         'Juan 2014-07-03
-                        If toBeReceived = 0 Then frmWarehouse.STOCKlist.RemoveItem (frmWarehouse.STOCKlist.Rows - 1)
+                        'If toBeReceived = 0 Then frmWarehouse.STOCKlist.RemoveItem (frmWarehouse.STOCKlist.Rows - 1)
                         'Juan 2014-07-05
                         'mainItemToReceive = mainItemToReceive + toBeReceived
                         'frmWarehouse.STOCKlist.TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
