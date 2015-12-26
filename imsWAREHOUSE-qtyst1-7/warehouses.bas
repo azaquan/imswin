@@ -66,21 +66,30 @@ Global mainItemRow
 Global serialStockNumber As Boolean
 Dim treeTimes As Integer
 Global msgBoxResponse As Boolean
-
+Global previousItemMark As String
+Global rowMark As Integer
+Global submitted As Boolean
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
-Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)    'Juan 2014-7-5
+Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)     'Juan 2014-7-5
 mainItemToReceive = 0
 subTot = 0
+tot = 0
 With frmWarehouse.STOCKlist
     If mainItemRow > 0 Then
-        For i = mainItemRow To mainItemRow 'this only run once
-            'If .TextMatrix(i, 1) <> stockReference Then Exit For
-            If IsNumeric(.TextMatrix(i, 3)) Then subTot = .TextMatrix(i, 3)
-            mainItemToReceive = mainItemToReceive + subTot
+        For i = mainItemRow To .Rows - 1 'this only run once
+            If .TextMatrix(i, 1) <> stockReference Then Exit For
+            If IsNumeric(.TextMatrix(i, 3)) And IsNumeric(.TextMatrix(i, 9)) Then
+                If Left(.TextMatrix(i, 7), 1) = "@" Then
+                    subTot = CDbl(.TextMatrix(i, 9)) - CDbl(.TextMatrix(i, 3))
+                    tot = tot + subTot
+                Else
+                    mainItemToReceive = CDbl(.TextMatrix(i, 9))
+                End If
+            End If
         Next
         .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
         If IsMissing(updateOriginalQty) Then updateOriginalQty = False
-        If updateOriginalQty Then .TextMatrix(mainItemRow, 9) = .TextMatrix(mainItemRow, 3)
+        If updateOriginalQty Then .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive - tot, "0.00")
     End If
 End With
 End Sub
@@ -1163,12 +1172,12 @@ On Error GoTo ErrHandler:
             .poItemBox(n) = datax!poItem
             .poItemLabel = datax!poItem
             
-            If .invoiceNumberLabel.Visible Then
-                .invoiceBOX(n) = .invoiceNumberLabel.Caption
-                .invoiceLineBOX(n) = .invoiceLineLabel.Caption 'Juan 2014-8-29
-            Else
+            If .invoiceNumberLabel = "invoice:" Then
                 .invoiceBOX(n) = ""
                 .invoiceLineBOX(n) = ""
+            Else
+                .invoiceBOX(n) = .invoiceNumberLabel.Caption
+                .invoiceLineBOX(n) = .invoiceLineLabel.Caption 'Juan 2014-8-29
             End If
         Else
             .poItemBox(n) = .poItemLabel
@@ -1444,7 +1453,7 @@ On Error GoTo ErrHandler
                     If datax.RecordCount > 0 Then
                         'Juan 2014-8-26 new ratio valuation
                         'ratioValue = datax!stk_ratio2
-                        ratioValue = datax!realRatio
+                        ratioValue = datax!realratio
                     Else
                         ratioValue = 1
                     End If
@@ -2157,6 +2166,7 @@ onDetailListInProcess = True
         frmWarehouse.STOCKlist.col = 0
         frmWarehouse.STOCKlist.CellFontName = "MS Sans Serif"
         mainItemRow = 0
+
         Do While Not .EOF
             Select Case frmWarehouse.tag
                 'ReturnFromRepair, AdjustmentEntry,WellToWell,InternalTransfer,
@@ -2281,8 +2291,9 @@ onDetailListInProcess = True
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 10) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
-                        frmWarehouse.STOCKlist.col = 3
-                        frmWarehouse.STOCKlist.CellForeColor = vbButtonFace
+
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 3) = !qty1
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 9) = !qty1
                             mainItemRow = frmWarehouse.STOCKlist.row
                         End If
                         frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
@@ -2296,7 +2307,7 @@ onDetailListInProcess = True
 
                         frmWarehouse.STOCKlist.col = 7
                         frmWarehouse.STOCKlist.CellForeColor = vbBlue
-                        frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 7) = "@@@ invoice: " + !invoice + "/line item: " + !invoiceLine
+                        frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 7) = "@ invoice: " + !invoice + "/line item: " + !invoiceLine
 
                         'Juan 2014-07-03
                         'If toBeReceived = 0 Then frmWarehouse.STOCKlist.RemoveItem (frmWarehouse.STOCKlist.Rows - 1)
@@ -2316,6 +2327,13 @@ onDetailListInProcess = True
         If frmWarehouse.STOCKlist.Rows > 2 Then frmWarehouse.STOCKlist.RemoveItem (1)
         frmWarehouse.STOCKlist.RowHeightMin = 240
         frmWarehouse.STOCKlist.row = 0
+        If frmWarehouse.STOCKlist.TopRow = 0 Then ' uh oh needs fixing .
+            If frmWarehouse.STOCKlist.Rows > 1 Then
+                frmWarehouse.STOCKlist.FixedRows = 0
+                frmWarehouse.STOCKlist.FixedRows = 1
+                frmWarehouse.STOCKlist.TopRow = 1
+            End If
+        End If
     End With
     
 errorHandler:
@@ -2498,6 +2516,7 @@ Dim i  As Integer
 Dim stock
 Screen.MousePointer = 11
 frmWarehouse.Refresh
+submitted = False
     With grid
         .col = 0
         Call cleanDETAILS
@@ -2542,6 +2561,7 @@ frmWarehouse.Refresh
             Else
                 If frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 1) = "" Then
                 Else
+                    previousItemMark = .text
                     .CellFontName = "Wingdings 3"
                     .CellFontSize = 10
                     .text = "Æ"
@@ -2800,28 +2820,31 @@ Sub unmarkRow(stock, Optional unmarkIt As Boolean, Optional ctt As cTreeTips)
     If IsMissing(unmarkIt) Then unmarkIt = True
     If unmarkIt Then
         With frmWarehouse.STOCKlist
-            If (.Rows - 1) > .row Then
-                If stock = "@thisRow" Then
-                Else
-                    comoddity = .TextMatrix(.row, 1)
-                    .row = .row + 1
-                    If commodity = .TextMatrix(.row, 1) Then
-                        tempMove = True
-                    Else
-                        .row = .row - 1
-                    End If
-                End If
-            End If
-            If .text = "?" Or .text = "Æ" Then
+'            If (.Rows - 1) > .MouseRow Then
+'                If stock = "@thisRow" Then
+'                Else
+'                    'comoddity = .TextMatrix(.row, 1)
+'                    '.row = .row + 1
+'                    If stock = .TextMatrix(.MouseRow, 1) Then
+'                        tempMove = True
+'                    Else
+'                        '.row = .row - 1
+'                    End If
+'                End If
+'            End If
+            Dim markChar
+            markChar = .TextMatrix(rowMark, 0)
+            If markChar = "?" Or markChar = "Æ" Then
                 .col = 0
+                .row = rowMark
                 .CellFontName = "MS Sans Serif"
                 .CellFontSize = 8.5
-                .text = .row
+                .TextMatrix(rowMark, 0) = previousItemMark
             End If
-            If tempMove Then
-                tempMove = False
-                .row = .row - 1
-            End If
+'            If tempMove Then
+'                tempMove = False
+'                .row = .row - 1
+'            End If
         End With
     End If
     '------------------
@@ -3397,6 +3420,7 @@ On Error Resume Next
 '        .quantity(totalNode) = Format(qtyBoxTotal, "0.00")
         
         'New
+        submitted = True
         .quantityBOX(totalNode) = Format(sumByQtyBox, "0.00")
         .quantity(totalNode) = Format(sumByQty, "0.00")
         '------------------
@@ -3441,7 +3465,7 @@ On Error Resume Next
 
             stockReference = .STOCKlist.TextMatrix(mainItemRow, 1)
             'Juan 2014-07-05 it does calculate the total to be received for the main item
-            Call calculateMainItem(stockReference)  'r before next
+            Call calculateMainItem(stockReference, True) 'r before next
             '----------------------
         End If
         Select Case .tag
@@ -3852,7 +3876,21 @@ Screen.MousePointer = 11
                 Else
                     hasInvoice = True
                 End If
-                If goAhead Then Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 7), .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row, , hasInvoice, ctt)
+                If goAhead Then
+                Dim goodDescription
+                Dim commodity
+                commodity = .TextMatrix(.row, 1)
+                For i = 1 To .Rows - 1
+                    If commodity = .TextMatrix(i, 1) Then
+                        If Left(.TextMatrix(i, 7), 1) <> "@" Then
+                            goodDescription = .TextMatrix(i, 7) 'gets good description
+                            Exit For
+                        End If
+                    End If
+                Next
+                    
+                    Call fillDETAILlist(.TextMatrix(.row, 1), goodDescription, .TextMatrix(.row, 4), .TextMatrix(.row, 3), .row, , hasInvoice, ctt)
+                End If
             Case "02050200" 'AdjustmentEntry
                 Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), -1, .row, , , ctt)
         End Select

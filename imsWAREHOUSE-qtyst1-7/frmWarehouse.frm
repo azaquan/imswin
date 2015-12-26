@@ -775,7 +775,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Save"
       Enabled         =   0   'False
       Height          =   375
-      Left            =   11055
+      Left            =   11040
       TabIndex        =   16
       TabStop         =   0   'False
       Top             =   9405
@@ -837,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   22347779
+      Format          =   54788099
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1389,7 +1389,7 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   12000
+      Left            =   7845
       TabIndex        =   101
       Top             =   0
       Visible         =   0   'False
@@ -1410,10 +1410,10 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   6405
+      Left            =   9390
       TabIndex        =   99
       Top             =   3840
-      Width           =   2655
+      Width           =   2175
    End
    Begin VB.Label invoiceLabel 
       Alignment       =   1  'Right Justify
@@ -1431,10 +1431,10 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   4560
+      Left            =   7845
       TabIndex        =   98
       Top             =   3840
-      Width           =   1575
+      Width           =   1335
    End
    Begin VB.Label logLabel 
       BackColor       =   &H00C0C0FF&
@@ -2112,7 +2112,49 @@ End Sub
 Sub limitQty(Index As Integer)
     Select Case frmWarehouse.tag
         Case "02040100" 'WarehouseReceipt
-            If (invoiceBOX(Index) <> "" And invoiceBOX(Index) <> "invoiceBOX") And CDbl(quantityBOX(Index)) > CDbl(quantity(Index)) Then quantityBOX(Index).text = quantity(Index)
+            If (invoiceBOX(Index) <> "" And invoiceBOX(Index) <> "invoiceBOX") Then
+                Dim originalQty, sumQty As Double
+                Dim i As Integer
+                For i = 1 To STOCKlist.Rows - 1
+                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
+                        If Left(STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
+                            originalQty = CDbl(STOCKlist.TextMatrix(i, 9)) 'gets original qty to receieve
+                            Exit For
+                        End If
+                    End If
+                Next
+                For i = 1 To SUMMARYlist.Rows - 1
+                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
+                        If IsNumeric(SUMMARYlist.TextMatrix(i, 7)) Then
+                            sumQty = sumQty + CDbl(SUMMARYlist.TextMatrix(i, 7))
+                        End If
+                    End If
+                Next
+                If (originalQty - sumQty) = 0 Then
+                    MsgBox "No more items to receive"
+                    quantityBOX(Index) = "0.00"
+                Else
+                    If CDbl(quantityBOX(Index)) > (originalQty - sumQty) Then
+                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
+                            If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
+                                quantityBOX(Index) = quantity(Index)
+                            Else
+                                quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
+                                MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
+                            End If
+                        Else
+                            quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
+                            MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
+                        End If
+                    Else
+                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
+                            If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
+                                quantityBOX(Index) = quantity(Index)
+                            End If
+                        End If
+                    End If
+                End If
+            End If
         'Case "02050300" 'AdjustmentIssue
         'Case "02040200" 'WarehouseIssue
         'Case "02040500" 'WellToWell
@@ -2270,6 +2312,11 @@ Dim parameters(2) As String
 Dim subject As String
 Dim reportCaption As String
 reportPATH = repoPATH + "\"
+If treeFrame.Visible = True Then
+    Screen.MousePointer = 0
+    MsgBox "There is a pending item to submit"
+    Exit Sub
+End If
 Select Case frmWarehouse.tag
     Case "02040400" 'ReturnFromRepair
         reportCaption = "Return From Repair"
@@ -2455,6 +2502,10 @@ On Error Resume Next
         .SelStart = Len(.text)
     End With
 
+End Sub
+
+Private Sub quantityBOX_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+    submitted = False
 End Sub
 
 Private Sub searchButton_Click()
@@ -3545,10 +3596,11 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
     stockListRow = findSTUFF(commodityLABEL, STOCKlist, 1)
     'Juan 2010-6-4
     If IsMissing(unmark) Then unmark = True
+    
     If unmark Then
         Dim stock
         'TODO.... stocknumber search
-        stock = STOCKlist.TextMatrix(STOCKlist.row, 1)
+        stock = STOCKlist.TextMatrix(STOCKlist.MouseRow, 1)
         Call unmarkRow(stock, True, ctt)
     End If
     inProgress = False
@@ -3691,7 +3743,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLabel.Visible = False
+    remarksLABEL.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3722,7 +3774,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLabel.Visible = True
+    remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -3996,7 +4048,13 @@ Dim imsLock As imsLock.Lock
 Dim TranType As String
 Dim data As New ADODB.Recordset
 Dim datax As New ADODB.Recordset
+Dim datay As New ADODB.Recordset
 Screen.MousePointer = 11
+    If treeFrame.Visible = True Then
+        Screen.MousePointer = 0
+        MsgBox "There is a pending item to submit"
+        Exit Sub
+    End If
 
     'MDI_IMS.StatusBar1.Panels(1).text = "Checking fields"
     
@@ -4130,15 +4188,15 @@ Screen.MousePointer = 11
             serial = SUMMARYlist.TextMatrix(i, 2)
             'Juan 2010-9-4 implementing ratio rather than computer factor
             computerFactor = ImsDataX.ComputingFactor(nameSP, stocknumb, cn)
-            Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb))
+            Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb, cell(3).tag))
             If datax.RecordCount > 0 Then
-                If IsNull(datax!realRatio) Then
-                    ratioValue = 1
+                If IsNull(datax!realratio) Or datax!realratio = 0 Then
+                    ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
                 Else
-                    ratioValue = datax!realRatio
+                    ratioValue = datax!realratio
                 End If
             Else
-                ratioValue = 1
+                ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
             End If
             Dim sql As String
             'Juan 2014-8-27 new version of calculation based on invoice if exists
@@ -4428,6 +4486,16 @@ Screen.MousePointer = 11
                     If retval = False Then
                         Call RollbackTransaction(cn)
                         MsgBox "Error in Transaction"
+                        newBUTTON.Enabled = True
+                        saveBUTTON.Enabled = False
+                        savingLABEL.Visible = False
+                        Command3.Enabled = True
+                        Call lockDOCUMENT(True)
+                        Me.Enabled = True
+                        'Unlock
+                        Call unlockBUNCH
+                            
+                        Screen.MousePointer = 0
                         Exit Sub
                     End If
                                     
@@ -4573,6 +4641,23 @@ RollBack:
     Exit Sub
     'MDI_IMS.StatusBar1.Panels(1).text = ""
 End Sub
+
+Function getStockRatioFromStockMaster(NameSpace, StockNumber) As Double
+Dim data As New ADODB.Recordset
+Dim ratio As Double
+    Set data = getDATA("getStockRatioFromStockMaster", Array(nameSP, StockNumber))
+    If data.RecordCount > 0 Then
+        If IsNull(data!realratio) Then
+            ratio = 1
+        Else
+            ratio = data!realratio
+        End If
+    Else
+        ratio = 1
+    End If
+getStockRatioFromStockMaster = ratio
+End Function
+
 
 Private Function PutDataInsert2(Item, price) As Boolean
     Dim psVALUE, serial
@@ -4793,7 +4878,13 @@ End Function
 
 Private Sub Command3_Click()
 Dim reportPATH, cnSTRING, text
+If treeFrame.Visible = True Then
+    Screen.MousePointer = 0
+    MsgBox "There is a pending item to submit"
+    Exit Sub
+End If
 Screen.MousePointer = 11
+
     With CrystalReport1
         .Reset
         reportPATH = repoPATH + "\"
@@ -4872,6 +4963,11 @@ Public Sub Command5_Click()
 ''
 ''         End If
     
+        If treeFrame.Visible = True Then
+            Screen.MousePointer = 0
+            MsgBox "There is a pending item to submit"
+            Exit Sub
+        End If
         If .Caption = "Show &Remarks, FQA" Then
             .Caption = "Hide &Remarks, FQA"
             showREMARKS
@@ -5874,11 +5970,13 @@ End Sub
 
 Private Sub quantityBOX_KeyPress(Index As Integer, KeyAscii As Integer)
     If KeyAscii = 13 Then
+        submitted = False
         Call quantityBOX_Validate(Index, True)
     End If
 End Sub
 
 Private Sub quantityBOX_LostFocus(Index As Integer)
+    If submitted Then Exit Sub
     Call quantityBOX_Validate(Index, True)
     If Index <> totalNode Then quantityBOX(Index).backcolor = vbWhite
 End Sub
@@ -5895,6 +5993,7 @@ End Sub
 Public Sub quantityBOX_Validate(Index As Integer, Cancel As Boolean)
 Dim qty, qty2
 On Error Resume Next
+    If submitted Then Exit Sub
     With quantityBOX(Index)
         If Index <> totalNode Then
             If IsNumeric(.text) Then
@@ -6287,6 +6386,7 @@ Dim i, pointerCOL As Integer
 Screen.MousePointer = 11
     doChanges = False
     With STOCKlist
+        rowMark = .row
         If Not inProgress Then
             If .MouseCol = 0 Then
                 .col = 0
@@ -6824,6 +6924,9 @@ summaryValueFirstTime = True
                                     rec = rec + serialText + vbTab
                                     rec = rec + condition + vbTab
                                     rec = rec + Format(priceBOX(i - differenceWithTable), "0.00") + vbTab
+                                    
+                                    
+                                    
                                     rec = rec + descriptionLABEL + vbTab
                                     rec = rec + unitLABEL(0) + vbTab
                                     rec = rec + quantityBOX(i - differenceWithTable) + vbTab
@@ -6890,7 +6993,7 @@ summaryValueFirstTime = True
                                     .TextMatrix(.Rows - 1 - differenceWithTable, 22) = poItemBox(i - differenceWithTable)
                                     Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
                                     If datax.RecordCount > 0 Then
-                                        ratioValue = datax!realRatio
+                                        ratioValue = datax!realratio
                                     Else
                                         ratioValue = 1
                                     End If
@@ -7068,7 +7171,7 @@ summaryValueFirstTime = True
                                     'Juan 2010-9-5 Added to have new ratio functionality
                                     Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
                                     If datax.RecordCount > 0 Then
-                                        ratioValue = datax!realRatio
+                                        ratioValue = datax!realratio
                                     Else
                                         ratioValue = 1
                                     End If
