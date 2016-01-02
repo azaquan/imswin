@@ -69,9 +69,12 @@ Global msgBoxResponse As Boolean
 Global previousItemMark As String
 Global rowMark As Integer
 Global submitted As Boolean
+
+
 Private Declare Function SendMessageAny Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Any, lParam As Any) As Long
 Sub calculateMainItem(stockReference, Optional updateOriginalQty As Boolean)     'Juan 2014-7-5
 mainItemToReceive = 0
+mainItemToReceive2 = 0
 subTot = 0
 tot = 0
 With frmWarehouse.STOCKlist
@@ -84,12 +87,16 @@ With frmWarehouse.STOCKlist
                     tot = tot + subTot
                 Else
                     mainItemToReceive = CDbl(.TextMatrix(i, 9))
+                    mainItemToReceive2 = CDbl(.TextMatrix(i, 10))
                 End If
             End If
         Next
         .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive, "0.00")
         If IsMissing(updateOriginalQty) Then updateOriginalQty = False
-        If updateOriginalQty Then .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive - tot, "0.00")
+        If updateOriginalQty Then
+            .TextMatrix(mainItemRow, 3) = Format(mainItemToReceive - tot, "0.00")
+            .TextMatrix(mainItemRow, 5) = Format((mainItemToReceive - tot) * (mainItemToReceive2 / mainItemToReceive), "0.00")
+        End If
     End If
 End With
 End Sub
@@ -137,6 +144,8 @@ ErrHandler:
     GeneratePdf = "Errors Occurred while trying to generate a PDF, please try again." + Err.description
 Err.Clear
 End Function
+
+
 
 Public Sub LogErr(RoutineName As String, ErrorDescription As String, ErrorNumber As Long, Optional Clear As Boolean = False)
 Dim i As IMSFile
@@ -518,20 +527,23 @@ On Error GoTo errorHandler
         ReDim balance1(UBound(originalQTY1))
         ReDim balance2(UBound(originalQTY2))
         For i = 1 To .STOCKlist.Rows - 1
-            originalQTY1(i) = .STOCKlist.TextMatrix(i, colRef)
-            balance1(i) = CDbl(originalQTY1(i))
-            If .tag = "02040100" Then 'Receipt
-                originalQTY2(i) = .STOCKlist.TextMatrix(i, colRef + 1)
-                balance2(i) = CDbl(originalQTY2(i))
-            Else
-                originalQTY2(i) = originalQTY1(i)
-                balance2(i) = balance1(i)
+            If selectedStockNumber = .STOCKlist.TextMatrix(i, 1) Then
+                originalQTY1(i) = .STOCKlist.TextMatrix(i, colRef)
+                balance1(i) = CDbl(originalQTY1(i))
+                If .tag = "02040100" Then 'Receipt
+                    originalQTY2(i) = .STOCKlist.TextMatrix(i, colRef + 1)
+                    balance2(i) = CDbl(originalQTY2(i))
+                    Exit For
+                Else
+                    originalQTY2(i) = originalQTY1(i)
+                    balance2(i) = balance1(i)
+                End If
             End If
         Next
         
         mainItemRow = 0
         For i = 1 To .STOCKlist.Rows - 1
-            StockNumber = .STOCKlist.TextMatrix(i, 1)
+            'StockNumber = .STOCKlist.TextMatrix(i, 1)
             'For j = 1 To .SUMMARYlist.Rows - 1
                 'Look for possible movements within summary list
 '                If StockNumber = .SUMMARYlist.TextMatrix(j, 1) Then
@@ -543,12 +555,17 @@ On Error GoTo errorHandler
 '                    End If
 '                Else
                 If Not IsMissing(selectedStockNumber) Then
-                    If StockNumber = selectedStockNumber Then
+                    If selectedStockNumber = .STOCKlist.TextMatrix(i, 1) Then
                         If mainItemRow = 0 Then mainItemRow = i
                         If IsNumeric(.Tree.Nodes.Count) Then
                             balance1(i) = .STOCKlist.TextMatrix(i, colRef)
                             If IsNumeric(.STOCKlist.TextMatrix(i, colRef + 1)) Then
                                 balance2(i) = .STOCKlist.TextMatrix(i, colRef + 1)
+                            End If
+                            '.STOCKlist.TextMatrix(i, colTot) = Format(balance1(i), "0.00")
+                            If .tag = "02040100" Then 'Receipt
+                                .STOCKlist.TextMatrix(i, colTot) = .STOCKlist.TextMatrix(i, colRef)
+                                .STOCKlist.TextMatrix(i, colTot + 2) = .STOCKlist.TextMatrix(i, colRef + 1)
                             End If
                         End If
                     End If
@@ -556,15 +573,11 @@ On Error GoTo errorHandler
 '                End If
 ' juan 2012-1-17 commented to fix bug
 '                'Write final values on stocklist
-                .STOCKlist.TextMatrix(i, colTot) = Format(balance1(i), "0.00")
-                If .tag = "02040100" Then 'Receipt
-                    .STOCKlist.TextMatrix(i, colTot + 2) = Format(balance2(i), "0.00")
-                Else
-                End If
+
             'Next
         Next
         If .tag = "02040100" Then 'Receipt
-            Call calculateMainItem(StockNumber)
+            Call calculateMainItem(selectedStockNumber)
         End If
     End With
     Exit Sub
@@ -1304,9 +1317,9 @@ On Error GoTo ErrHandler:
                 If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Or frmWarehouse.tag = "02050300" Then  'Return from Well, 'WarehouseIssue, Adjustment Issue 'Juan 2014-3-13
 
                 Else
-                    '.quantityBOX(n) = "1.00"
-                    '.quantity2BOX(n) = "1.00"
-                    .quantityBOX(n).Enabled = True
+                    .quantityBOX(n) = "1.00"
+                    .quantity2BOX(n) = "1.00"
+                    .quantityBOX(n).Enabled = False
                     .quantity2BOX(n).Enabled = False
                 End If
             Else
@@ -1372,10 +1385,27 @@ On Error GoTo ErrHandler
         Else
             If summaryQTYshort(StockNumber) > 0 Then Exit Sub
         End If
-        Screen.MousePointer = 11
+        
         .STOCKlist.MousePointer = Screen.MousePointer
         tabindex = 1
         .commodityLABEL = StockNumber
+        'juan 2015-12-28
+        If .STOCKlist.Rows > 2 And .STOCKlist.TextMatrix(1, 1) <> "" And .stockListRow > 0 Then
+        For i = 1 To .STOCKlist.Rows - 1
+            If .commodityLABEL = .STOCKlist.TextMatrix(i, 1) Then
+                If Left(.STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
+                    If CDbl(.STOCKlist.TextMatrix(i, 3)) <= 0 Then
+                        .STOCKlist.TextMatrix(i, 0) = "¬"
+                        MsgBox "No more to receive for this item."
+                        Exit Sub
+                    End If
+                End If
+            End If
+        Next
+        End If
+        '--------------
+        Screen.MousePointer = 11
+        
         If IsMissing(serialNum) Then
             serialLabel = ""
         Else
@@ -2206,6 +2236,7 @@ onDetailListInProcess = True
                              lineNumber = !poItem
                         Else
                             If !poItem <> lineNumber Then
+                                mainItemRow = frmWarehouse.STOCKlist.Rows - 1
                                 Call calculateMainItem(stockReference, False)
                                 firstTime = True
                                 lineNumber = !poItem
@@ -2264,11 +2295,11 @@ onDetailListInProcess = True
                     rec = rec + Format(!poItem) + vbTab
                     rec = rec + Format(toBeReceived, "0.00") + vbTab
                     rec = rec + Format(toBeReceived2, "0.00") + vbTab
-                    rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00")) + vbTab
-
-                    rec = rec + IIf(IsNull(!invoice), "", !invoice) + vbTab
-                    rec = rec + IIf(IsNull(!invoiceLine), "", !invoiceLine) 'Juan 2014-8-29
                     
+                    rec = rec + IIf(IsNull(!unitPRICE), "0.00", Format(!unitPRICE, "0.00")) + vbTab
+                    rec = rec + IIf(IsNull(!invoice), "", !invoice) + vbTab
+                    rec = rec + IIf(IsNull(!invoiceLine), "", !invoiceLine) + vbTab
+                    rec = rec + IIf(IsNull(!QTYpo), "0.00", Format(!QTYpo, "0.00")) 'Juan 2014-8-29
             End Select
             frmWarehouse.STOCKlist.addITEM rec
             'Juan 2014-5-13
@@ -2292,8 +2323,12 @@ onDetailListInProcess = True
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 12) = ""
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.Rows - 2, 11) = IIf(IsNull(!poi_unitprice), "0.00", Format(!poi_unitprice, "0.00"))
 
-                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 3) = !qty1
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 3) = Format(!qty1, "0.00")
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 4) = !unit
                             frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 9) = !qty1
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 10) = !qty2
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 5) = Format(!qty2, "0.00")
+                            frmWarehouse.STOCKlist.TextMatrix(frmWarehouse.STOCKlist.row, 6) = !unit2
                             mainItemRow = frmWarehouse.STOCKlist.row
                         End If
                         frmWarehouse.STOCKlist.row = frmWarehouse.STOCKlist.Rows - 1
@@ -2323,7 +2358,7 @@ onDetailListInProcess = True
             End If
             .MoveNext
         Loop
-        Call calculateMainItem(stockReference)
+        'Call calculateMainItem(stockReference)
         If frmWarehouse.STOCKlist.Rows > 2 Then frmWarehouse.STOCKlist.RemoveItem (1)
         frmWarehouse.STOCKlist.RowHeightMin = 240
         frmWarehouse.STOCKlist.row = 0

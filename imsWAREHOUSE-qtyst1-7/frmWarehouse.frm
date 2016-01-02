@@ -837,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   54788099
+      Format          =   54984707
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1431,7 +1431,7 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   7845
+      Left            =   8045
       TabIndex        =   98
       Top             =   3840
       Width           =   1335
@@ -1798,6 +1798,7 @@ Dim ctt2 As New cTreeTips
 Dim ctt3 As New cTreeTips
 
 
+Public stockListRow As Integer
 Sub arrowKEYS(direction As String, Index As Integer)
 Dim grid As MSHFlexGrid
     With cell(Index)
@@ -2115,16 +2116,20 @@ Sub limitQty(Index As Integer)
             If (invoiceBOX(Index) <> "" And invoiceBOX(Index) <> "invoiceBOX") Then
                 Dim originalQty, sumQty As Double
                 Dim i As Integer
+                Dim row As Integer
                 For i = 1 To STOCKlist.Rows - 1
                     If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
                         If Left(STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
                             originalQty = CDbl(STOCKlist.TextMatrix(i, 9)) 'gets original qty to receieve
-                            Exit For
+                            'Exit For
                         End If
+                    End If
+                    If InStr(STOCKlist.TextMatrix(i, 7), invoiceNumberLabel.Caption) > 0 Then
+                        row = i
                     End If
                 Next
                 For i = 1 To SUMMARYlist.Rows - 1
-                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
+                    If commodityLABEL = SUMMARYlist.TextMatrix(i, 1) Then
                         If IsNumeric(SUMMARYlist.TextMatrix(i, 7)) Then
                             sumQty = sumQty + CDbl(SUMMARYlist.TextMatrix(i, 7))
                         End If
@@ -2135,19 +2140,34 @@ Sub limitQty(Index As Integer)
                     quantityBOX(Index) = "0.00"
                 Else
                     If CDbl(quantityBOX(Index)) > (originalQty - sumQty) Then
-                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
+                        If Left(STOCKlist.TextMatrix(row, 7), 1) = "@" Then
                             If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
-                                quantityBOX(Index) = quantity(Index)
-                            Else
                                 quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
                                 MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
+                            Else
+                                If originalQty - Int(originalQty) > 0 Then
+                                    If (Int(originalQty) + 1) <= CDbl(quantityBOX(Index)) Then
+                                        originalQty = (Int(originalQty) + 1)
+                                    End If
+                                End If
+                                If originalQty > (originalQty) Then
+                                    quantityBOX(Index) = quantity(Index)
+                                Else
+                                    quantityBOX(Index) = Format(originalQty, "0.00")
+                                    MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
+                                End If
                             End If
                         Else
                             quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
                             MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
                         End If
                     Else
-                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
+                        If Left(STOCKlist.TextMatrix(row, 7), 1) = "@" Then
+                            If originalQty - Int(originalQty) > 0 Then
+                                If Int(originalQty) + 1 >= CDbl(quantityBOX(Index)) Then
+                                    originalQty = (Int(originalQty) + 1)
+                                End If
+                            End If
                             If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
                                 quantityBOX(Index) = quantity(Index)
                             End If
@@ -3187,7 +3207,7 @@ Dim translationSecondaryQty
                 .ColWidth(3) = 1200
             Case "02040100" 'WarehouseReceipt
                 dark = 1
-                .cols = 14
+                .cols = 15
                 For i = 8 To .cols - 1
                     .ColWidth(i) = 0
                 Next
@@ -3239,6 +3259,14 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 10) = "original 2Qty to Rec"
                 .TextMatrix(0, 10) = translationOriginal + " 2" + translationQtyToRec
                 .ColWidth(10) = 0
+                .TextMatrix(0, 11) = "unitPRICE"
+                .ColWidth(11) = 0
+                .TextMatrix(0, 12) = "invoice"
+                .ColWidth(11) = 0
+                .TextMatrix(0, 13) = "invoiceLine"
+                .ColWidth(11) = 0
+                .TextMatrix(0, 14) = "QTYpo"
+                .ColWidth(11) = 0
                 '---------------------
         End Select
         .RowHeight(0) = 240
@@ -3597,9 +3625,27 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
     'Juan 2010-6-4
     If IsMissing(unmark) Then unmark = True
     
+    Select Case frmWarehouse.tag
+        Case "02040100" 'WarehouseReceipt
+            Dim serialQty, originalQty, originalQtyInvoice As Double
+            serialQty = 0
+'            If UCase(Left(Tree.Nodes(2).text, 7)) = "SERIAL:" Then
+'                unmark = False
+'                For i = 1 To SUMMARYlist.Rows - 1
+'                    If SUMMARYlist.TextMatrix(i, 1) = commodityLABEL Then
+'                        serialQty = serialQty + 1
+'                    End If
+'                Next
+'                For i = 1 To STOCKlist.Rows - 1
+'                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
+'                        originalQty = CDbl(STOCKlist.TextMatrix(i, 9)) 'gets original qty to receieve
+'                        STOCKlist.TextMatrix(i, 3) = Format((originalQty - serialQty), "0.00")
+'                    End If
+'                Next
+'            End If
+    End Select
     If unmark Then
         Dim stock
-        'TODO.... stocknumber search
         stock = STOCKlist.TextMatrix(STOCKlist.MouseRow, 1)
         Call unmarkRow(stock, True, ctt)
     End If
@@ -3743,7 +3789,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLABEL.Visible = False
+    remarksLabel.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3774,7 +3820,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLABEL.Visible = True
+    remarksLabel.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -5687,6 +5733,8 @@ Private Sub Form_Load()
 On Error Resume Next
     'Call translator.Translate_Forms("frmWarehouse")
     Screen.MousePointer = 11
+    
+    stockListRow = 0
     Call lockDOCUMENT(True)
     frmWarehouse.Caption = frmWarehouse.Caption + " - " + frmWarehouse.tag
     Screen.MousePointer = 0
@@ -6391,6 +6439,7 @@ Screen.MousePointer = 11
             If .MouseCol = 0 Then
                 .col = 0
                 If .row > 0 Then
+                    stockListRow = .row
                     pointerCOL = 0
                     Call markROW(STOCKlist, , ctt)
                     hideDETAIL.Visible = True
