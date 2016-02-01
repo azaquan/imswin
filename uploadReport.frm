@@ -2,33 +2,24 @@ VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Begin VB.Form frm_tranvaluationreport 
+Begin VB.Form uploadReport 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "Transaction Valuation Report"
-   ClientHeight    =   3570
+   Caption         =   "Upload Report"
+   ClientHeight    =   2985
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   4665
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
-   ScaleHeight     =   3570
+   ScaleHeight     =   2985
    ScaleWidth      =   4665
-   Tag             =   "03040200"
-   Begin VB.CommandButton CmdFqa 
-      Cancel          =   -1  'True
-      Caption         =   "&FQA"
-      Height          =   375
-      Left            =   240
-      TabIndex        =   18
-      Top             =   2760
-      Width           =   1092
-   End
+   Tag             =   "03040500"
    Begin MSComctlLib.ProgressBar ProgressBar1 
       Height          =   300
       Left            =   120
-      TabIndex        =   17
-      Top             =   3220
+      TabIndex        =   13
+      Top             =   2505
       Visible         =   0   'False
       Width           =   4455
       _ExtentX        =   7858
@@ -40,47 +31,47 @@ Begin VB.Form frm_tranvaluationreport
    Begin VB.CommandButton cmd_cancel 
       Caption         =   "&Cancel"
       Height          =   375
-      Left            =   2400
-      TabIndex        =   6
-      Top             =   2760
+      Left            =   3360
+      TabIndex        =   5
+      Top             =   2040
       Width           =   1092
    End
    Begin VB.Frame Frame2 
       Height          =   1815
       Left            =   240
-      TabIndex        =   12
-      Top             =   840
+      TabIndex        =   8
+      Top             =   120
       Width           =   4215
       Begin MSComCtl2.DTPicker dtdate2 
          Height          =   315
          Left            =   2160
-         TabIndex        =   4
+         TabIndex        =   3
          Top             =   1320
          Width           =   1935
          _ExtentX        =   3413
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56033283
+         Format          =   22478851
          CurrentDate     =   36524
       End
       Begin MSComCtl2.DTPicker DTdate1 
          Height          =   315
          Left            =   2160
-         TabIndex        =   3
+         TabIndex        =   2
          Top             =   960
          Width           =   1935
          _ExtentX        =   3413
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56033283
+         Format          =   22478851
          CurrentDate     =   36524
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_company 
          Height          =   315
          Left            =   2160
-         TabIndex        =   1
+         TabIndex        =   0
          Top             =   240
          Width           =   1935
          DataFieldList   =   "Column 0"
@@ -99,7 +90,7 @@ Begin VB.Form frm_tranvaluationreport
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_ware 
          Height          =   315
          Left            =   2160
-         TabIndex        =   2
+         TabIndex        =   1
          Top             =   600
          Width           =   1935
          DataFieldList   =   "Column 0"
@@ -119,7 +110,7 @@ Begin VB.Form frm_tranvaluationreport
          Caption         =   "To Date"
          Height          =   255
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   12
          Top             =   1320
          Width           =   1395
       End
@@ -127,7 +118,7 @@ Begin VB.Form frm_tranvaluationreport
          Caption         =   "From Date"
          Height          =   255
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   11
          Top             =   960
          Width           =   1275
       End
@@ -135,7 +126,7 @@ Begin VB.Form frm_tranvaluationreport
          Caption         =   "Location"
          Height          =   255
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   10
          Top             =   600
          Width           =   1155
       End
@@ -143,55 +134,24 @@ Begin VB.Form frm_tranvaluationreport
          Caption         =   "Company"
          Height          =   255
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   9
          Top             =   240
          Width           =   1395
-      End
-   End
-   Begin VB.Frame Frame1 
-      Height          =   615
-      Left            =   240
-      TabIndex        =   10
-      Top             =   0
-      Width           =   4215
-      Begin VB.OptionButton OptExcel 
-         Caption         =   "EOM To Excel"
-         Height          =   195
-         Left            =   2520
-         TabIndex        =   11
-         Top             =   240
-         Width           =   1455
-      End
-      Begin VB.OptionButton EOM 
-         Caption         =   "EOM"
-         Height          =   195
-         Left            =   1320
-         TabIndex        =   7
-         Top             =   240
-         Width           =   975
-      End
-      Begin VB.OptionButton Full 
-         Caption         =   "Full"
-         Height          =   195
-         Left            =   120
-         TabIndex        =   0
-         Top             =   240
-         Width           =   975
       End
    End
    Begin VB.CommandButton cmd_ok 
       Caption         =   "&Ok"
       Default         =   -1  'True
       Height          =   375
-      Left            =   1320
-      TabIndex        =   5
-      Top             =   2760
+      Left            =   240
+      TabIndex        =   4
+      Top             =   2040
       Width           =   1092
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSdcboCurrency 
       Height          =   315
       Left            =   1920
-      TabIndex        =   9
+      TabIndex        =   7
       Top             =   4320
       Visible         =   0   'False
       Width           =   1815
@@ -222,7 +182,7 @@ Begin VB.Form frm_tranvaluationreport
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "frm_tranvaluationreport.frx":0000
+      stylesets(0).Picture=   "uploadReport.frx":0000
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -235,7 +195,7 @@ Begin VB.Form frm_tranvaluationreport
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "frm_tranvaluationreport.frx":001C
+      stylesets(1).Picture=   "uploadReport.frx":001C
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -267,13 +227,13 @@ Begin VB.Form frm_tranvaluationreport
       Caption         =   "Currency"
       Height          =   255
       Left            =   720
-      TabIndex        =   8
+      TabIndex        =   6
       Top             =   4320
       Visible         =   0   'False
       Width           =   915
    End
 End
-Attribute VB_Name = "frm_tranvaluationreport"
+Attribute VB_Name = "uploadReport"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -285,65 +245,55 @@ Private Sub cmd_cancel_Click()
 Unload Me
 End Sub
 
-'get crystal report parameter and application path
 
 Private Sub cmd_ok_Click()
-
-On Error Resume Next
-
-Screen.MousePointer = vbHourglass
-
-If (DTdate1.value > dtdate2.value) Then
-
-    'Modified by Juan (9/14/2000) for Multilingual
-    msg1 = translator.Trans("M00003") 'J added
-    msg1 = translator.Trans("L00318") 'J added
-    MsgBox IIf(msg1 = "", "Make sure the 'From date' is less than the 'To date'", msg1), , IIf(msg2 = "", "Date", msg2) 'J modified
-    '---------------------------------------------
-    
-    DTdate1_Validate ("true")
+    On Error Resume Next
+    Screen.MousePointer = vbHourglass
+    If (DTdate1.value > dtdate2.value) Then
+        'Modified by Juan (9/14/2000) for Multilingual
+        msg1 = translator.Trans("M00003") 'J added
+        msg1 = translator.Trans("L00318") 'J added
+        MsgBox IIf(msg1 = "", "Make sure the 'From date' is less than the 'To date'", msg1), , IIf(msg2 = "", "Date", msg2) 'J modified
+        '---------------------------------------------
+        DTdate1_Validate ("true")
     Else
-    
-    If OptExcel.value = True Then
-    
-            Call EomInExcel
-    
-    Else
-    
-            With MDI_IMS.CrystalReport1
-                .Reset
-                If Full.value Then
-                    .ReportFileName = FixDir(App.Path) + "CRreports\transval.rpt"
-                Else
-                    .ReportFileName = FixDir(App.Path) + "CRreports\transvalEOM.rpt"
-                End If
-                .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
-                .ParameterFields(1) = "compcode;" + Trim$(SSOleDB_company.Text) + ";true"
-                .ParameterFields(2) = "loca;" + Trim$(UCase(SSOleDB_ware.Text)) + ";true"
-                .ParameterFields(3) = "fromdate;date(" & Year(DTdate1.value) & "," & Month(DTdate1.value) & "," & Day(DTdate1.value) & ");true"
-                .ParameterFields(4) = "todate;date(" & Year(dtdate2.value) & "," & Month(dtdate2.value) & "," & Day(dtdate2.value) & ");true"
-                '.ParameterFields(5) = "curr;" + Trim$(SSdcboCurrency.Columns("code").Text) + ";TRUE"
-        '        .ParameterFields(5) = "curr;" + IIf(Trim$(SSOleDBCurrency.Columns("code").Text) = "ALL", "ALL", SSOleDBCurrency.Columns("code").Text) + ";TRUE"
-        
-                'Modified by Juan (9/14/2000) for Multilingual
-                msg1 = translator.Trans("M00160") 'J added
-                .WindowTitle = IIf(msg1 = "", "Transaction Valuation Report", msg1) 'J modified
-                'Call translator.Translate_Reports("transval.rpt") 'J added
-                'Call translator.Translate_SubReports 'J added
-                '---------------------------------------------
-                
-                .Action = 1
-                .Reset
-            End With
-    
-    End If
-    
- End If
+        Dim CompanyCode
+        Dim CurrencyCode
+        Dim namespaceCode
+        Dim LocationCode
+        Dim invocation
+        Dim Fromdate
+        Dim Todate
+        If Trim$(SSOleDB_company.Text) = "" Then
+            CompanyCode = "%"
+        Else
+            CompanyCode = Trim$(SSOleDB_company.Text)
+        End If
+        CompanyCode = "-company " + Chr(34) + CompanyCode + Chr(34) + " "
+        namespaceCode = "-namespace " + Chr(34) + deIms.NameSpace + Chr(34) + " "
+        If Trim$(UCase(SSOleDB_ware.Text)) = "" Then
+            LocationCode = "%"
+        Else
+            LocationCode = Trim$(UCase(SSOleDB_ware.Text))
+        End If
+        LocationCode = "-location " + Chr(34) + LocationCode + Chr(34) + " "
+        Fromdate = "-fromDate " + Chr(34) _
+            + Format(Year(DTdate1.value)) + "-" _
+            + Format(Month(DTdate1.value), "00") + "-" _
+            + Format(Day(DTdate1.value), "00") + Chr(34) + " "
+        Todate = "-toDate " + Chr(34) _
+            + Format(Year(dtdate2.value)) + "-" _
+            + Format(Month(dtdate2.value), "00") + "-" _
+            + Format(Day(dtdate2.value), "00") + Chr(34) + " "
+        invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name uploadReport "
+        Shell "cmd.exe /c " & invocation + CompanyCode + namespaceCode + LocationCode + Fromdate + Todate, vbHide
+        MsgBox "An email has been sent to you with the report."
+     End If
  
-    If Err Then
-        MsgBox Err.Description
-        Call LogErr(Name & "::cmd_ok_Click", Err.Description, Err)
-   End If
+'    If Err Then
+'        MsgBox Err.Description
+''        Call LogErr(Name & "::cmd_ok_Click", Err.Description, Err)
+'   End If
    
 Screen.MousePointer = vbArrow
    
@@ -360,13 +310,13 @@ End Sub
 
 
 Private Sub EOM_GotFocus()
-Call HighlightBackground(EOM)
+'Call HighlightBackground(EOM)
 SSOleDB_company.Enabled = True
 SSOleDB_ware.Enabled = True
 End Sub
 
 Private Sub EOM_LostFocus()
-Call NormalBackground(EOM)
+'Call NormalBackground(EOM)
 End Sub
 
 'SQL statement get company
@@ -433,7 +383,7 @@ End If
 frm_tranvaluationreport.Caption = frm_tranvaluationreport.Caption + " - " + frm_tranvaluationreport.Tag
 DTdate1.value = FirstOfMonth
 dtdate2.value = Now
-Full.value = True
+'Full.value = True
 
 Me.Left = Round((Screen.Width - Me.Width) / 2)
 Me.Top = Round((Screen.Height - Me.Height) / 2)
@@ -600,30 +550,30 @@ End Sub
 
 
 Private Sub Full_GotFocus()
-Call HighlightBackground(Full)
+'Call HighlightBackground(Full)
 SSOleDB_company.Enabled = True
 SSOleDB_ware.Enabled = True
 
 End Sub
 
 Private Sub Full_LostFocus()
-Call NormalBackground(Full)
+'Call NormalBackground(Full)
 End Sub
 
 Private Sub OptExcel_Click()
-Call HighlightBackground(OptExcel)
+'Call HighlightBackground(OptExcel)
 SSOleDB_company.Enabled = False
 SSOleDB_ware.Enabled = False
 End Sub
 
 Private Sub OptExcel_GotFocus()
-Call HighlightBackground(OptExcel)
+'Call HighlightBackground(OptExcel)
 SSOleDB_company.Enabled = False
 SSOleDB_ware.Enabled = False
 End Sub
 
 Private Sub OptExcel_LostFocus()
-Call NormalBackground(OptExcel)
+'Call NormalBackground(OptExcel)
 End Sub
 
 Public Sub SSdcboCurrency_Click()

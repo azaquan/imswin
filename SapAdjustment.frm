@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{27609682-380F-11D5-99AB-00D0B74311D4}#1.0#0"; "ImsMailVBX.ocx"
 Begin VB.Form frmSapAdjustment 
    BorderStyle     =   1  'Fixed Single
@@ -112,11 +112,11 @@ Begin VB.Form frmSapAdjustment
       TabCaption(1)   =   "&Recipients"
       TabPicture(1)   =   "SapAdjustment.frx":0038
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmd_Add"
-      Tab(1).Control(1)=   "cmd_Remove"
+      Tab(1).Control(0)=   "lbl_Recipients"
+      Tab(1).Control(1)=   "ssdbRecepientList"
       Tab(1).Control(2)=   "Picture1"
-      Tab(1).Control(3)=   "ssdbRecepientList"
-      Tab(1).Control(4)=   "lbl_Recipients"
+      Tab(1).Control(3)=   "cmd_Remove"
+      Tab(1).Control(4)=   "cmd_Add"
       Tab(1).ControlCount=   5
       Begin VB.ComboBox cbo_Transaction 
          Height          =   315
@@ -992,7 +992,7 @@ End Sub
 'get parmeters for crystal report
 
 Public Sub BeforePrint()
-On Error GoTo ErrHandler
+On Error GoTo errHandler
 
      With MDI_IMS.CrystalReport1
         .Reset
@@ -1010,7 +1010,7 @@ On Error GoTo ErrHandler
     End With
     Exit Sub
     
-ErrHandler:
+errHandler:
     If Err Then
         MsgBox Err.Description
         Err.Clear
@@ -1074,7 +1074,7 @@ Dim Cancel As Boolean
         'NavBar1.SaveEnabled = False
         
     
-    If SapAdjustment Then
+    If SapAdjustmentNew Then
         
         'doevents
         MDI_IMS.StatusBar1.Panels(1).Text = "Saving Items"
@@ -1187,7 +1187,7 @@ ssdcboCondition.Enabled = False
 txtNewSap.Enabled = False
 txtRemarks.Enabled = False
 lblEntyNumb.Enabled = False
-LblType.Enabled = False
+lblType.Enabled = False
 lblUser.Enabled = False
 lblDate.Enabled = False
 lblCurrSap.Enabled = False
@@ -1205,7 +1205,7 @@ ssdcboCondition.Enabled = True
 txtNewSap.Enabled = True
 txtRemarks.Enabled = True
 lblEntyNumb.Enabled = True
-LblType.Enabled = True
+lblType.Enabled = True
 lblUser.Enabled = True
 lblDate.Enabled = True
 lblCurrSap.Enabled = True
@@ -1408,10 +1408,8 @@ BeforePrint
 
 End Sub
 
-'set store procedure parameters and format data digit
-
 Private Function SapAdjustment() As Boolean
-On Error Resume Next
+'On Error Resume Next
 
 Dim db As Double
 Dim cmd As New ADODB.Command
@@ -1511,6 +1509,409 @@ Dim Params As ADODB.parameters
     End If
 End Function
 
+
+
+Private Function SapAdjustmentNew() As Boolean
+Dim answer As Boolean
+On Error GoTo RollBack
+Dim cn As ADODB.Connection
+Dim cmd As ADODB.Command
+Dim datax As ADODB.Recordset
+Dim sql
+Dim oldSap As Double
+Dim currentSap As Double
+Dim newSap As Double
+Dim qty1 As Double
+Dim qty2 As Double
+Dim NameSpace, Company, Location, condition, StockNumber, User, remarks, subLocation, logical, stockDescription, serialNumber As String
+Dim SI As String
+Dim SE As String
+Dim RecordsAffected As Long
+Dim tranSerial As Integer
+
+answer = False
+Set cn = deIms.cnIms
+NameSpace = deIms.NameSpace
+Company = Trim$(CompCode)
+Location = Trim$(ssdcboWarehouse.Columns(1).Text)
+condition = Trim$(ssdcboCondition.Columns(1).Text)
+StockNumber = Trim$(ssdcboStockNumb.Columns(0).Text)
+User = CurrentUser
+remarks = Trim$(txtRemarks)
+newSap = CDbl(Trim$(txtNewSap))
+    'PRELIMINARY
+    sql = "SELECT qs1_desc FROM QTYST1 WHERE qs1_compcode = '" + Company + "' AND " _
+        + "qs1_npecode = '" + NameSpace + "' AND qs1_ware = '" + Location + "' AND " _
+        + "qs1_stcknumb = '" + StockNumber + "' "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, deIms.cnIms, adOpenForwardOnly
+    If datax.RecordCount = 0 Then
+        MsgBox "Transaction can't be saved because could not get stock number description"
+    Else
+        stockDescription = datax!qs1_desc
+    End If
+    
+    sql = "select sap_value from sap " _
+    + "where sap_compcode='" + Company + "' and sap_npecode='" + NameSpace + "' and " _
+    + "sap_loca='" + Location + "' and sap_stcknumb = '" + StockNumber + "' and sap_cond='" + condition + "'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount = 0 Then
+        currentSap = 0
+        oldSap = 0
+    Else
+        currentSap = datax!sap_value
+        oldSap = datax!sap_value
+    End If
+    Set cmd = New ADODB.Command
+    cmd.ActiveConnection = cn
+    cmd.CommandType = adCmdText
+    Call BeginTransaction(cn)
+    sql = "UPDATE SAP SET sap_value = " + Format(newSap) + " , " _
+        + "sap_modiuser = '" + User + "' WHERE sap_loca = '" + Location + "' AND " _
+        + "sap_npecode = '" + NameSpace + "' AND sap_compcode = '" + Company + "' AND " _
+        + "sap_cond = '" + condition + "' AND sap_stcknumb = '" + StockNumber + "' "
+    cmd.CommandText = sql
+    cmd.Execute RecordsAffected, , adExecuteNoRecords
+    If Err.number > 0 Or RecordsAffected = 0 Then
+        Call RollbackTransaction(cn)
+        MsgBox "The transaction could not be saved when updating SAP"
+        Err.Clear
+        Exit Function
+    End If
+    If oldSap <> newSap Then
+        sql = "insert into saphistory (saph_compcode,saph_npecode,saph_loca,saph_stcknumb,saph_cond,saph_date,saph_value) " _
+            + "values('" + Company + "', '" + NameSpace + "' ,  '" + Location + "' , '" + StockNumber + "' , " _
+            + "'" + condition + "', GETDATE(), " + Format(oldSap) + ") "
+        cmd.CommandText = sql
+        cmd.Execute RecordsAffected, , adExecuteNoRecords
+        If Err.number > 0 Or RecordsAffected = 0 Then
+            Call RollbackTransaction(cn)
+            MsgBox "The transaction could not be saved when inserting into SAP history"
+            Err.Clear
+            Exit Function
+        End If
+    End If
+    'TRANSACTION NUMBERS
+    Dim num As Integer
+    Dim TransactionNumber As Long
+    TransactionNumber = GetTransNumb(deIms.NameSpace, cn)
+    SI = "SI-" + Format(TransactionNumber)
+    TransactionNumber = GetTransNumb(deIms.NameSpace, cn)
+    SE = "SE-" + Format(TransactionNumber)
+
+    'QTYST5
+    sql = "SELECT SUM (qs5_primqty) as qty1, SUM(qs5_secoqty) as qty2, qs5_logiware , qs5_subloca " _
+        + "FROM QTYST5 WHERE ((qs5_compcode = '" + Company + "') AND (qs5_cond = '" + condition + "' ) AND " _
+        + "(qs5_ware = '" + Location + "') AND (qs5_stcknumb = '" + StockNumber + "') AND (qs5_npecode = '" + NameSpace + "')) " _
+        + "GROUP BY qs5_stcknumb, qs5_compcode, qs5_ware, qs5_subloca, qs5_logiware, qs5_cond " _
+        + "HAVING SUM(qs5_primqty) > 0 "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount > 0 Then
+        tranSerial = 1
+        Do While Not datax.EOF
+            subLocation = datax!qs5_subloca
+            logical = datax!qs5_logiware
+            qty1 = datax!qty1
+            qty2 = datax!qty2
+        
+            If tranSerial = 1 Then
+                'INSERTING TRANSACTIONS
+                sql = "INSERT INTO INVTISSUE (ii_compcode, ii_npecode, ii_ware, ii_trannumb,ii_user, " _
+                    + "ii_trandate,ii_trantype,ii_issuto,ii_requnumb,ii_valion,ii_valuby,ii_stcknumb, " _
+                    + "ii_cond,ii_sap,ii_newsap,ii_entynumb, ii_creauser, ii_modiuser) " _
+                    + "VALUES('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SI + "', '" + User + "', GETDATE(), " _
+                    + "'SI','" + Location + "', null, GETDATE(), '" + User + "', '" + StockNumber + "','" + condition + "', " _
+                    + Format(currentSap) + "," + Format(newSap) + ", '" + SE + "', '" + User + "', '" + User + "') "
+                cmd.CommandText = sql
+                cmd.Execute RecordsAffected, , adExecuteNoRecords
+                If Err.number > 0 Or RecordsAffected = 0 Then
+                    Call RollbackTransaction(cn)
+                    MsgBox "The transaction could not be saved when inserting into INVTISSUE"
+                    Err.Clear
+                    Exit Function
+                End If
+                
+                sql = "INSERT INTO INVTISSUEREM (iir_compcode, iir_npecode, iir_ware, iir_trannumb, " _
+                    + "iir_linenumb, iir_remk, iir_creauser, iir_modiuser) " _
+                    + "VALUES('" + Company + "','" + NameSpace + "','" + Location + "','" + SI + "', 1," _
+                    + "'" + remarks + "', '" + User + "', '" + User + "') "
+                cmd.CommandText = sql
+                cmd.Execute RecordsAffected, , adExecuteNoRecords
+                If Err.number > 0 Or RecordsAffected = 0 Then
+                    Call RollbackTransaction(cn)
+                    MsgBox "The transaction could not be saved when inserting into INVTISSUEREM"
+                    Err.Clear
+                    Exit Function
+                End If
+                
+                sql = "INSERT INTO INVTRECEIPT (ir_compcode, ir_npecode, ir_ware, ir_trannumb, " _
+                    + "ir_user, ir_trandate, ir_trantype, ir_tranfrom, ir_valion, ir_valuby, " _
+                    + "ir_stcknumb, ir_cond, ir_sap, ir_newsap, ir_entynumb, ir_creauser, ir_modiuser) " _
+                    + "VALUES('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SE + "', '" + User + "', GETDATE(), " _
+                    + "'SE', '" + Location + "', GETDATE(), '" + User + "', '" + StockNumber + "', '" + condition + "', " _
+                    + Format(newSap) + ", " + Format(newSap) + ", '" + SI + "', '" + User + "' , '" + User + "') "
+                cmd.CommandText = sql
+                cmd.Execute RecordsAffected, , adExecuteNoRecords
+                If Err.number > 0 Or RecordsAffected = 0 Then
+                    Call RollbackTransaction(cn)
+                    MsgBox "The transaction could not be saved when inserting into INVTRECEIPT"
+                    Err.Clear
+                    Exit Function
+                End If
+                
+                sql = "INSERT INTO INVTRECEIPTREM (irr_compcode, irr_npecode, irr_ware, irr_trannumb, " _
+                    + "irr_linenumb, irr_remk, irr_creauser, irr_modiuser) " _
+                    + "VALUES('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SE + "', 1, " _
+                    + "'" + remarks + "', '" + User + "', '" + User + "') "
+                cmd.CommandText = sql
+                cmd.Execute RecordsAffected, , adExecuteNoRecords
+                If Err.number > 0 Or RecordsAffected = 0 Then
+                    Call RollbackTransaction(cn)
+                    MsgBox "The transaction could not be saved when inserting into INVTRECEIPTREM"
+                    Err.Clear
+                    Exit Function
+                End If
+            End If
+            
+            'QTYST5 RECEIPT SIDE
+            sql = "INSERT INTO QTYST5(qs5_npecode , qs5_compcode , qs5_ware , qs5_stcknumb , " _
+                + "qs5_cond , qs5_subloca , qs5_logiware , qs5_secoqty , qs5_trantype , " _
+                + "qs5_fromto , qs5_trancompcode , qs5_tranware , qs5_trantrannumb , qs5_transerl , " _
+                + "qs5_primqty , qs5_tranlinenumb , qs5_trannumb,  qs5_creauser, qs5_modiuser) " _
+                + "VALUES('" + NameSpace + "', '" + Company + "', '" + Location + "', '" + StockNumber + "', " _
+                + "'" + condition + "', '" + subLocation + "', '" + logical + "', " + Format(qty2) + ", 'SE' , " _
+                + "'" + Location + "', '" + Company + "', '" + Location + "', '" + SE + "', " + Format(tranSerial) + ", " _
+                + "" + Format(qty1) + ", " + Format(tranSerial) + ", '" + SE + "', '" + User + "', '" + User + "')  "
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting RECEIPT into QTYST5"
+                Err.Clear
+                Exit Function
+            End If
+            
+            'QTYST5 ISSUE SIDE
+            sql = "INSERT INTO QTYST5(qs5_npecode ,qs5_compcode ,qs5_ware ,qs5_stcknumb ,qs5_cond , " _
+                + "qs5_subloca ,qs5_logiware ,qs5_secoqty ,qs5_trantype ,qs5_fromto ,qs5_trancompcode , " _
+                + "qs5_tranware ,qs5_trantrannumb ,qs5_transerl ,qs5_primqty ,qs5_tranlinenumb , " _
+                + "qs5_trannumb, qs5_creauser, qs5_modiuser) " _
+                + "VALUES('" + NameSpace + "', '" + Company + "', '" + Location + "', '" + StockNumber + "', '" + condition + "', " _
+                + "'" + subLocation + "', '" + logical + "', " + Format(qty2 * -1) + ", 'SI', '" + Location + "', " _
+                + "'" + Company + "', '" + Location + "', '" + SI + "', " + Format(tranSerial) + ", " + Format(qty1 * -1) + ",  " _
+                + "" + Format(tranSerial) + ", '" + SI + "', '" + User + "', '" + User + "')  "
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting ISSUE into QTYST5"
+                Err.Clear
+                Exit Function
+            End If
+            
+            'INVTISSUEDETL
+            sql = "INSERT INTO INVTISSUEDETL (iid_compcode, iid_npecode, iid_ware, iid_trannumb, " _
+                + "iid_transerl, iid_ponumb, iid_liitnumb, iid_stcknumb, iid_ps, iid_serl, iid_newcond, " _
+                + "iid_stcktype, iid_ctry, iid_tosubloca, iid_tologiware, iid_owle, iid_leasecomp,  " _
+                + "iid_primqty, iid_secoqty, iid_unitpric, iid_curr, iid_currvalu, iid_stckdesc,  " _
+                + "iid_fromlogiware, iid_fromsubloca, iid_origcond, iid_creauser, iid_modiuser)  " _
+                + "VALUES ('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SI + "', " + Format(tranSerial) + ", NULL, NULL,  " _
+                + "'" + StockNumber + "', 1, NULL, '" + condition + "', NULL, 'USA', '" + subLocation + "', '" + logical + "', NULL, NULL,  " _
+                + "" + Format(qty1) + ", " + Format(qty2) + ", " + Format(currentSap) + ", 'USD', 1, '" + stockDescription + "',  " _
+                + "'" + logical + "', '" + subLocation + "', '" + condition + "', '" + User + "', '" + User + "')"
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting into INVTISSUEDETL"
+                Err.Clear
+                Exit Function
+            End If
+            
+            'INVTRECEIPTDETL
+            sql = "INSERT INTO INVTRECEIPTDETL(ird_compcode, ird_npecode, ird_ware, ird_trannumb, " _
+                + "ird_transerl, ird_ponumb, ird_liitnumb, ird_stcknumb, ird_ps, ird_serl, " _
+                + "ird_newcond, ird_stcktype, ird_ctry, ird_tosubloca, ird_tologiware, ird_owle, " _
+                + "ird_leasecomp, ird_primqty, ird_secoqty, ird_unitpric, ird_curr, ird_currvalu,  " _
+                + "ird_stckdesc, ird_fromlogiware, ird_fromsubloca, ird_origcond, ird_reprcost,  " _
+                + "ird_newstcknumb, ird_newdesc, ird_creauser, ird_modiuser)  " _
+                + "VALUES ('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SE + "', " + Format(tranSerial) + ", NULL, NULL,  " _
+                + "'" + StockNumber + "', 1, NULL, '" + condition + "', NULL, 'USA', '" + subLocation + "',  " _
+                + "'" + logical + "', NULL, NULL, " + Format(qty1) + ", " + Format(qty2) + ", " + Format(newSap) + ", " _
+                + "'USD', 1, '" + stockDescription + "', '" + logical + "', '" + subLocation + "', '" + condition + "', " _
+                + "NULL,NULL,NULL, '" + User + "', '" + User + "')"
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting into INVTRECEIPTDETL"
+                Err.Clear
+                Exit Function
+            End If
+            tranSerial = tranSerial + 1
+            datax.MoveNext
+        Loop
+    End If
+    
+    sql = "SELECT qs6_logiware , qs6_subloca ,  qs6_serl , qs6_primqty, qs6_secoqty FROM QTYST6 " _
+        + "WHERE ((qs6_compcode = '" + Company + "') AND (qs6_cond = '" + condition + "') AND " _
+        + "(qs6_ware = '" + Location + "') AND (qs6_stcknumb = '" + StockNumber + "') AND " _
+        + "(qs6_npecode = '" + NameSpace + "'))  AND qs6_primqty >0  " _
+        + "GROUP BY qs6_stcknumb, qs6_compcode, qs6_ware, qs6_subloca, qs6_logiware, " _
+        + "qs6_cond , qs6_serl , qs6_primqty , qs6_secoqty "
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    If datax.RecordCount > 0 Then
+        tranSerial = 1
+        Do While Not datax.EOF
+            subLocation = datax!qs6_subloca
+            logical = datax!qs6_logiware
+            qty1 = datax!qs6_primqty
+            qty2 = datax!qs6_secoqty
+            serialNumber = datax!qs6_serl
+            
+            'INSERT RECEIPT INTO QTYST7
+            sql = "INSERT INTO QTYST7(qs7_npecode, qs7_compcode, qs7_ware, qs7_stcknumb, " _
+                + "qs7_cond, qs7_serl, qs7_subloca, qs7_logiware, qs7_secoqty, qs7_trantype, " _
+                + "qs7_fromto, qs7_trancompcode, qs7_tranware, qs7_trantrannumb, qs7_transerl, " _
+                + "qs7_primqty, qs7_tranlinenumb, qs7_trannumb,  qs7_creauser, qs7_modiuser) " _
+                + "VALUES('" + NameSpace + "', '" + Company + "', '" + Location + "', '" + StockNumber + "', " _
+                + "'" + condition + "', '" + serialNumber + "', '" + subLocation + "', '" + logical + "', " _
+                + "" + Format(qty2) + ", 'SE', '" + Location + "', '" + Company + "', '" + Location + "', " _
+                + "'" + SE + "', 1, " + Format(qty1) + ", " + Format(tranSerial) + ", '" + SE + "', " _
+                + "'" + User + "', '" + User + "' )"
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting RECEIPT into QTYST7"
+                Err.Clear
+                Exit Function
+            End If
+            
+            'INSERT ISSUE INTO QTYST7
+            sql = "INSERT INTO QTYST7(qs7_npecode, qs7_compcode, qs7_ware, qs7_stcknumb, " _
+                + "qs7_cond, qs7_serl, qs7_subloca, qs7_logiware, qs7_secoqty, qs7_trantype , " _
+                + "qs7_fromto, qs7_trancompcode, qs7_tranware, qs7_trantrannumb, qs7_transerl, " _
+                + "qs7_primqty, qs7_tranlinenumb, qs7_trannumb,  qs7_creauser, qs7_modiuser) " _
+                + "VALUES('" + NameSpace + "', '" + Company + "', '" + Location + "', '" + StockNumber + "', " _
+                + "'" + condition + "', '" + serialNumber + "', '" + subLocation + "', '" + logical + "', " _
+                + "" + Format(qty2 * -1) + ", 'SI', '" + Location + "', '" + Company + "', '" + Location + "', " _
+                + "'" + SI + "', " + Format(tranSerial) + ", " + Format(qty1 * -1) + ", " + Format(tranSerial) + ", " _
+                + "'" + SI + "', '" + User + "', '" + User + "' )"
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting ISSUE into QTYST7"
+                Err.Clear
+                Exit Function
+            End If
+    
+            'INVTISSUEDETL
+            sql = "INSERT INTO INVTISSUEDETL (iid_compcode, iid_npecode, iid_ware, iid_trannumb, " _
+                + "iid_transerl, iid_ponumb, iid_liitnumb, iid_stcknumb, iid_ps, iid_serl, " _
+                + "iid_newcond, iid_stcktype, iid_ctry, iid_tosubloca, iid_tologiware, iid_owle, " _
+                + "iid_leasecomp, iid_primqty, iid_secoqty, iid_unitpric, iid_curr, iid_currvalu," _
+                + "iid_stckdesc, iid_fromlogiware, iid_fromsubloca, iid_origcond, iid_creauser, iid_modiuser) " _
+                + "VALUES ('" + Company + "', '" + NameSpace + "', '" + NameSpace + "', '" + SI + "', " + Format(tranSerial) + ", " _
+                + "NULL, NULL, '" + StockNumber + "', 0, '" + serialNumber + "', '" + condition + "', NULL, 'USA', " _
+                + "'" + subLocation + "', '" + logical + "', NULL, NULL, " + Format(qty1) + ", " + Format(qty2) + ", " _
+                + Format(currentSap) + ", 'USD', 1, '" + stockDescription + "', '" + logical + "', " _
+                + "'" + subLocation + "', '" + condition + "', '" + User + "', '" + User + "' ) "
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting into INVTISSUEDETL"
+                Err.Clear
+                Exit Function
+            End If
+            
+            'INVTRECEIPTDETL
+            sql = "INSERT INTO INVTRECEIPTDETL (ird_compcode, ird_npecode, ird_ware, ird_trannumb, " _
+                + "ird_transerl, ird_ponumb, ird_liitnumb, ird_stcknumb, ird_ps, ird_serl, " _
+                + "ird_newcond, ird_stcktype, ird_ctry, ird_tosubloca, ird_tologiware, ird_owle, " _
+                + "ird_leasecomp, ird_primqty, ird_secoqty, ird_unitpric, ird_curr, ird_currvalu, " _
+                + "ird_stckdesc, ird_fromlogiware, ird_fromsubloca, ird_origcond, ird_reprcost, " _
+                + "ird_newstcknumb, ird_newdesc, ird_creauser, ird_modiuser) " _
+                + "VALUES ('" + Company + "', '" + NameSpace + "', '" + Location + "', '" + SE + "', " _
+                + Format(tranSerial) + ", NULL, NULL, '" + StockNumber + "',0, '" + serialNumber + "', " _
+                + "'" + condition + "', NULL, 'USA', '" + subLocation + "', '" + logical + "', NULL, NULL, " _
+                + Format(qty1) + ", " + Format(qty2) + ", " + Format(newSap) + ", 'USD', 1, '" + stockDescription + "', " _
+                + "'" + logical + "', '" + subLocation + "', '" + condition + "', NULL,NULL,NULL, '" + User + "', '" + User + "' )"
+            cmd.CommandText = sql
+            cmd.Execute RecordsAffected, , adExecuteNoRecords
+            If Err.number > 0 Or RecordsAffected = 0 Then
+                Call RollbackTransaction(cn)
+                MsgBox "The transaction could not be saved when inserting into INVTRECEIPTDETL"
+                Err.Clear
+                Exit Function
+            End If
+            tranSerial = tranSerial + 1
+            datax.MoveNext
+        Loop
+    End If
+    Call CommitTransaction(cn)
+    If Len(SI) > 0 And Len(SE) > 0 Then
+        DisableControls
+        answer = True
+        lblEntyNumb = SI
+        Call cbo_Transaction.AddItem(SI)
+        cbo_Transaction.ListIndex = IndexOf(cbo_Transaction, SI)
+        'Modified by Juan (9/27/2000) for Multilingual
+        msg1 = translator.Trans("M00018") + " " 'J added
+        msg2 = " " + translator.Trans("M00398") + " " 'J added
+        MsgBox IIf(msg1 = "", "Please note that your transaction number is ", msg1) & Transnumb & IIf(msg2 = "", " and ", msg2) & lblEntyNumb
+        '---------------------------------------------
+    End If
+    
+    SapAdjustmentNew = answer
+    Set cmd = Nothing
+    Set datax = Nothing
+    Exit Function
+    
+RollBack:
+    If Err.number <> 0 Then
+        MsgBox "The transaction could not be saved due this error: " + Err.Description
+        Call RollbackTransaction(cn)
+        Err.Clear
+    End If
+End Function
+Function CommitTransaction(cn As ADODB.Connection)
+On Error Resume Next
+    With MakeCommand(cn, adCmdText)
+        .CommandText = "COMMIT TRANSACTION"
+        Call .Execute(Options:=adExecuteNoRecords)
+    End With
+    If Err Then Err.Clear
+End Function
+Function RollbackTransaction(cn As ADODB.Connection)
+On Error Resume Next
+    With MakeCommand(cn, adCmdText)
+        .CommandText = "ROLLBACK TRANSACTION"
+        Call .Execute(Options:=adExecuteNoRecords)
+    End With
+    If Err Then Err.Clear
+End Function
+Function BeginTransaction(cn As ADODB.Connection)
+    With MakeCommand(cn, adCmdText)
+        .CommandText = "BEGIN TRANSACTION"
+        Call .Execute(Options:=adExecuteNoRecords)
+    End With
+End Function
+Function getDATA(Access, parameters) As ADODB.Recordset
+Dim cmd As New ADODB.Command
+    With cmd
+        .ActiveConnection = deIms.cnIms
+        .CommandType = adCmdStoredProc
+        .CommandText = Access
+        Set getDATA = .Execute(, parameters)
+    End With
+End Function
+
 'clear data fields
 
 Private Sub ClearFields()
@@ -1584,7 +1985,7 @@ Private Sub ClearScreen()
         
         ssdcboCompany = ""
         ssdcboWarehouse = ""
-        LblType = ""
+        lblType = ""
         ssdcboStockNumb = ""
         lblEntyNumb = ""
         ssdcboCondition = ""

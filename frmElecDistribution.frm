@@ -574,6 +574,7 @@ Private Sub NavBar1_BeforeNewClick()
 End Sub
 
 Private Sub NavBar1_BeforeSaveClick()
+On Error GoTo errHandler
         CAncelGrid = False
         InSave = True
         RecSaved = False
@@ -604,6 +605,12 @@ End If
             lblStatus.ForeColor = &HFF00&
           lblStatus.Caption = Visualize
           NavBar1.EditEnabled = True
+          
+errHandler:
+If Err.number <> 0 Then
+    MsgBox Err.Description
+    Err.Clear
+End If
 End Sub
 
 'call function and load data grid
@@ -886,6 +893,8 @@ Dim cmd As ADODB.Command
         .parameters.Append .CreateParameter("@MAIL", adVarChar, adParamInput, 59, SSDBGridList.Columns("Mail").Text)
         .parameters.Append .CreateParameter("@FAXNUMB", adVarChar, adParamInput, 50, SSDBGridList.Columns("fax").Text)
         
+    .parameters.Append .CreateParameter("@ACTIVE", adVarChar, adParamInput, 1, "1")
+        
         .Execute , , adExecuteNoRecords
 
     End With
@@ -901,6 +910,7 @@ Dim cmd As ADODB.Command
     Exit Sub
 
 Noinsert:
+        MsgBox Err.Description
         If Err Then Err.Clear
         
         'Modified by Juan (9/15/2000) for Multilingual
@@ -955,7 +965,7 @@ End Sub
 'get crystal report parameter and application path
 
 Private Sub NavBar1_OnPrintClick()
-On Error GoTo ErrHandler
+On Error GoTo errHandler
 
     With MDI_IMS.CrystalReport1
         .Reset
@@ -973,7 +983,7 @@ On Error GoTo ErrHandler
     End With
         Exit Sub
     
-ErrHandler:
+errHandler:
     If Err Then
         MsgBox Err.Description
         Err.Clear

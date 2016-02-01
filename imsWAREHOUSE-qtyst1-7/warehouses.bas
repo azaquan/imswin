@@ -1390,18 +1390,21 @@ On Error GoTo ErrHandler
         tabindex = 1
         .commodityLABEL = StockNumber
         'juan 2015-12-28
-        If .STOCKlist.Rows > 2 And .STOCKlist.TextMatrix(1, 1) <> "" And .stockListRow > 0 Then
-        For i = 1 To .STOCKlist.Rows - 1
-            If .commodityLABEL = .STOCKlist.TextMatrix(i, 1) Then
-                If Left(.STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
-                    If CDbl(.STOCKlist.TextMatrix(i, 3)) <= 0 Then
-                        .STOCKlist.TextMatrix(i, 0) = "¬"
-                        MsgBox "No more to receive for this item."
-                        Exit Sub
+        'WarehouseReceipt
+        If .tag = "02040100" Then
+            If .STOCKlist.Rows > 2 And .STOCKlist.TextMatrix(1, 1) <> "" And .stockListRow > 0 Then
+                For i = 1 To .STOCKlist.Rows - 1
+                    If .commodityLABEL = .STOCKlist.TextMatrix(i, 1) Then
+                        If Left(.STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
+                            If CDbl(.STOCKlist.TextMatrix(i, 3)) <= 0 Then
+                                .STOCKlist.TextMatrix(i, 0) = "¬"
+                                MsgBox "No more to receive for this item."
+                                Exit Sub
+                            End If
+                        End If
                     End If
-                End If
+                Next
             End If
-        Next
         End If
         '--------------
         Screen.MousePointer = 11
@@ -1797,7 +1800,7 @@ On Error GoTo ErrHandler
                                         Dim bookMark
                                         
                                         Select Case frmWarehouse.tag
-                                            Case "02040300", "02040200", "02050300", "02050400"  'Return from Well, 'WarehouseIssue, AdjustementIssue, Sales
+                                            Case "02040300", "02040200", "02050300", "02050400", "02040400" 'Return from Well, 'WarehouseIssue, AdjustementIssue, Sales, added return from repair by juan 2016-1-5
                                                 bookMark = datax.bookMark
                                                 datax.MoveFirst
                                                 Do While Not datax.EOF
@@ -2237,7 +2240,7 @@ onDetailListInProcess = True
                         Else
                             If !poItem <> lineNumber Then
                                 mainItemRow = frmWarehouse.STOCKlist.Rows - 1
-                                Call calculateMainItem(stockReference, False)
+                                'Call calculateMainItem(stockReference, False)
                                 firstTime = True
                                 lineNumber = !poItem
                             End If
@@ -3365,91 +3368,98 @@ On Error Resume Next
         sumByQtyBox = 0
         sumByLine = 0
         sumByLines = 0
-        For i = 1 To .Tree.Nodes.Count
-            If i <> totalNode Then
-                If Err.Number = 0 Then
-                    'This allows to get original qty's based on its business logics
-                    If isDynamic Then
-                        originalQty = .quantity(i)
-                        If Err.Number = 0 Then
-                            balance = originalQty
-                        Else
-                            Err.Clear
+'        If isPool Then
+            For i = 1 To .Tree.Nodes.Count
+                If i <> totalNode Then
+                    If Err.Number = 0 Then
+                        'This allows to get original qty's based on its business logics
+                        If isDynamic Then
+                            originalQty = .quantity(i)
+                            If Err.Number = 0 Then
+                                balance = originalQty
+                            Else
+                                Err.Clear
+                            End If
                         End If
-                    End If
-                    Dim qBoxExists As Boolean
-                    qBoxExists = False
-                    If controlExists("quantityBOX", i) Then
-                        qBoxExists = True
-                    End If
-                    If once And qBoxExists Then  'This is to count what is on summaryList
-                        once = False
-                        Dim subTot, lineQty As Double
-                        Dim position As Integer
-                        subTot = 0
-                        lineQty = 0
-                        If controlExists("positionBox", i) Then
-                            If IsNumeric(.positionBox(i).text) Then
-                                position = Val(.positionBox(i).text)
+                        Dim qBoxExists As Boolean
+                        qBoxExists = False
+                        If controlExists("quantityBOX", i) Then
+                            qBoxExists = True
+                        End If
+                        If once And qBoxExists Then  'This is to count what is on summaryList
+                            once = False
+                            Dim subTot, lineQty As Double
+                            Dim position As Integer
+                            subTot = 0
+                            lineQty = 0
+                            If controlExists("positionBox", i) Then
+                                If IsNumeric(.positionBox(i).text) Then
+                                    position = Val(.positionBox(i).text)
+                                Else
+                                    position = 0
+                                End If
                             Else
                                 position = 0
                             End If
-                        Else
-                            position = 0
-                        End If
-                        
-                        For j = 1 To .SUMMARYlist.Rows - 1
-                            'The reason for this select case is to manage if there is difrerences on
-                            If frmWarehouse.invoiceNumberLabel = "" Then
-                                goAhead = True
-                            Else
-                                If frmWarehouse.invoiceNumberLabel = .SUMMARYlist.TextMatrix(j, 12) And frmWarehouse.invoiceLineLabel = .SUMMARYlist.TextMatrix(j, 13) Then
+                            
+                            For j = 1 To .SUMMARYlist.Rows - 1
+                                'The reason for this select case is to manage if there is difrerences on
+                                If frmWarehouse.invoiceNumberLabel = "" Then
                                     goAhead = True
-                                End If
-                            End If
-                            If goAhead Then
-                                If .SUMMARYlist.TextMatrix(j, 1) = .commodityLABEL.Caption Then
-                                    If position = j Then 'This leaves the current line without summarizing
-                                    Else
-                                        If IsNumeric(.SUMMARYlist.TextMatrix(j, colRef2)) Then
-                                            lineQty = CDbl(.SUMMARYlist.TextMatrix(j, colRef2))
-                                        Else
-                                            lineQty = 0
-                                        End If
-                                        subTot = subTot + lineQty
+                                Else
+                                    If frmWarehouse.invoiceNumberLabel = .SUMMARYlist.TextMatrix(j, 12) And frmWarehouse.invoiceLineLabel = .SUMMARYlist.TextMatrix(j, 13) Then
+                                        goAhead = True
                                     End If
                                 End If
-                            End If
-                        Next
-                        balance = balance - subTot
-                    End If '-----------------------------------
-                    'Step to update cells on screen-----------------
-                    If qBoxExists Then
-                        'new
-                        sumByLine = .quantity(i) - .quantityBOX(i)
-                        sumByLines = sumByLines + sumByLine
-                        '.quantity(i) = Format(sumByLine, "0.00")
-                        sumByQty = sumByQty + .quantity(i)
-                        sumByQtyBox = sumByQtyBox + .quantityBOX(i)
-                        '-------------
-                          
-                        balance = balance - .quantityBOX(i)
-'                        this = this + CDbl(.quantityBOX(i))
-'                        qtyBoxTotal = qtyBoxTotal + CDbl(.quantity(i))
-'                        originalQty = originalQty + CDbl(.quantityBOX(i))
-'                        .balanceBOX(i) = Format(balance, "0.00")
-'                        balanceTotal = balanceTotal + balance
-                        
-                        'new
-                        '.quantity(i) = Format(sumByLine, "0.00")
-                        .balanceBOX(i) = Format(sumByLine, "0.00")
-                        '------------------
+                                If goAhead Then
+                                    If .SUMMARYlist.TextMatrix(j, 1) = .commodityLABEL.Caption Then
+                                        If position = j Then 'This leaves the current line without summarizing
+                                        Else
+                                            If IsNumeric(.SUMMARYlist.TextMatrix(j, colRef2)) Then
+                                                lineQty = CDbl(.SUMMARYlist.TextMatrix(j, colRef2))
+                                            Else
+                                                lineQty = 0
+                                            End If
+                                            subTot = subTot + lineQty
+                                        End If
+                                    End If
+                                End If
+                            Next
+                            balance = balance - subTot
+                        End If '-----------------------------------
+                        'Step to update cells on screen-----------------
+                        If qBoxExists Then
+                            'new
+                            sumByLine = .quantity(i) - .quantityBOX(i)
+                            sumByLines = sumByLines + sumByLine
+                            '.quantity(i) = Format(sumByLine, "0.00")
+                            sumByQty = sumByQty + .quantity(i)
+                            sumByQtyBox = sumByQtyBox + .quantityBOX(i)
+                            '-------------
+                              
+                            balance = balance - .quantityBOX(i)
+    '                        this = this + CDbl(.quantityBOX(i))
+    '                        qtyBoxTotal = qtyBoxTotal + CDbl(.quantity(i))
+    '                        originalQty = originalQty + CDbl(.quantityBOX(i))
+    '                        .balanceBOX(i) = Format(balance, "0.00")
+    '                        balanceTotal = balanceTotal + balance
+                            
+                            'new
+                            '.quantity(i) = Format(sumByLine, "0.00")
+                            .balanceBOX(i) = Format(sumByLine, "0.00")
+                            '------------------
+                        End If
+                    Else
+                        Err.Clear
                     End If
-                Else
-                    Err.Clear
                 End If
-            End If
-        Next
+            Next
+'        Else
+'            sumByQtyBox = 1
+'            sumByQty = 1
+'            balanceTotal = 1
+'            sumByLines = 1
+'        End If
         'Final step to totalize--------------------
 '        .quantityBOX(totalNode) = Format(this, "0.00")
 '        .quantity(totalNode) = Format(qtyBoxTotal, "0.00")

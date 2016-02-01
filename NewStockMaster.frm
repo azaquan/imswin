@@ -3,7 +3,7 @@ Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form Frm_StockMaster 
-   Caption         =   "Stock Master"
+   Caption         =   "Stock Master - 02010100"
    ClientHeight    =   7125
    ClientLeft      =   60
    ClientTop       =   345
@@ -63,63 +63,63 @@ Begin VB.Form Frm_StockMaster
       TabCaption(2)   =   "Manufacturer"
       TabPicture(2)   =   "NewStockMaster.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label3"
+      Tab(2).Control(0)=   "TxtManuStock"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Label2"
+      Tab(2).Control(1)=   "txtTotal"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "Label1"
+      Tab(2).Control(2)=   "TxtLineNumber"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "Label5"
+      Tab(2).Control(3)=   "TxtPartnumb"
       Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "Label6"
+      Tab(2).Control(4)=   "txtManSpecs"
       Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "Label8"
+      Tab(2).Control(5)=   "TxtEstPrice"
       Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "SSoleManufacturer"
+      Tab(2).Control(6)=   "ChkManufActive"
       Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "ChkManufActive"
+      Tab(2).Control(7)=   "SSoleManufacturer"
       Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "TxtEstPrice"
+      Tab(2).Control(8)=   "Label8"
       Tab(2).Control(8).Enabled=   0   'False
-      Tab(2).Control(9)=   "txtManSpecs"
+      Tab(2).Control(9)=   "Label6"
       Tab(2).Control(9).Enabled=   0   'False
-      Tab(2).Control(10)=   "TxtPartnumb"
+      Tab(2).Control(10)=   "Label5"
       Tab(2).Control(10).Enabled=   0   'False
-      Tab(2).Control(11)=   "TxtLineNumber"
+      Tab(2).Control(11)=   "Label1"
       Tab(2).Control(11).Enabled=   0   'False
-      Tab(2).Control(12)=   "txtTotal"
+      Tab(2).Control(12)=   "Label2"
       Tab(2).Control(12).Enabled=   0   'False
-      Tab(2).Control(13)=   "TxtManuStock"
+      Tab(2).Control(13)=   "Label3"
       Tab(2).Control(13).Enabled=   0   'False
       Tab(2).ControlCount=   14
       TabCaption(3)   =   "Recepients"
       TabPicture(3)   =   "NewStockMaster.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Lbl_search"
+      Tab(3).Control(0)=   "TxtRecpStockNumb"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Label7"
+      Tab(3).Control(1)=   "fra_FaxSelect"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "SSOLEDBFax"
+      Tab(3).Control(2)=   "cmd_Add"
       Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "SSOLEDBEmail"
+      Tab(3).Control(3)=   "txt_Recipient"
       Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).Control(4)=   "dgRecipientList"
+      Tab(3).Control(4)=   "cmdRemove"
       Tab(3).Control(4).Enabled=   0   'False
-      Tab(3).Control(5)=   "OptEmail"
+      Tab(3).Control(5)=   "Txt_search"
       Tab(3).Control(5).Enabled=   0   'False
       Tab(3).Control(6)=   "OptFax"
       Tab(3).Control(6).Enabled=   0   'False
-      Tab(3).Control(7)=   "Txt_search"
+      Tab(3).Control(7)=   "OptEmail"
       Tab(3).Control(7).Enabled=   0   'False
-      Tab(3).Control(8)=   "cmdRemove"
+      Tab(3).Control(8)=   "dgRecipientList"
       Tab(3).Control(8).Enabled=   0   'False
-      Tab(3).Control(9)=   "txt_Recipient"
+      Tab(3).Control(9)=   "SSOLEDBEmail"
       Tab(3).Control(9).Enabled=   0   'False
-      Tab(3).Control(10)=   "cmd_Add"
+      Tab(3).Control(10)=   "SSOLEDBFax"
       Tab(3).Control(10).Enabled=   0   'False
-      Tab(3).Control(11)=   "fra_FaxSelect"
+      Tab(3).Control(11)=   "Label7"
       Tab(3).Control(11).Enabled=   0   'False
-      Tab(3).Control(12)=   "TxtRecpStockNumb"
+      Tab(3).Control(12)=   "Lbl_search"
       Tab(3).Control(12).Enabled=   0   'False
       Tab(3).ControlCount=   13
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSoleSource 
@@ -1446,7 +1446,7 @@ Call ClearStockMasterDetails
 
 If StockHeader.Count = 0 Then Exit Function
        
-TxtStockNumber = StockHeader.StockNumber
+TxtStockNumber = StockHeader.stockNumber
 
 SsOleCategory.Tag = StockHeader.CategoryCode
 SsOleCategory = GetNameForTagFromCombo(SsOleCategory, StockHeader.CategoryCode)
@@ -1525,7 +1525,7 @@ If Len(StockHeader.Eccnid) > 0 And GRsSource.RecordCount > 0 Then
 End If
 
 
-lblManufacNo = lookups.HowManyManufacturers(StockHeader.StockNumber) ' & " Manufacturers "
+lblManufacNo = lookups.HowManyManufacturers(StockHeader.stockNumber) ' & " Manufacturers "
 
 End Function
 
@@ -1811,7 +1811,7 @@ On Error GoTo ErrHandler
         
         txtTotal = manufacturer.Count
 
-        TxtManuStock = manufacturer.StockNumber
+        TxtManuStock = manufacturer.stockNumber
         
 '    End If
 
@@ -2887,7 +2887,7 @@ Select Case SSTab1.Tab
         
         Set manufacturer = InitializeManufacturer
         
-        If UCase(Trim(manufacturer.StockNumber)) <> UCase(Trim(TxtStockNumber)) Or UCase(Trim(TxtManuStock)) <> UCase(Trim(TxtStockNumber)) Then
+        If UCase(Trim(manufacturer.stockNumber)) <> UCase(Trim(TxtStockNumber)) Or UCase(Trim(TxtManuStock)) <> UCase(Trim(TxtStockNumber)) Then
         
                 RetCode = manufacturer.MoveToStocknumber(TxtStockNumber)
                 
@@ -3012,7 +3012,7 @@ SaveToStockHeader = False
 
 On Error GoTo ErrHandler
             
-        StockHeader.StockNumber = Trim(TxtStockNumber)
+        StockHeader.stockNumber = Trim(TxtStockNumber)
         
         StockHeader.CategoryCode = Trim(SsOleCategory.Tag)
         
@@ -3098,7 +3098,7 @@ On Error GoTo ErrHandler
         
          manufacturer.Techspec = txtManSpecs
 
-         manufacturer.StockNumber = TxtManuStock
+         manufacturer.stockNumber = TxtManuStock
          
      End If
         
@@ -3935,7 +3935,7 @@ Public Function StoreStocksPlayedwith(EditMode As Integer)
                  
             End If
             
-            GInitiliazeParams.StockAdded(UBound(GInitiliazeParams.StockAdded)) = StockHeader.StockNumber
+            GInitiliazeParams.StockAdded(UBound(GInitiliazeParams.StockAdded)) = StockHeader.stockNumber
             
             
         SSDBHeader.Columns(0).CellStyleSet "RowAdded"
@@ -3956,7 +3956,7 @@ Public Function StoreStocksPlayedwith(EditMode As Integer)
                  
             End If
             
-            GInitiliazeParams.StocksModified(UBound(GInitiliazeParams.StocksModified)) = Trim(StockHeader.StockNumber)
+            GInitiliazeParams.StocksModified(UBound(GInitiliazeParams.StocksModified)) = Trim(StockHeader.stockNumber)
             
             
         SSDBHeader.Columns(0).CellStyleSet "RowModified"
@@ -4315,17 +4315,17 @@ On Error Resume Next
 End Sub
 
 
-Public Function MoveGridTo(StockNumber As String)
+Public Function MoveGridTo(stockNumber As String)
 
 Dim Count As Integer
 
 If GFormmode = mdvisualization Then
 
-If Len(Trim(StockNumber)) = 0 Then Exit Function
+If Len(Trim(stockNumber)) = 0 Then Exit Function
 
 RsStockNameDesc.MoveFirst
 
-RsStockNameDesc.Find "Stk_stcknumb like '" & Trim(StockNumber) & "%'"
+RsStockNameDesc.Find "Stk_stcknumb like '" & Trim(stockNumber) & "%'"
 
 Else
 
