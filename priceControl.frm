@@ -335,7 +335,7 @@ Dim rst As ADODB.Recordset
     
     rst.MoveFirst
       
-    'ssdcbolocation.AddItem (("ALL" & STR) & "ALL" & "")
+    ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
     Do While ((Not rst.EOF))
         ssdcbolocation.AddItem rst!loc_locacode & str & (rst!loc_name & "")
         
@@ -434,7 +434,7 @@ Dim rst As ADODB.Recordset
        
     rst.MoveFirst
       
-    'SSOleDBCompa.AddItem (("ALL" & STR) & "ALL" & "")
+    SSOleDBCompa.AddItem (("ALL" & str) & "ALL" & "")
     Do While ((Not rst.EOF))
         SSOleDBCompa.AddItem rst!com_compcode & str & (rst!com_name & "")
         
@@ -442,10 +442,10 @@ Dim rst As ADODB.Recordset
     Loop
     
     SSOleDBCompa.Bookmark = 0
-    'SSOleDBCompa.text = "ALL"
+    SSOleDBCompa.Text = "ALL"
     
     ssdcbolocation.Bookmark = 0
-    'ssdcbolocation.text = "ALL"
+    ssdcbolocation.Text = "ALL"
       
 CleanUp:
     rst.Close
@@ -541,7 +541,7 @@ Private Sub NavBar1_OnEMailClick()
     Dim namespaceCode
     Dim LocationCode
     Dim invocation
-    If Trim(SSOleDBCompa.Columns("code").Text) = "ALL" Then
+    If Trim(SSOleDBCompa.Columns("code").Text) = "ALL" Or Trim(SSOleDBCompa.Columns("code").Text) = "" Then
         CompanyCode = "%"
     Else
         CompanyCode = Trim(SSOleDBCompa.Columns("code").Text)
@@ -549,7 +549,7 @@ Private Sub NavBar1_OnEMailClick()
     CompanyCode = "-company " + Chr(34) + CompanyCode + Chr(34) + " "
     CurrencyCode = "-currency " + Chr(34) + Trim$(SSOleDBCurrency.Columns("code").Text) + Chr(34) + " "
     namespaceCode = "-namespace " + Chr(34) + deIms.NameSpace + Chr(34) + " "
-    If Trim$(ssdcbolocation.Columns("Code").Text) = "ALL" Then
+    If Trim$(ssdcbolocation.Columns("Code").Text) = "ALL" Or Trim$(ssdcbolocation.Columns("Code").Text) = "" Then
         LocationCode = "%"
     Else
         LocationCode = Trim$(ssdcbolocation.Columns("Code").Text)
@@ -673,7 +673,7 @@ Dim str As String
             ssdcbolocation.FieldSeparator = str
             rs.MoveFirst
               
-            'ssdcbolocation.AddItem (("ALL" & STR) & "ALL" & "")
+            ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
             Do While Not .EOF
                 ssdcbolocation.AddItem rs!loc_locacode & str & (rs!loc_name & "")
                 .MoveNext
@@ -708,7 +708,7 @@ Dim str As String
             
             If rs.RecordCount > 0 Then rs.MoveFirst
             
-            'ssdcbolocation.AddItem (("ALL" & STR) & "ALL" & "")
+            ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
             Do While Not .EOF
                 ssdcbolocation.AddItem rs!loc_locacode & str & (rs!loc_name & "")
                 .MoveNext
@@ -717,7 +717,7 @@ Dim str As String
         End With
     End If
     ssdcbolocation.Bookmark = 0
-    'ssdcbolocation.text = "ALL"
+    ssdcbolocation.Text = "ALL"
     
 End Sub
 

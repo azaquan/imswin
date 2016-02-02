@@ -52,7 +52,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   22478851
+         Format          =   56098819
          CurrentDate     =   36524
       End
       Begin MSComCtl2.DTPicker DTdate1 
@@ -65,7 +65,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   22478851
+         Format          =   56098819
          CurrentDate     =   36524
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_company 
@@ -354,9 +354,9 @@ SSOleDB_company.Columns(1).Caption = IIf(msg2 = "", "Name", msg2) 'J modified
 '---------------------------------------------
 
 rs.MoveFirst
-'SSOleDB_company.text = "ALL"
-'SSOleDB_ware.text = "ALL"
-'SSOleDB_company.AddItem (("ALL" & Chr$(1)) & "ALL" & "")
+SSOleDB_company.Text = "ALL"
+SSOleDB_ware.Text = "ALL"
+SSOleDB_company.AddItem (("ALL" & Chr$(1)) & "ALL" & "")
 Do While (Not rs.EOF)
 SSOleDB_company.AddItem (rs!com_compcode & Chr$(1) & rs!com_name & " ")
 rs.MoveNext
@@ -467,7 +467,7 @@ Dim rst As ADODB.Recordset
     
     rst.MoveFirst
       
-'    SSOleDB_ware.AddItem (("ALL" & str) & "ALL" & "")
+    SSOleDB_ware.AddItem (("ALL" & str) & "ALL" & "")
     Do While ((Not rst.EOF))
         SSOleDB_ware.AddItem rst!loc_locacode & str & (rst!loc_name & "")
         
@@ -595,7 +595,7 @@ Dim str As String
         Call GetlocationName(str)
     End If
 
-
+SSOleDB_ware.Text = "ALL"
 End Sub
 
 
@@ -621,6 +621,7 @@ If Len(Trim$(SSOleDB_company)) > 0 Then
             Cancel = True
             End If
             End If
+            
 End Sub
 
 Private Sub SSOleDB_ware_GotFocus()

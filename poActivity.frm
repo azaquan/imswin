@@ -1,9 +1,9 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
-Begin VB.Form StockOnHandNew 
+Begin VB.Form poActivity 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "New StockOnHand "
+   Caption         =   "PO Activity Report"
    ClientHeight    =   2115
    ClientLeft      =   45
    ClientTop       =   330
@@ -13,7 +13,7 @@ Begin VB.Form StockOnHandNew
    MDIChild        =   -1  'True
    ScaleHeight     =   2115
    ScaleWidth      =   4725
-   Tag             =   "03030500"
+   Tag             =   "03021100"
    Begin LRNavigators.NavBar NavBar1 
       Height          =   435
       Left            =   1800
@@ -24,7 +24,7 @@ Begin VB.Form StockOnHandNew
       _ExtentY        =   767
       ButtonHeight    =   329.953
       ButtonWidth     =   345.26
-      MouseIcon       =   "StockOnHandNew.frx":0000
+      MouseIcon       =   "poActivity.frx":0000
       CancelVisible   =   0   'False
       PreviousVisible =   0   'False
       NewVisible      =   0   'False
@@ -88,7 +88,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":001C
+      stylesets(0).Picture=   "poActivity.frx":001C
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -101,7 +101,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":0038
+      stylesets(1).Picture=   "poActivity.frx":0038
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -158,7 +158,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":0054
+      stylesets(0).Picture=   "poActivity.frx":0054
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -171,7 +171,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":0070
+      stylesets(1).Picture=   "poActivity.frx":0070
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -229,7 +229,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":008C
+      stylesets(0).Picture=   "poActivity.frx":008C
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -242,7 +242,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":00A8
+      stylesets(1).Picture=   "poActivity.frx":00A8
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -297,7 +297,7 @@ Begin VB.Form StockOnHandNew
       Width           =   1700
    End
 End
-Attribute VB_Name = "StockOnHandNew"
+Attribute VB_Name = "poActivity"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -556,8 +556,9 @@ Private Sub NavBar1_OnEMailClick()
     End If
     LocationCode = "-location " + Chr(34) + LocationCode + Chr(34) + " "
     
-    invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name newStockOnHand -xuser " + Chr(34) + CurrentUser + Chr(34) + " "
-    Shell "cmd.exe /c " & invocation + CompanyCode + CurrencyCode + namespaceCode + LocationCode, vbHide
+    invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name poActivity -xuser " + Chr(34) + CurrentUser + Chr(34) + " "
+    
+    Shell "cmd.exe /c " & invocation + CompanyCode + namespaceCode + LocationCode, vbHide
     MsgBox "An email has been sent to you with the report."
 End Sub
 

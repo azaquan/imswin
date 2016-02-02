@@ -206,6 +206,27 @@ Begin VB.Form frmNavigator
             TabIndex        =   36
             Top             =   960
             Width           =   5475
+            Begin VB.Label lblnewActivity 
+               AutoSize        =   -1  'True
+               Caption         =   "PO Activity new report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Left            =   2760
+               MousePointer    =   99  'Custom
+               TabIndex        =   169
+               Tag             =   "03021100"
+               Top             =   780
+               Width           =   1920
+            End
             Begin VB.Label lblnewSupplier 
                AutoSize        =   -1  'True
                Caption         =   "Supplier by Date created"
@@ -698,12 +719,34 @@ Begin VB.Form frmNavigator
             End
          End
          Begin VB.Frame fraHolder 
-            Height          =   885
+            Height          =   1125
             Index           =   8
             Left            =   3180
             TabIndex        =   54
             Top             =   5340
             Width           =   5475
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Valuation Control Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   2
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   170
+               Tag             =   "03040600"
+               Top             =   760
+               Width           =   2100
+            End
             Begin VB.Label lblRepAccounting 
                AutoSize        =   -1  'True
                Caption         =   "Upload Report"
@@ -4892,6 +4935,11 @@ Private Sub lblModifyFQA_Click()
     Screen.MousePointer = vbArrow
 End Sub
 
+Private Sub lblnewActivity_Click()
+    Load poActivity
+    poActivity.Show
+End Sub
+
 Private Sub lblnewSupplier_Click()
 Load frm_newSupplier
  frm_newSupplier.Show
@@ -4985,7 +5033,7 @@ Case 1
    Set frm = frm_tranvaluationreport
 
 Case 2
-   Set frm = FrmModifyFQA
+   Set frm = valuationControl
 Case 3
    Set frm = frm_sap_analysis
    

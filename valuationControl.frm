@@ -1,9 +1,9 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
-Begin VB.Form StockOnHandNew 
+Begin VB.Form valuationControl 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "New StockOnHand "
+   Caption         =   "Valuation Control Report"
    ClientHeight    =   2115
    ClientLeft      =   45
    ClientTop       =   330
@@ -13,7 +13,7 @@ Begin VB.Form StockOnHandNew
    MDIChild        =   -1  'True
    ScaleHeight     =   2115
    ScaleWidth      =   4725
-   Tag             =   "03030500"
+   Tag             =   "03040600"
    Begin LRNavigators.NavBar NavBar1 
       Height          =   435
       Left            =   1800
@@ -24,7 +24,7 @@ Begin VB.Form StockOnHandNew
       _ExtentY        =   767
       ButtonHeight    =   329.953
       ButtonWidth     =   345.26
-      MouseIcon       =   "StockOnHandNew.frx":0000
+      MouseIcon       =   "valuationControl.frx":0000
       CancelVisible   =   0   'False
       PreviousVisible =   0   'False
       NewVisible      =   0   'False
@@ -88,7 +88,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":001C
+      stylesets(0).Picture=   "valuationControl.frx":001C
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -101,7 +101,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":0038
+      stylesets(1).Picture=   "valuationControl.frx":0038
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -158,7 +158,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":0054
+      stylesets(0).Picture=   "valuationControl.frx":0054
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -171,7 +171,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":0070
+      stylesets(1).Picture=   "valuationControl.frx":0070
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -229,7 +229,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(0).Picture=   "StockOnHandNew.frx":008C
+      stylesets(0).Picture=   "valuationControl.frx":008C
       stylesets(0).AlignmentText=   0
       stylesets(1).Name=   "ColHeader"
       stylesets(1).HasFont=   -1  'True
@@ -242,7 +242,7 @@ Begin VB.Form StockOnHandNew
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      stylesets(1).Picture=   "StockOnHandNew.frx":00A8
+      stylesets(1).Picture=   "valuationControl.frx":00A8
       stylesets(1).AlignmentText=   1
       HeadFont3D      =   4
       DefColWidth     =   5292
@@ -297,7 +297,7 @@ Begin VB.Form StockOnHandNew
       Width           =   1700
    End
 End
-Attribute VB_Name = "StockOnHandNew"
+Attribute VB_Name = "valuationControl"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -335,7 +335,7 @@ Dim rst As ADODB.Recordset
     
     rst.MoveFirst
       
-    ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
+    'ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
     Do While ((Not rst.EOF))
         ssdcbolocation.AddItem rst!loc_locacode & str & (rst!loc_name & "")
         
@@ -434,7 +434,7 @@ Dim rst As ADODB.Recordset
        
     rst.MoveFirst
       
-    SSOleDBCompa.AddItem (("ALL" & str) & "ALL" & "")
+    'SSOleDBCompa.AddItem (("ALL" & str) & "ALL" & "")
     Do While ((Not rst.EOF))
         SSOleDBCompa.AddItem rst!com_compcode & str & (rst!com_name & "")
         
@@ -442,10 +442,10 @@ Dim rst As ADODB.Recordset
     Loop
     
     SSOleDBCompa.Bookmark = 0
-    SSOleDBCompa.Text = "ALL"
+    'SSOleDBCompa.Text = "ALL"
     
     ssdcbolocation.Bookmark = 0
-    ssdcbolocation.Text = "ALL"
+    'ssdcbolocation.Text = "ALL"
       
 CleanUp:
     rst.Close
@@ -549,15 +549,16 @@ Private Sub NavBar1_OnEMailClick()
     CompanyCode = "-company " + Chr(34) + CompanyCode + Chr(34) + " "
     CurrencyCode = "-currency " + Chr(34) + Trim$(SSOleDBCurrency.Columns("code").Text) + Chr(34) + " "
     namespaceCode = "-namespace " + Chr(34) + deIms.NameSpace + Chr(34) + " "
-    If Trim$(ssdcbolocation.Columns("Code").Text) = "ALL" Or Trim$(ssdcbolocation.Columns("Code").Text) = "" Then
+    If Trim$(ssdcbolocation.Columns("Code").Text) = "ALL" Then
         LocationCode = "%"
     Else
         LocationCode = Trim$(ssdcbolocation.Columns("Code").Text)
     End If
     LocationCode = "-location " + Chr(34) + LocationCode + Chr(34) + " "
     
-    invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name newStockOnHand -xuser " + Chr(34) + CurrentUser + Chr(34) + " "
-    Shell "cmd.exe /c " & invocation + CompanyCode + CurrencyCode + namespaceCode + LocationCode, vbHide
+    invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name valuationControl -xuser " + Chr(34) + CurrentUser + Chr(34) + " "
+    
+    Shell "cmd.exe /c " & invocation + CompanyCode + namespaceCode + LocationCode, vbHide
     MsgBox "An email has been sent to you with the report."
 End Sub
 
@@ -672,7 +673,7 @@ Dim str As String
             ssdcbolocation.FieldSeparator = str
             rs.MoveFirst
               
-            ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
+            'ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
             Do While Not .EOF
                 ssdcbolocation.AddItem rs!loc_locacode & str & (rs!loc_name & "")
                 .MoveNext
@@ -707,7 +708,7 @@ Dim str As String
             
             If rs.RecordCount > 0 Then rs.MoveFirst
             
-            ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
+            'ssdcbolocation.AddItem (("ALL" & str) & "ALL" & "")
             Do While Not .EOF
                 ssdcbolocation.AddItem rs!loc_locacode & str & (rs!loc_name & "")
                 .MoveNext
@@ -716,7 +717,7 @@ Dim str As String
         End With
     End If
     ssdcbolocation.Bookmark = 0
-    ssdcbolocation.Text = "ALL"
+    'ssdcbolocation.Text = "ALL"
     
 End Sub
 
