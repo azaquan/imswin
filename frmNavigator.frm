@@ -27,1401 +27,6 @@ Begin VB.Form frmNavigator
       TabStop         =   0   'False
       Top             =   0
       Width           =   11805
-      Begin VB.PictureBox picReport 
-         BorderStyle     =   0  'None
-         Height          =   9030
-         Left            =   3000
-         ScaleHeight     =   9030
-         ScaleWidth      =   8835
-         TabIndex        =   31
-         TabStop         =   0   'False
-         Top             =   0
-         Width           =   8835
-         Begin VB.Frame fraHolder 
-            Height          =   1695
-            Index           =   14
-            Left            =   3180
-            TabIndex        =   149
-            Top             =   6480
-            Width           =   5475
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Menu User History"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   18
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   163
-               Tag             =   "03050700"
-               Top             =   1380
-               Width           =   1575
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Access Level"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   17
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   155
-               Tag             =   "03050100"
-               Top             =   165
-               Width           =   5115
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Application User Status"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   16
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   154
-               Tag             =   "03050200"
-               Top             =   360
-               Width           =   5130
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Login/Logoff"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   15
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   153
-               Tag             =   "03050300"
-               Top             =   570
-               Width           =   5175
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Security Changes Log"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   14
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   152
-               Tag             =   "03050400"
-               Top             =   765
-               Width           =   5115
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Access Level + Buyer + User"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   13
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   151
-               Tag             =   "03050600"
-               Top             =   1170
-               Width           =   5115
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Individual User Profile"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   11
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   150
-               Tag             =   "03050500"
-               Top             =   960
-               Width           =   5130
-            End
-         End
-         Begin VB.Frame fraHolder 
-            Height          =   2295
-            Index           =   6
-            Left            =   3180
-            TabIndex        =   36
-            Top             =   960
-            Width           =   5475
-            Begin VB.Label lblnewActivity 
-               AutoSize        =   -1  'True
-               Caption         =   "PO Activity new report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Left            =   2760
-               MousePointer    =   99  'Custom
-               TabIndex        =   169
-               Tag             =   "03021100"
-               Top             =   780
-               Width           =   1920
-            End
-            Begin VB.Label lblnewSupplier 
-               AutoSize        =   -1  'True
-               Caption         =   "Supplier by Date created"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Left            =   2760
-               MousePointer    =   99  'Custom
-               TabIndex        =   164
-               Tag             =   "03020104"
-               Top             =   585
-               Width           =   2130
-            End
-            Begin VB.Label lblrequisitionstatus 
-               AutoSize        =   -1  'True
-               Caption         =   "Requisition Status"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Left            =   2760
-               MousePointer    =   99  'Custom
-               TabIndex        =   162
-               Tag             =   "03020102"
-               Top             =   375
-               Width           =   2640
-            End
-            Begin VB.Label lblreorder 
-               AutoSize        =   -1  'True
-               Caption         =   "Optima"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   10
-               Left            =   2760
-               MousePointer    =   99  'Custom
-               TabIndex        =   161
-               Tag             =   "03020101"
-               Top             =   180
-               Width           =   600
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Report Writer"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   9
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   125
-               Tag             =   "03020900"
-               Top             =   1785
-               Width           =   1155
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "General Status Report(By Req)"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   8
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   124
-               Tag             =   "03021000"
-               Top             =   1980
-               Width           =   5160
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Late Shipping Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   7
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   123
-               Tag             =   "03020800"
-               Top             =   1575
-               Width           =   5175
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Late Delivery Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   6
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   122
-               Tag             =   "03020700"
-               Top             =   1380
-               Width           =   5130
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Order Delivery Schedule"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   5
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   43
-               Tag             =   "03020600"
-               Top             =   1185
-               Width           =   5205
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Order Tracking Record"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   4
-               Left            =   120
-               MousePointer    =   14  'Arrow and Question
-               TabIndex        =   42
-               Tag             =   "03020500"
-               Top             =   975
-               Width           =   5205
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Order Activity Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   3
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   41
-               Tag             =   "03020400"
-               Top             =   780
-               Width           =   5160
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Open Order"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   2
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   40
-               Tag             =   "03020300"
-               Top             =   585
-               Width           =   5175
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Stock Number History"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   1
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   39
-               Tag             =   "03020200"
-               Top             =   375
-               Width           =   2340
-            End
-            Begin VB.Label lblRepPurchasing 
-               AutoSize        =   -1  'True
-               Caption         =   "Print Order"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   0
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   37
-               Tag             =   "03020100"
-               Top             =   180
-               Width           =   2250
-            End
-         End
-         Begin VB.Frame fraHolder 
-            Height          =   2115
-            Index           =   7
-            Left            =   3180
-            TabIndex        =   45
-            Top             =   3240
-            Width           =   5475
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Stock On Hand per Stock Number"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   7
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   126
-               Tag             =   "03030900"
-               Top             =   1770
-               Width           =   5175
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Stock On Hand across all locations"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   8
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   53
-               Tag             =   "03030800"
-               Top             =   1560
-               Width           =   5175
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "New Stock On Hand"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   6
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   52
-               Tag             =   "03030500"
-               Top             =   960
-               Width           =   1755
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Historical Stock Movement"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   5
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   51
-               Tag             =   "03030700"
-               Top             =   1365
-               Width           =   5175
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Slow Moving Inventory"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   4
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   50
-               Tag             =   "03030600"
-               Top             =   1170
-               Width           =   5175
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Stock On-Hand"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   3
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   49
-               Tag             =   "03030400"
-               Top             =   765
-               Width           =   5160
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Transactions per Date Range"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   2
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   48
-               Tag             =   "03030300"
-               Top             =   570
-               Width           =   5160
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Inventory per Stock Number"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   1
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   47
-               Tag             =   "03030200"
-               Top             =   360
-               Width           =   5160
-            End
-            Begin VB.Label lblRepWharehouse 
-               AutoSize        =   -1  'True
-               Caption         =   "Orders to be Received"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   0
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   46
-               Tag             =   "03030100"
-               Top             =   165
-               Width           =   5175
-            End
-         End
-         Begin VB.Frame fraHolder 
-            Height          =   1125
-            Index           =   8
-            Left            =   3180
-            TabIndex        =   54
-            Top             =   5340
-            Width           =   5475
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "Valuation Control Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   2
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   170
-               Tag             =   "03040600"
-               Top             =   760
-               Width           =   2100
-            End
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "Upload Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   5
-               Left            =   2880
-               MousePointer    =   99  'Custom
-               TabIndex        =   168
-               Tag             =   "03040500"
-               Top             =   360
-               Width           =   1245
-            End
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "Price Control Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   4
-               Left            =   2880
-               MousePointer    =   99  'Custom
-               TabIndex        =   167
-               Tag             =   "03040400"
-               Top             =   165
-               Width           =   1740
-            End
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "SAP Analysis Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   3
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   57
-               Tag             =   "03040300"
-               Top             =   570
-               Width           =   2715
-            End
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "Transaction Valuation Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   1
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   56
-               Tag             =   "03040200"
-               Top             =   360
-               Width           =   2625
-            End
-            Begin VB.Label lblRepAccounting 
-               AutoSize        =   -1  'True
-               Caption         =   "SAP Valuation Report"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   0
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   55
-               Tag             =   "03040100"
-               Top             =   165
-               Width           =   2460
-            End
-         End
-         Begin VB.Frame fraHolder 
-            Height          =   960
-            Index           =   5
-            Left            =   3180
-            TabIndex        =   33
-            Top             =   0
-            Width           =   5475
-            Begin VB.Label lblRepCataloging 
-               BackStyle       =   0  'Transparent
-               Caption         =   "Export Stock Master to Excel"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   4
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   121
-               Tag             =   "03010300"
-               Top             =   585
-               Width           =   5250
-            End
-            Begin VB.Label lblRepCataloging 
-               BackStyle       =   0  'Transparent
-               Caption         =   "Mfr/Stock# Xref"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   1
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   35
-               Tag             =   "03010200"
-               Top             =   375
-               Width           =   5250
-            End
-            Begin VB.Label lblRepCataloging 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Stock Master"
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   -1  'True
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00C00000&
-               Height          =   195
-               Index           =   0
-               Left            =   120
-               MousePointer    =   99  'Custom
-               TabIndex        =   34
-               Tag             =   "03010100"
-               Top             =   180
-               Width           =   5220
-            End
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   58
-            X1              =   2760
-            X2              =   3180
-            Y1              =   7800
-            Y2              =   7800
-         End
-         Begin VB.Shape Shape3 
-            BorderWidth     =   2
-            Height          =   600
-            Index           =   0
-            Left            =   480
-            Top             =   120
-            Width           =   2160
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   25
-            X1              =   2760
-            X2              =   3180
-            Y1              =   700
-            Y2              =   700
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   90
-            X1              =   2640
-            X2              =   3240
-            Y1              =   6780
-            Y2              =   6780
-         End
-         Begin VB.Line Line4 
-            BorderWidth     =   2
-            Index           =   30
-            X1              =   2760
-            X2              =   2760
-            Y1              =   6780
-            Y2              =   8040
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   88
-            X1              =   2760
-            X2              =   3180
-            Y1              =   7575
-            Y2              =   7575
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   84
-            X1              =   2760
-            X2              =   3180
-            Y1              =   7380
-            Y2              =   7380
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   81
-            X1              =   2760
-            X2              =   3180
-            Y1              =   7185
-            Y2              =   7185
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   80
-            X1              =   2760
-            X2              =   3180
-            Y1              =   8040
-            Y2              =   8040
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   79
-            X1              =   2760
-            X2              =   3180
-            Y1              =   6975
-            Y2              =   6975
-         End
-         Begin VB.Label lblReportMenu 
-            Alignment       =   2  'Center
-            AutoSize        =   -1  'True
-            Caption         =   "Security"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   5
-            Left            =   600
-            TabIndex        =   148
-            Tag             =   "03050000"
-            Top             =   6540
-            Width           =   1905
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   26
-            X1              =   0
-            X2              =   480
-            Y1              =   6600
-            Y2              =   6600
-         End
-         Begin VB.Shape Shape3 
-            BorderWidth     =   2
-            Height          =   600
-            Index           =   5
-            Left            =   480
-            Top             =   6360
-            Width           =   2160
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   66
-            X1              =   2760
-            X2              =   3180
-            Y1              =   3060
-            Y2              =   3060
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   65
-            X1              =   2760
-            X2              =   3180
-            Y1              =   2860
-            Y2              =   2860
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   64
-            X1              =   2760
-            X2              =   3180
-            Y1              =   2660
-            Y2              =   2660
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   4
-            X1              =   2760
-            X2              =   3180
-            Y1              =   2460
-            Y2              =   2460
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   24
-            X1              =   2760
-            X2              =   3180
-            Y1              =   6045
-            Y2              =   6045
-         End
-         Begin VB.Shape Shape3 
-            BorderWidth     =   2
-            Height          =   600
-            Index           =   3
-            Left            =   480
-            Top             =   5460
-            Width           =   2160
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   23
-            X1              =   0
-            X2              =   480
-            Y1              =   5700
-            Y2              =   5700
-         End
-         Begin VB.Label lblReportMenu 
-            Alignment       =   2  'Center
-            AutoSize        =   -1  'True
-            Caption         =   "Financial Management"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   3
-            Left            =   600
-            TabIndex        =   58
-            Tag             =   "03040000"
-            Top             =   5640
-            Width           =   1920
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   19
-            X1              =   2640
-            X2              =   3240
-            Y1              =   5640
-            Y2              =   5640
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   18
-            X1              =   2760
-            X2              =   3180
-            Y1              =   5835
-            Y2              =   5835
-         End
-         Begin VB.Line Line4 
-            BorderWidth     =   2
-            Index           =   51
-            X1              =   2760
-            X2              =   2760
-            Y1              =   5640
-            Y2              =   6030
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   22
-            X1              =   2760
-            X2              =   3180
-            Y1              =   4740
-            Y2              =   4740
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   21
-            X1              =   2760
-            X2              =   3180
-            Y1              =   4940
-            Y2              =   4940
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   20
-            X1              =   2760
-            X2              =   3180
-            Y1              =   5140
-            Y2              =   5140
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   17
-            X1              =   2760
-            X2              =   3180
-            Y1              =   3740
-            Y2              =   3740
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   16
-            X1              =   2760
-            X2              =   3180
-            Y1              =   4540
-            Y2              =   4540
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   15
-            X1              =   2760
-            X2              =   3180
-            Y1              =   3940
-            Y2              =   3940
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   14
-            X1              =   2760
-            X2              =   3180
-            Y1              =   4140
-            Y2              =   4140
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   13
-            X1              =   2760
-            X2              =   3180
-            Y1              =   4340
-            Y2              =   4340
-         End
-         Begin VB.Line Line4 
-            BorderWidth     =   2
-            Index           =   50
-            X1              =   2760
-            X2              =   2760
-            Y1              =   3540
-            Y2              =   5140
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   12
-            X1              =   2640
-            X2              =   3240
-            Y1              =   3540
-            Y2              =   3540
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   11
-            X1              =   2760
-            X2              =   3180
-            Y1              =   2260
-            Y2              =   2260
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   10
-            X1              =   2760
-            X2              =   3180
-            Y1              =   2060
-            Y2              =   2060
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   9
-            X1              =   2760
-            X2              =   3180
-            Y1              =   1860
-            Y2              =   1860
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   8
-            X1              =   2760
-            X2              =   3180
-            Y1              =   1660
-            Y2              =   1660
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   7
-            X1              =   2760
-            X2              =   3180
-            Y1              =   1460
-            Y2              =   1460
-         End
-         Begin VB.Line Line4 
-            BorderWidth     =   2
-            Index           =   49
-            X1              =   2760
-            X2              =   2760
-            Y1              =   1260
-            Y2              =   3060
-         End
-         Begin VB.Label lblReportMenu 
-            Alignment       =   2  'Center
-            AutoSize        =   -1  'True
-            Caption         =   "Inventory Management"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   2
-            Left            =   600
-            TabIndex        =   44
-            Tag             =   "03030000"
-            Top             =   3420
-            Width           =   1950
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   6
-            X1              =   0
-            X2              =   480
-            Y1              =   3480
-            Y2              =   3480
-         End
-         Begin VB.Shape Shape3 
-            BorderWidth     =   2
-            Height          =   600
-            Index           =   2
-            Left            =   480
-            Top             =   3240
-            Width           =   2160
-         End
-         Begin VB.Label lblReportMenu 
-            Alignment       =   2  'Center
-            AutoSize        =   -1  'True
-            Caption         =   "Purchasing"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   1
-            Left            =   600
-            TabIndex        =   38
-            Tag             =   "03020000"
-            Top             =   1260
-            Width           =   1920
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   1
-            X1              =   0
-            X2              =   480
-            Y1              =   1260
-            Y2              =   1260
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   5
-            X1              =   2640
-            X2              =   3195
-            Y1              =   1260
-            Y2              =   1260
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   3
-            X1              =   2760
-            X2              =   3180
-            Y1              =   500
-            Y2              =   500
-         End
-         Begin VB.Line Line4 
-            BorderWidth     =   2
-            Index           =   46
-            X1              =   2760
-            X2              =   2760
-            Y1              =   300
-            Y2              =   700
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   2
-            X1              =   2640
-            X2              =   3195
-            Y1              =   300
-            Y2              =   300
-         End
-         Begin VB.Label lblReportMenu 
-            Alignment       =   2  'Center
-            AutoSize        =   -1  'True
-            Caption         =   "Cataloging"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   0
-            Left            =   600
-            TabIndex        =   32
-            Tag             =   "03010000"
-            Top             =   280
-            Width           =   1875
-         End
-         Begin VB.Line Line5 
-            BorderWidth     =   2
-            Index           =   0
-            X1              =   0
-            X2              =   480
-            Y1              =   240
-            Y2              =   240
-         End
-         Begin VB.Line Line3 
-            BorderWidth     =   2
-            X1              =   15
-            X2              =   15
-            Y1              =   240
-            Y2              =   6600
-         End
-         Begin VB.Shape Shape3 
-            BorderWidth     =   2
-            Height          =   600
-            Index           =   1
-            Left            =   480
-            Top             =   1080
-            Width           =   2160
-         End
-      End
       Begin VB.PictureBox picActivities 
          BorderStyle     =   0  'None
          HasDC           =   0   'False
@@ -1535,6 +140,28 @@ Begin VB.Form frmNavigator
             TabIndex        =   22
             Top             =   3300
             Width           =   5475
+            Begin VB.Label lblSubWharehousing 
+               AutoSize        =   -1  'True
+               Caption         =   "Fabrication"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   1
+               Left            =   2880
+               MousePointer    =   99  'Custom
+               TabIndex        =   171
+               Tag             =   "02040800"
+               Top             =   165
+               Width           =   960
+            End
             Begin VB.Label lblSubWharehousing 
                AutoSize        =   -1  'True
                Caption         =   "Logical Warehouse-Sub Location Movement"
@@ -1683,7 +310,7 @@ Begin VB.Form frmNavigator
                TabIndex        =   23
                Tag             =   "02040100"
                Top             =   165
-               Width           =   5160
+               Width           =   2520
             End
          End
          Begin VB.Frame fraHolder 
@@ -4531,6 +3158,1401 @@ Begin VB.Form frmNavigator
          Top             =   1560
          Width           =   5160
       End
+      Begin VB.PictureBox picReport 
+         BorderStyle     =   0  'None
+         Height          =   9030
+         Left            =   3000
+         ScaleHeight     =   9030
+         ScaleWidth      =   8835
+         TabIndex        =   31
+         TabStop         =   0   'False
+         Top             =   0
+         Width           =   8835
+         Begin VB.Frame fraHolder 
+            Height          =   1695
+            Index           =   14
+            Left            =   3180
+            TabIndex        =   149
+            Top             =   6480
+            Width           =   5475
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Menu User History"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   18
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   163
+               Tag             =   "03050700"
+               Top             =   1380
+               Width           =   1575
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Access Level"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   17
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   155
+               Tag             =   "03050100"
+               Top             =   165
+               Width           =   5115
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Application User Status"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   16
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   154
+               Tag             =   "03050200"
+               Top             =   360
+               Width           =   5130
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Login/Logoff"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   15
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   153
+               Tag             =   "03050300"
+               Top             =   570
+               Width           =   5175
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Security Changes Log"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   14
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   152
+               Tag             =   "03050400"
+               Top             =   765
+               Width           =   5115
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Access Level + Buyer + User"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   13
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   151
+               Tag             =   "03050600"
+               Top             =   1170
+               Width           =   5115
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Individual User Profile"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   11
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   150
+               Tag             =   "03050500"
+               Top             =   960
+               Width           =   5130
+            End
+         End
+         Begin VB.Frame fraHolder 
+            Height          =   2295
+            Index           =   6
+            Left            =   3180
+            TabIndex        =   36
+            Top             =   960
+            Width           =   5475
+            Begin VB.Label lblnewActivity 
+               AutoSize        =   -1  'True
+               Caption         =   "PO Activity new report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Left            =   2760
+               MousePointer    =   99  'Custom
+               TabIndex        =   169
+               Tag             =   "03021100"
+               Top             =   780
+               Width           =   1920
+            End
+            Begin VB.Label lblnewSupplier 
+               AutoSize        =   -1  'True
+               Caption         =   "Supplier by Date created"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Left            =   2760
+               MousePointer    =   99  'Custom
+               TabIndex        =   164
+               Tag             =   "03020104"
+               Top             =   585
+               Width           =   2130
+            End
+            Begin VB.Label lblrequisitionstatus 
+               AutoSize        =   -1  'True
+               Caption         =   "Requisition Status"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Left            =   2760
+               MousePointer    =   99  'Custom
+               TabIndex        =   162
+               Tag             =   "03020102"
+               Top             =   375
+               Width           =   2640
+            End
+            Begin VB.Label lblreorder 
+               AutoSize        =   -1  'True
+               Caption         =   "Optima"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   10
+               Left            =   2760
+               MousePointer    =   99  'Custom
+               TabIndex        =   161
+               Tag             =   "03020101"
+               Top             =   180
+               Width           =   600
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Report Writer"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   9
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   125
+               Tag             =   "03020900"
+               Top             =   1785
+               Width           =   1155
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "General Status Report(By Req)"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   8
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   124
+               Tag             =   "03021000"
+               Top             =   1980
+               Width           =   5160
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Late Shipping Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   7
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   123
+               Tag             =   "03020800"
+               Top             =   1575
+               Width           =   5175
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Late Delivery Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   6
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   122
+               Tag             =   "03020700"
+               Top             =   1380
+               Width           =   5130
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Order Delivery Schedule"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   5
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   43
+               Tag             =   "03020600"
+               Top             =   1185
+               Width           =   5205
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Order Tracking Record"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   4
+               Left            =   120
+               MousePointer    =   14  'Arrow and Question
+               TabIndex        =   42
+               Tag             =   "03020500"
+               Top             =   975
+               Width           =   5205
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Order Activity Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   3
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   41
+               Tag             =   "03020400"
+               Top             =   780
+               Width           =   5160
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Open Order"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   2
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   40
+               Tag             =   "03020300"
+               Top             =   585
+               Width           =   5175
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Stock Number History"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   1
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   39
+               Tag             =   "03020200"
+               Top             =   375
+               Width           =   2340
+            End
+            Begin VB.Label lblRepPurchasing 
+               AutoSize        =   -1  'True
+               Caption         =   "Print Order"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   0
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   37
+               Tag             =   "03020100"
+               Top             =   180
+               Width           =   2250
+            End
+         End
+         Begin VB.Frame fraHolder 
+            Height          =   2115
+            Index           =   7
+            Left            =   3180
+            TabIndex        =   45
+            Top             =   3240
+            Width           =   5475
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Stock On Hand per Stock Number"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   7
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   126
+               Tag             =   "03030900"
+               Top             =   1770
+               Width           =   5175
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Stock On Hand across all locations"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   8
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   53
+               Tag             =   "03030800"
+               Top             =   1560
+               Width           =   5175
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "New Stock On Hand"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   6
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   52
+               Tag             =   "03030500"
+               Top             =   960
+               Width           =   1755
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Historical Stock Movement"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   5
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   51
+               Tag             =   "03030700"
+               Top             =   1365
+               Width           =   5175
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Slow Moving Inventory"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   4
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   50
+               Tag             =   "03030600"
+               Top             =   1170
+               Width           =   5175
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Stock On-Hand"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   3
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   49
+               Tag             =   "03030400"
+               Top             =   765
+               Width           =   5160
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Transactions per Date Range"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   2
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   48
+               Tag             =   "03030300"
+               Top             =   570
+               Width           =   5160
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Inventory per Stock Number"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   1
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   47
+               Tag             =   "03030200"
+               Top             =   360
+               Width           =   5160
+            End
+            Begin VB.Label lblRepWharehouse 
+               AutoSize        =   -1  'True
+               Caption         =   "Orders to be Received"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   0
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   46
+               Tag             =   "03030100"
+               Top             =   165
+               Width           =   5175
+            End
+         End
+         Begin VB.Frame fraHolder 
+            Height          =   1125
+            Index           =   8
+            Left            =   3180
+            TabIndex        =   54
+            Top             =   5340
+            Width           =   5475
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Valuation Control Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   2
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   170
+               Tag             =   "03040600"
+               Top             =   760
+               Width           =   2100
+            End
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Upload Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   5
+               Left            =   2880
+               MousePointer    =   99  'Custom
+               TabIndex        =   168
+               Tag             =   "03040500"
+               Top             =   360
+               Width           =   1245
+            End
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Price Control Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   4
+               Left            =   2880
+               MousePointer    =   99  'Custom
+               TabIndex        =   167
+               Tag             =   "03040400"
+               Top             =   165
+               Width           =   1740
+            End
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "SAP Analysis Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   3
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   57
+               Tag             =   "03040300"
+               Top             =   570
+               Width           =   2715
+            End
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "Transaction Valuation Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   1
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   56
+               Tag             =   "03040200"
+               Top             =   360
+               Width           =   2625
+            End
+            Begin VB.Label lblRepAccounting 
+               AutoSize        =   -1  'True
+               Caption         =   "SAP Valuation Report"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   0
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   55
+               Tag             =   "03040100"
+               Top             =   165
+               Width           =   2460
+            End
+         End
+         Begin VB.Frame fraHolder 
+            Height          =   960
+            Index           =   5
+            Left            =   3180
+            TabIndex        =   33
+            Top             =   0
+            Width           =   5475
+            Begin VB.Label lblRepCataloging 
+               BackStyle       =   0  'Transparent
+               Caption         =   "Export Stock Master to Excel"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   4
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   121
+               Tag             =   "03010300"
+               Top             =   585
+               Width           =   5250
+            End
+            Begin VB.Label lblRepCataloging 
+               BackStyle       =   0  'Transparent
+               Caption         =   "Mfr/Stock# Xref"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   1
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   35
+               Tag             =   "03010200"
+               Top             =   375
+               Width           =   5250
+            End
+            Begin VB.Label lblRepCataloging 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Stock Master"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   -1  'True
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00C00000&
+               Height          =   195
+               Index           =   0
+               Left            =   120
+               MousePointer    =   99  'Custom
+               TabIndex        =   34
+               Tag             =   "03010100"
+               Top             =   180
+               Width           =   5220
+            End
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   58
+            X1              =   2760
+            X2              =   3180
+            Y1              =   7800
+            Y2              =   7800
+         End
+         Begin VB.Shape Shape3 
+            BorderWidth     =   2
+            Height          =   600
+            Index           =   0
+            Left            =   480
+            Top             =   120
+            Width           =   2160
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   25
+            X1              =   2760
+            X2              =   3180
+            Y1              =   700
+            Y2              =   700
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   90
+            X1              =   2640
+            X2              =   3240
+            Y1              =   6780
+            Y2              =   6780
+         End
+         Begin VB.Line Line4 
+            BorderWidth     =   2
+            Index           =   30
+            X1              =   2760
+            X2              =   2760
+            Y1              =   6780
+            Y2              =   8040
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   88
+            X1              =   2760
+            X2              =   3180
+            Y1              =   7575
+            Y2              =   7575
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   84
+            X1              =   2760
+            X2              =   3180
+            Y1              =   7380
+            Y2              =   7380
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   81
+            X1              =   2760
+            X2              =   3180
+            Y1              =   7185
+            Y2              =   7185
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   80
+            X1              =   2760
+            X2              =   3180
+            Y1              =   8040
+            Y2              =   8040
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   79
+            X1              =   2760
+            X2              =   3180
+            Y1              =   6975
+            Y2              =   6975
+         End
+         Begin VB.Label lblReportMenu 
+            Alignment       =   2  'Center
+            AutoSize        =   -1  'True
+            Caption         =   "Security"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   5
+            Left            =   600
+            TabIndex        =   148
+            Tag             =   "03050000"
+            Top             =   6540
+            Width           =   1905
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   26
+            X1              =   0
+            X2              =   480
+            Y1              =   6600
+            Y2              =   6600
+         End
+         Begin VB.Shape Shape3 
+            BorderWidth     =   2
+            Height          =   600
+            Index           =   5
+            Left            =   480
+            Top             =   6360
+            Width           =   2160
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   66
+            X1              =   2760
+            X2              =   3180
+            Y1              =   3060
+            Y2              =   3060
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   65
+            X1              =   2760
+            X2              =   3180
+            Y1              =   2860
+            Y2              =   2860
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   64
+            X1              =   2760
+            X2              =   3180
+            Y1              =   2660
+            Y2              =   2660
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   4
+            X1              =   2760
+            X2              =   3180
+            Y1              =   2460
+            Y2              =   2460
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   24
+            X1              =   2760
+            X2              =   3180
+            Y1              =   6045
+            Y2              =   6045
+         End
+         Begin VB.Shape Shape3 
+            BorderWidth     =   2
+            Height          =   600
+            Index           =   3
+            Left            =   480
+            Top             =   5460
+            Width           =   2160
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   23
+            X1              =   0
+            X2              =   480
+            Y1              =   5700
+            Y2              =   5700
+         End
+         Begin VB.Label lblReportMenu 
+            Alignment       =   2  'Center
+            AutoSize        =   -1  'True
+            Caption         =   "Financial Management"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   3
+            Left            =   600
+            TabIndex        =   58
+            Tag             =   "03040000"
+            Top             =   5640
+            Width           =   1920
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   19
+            X1              =   2640
+            X2              =   3240
+            Y1              =   5640
+            Y2              =   5640
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   18
+            X1              =   2760
+            X2              =   3180
+            Y1              =   5835
+            Y2              =   5835
+         End
+         Begin VB.Line Line4 
+            BorderWidth     =   2
+            Index           =   51
+            X1              =   2760
+            X2              =   2760
+            Y1              =   5640
+            Y2              =   6030
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   22
+            X1              =   2760
+            X2              =   3180
+            Y1              =   4740
+            Y2              =   4740
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   21
+            X1              =   2760
+            X2              =   3180
+            Y1              =   4940
+            Y2              =   4940
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   20
+            X1              =   2760
+            X2              =   3180
+            Y1              =   5140
+            Y2              =   5140
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   17
+            X1              =   2760
+            X2              =   3180
+            Y1              =   3740
+            Y2              =   3740
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   16
+            X1              =   2760
+            X2              =   3180
+            Y1              =   4540
+            Y2              =   4540
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   15
+            X1              =   2760
+            X2              =   3180
+            Y1              =   3940
+            Y2              =   3940
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   14
+            X1              =   2760
+            X2              =   3180
+            Y1              =   4140
+            Y2              =   4140
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   13
+            X1              =   2760
+            X2              =   3180
+            Y1              =   4340
+            Y2              =   4340
+         End
+         Begin VB.Line Line4 
+            BorderWidth     =   2
+            Index           =   50
+            X1              =   2760
+            X2              =   2760
+            Y1              =   3540
+            Y2              =   5140
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   12
+            X1              =   2640
+            X2              =   3240
+            Y1              =   3540
+            Y2              =   3540
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   11
+            X1              =   2760
+            X2              =   3180
+            Y1              =   2260
+            Y2              =   2260
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   10
+            X1              =   2760
+            X2              =   3180
+            Y1              =   2060
+            Y2              =   2060
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   9
+            X1              =   2760
+            X2              =   3180
+            Y1              =   1860
+            Y2              =   1860
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   8
+            X1              =   2760
+            X2              =   3180
+            Y1              =   1660
+            Y2              =   1660
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   7
+            X1              =   2760
+            X2              =   3180
+            Y1              =   1460
+            Y2              =   1460
+         End
+         Begin VB.Line Line4 
+            BorderWidth     =   2
+            Index           =   49
+            X1              =   2760
+            X2              =   2760
+            Y1              =   1260
+            Y2              =   3060
+         End
+         Begin VB.Label lblReportMenu 
+            Alignment       =   2  'Center
+            AutoSize        =   -1  'True
+            Caption         =   "Inventory Management"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   2
+            Left            =   600
+            TabIndex        =   44
+            Tag             =   "03030000"
+            Top             =   3420
+            Width           =   1950
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   6
+            X1              =   0
+            X2              =   480
+            Y1              =   3480
+            Y2              =   3480
+         End
+         Begin VB.Shape Shape3 
+            BorderWidth     =   2
+            Height          =   600
+            Index           =   2
+            Left            =   480
+            Top             =   3240
+            Width           =   2160
+         End
+         Begin VB.Label lblReportMenu 
+            Alignment       =   2  'Center
+            AutoSize        =   -1  'True
+            Caption         =   "Purchasing"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   1
+            Left            =   600
+            TabIndex        =   38
+            Tag             =   "03020000"
+            Top             =   1260
+            Width           =   1920
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   1
+            X1              =   0
+            X2              =   480
+            Y1              =   1260
+            Y2              =   1260
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   5
+            X1              =   2640
+            X2              =   3195
+            Y1              =   1260
+            Y2              =   1260
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   3
+            X1              =   2760
+            X2              =   3180
+            Y1              =   500
+            Y2              =   500
+         End
+         Begin VB.Line Line4 
+            BorderWidth     =   2
+            Index           =   46
+            X1              =   2760
+            X2              =   2760
+            Y1              =   300
+            Y2              =   700
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   2
+            X1              =   2640
+            X2              =   3195
+            Y1              =   300
+            Y2              =   300
+         End
+         Begin VB.Label lblReportMenu 
+            Alignment       =   2  'Center
+            AutoSize        =   -1  'True
+            Caption         =   "Cataloging"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   0
+            Left            =   600
+            TabIndex        =   32
+            Tag             =   "03010000"
+            Top             =   280
+            Width           =   1875
+         End
+         Begin VB.Line Line5 
+            BorderWidth     =   2
+            Index           =   0
+            X1              =   0
+            X2              =   480
+            Y1              =   240
+            Y2              =   240
+         End
+         Begin VB.Line Line3 
+            BorderWidth     =   2
+            X1              =   15
+            X2              =   15
+            Y1              =   240
+            Y2              =   6600
+         End
+         Begin VB.Shape Shape3 
+            BorderWidth     =   2
+            Height          =   600
+            Index           =   1
+            Left            =   480
+            Top             =   1080
+            Width           =   2160
+         End
+      End
       Begin LRLabels.LRHyperLabel lrhReports 
          Height          =   480
          Left            =   120
@@ -5527,7 +5549,7 @@ Case 5
     Load frm
     frm.WindowState = vbNormal
     
-    Call frm.Move(0, 0)
+    'Call frm.Move(0, 0)
     Call frm.Show(vbModeless)
      Screen.MousePointer = vbArrow
     If Index = 0 Then
@@ -5563,6 +5585,8 @@ On Error Resume Next
         Case 0
             Call WH.Loading(WarehouseReceipt)
             'Call MDI_IMS.OpenDLLChild(WarehouseReceipt)
+        Case 1
+            Call WH.Loading(Fabrication)
         Case 2
             Call WH.Loading(WarehouseIssue)
             'Call MDI_IMS.OpenDLLChild(WarehouseIssue)

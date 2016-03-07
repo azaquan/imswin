@@ -23,6 +23,7 @@ Public Enum kindTRANSAC
     Sales
     ReturnFromWell
     GlobalTransfer
+    Fabrication
 End Enum
 Public Enum EmailClients
    Unknown = 0
@@ -145,6 +146,58 @@ Screen.MousePointer = 11
         .matrix.TextMatrix(8, 3) = translator.getIt("cel3")
         
         Select Case transaction
+            Case Fabrication
+                title = "Fabrication"
+                tag = "02040800"
+                
+                'cell 0
+                .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
+                .matrix.TextMatrix(1, 0) = 1
+                .matrix.TextMatrix(2, 0) = "ir_trannumb"
+                .matrix.TextMatrix(3, 0) = "ir_trannumb"
+                .matrix.TextMatrix(4, 0) = "ir_trannumb"
+                .matrix.TextMatrix(5, 0) = "0"
+                .matrix.TextMatrix(6, 0) = nameSP + ", @1, F"
+                .matrix.TextMatrix(7, 0) = ""
+                .matrix.TextMatrix(9, 0) = "1200"
+                .matrix.TextMatrix(10, 0) = 0
+                                
+                'cell 2
+                .matrix.TextMatrix(0, 2) = "Get_Location2"
+                .matrix.TextMatrix(1, 2) = 2
+                .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 2) = "loc_name"
+                .matrix.TextMatrix(4, 2) = "loc_locacode"
+                .matrix.TextMatrix(5, 2) = "0, 0"
+                .matrix.TextMatrix(6, 2) = "FABRICA, TRUE"
+                .matrix.TextMatrix(7, 2) = ""
+                .matrix.TextMatrix(9, 2) = "4000, 1000"
+                .matrix.TextMatrix(10, 2) = 1
+                
+                '.Label(2).Caption = "From"
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
+                
+                'cell 3
+                .matrix.TextMatrix(0, 3) = "Get_Location2"
+                .matrix.TextMatrix(1, 3) = 2
+                .matrix.TextMatrix(2, 3) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 3) = "loc_name"
+                .matrix.TextMatrix(4, 3) = "loc_locacode"
+                .matrix.TextMatrix(5, 3) = "0, 0"
+                .matrix.TextMatrix(6, 3) = "BASE, TRUE"
+                .matrix.TextMatrix(7, 3) = ""
+                .matrix.TextMatrix(9, 3) = "4000, 1000"
+                .matrix.TextMatrix(10, 3) = 1
+                
+                '.Label(3).Caption = "To Warehouse"
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
+                .label(3).Visible = True
+                .cell(3).Visible = True
+                
+                'cell 4
+                .label(4).Visible = False
+                .cell(4).Visible = False
+                
             Case ReturnFromRepair
                 title = "Return From Repair"
                 tag = "02040400"
@@ -271,7 +324,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(3, 3) = "loc_name"
                 .matrix.TextMatrix(4, 3) = "loc_locacode"
                 .matrix.TextMatrix(5, 3) = "0, 0"
-                .matrix.TextMatrix(6, 3) = "SITE, REPAIR, TRUE"
+                .matrix.TextMatrix(6, 3) = "SITE, REPAIR, FABRICA, TRUE"
                 .matrix.TextMatrix(7, 3) = ""
                 '.matrix.TextMatrix(8, 3) = "Location, Code"
                 .matrix.TextMatrix(9, 3) = "4000, 1000"

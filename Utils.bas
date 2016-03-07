@@ -88,7 +88,7 @@ Public Enum FormMode
     mdCreation
     mdModified
     mdModification
-    mdVisualization
+    mdvisualization
 End Enum
 
 'Added by muzammil
@@ -101,10 +101,10 @@ Public Declare Sub GetStartupInfo Lib "kernel32" Alias "GetStartupInfoA" (lpStar
 Public Declare Sub ZeroMemory Lib "kernel32" Alias "RtlMoveMemory" (dest As Any, ByVal numBytes As Long)
 Public Declare Function SetParent Lib "user32" (ByVal hWndChild As Long, ByVal hWndNewParent As Long) As Long
 Public Declare Function WaitForSingleObjectEx Lib "kernel32" (ByVal hHandle As Long, ByVal dwMilliseconds As Long, ByVal bAlertable As Long) As Long
-Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal HWND As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
-Public Declare Function SendMessageStr Lib "user32" Alias "SendMessageA" (ByVal HWND As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As String) As Long
-Public Declare Function MoveWindow Lib "user32" (ByVal HWND As Long, ByVal x As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal HWND As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Public Declare Function SendMessageStr Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As String) As Long
+Public Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Declare Function CreateProcess Lib "kernel32" Alias "CreateProcessA" (ByVal lpApplicationName As String, ByVal lpCommandLine As String, lpProcessAttributes As Long, lpThreadAttributes As Long, ByVal bInheritHandles As Long, ByVal dwCreationFlags As Long, lpEnvironment As Any, ByVal lpCurrentDriectory As String, lpStartupInfo As STARTUPINFO, lpProcessInformation As PROCESS_INFORMATION) As Long
 
 'Added by Juan Gonzalez 8/29/2000 for Translation fix
@@ -112,57 +112,57 @@ Global msg1, msg2 As String
 Global translator As imsTranslator
 '----------------------------------------------------
 
-Public Function ToArrayFromRecordset(Rs As ADODB.Recordset) As String()
+Public Function ToArrayFromRecordset(rs As ADODB.Recordset) As String()
 Dim str() As String
 Dim UpperBound As Integer
 
-On Error GoTo ErrHandler
+On Error GoTo errHandler
     ReDim str(0)
     UpperBound = -1
-    If Rs Is Nothing Then Exit Function
+    If rs Is Nothing Then Exit Function
         
-    Rs.MoveFirst
-    Do While Not Rs.EOF
+    rs.MoveFirst
+    Do While Not rs.EOF
         UpperBound = UpperBound + 1
         ReDim Preserve str(UpperBound)
-        If InStr(UCase(Rs(0)), "INTERNET!") > 0 Then
-            str(UpperBound) = Mid(Rs(0), 10)
+        If InStr(UCase(rs(0)), "INTERNET!") > 0 Then
+            str(UpperBound) = Mid(rs(0), 10)
         Else
-            str(UpperBound) = Rs(0)
+            str(UpperBound) = rs(0)
         End If
-        Rs.MoveNext
+        rs.MoveNext
     Loop
     ToArrayFromRecordset = str
     Exit Function
     
-ErrHandler:
+errHandler:
     Err.Raise Err.number, Err.Description
     Err.Clear
 End Function
 
-Public Function ToArrayFromRecO(Rs As PoReceipients) As String()
+Public Function ToArrayFromRecO(rs As PoReceipients) As String()
 Dim BK As Variant
 Dim str() As String
 Dim OldFilter As Variant
 Dim UpperBound As Integer
-On Error GoTo ErrHandler
+On Error GoTo errHandler
     ReDim str(0)
     UpperBound = -1
-    If Rs Is Nothing Then Exit Function
+    If rs Is Nothing Then Exit Function
     
-    Rs.MoveFirst
-    Do While Not Rs.EOF
+    rs.MoveFirst
+    Do While Not rs.EOF
         UpperBound = UpperBound + 1
         ReDim Preserve str(UpperBound)
-        str(UpperBound) = Rs.Receipient
-        Rs.MoveNext
+        str(UpperBound) = rs.Receipient
+        rs.MoveNext
     Loop
     
     ToArrayFromRecO = str
     
     Exit Function
     
-ErrHandler:
+errHandler:
 
     Err.Raise Err.number, Err.Description
     Err.Clear
@@ -191,11 +191,11 @@ End Function
 '
 '************************************************************
 Public Function IndexOf(cbo As ComboBox, Item As String) As Integer
-    IndexOf = SendMessageStr(cbo.HWND, CB_FINDSTRING, 0, Item)
+    IndexOf = SendMessageStr(cbo.hwnd, CB_FINDSTRING, 0, Item)
 End Function
 
 Public Function ListIndexOf(lstBox As ListBox, Item As String) As Long
-    ListIndexOf = SendMessageStr(lstBox.HWND, LB_FINDSTRING, 0&, Item)
+    ListIndexOf = SendMessageStr(lstBox.hwnd, LB_FINDSTRING, 0&, Item)
 End Function
 
 'Public Function IndexOfDataCombo(cbo As DataCombo, Item As String) As Integer
@@ -213,7 +213,7 @@ End Function
 'Modified By:                                 Date Modified:
 '
 '************************************************************
-Public Function LaunchApp(FileName As String, CmdLine As String, CmdShow As ShowWindowEnum, Optional CloseHandles As Boolean = False) As Boolean
+Public Function LaunchApp(fileName As String, CmdLine As String, CmdShow As ShowWindowEnum, Optional CloseHandles As Boolean = False) As Boolean
 On Error Resume Next
     Dim SI As STARTUPINFO, PI As PROCESS_INFORMATION
     Dim retval As Long
@@ -226,7 +226,7 @@ On Error Resume Next
         .dwFlags = STARTF_USESHOWWINDOW
     End With
     
-    LaunchApp = CreateProcess(FileName, CmdLine, ByVal 0, ByVal 0, 0, 0, ByVal 0, vbNullString, SI, PI)
+    LaunchApp = CreateProcess(fileName, CmdLine, ByVal 0, ByVal 0, 0, 0, ByVal 0, vbNullString, SI, PI)
     
     retval = CloseHandle(PI.hThread)
     retval = CloseHandle(PI.hProcess)
@@ -234,7 +234,7 @@ End Function
 
 'function for loading application
 
-Public Function LaunchAppAndWait(FileName As String, CmdLine As String, CmdShow As ShowWindowEnum, Optional CloseHandles As Boolean = False) As Boolean
+Public Function LaunchAppAndWait(fileName As String, CmdLine As String, CmdShow As ShowWindowEnum, Optional CloseHandles As Boolean = False) As Boolean
 On Error Resume Next
     Dim SI As STARTUPINFO, PI As PROCESS_INFORMATION
     Dim retval As Long
@@ -248,7 +248,7 @@ On Error Resume Next
     End With
     
     
-    LaunchAppAndWait = CreateProcess(FileName, CmdLine, ByVal 0, ByVal 0, 0, 0, ByVal 0, vbNullString, SI, PI)
+    LaunchAppAndWait = CreateProcess(fileName, CmdLine, ByVal 0, ByVal 0, 0, 0, ByVal 0, vbNullString, SI, PI)
     retval = WaitForSingleObjectEx(PI.hProcess, -1, -1)
     
     
@@ -259,7 +259,7 @@ End Function
 '
 Function GetNearestComboItem(cbo As ComboBox, Optional KeyAscii As Integer, Optional sItem As String) As Boolean
 On Error Resume Next
-Dim Y As Integer, i As Integer
+Dim y As Integer, i As Integer
 
     #If DBUG = 0 Then
         On Error Resume Next
@@ -270,7 +270,7 @@ Dim Y As Integer, i As Integer
             
             cbo.SelText = ""
             sItem = cbo.Text
-            Y = Len(cbo)
+            y = Len(cbo)
             i = cbo.SelLength
             
             If KeyAscii = 0 Then
@@ -280,28 +280,28 @@ Dim Y As Integer, i As Integer
                 
            
             Else
-                Y = Y - 1
+                y = y - 1
                 i = i + 1
                 
             
-                cbo.SelStart = Y
+                cbo.SelStart = y
                 cbo.SelLength = i
                 cbo.SelText = ""
-                cbo.SelStart = Y
+                cbo.SelStart = y
             End If
         
         sItem = cbo.Text: KeyAscii = 0:
-        Y = cbo.SelStart: i = cbo.SelLength
-        cbo.SetFocus: cbo.SelStart = Y: cbo.SelLength = i
+        y = cbo.SelStart: i = cbo.SelLength
+        cbo.SetFocus: cbo.SelStart = y: cbo.SelLength = i
     End If
     
-    i = SendMessageStr(cbo.HWND, CB_FINDSTRING, CLng(-1), sItem)
+    i = SendMessageStr(cbo.hwnd, CB_FINDSTRING, CLng(-1), sItem)
                 
     
         If i = CB_ERR Then i = cbo.ListIndex
         
         GetNearestComboItem = i <> CB_ERR
-        Call SendMessage(cbo.HWND, &H14E, i, 0)
+        Call SendMessage(cbo.hwnd, &H14E, i, 0)
         
         
         If TypeName(cbo) = "ComboBox" And i <> CB_ERR Then
@@ -312,57 +312,57 @@ End Function
 
 'populate recordset to data grid
 
-Public Sub PopuLateFromRecordSet(cbo As ComboBox, ByRef Rs As ADODB.Recordset, FieldName As String, bClear As Boolean)
+Public Sub PopuLateFromRecordSet(cbo As ComboBox, ByRef rs As ADODB.Recordset, FieldName As String, bClear As Boolean)
 On Error Resume Next
 Dim BK As Variant, str As String, SField As String
 
     SField = cbo.DataField
-    If Rs Is Nothing Then Exit Sub
-    If Rs.RecordCount = 0 Then Exit Sub
-    If Rs.EOF And Rs.BOF Then Exit Sub
+    If rs Is Nothing Then Exit Sub
+    If rs.RecordCount = 0 Then Exit Sub
+    If rs.EOF And rs.BOF Then Exit Sub
     
     cbo.DataField = ""
     If bClear Then cbo.Clear
     
-    BK = Rs.Bookmark
+    BK = rs.Bookmark
     
     'rs.MoveLast
     
-    Rs.MoveFirst
+    rs.MoveFirst
     cbo.Clear
-    While Not Rs.EOF
+    While Not rs.EOF
         
-        str = Trim$(Rs(FieldName).value)
+        str = Trim$(rs(FieldName).value)
         
         If IndexOf(cbo, str) = CB_ERR Then _
             If Len(str) <> 0 Then cbo.AddItem (str)
                                    
-        Rs.MoveNext
+        rs.MoveNext
         If Err Then Err.Clear
         
         'DoEvents
     Wend
     
     cbo.DataField = SField
-    Rs.Bookmark = BK
+    rs.Bookmark = BK
 End Sub
 
 
 'sort data grid
 
-Public Sub SortGrid(Rs As ADODB.Recordset, Grid As DataGrid, Col As Integer)
+Public Sub SortGrid(rs As ADODB.Recordset, Grid As DataGrid, Col As Integer)
 On Error Resume Next
     Dim SortOrder As String
     Dim BK As Variant
 
-    BK = Rs.Bookmark
+    BK = rs.Bookmark
     SortOrder = Grid.Tag
     SortOrder = IIf(UCase(SortOrder) = "ASC", "ASC", "DESC")
     Grid.Tag = IIf(UCase(SortOrder) = "ASC", "DESC", "ASC")
 
-    Rs.Sort = ""
-    Rs.Sort = ((Grid.Columns(Col).DataField) + " " + SortOrder)
-    Rs.Bookmark = BK
+    rs.Sort = ""
+    rs.Sort = ((Grid.Columns(Col).DataField) + " " + SortOrder)
+    rs.Bookmark = BK
     If Err Then Err.Clear
 End Sub
 
@@ -382,7 +382,7 @@ Dim lngSourceFileLen As Long
 Dim intSourceFile As Integer
 Dim intCnt As Integer
 Dim lngBlockSize As Long
-Dim Rs As New ADODB.Recordset
+Dim rs As New ADODB.Recordset
 
     'Open BLOB file.
     intSourceFile = FreeFile
@@ -390,12 +390,12 @@ Dim Rs As New ADODB.Recordset
     lngSourceFileLen = LOF(intSourceFile)
 
     'Create an empty recordset and append fields
-    Rs.Fields.Append "Picture", adLongVarBinary, lngSourceFileLen, adFldLong
-    Rs.Open
-    If Rs.EOF Then
-        Rs.AddNew
+    rs.Fields.Append "Picture", adLongVarBinary, lngSourceFileLen, adFldLong
+    rs.Open
+    If rs.EOF Then
+        rs.AddNew
     Else
-        Rs.MoveFirst
+        rs.MoveFirst
     End If
 
     lngBlockSize = 15000
@@ -405,33 +405,33 @@ Dim Rs As New ADODB.Recordset
     'AppendChunk IMAGE Column
     ReDim bytData(intBlocksLo)
     Get intSourceFile, , bytData()
-    Rs.Fields(0).AppendChunk bytData()
+    rs.Fields(0).AppendChunk bytData()
     
     ReDim bytData(lngBlockSize)
     For intCnt = 1 To intBlocks
         Get intSourceFile, , bytData()
-        Rs.Fields(0).AppendChunk bytData()
+        rs.Fields(0).AppendChunk bytData()
     Next intCnt
-    Rs.Update
+    rs.Update
     
     GoTo Shutdown
     
-ErrHandler:
+errHandler:
     MsgBox "Error : " & Err.number & vbCrLf & Err.Description
 
 Shutdown:
     Close intSourceFile
-    lSize = Rs.Fields(0).ActualSize
-    FileToField = Rs.Fields(0).value
+    lSize = rs.Fields(0).ActualSize
+    FileToField = rs.Fields(0).value
     Screen.MousePointer = vbNormal
 End Function
 
 'check recordset
 
-Public Function FilterRecords(Rs As ADODB.Recordset, FilterStr As String) As ADODB.Recordset
-    Rs.Filter = adFilterNone
-    Rs.Filter = FilterStr
-    Set FilterRecords = Rs
+Public Function FilterRecords(rs As ADODB.Recordset, FilterStr As String) As ADODB.Recordset
+    rs.Filter = adFilterNone
+    rs.Filter = FilterStr
+    Set FilterRecords = rs
 End Function
 
 'function make command object
@@ -560,7 +560,7 @@ On Error Resume Next
     
       '  If TypeOf ctl Is SSOleDBGrid Or
       
-       If TypeOf ctl Is CheckBox Or _
+       If TypeOf ctl Is checkBox Or _
          TypeOf ctl Is DataGrid Or _
            TypeOf ctl Is textBOX Then
 
@@ -587,24 +587,24 @@ End Sub
 
 'function to seacrh recordset
 
-Public Function RecordsetFind(Rs As ADODB.Recordset, Criteria As String) As Boolean
+Public Function RecordsetFind(rs As ADODB.Recordset, Criteria As String) As Boolean
 Dim i As Integer
 Dim BK As Variant
     
-    If Rs.EOF And Rs.BOF Then Exit Function
-    If Rs.RecordCount = 0 Then Exit Function
+    If rs.EOF And rs.BOF Then Exit Function
+    If rs.RecordCount = 0 Then Exit Function
     
-    BK = Rs.Bookmark
+    BK = rs.Bookmark
     
     'rs.MoveFirst
-    Call Rs.Find(Criteria, 0, adSearchForward, adBookmarkFirst)
-    Call Rs.Find(Criteria, 0, adSearchForward, adBookmarkFirst)
+    Call rs.Find(Criteria, 0, adSearchForward, adBookmarkFirst)
+    Call rs.Find(Criteria, 0, adSearchForward, adBookmarkFirst)
     
     
-    If Rs.EOF Then
-        Rs.Bookmark = BK
+    If rs.EOF Then
+        rs.Bookmark = BK
     Else
-        Call Rs.Move(0)
+        Call rs.Move(0)
         RecordsetFind = True
     End If
 End Function
@@ -637,8 +637,8 @@ End Sub
 
 'call function to send message
 
-Public Sub DateTime_SetFormat(HWND As Long, Format As String)
-    Call SendMessageStr(HWND, &H1005, 0, Format)
+Public Sub DateTime_SetFormat(hwnd As Long, Format As String)
+    Call SendMessageStr(hwnd, &H1005, 0, Format)
 End Sub
 
 'Added by Muzammil
@@ -779,7 +779,7 @@ Dim bl As Boolean
         lblStatus.Caption = IIf(msg1 = "", "Modification", msg1) 'J modified
         '---------------------------------------------
   
-     ElseIf FMode = mdVisualization Then
+     ElseIf FMode = mdvisualization Then
         lblStatus.ForeColor = vbGreen
         
         'Modified by Juan (8/28/2000) for Multilingual
@@ -865,7 +865,7 @@ Public Function IsArrayLoaded(ArrayToTest() As String) As Boolean
 
 Dim x As Integer
 
-On Error GoTo ErrHandler
+On Error GoTo errHandler
 
 IsArrayLoaded = False
 
@@ -880,7 +880,7 @@ IsArrayLoaded = True
 
 Exit Function
 
-ErrHandler:
+errHandler:
 
 Err.Clear
 
@@ -907,7 +907,7 @@ FixTheFirstCarriageReturn = Text
 
 End Function
 
-Public Sub ExportToExcel(Optional RsRecord As ADODB.Recordset, Optional Arr As Variant, Optional ArrColumnNames As Variant, Optional Progressbar As Progressbar, Optional FileName As String)
+Public Sub ExportToExcel(Optional RsRecord As ADODB.Recordset, Optional Arr As Variant, Optional ArrColumnNames As Variant, Optional Progressbar As Progressbar, Optional fileName As String)
 
 Dim Report As Excel.Application
 Dim i As Integer
@@ -915,7 +915,7 @@ Dim j As Integer
 Dim Sa As Scripting.FileSystemObject
 Dim Fld As ADODB.Field
 Dim x As Integer
-Dim Y As Integer
+Dim y As Integer
 Dim Incr As Integer
 
     Set Report = New Excel.Application
@@ -923,9 +923,9 @@ Dim Incr As Integer
     
     i = Rnd(20)
     
-    If Sa.FileExists(App.Path & "\" & FileName & i & ".xls") = False Then Sa.CreateTextFile App.Path + "\" & FileName & i & ".xls"
+    If Sa.FileExists(App.Path & "\" & fileName & i & ".xls") = False Then Sa.CreateTextFile App.Path + "\" & fileName & i & ".xls"
     
-    Report.Workbooks.Open App.Path + "\" + FileName & i & ".xls", , , , "asweetkiss"
+    Report.Workbooks.Open App.Path + "\" + fileName & i & ".xls", , , , "asweetkiss"
     
     
     With Report
@@ -954,11 +954,11 @@ Dim Incr As Integer
     
         x = UBound(Arr, 1)
         
-        Y = UBound(Arr, 2)
+        y = UBound(Arr, 2)
         
-       Incr = Y / 10
+       Incr = y / 10
         
-            For j = 0 To Y
+            For j = 0 To y
                       
               For i = 0 To x
                
@@ -1061,17 +1061,17 @@ Progressbar.value = 0
 End Sub
 
 Public Function CheckifFqaExist(FQA As String, Level As String) As Boolean
-Dim Rs As New ADODB.Recordset
+Dim rs As New ADODB.Recordset
 On Error GoTo ErrHand
 Level = UCase(Level)
 
-Rs.Source = "select count(*) countit from fqa where fqa ='" & FQA & "' and namespace ='" & deIms.NameSpace & "' and level ='" & Level & "'"
-Rs.Open , deIms.cnIms
+rs.Source = "select count(*) countit from fqa where fqa ='" & FQA & "' and namespace ='" & deIms.NameSpace & "' and level ='" & Level & "'"
+rs.Open , deIms.cnIms
 
-If Rs("countit").value > 0 Then
+If rs("countit").value > 0 Then
     CheckifFqaExist = True
 End If
-Set Rs = Nothing
+Set rs = Nothing
 
 Exit Function
 ErrHand:

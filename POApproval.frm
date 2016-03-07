@@ -29,7 +29,7 @@ Begin VB.Form frmPOApproval
       Caption         =   "&Print"
       CausesValidation=   0   'False
       Height          =   375
-      Left            =   5880
+      Left            =   6840
       TabIndex        =   4
       Top             =   5400
       Visible         =   0   'False
@@ -38,7 +38,7 @@ Begin VB.Form frmPOApproval
    Begin VB.CommandButton CmdApprove 
       Caption         =   "Approval"
       Height          =   375
-      Left            =   2160
+      Left            =   2760
       TabIndex        =   2
       Top             =   5400
       Width           =   1500
@@ -47,7 +47,7 @@ Begin VB.Form frmPOApproval
       Caption         =   "&Close"
       CausesValidation=   0   'False
       Height          =   375
-      Left            =   3840
+      Left            =   4440
       TabIndex        =   3
       Top             =   5400
       Width           =   1500
@@ -184,7 +184,7 @@ Option Explicit
 
 Dim cmd As ADODB.Command
 Dim cmdItem As ADODB.Command
-Dim Rs As ADODB.Recordset
+Dim rs As ADODB.Recordset
 
 Private Type DocumentType
 
@@ -194,7 +194,7 @@ Private Type DocumentType
 End Type
 
 
-Private Declare Function DrawIcon Lib "user32" (ByVal hdc As Long, ByVal x As Long, ByVal Y As Long, ByVal hIcon As Long) As Long
+Private Declare Function DrawIcon Lib "user32" (ByVal hdc As Long, ByVal x As Long, ByVal y As Long, ByVal hIcon As Long) As Long
 Dim TableLocked As Boolean, currentformname As String   'jawdat
 Dim FDocumentTypes() As DocumentType
 Dim GPOnumbs() As String
@@ -205,7 +205,7 @@ Dim GPOnumbs() As String
 Private Sub CmdApprove_Click()
 Dim PONumbers() As String
 Dim porejected() As String
-Dim l As Integer, Y As Integer, x As Integer
+Dim l As Integer, y As Integer, x As Integer
 Dim str As String
 Dim i As Integer
 Dim countarray As Integer
@@ -255,19 +255,19 @@ Screen.MousePointer = 11
     With SSDBGLine
         .MoveFirst
         
-        Y = 0
+        y = 0
         l = .Rows
         
-        Do While Y <= l
-            Y = Y + 1
+        Do While y <= l
+            y = y + 1
             
             'DoEvents: DoEvents
             If .Columns("approve").value Then
             
                 Screen.MousePointer = 11
-                Call ApprovePo(.Columns("ponumb").Text, .Columns(5).value, porejected, countarray)
+                Call ApprovePo(.Columns("ponumb").text, .Columns(5).value, porejected, countarray)
                 Screen.MousePointer = 11
-                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").Text, 1)
+                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").text, 1)
                 Screen.MousePointer = 11
                 'MDI_IMS.WriteStatus ("Getting Po Numbers to be approved")
                 
@@ -278,7 +278,7 @@ Screen.MousePointer = 11
                 If Err Then MsgBox Err.Description: Err.Clear
             End If
                 
-            If Y = l Then Exit Do
+            If y = l Then Exit Do
             
             .MoveNext
             'DoEvents: DoEvents: DoEvents
@@ -423,15 +423,16 @@ Dim currentformname
     SSDBGLine.HeadFont.Bold = True
     SSDBGLine.HeadFont.Weight = 1
     
-    
+Me.Left = Round((Screen.Width - Me.Width) / 2)
+Me.Top = Round((Screen.Height - Me.Height) / 2)
 End Sub
 
-Private Sub AddPos(Rs As ADODB.Recordset)
+Private Sub AddPos(rs As ADODB.Recordset)
 Dim str As String
 Dim i As Integer
-    If Rs Is Nothing Then Exit Sub
-    If Rs.EOF And Rs.BOF Then Exit Sub
-    If Rs.RecordCount = 0 Then Exit Sub
+    If rs Is Nothing Then Exit Sub
+    If rs.EOF And rs.BOF Then Exit Sub
+    If rs.RecordCount = 0 Then Exit Sub
     
     
     str = Chr(1)
@@ -439,16 +440,16 @@ Dim i As Integer
     SSDBGLine.FieldSeparator = Chr(1)
     i = 0
     
-    Do While Not Rs.EOF
+    Do While Not rs.EOF
     
         If ConnInfo.Eccnactivate = "y" Or ConnInfo.Eccnactivate = "o" Then
         
-            SSDBGLine.AddItem Rs!po_ponumb & "" & str & Rs!doc_desc & "" & str & Rs!po_currcode & " " & Format(IIf(Len(Trim(Rs!po_totacost & "")) = 0, 0, Rs!po_totacost), "0.00") & str & 0 & str & 0 & str & IIf(Rs!po_usexport = True, 1, 0)
+            SSDBGLine.AddItem rs!PO_PONUMB & "" & str & rs!doc_desc & "" & str & rs!po_currcode & " " & Format(IIf(Len(Trim(rs!po_totacost & "")) = 0, 0, rs!po_totacost), "0.00") & str & 0 & str & 0 & str & IIf(rs!po_usexport = True, 1, 0)
             SSDBGLine.Columns(5).Visible = True
             
         Else
         
-            SSDBGLine.AddItem Rs!po_ponumb & "" & str & Rs!doc_desc & "" & str & Rs!po_currcode & " " & Format(IIf(Len(Trim(Rs!po_totacost & "")) = 0, 0, Rs!po_totacost), "0.00") & str & 0 & str & 0
+            SSDBGLine.AddItem rs!PO_PONUMB & "" & str & rs!doc_desc & "" & str & rs!po_currcode & " " & Format(IIf(Len(Trim(rs!po_totacost & "")) = 0, 0, rs!po_totacost), "0.00") & str & 0 & str & 0
             SSDBGLine.Columns(5).Visible = False
             SSDBGLine.Columns(5).value = False
             
@@ -456,10 +457,10 @@ Dim i As Integer
     
         ReDim Preserve FDocumentTypes(i)
         
-        FDocumentTypes(i).Ponumb = Trim(Rs!po_ponumb)
-        FDocumentTypes(i).Docutype = Trim(Rs!po_docutype)
+        FDocumentTypes(i).Ponumb = Trim(rs!PO_PONUMB)
+        FDocumentTypes(i).Docutype = Trim(rs!po_docutype)
         
-        Rs.MoveNext
+        rs.MoveNext
         
         i = i + 1
         
@@ -469,7 +470,7 @@ End Sub
 
 Public Function ApprovePo(PO As String, usexport As Boolean, ByRef PosRejected() As String, ByRef ArrayMax As Integer) As Boolean
     
-    Dim Rs As ADODB.Recordset
+    Dim rs As ADODB.Recordset
     Dim Max As Integer
     Dim returnresult As Integer
     On Error GoTo ErrHand
@@ -490,7 +491,7 @@ Public Function ApprovePo(PO As String, usexport As Boolean, ByRef PosRejected()
     cmd.parameters("@usexport") = usexport
     
     'Set Rs = cmd.Execute(Options:=adExecuteNoRecords)
-    Set Rs = cmd.Execute
+    Set rs = cmd.Execute
      returnresult = cmd.parameters("@returnresult").value
    ' If Rs.Fields(0) = 0 Then
     If returnresult = 0 Then
@@ -558,14 +559,16 @@ On Error GoTo Handled
 
 'Dim Rs As ADODB.Recordset 'JCG 2008/8/28
 
-Dim FileName As String
+Dim Filename As String
 Dim cmd As ADODB.Command
+Dim sql As String
 
     Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = deIms.cnIms
     
-    cmd.CommandText = "SELECT porc_rec FROM POREC WHERE (porc_ponumb = '" & Trim(PO) & "') AND (porc_npecode = '" & NameSpace & "')" 'deIms.rsPOREC.Source
-    
+    sql = "SELECT porc_rec FROM POREC WHERE porc_ponumb = '" + Trim(PO) + "' AND porc_npecode = '" + NameSpace + "' " _
+        + "union select dis_mail as porc_rec from distribution where dis_npecode='" + NameSpace + "'  "
+    cmd.CommandText = sql
     If cmd.parameters.Count = 0 Then
         cmd.parameters.Append cmd.CreateParameter("PONUMB", adVarChar, adParamInput, 15)
         cmd.parameters.Append cmd.CreateParameter("NameSpace", adVarChar, adParamInput, 5)
@@ -574,14 +577,14 @@ Dim cmd As ADODB.Command
     cmd.parameters(0) = PO
     cmd.parameters(1) = NameSpace
     
-    Set Rs = cmd.Execute
+    Set rs = cmd.Execute
     
-    Rs.Close
-    Rs.CursorLocation = adUseClient
+    rs.Close
+    rs.CursorLocation = adUseClient
     
-    Rs.Open
+    rs.Open
     
-    If Rs.RecordCount > 0 Then
+    If rs.RecordCount > 0 Then
     
     
             Dim ParamsForRPTI(1) As String
@@ -599,32 +602,32 @@ Dim cmd As ADODB.Command
             Dim attention As String
             
             On Error Resume Next
-'''''
-'''''If rsReceptList Is Nothing Then Exit Sub
+
+''If rsReceptList Is Nothing Then Exit Sub
                 
 
-'''''   With MDI_IMS.CrystalReport1
-'''''        .ReportFileName = ReportPath & "po.rpt"
-'''''        .ParameterFields(0) = "namespace;" + NameSpace + ";true"
-'''''         .ParameterFields(1) = "ponumb;" + Ponumb + ";true"
-'''''
-'''''
-'''''        'Modified by Juan (9/15/2000) for Multilingual
-'''''        msg1 = translator.Trans("L00458") 'J added
-'''''        .WindowTitle = "Transaction Approval" 'J modified
-'''''        Call translator.Translate_Reports("Transtoap&send.rpt") 'J added
-'''''        '---------------------------------------------
-'''''
-'''''    End With
-'''''
-'''''
-'''''    With BeforePrint
-'''''        ReDim .Parameters(1)
-'''''        .Parameters(1) = "ponumb=" & Ponumb
-'''''        .ReportFileName = ReportPath & "po.rpt"
-'''''        .Parameters(0) = "namespace=" & NameSpace
-'''''    End With
-'''''
+   With MDI_IMS.CrystalReport1
+        .ReportFileName = reportPath & "po.rpt"
+        .ParameterFields(0) = "namespace;" + NameSpace + ";true"
+         .ParameterFields(1) = "ponumb;" + PO + ";true"
+
+
+        'Modified by Juan (9/15/2000) for Multilingual
+        msg1 = translator.Trans("L00458") 'J added
+        .WindowTitle = "Transaction Approval" 'J modified
+        Call translator.Translate_Reports("Transtoap&send.rpt") 'J added
+        '---------------------------------------------
+
+    End With
+
+
+'    With BeforePrint
+'        ReDim .parameters(1)
+'        .parameters(1) = "ponumb=" & Ponumb
+'        .ReportFileName = reportPath & "po.rpt"
+'        .parameters(0) = "namespace=" & NameSpace
+'    End With
+
             
 
 
@@ -643,17 +646,21 @@ Dim cmd As ADODB.Command
             attention = "Attention Please "
 
             Message = "PO Approval"
-
+            
+            Dim text As String
+            text = "Transaction Approval"
+            If translator.TR_LANGUAGE <> "US" Then
+                text = translator.Trans("L00458")
+                text = IIf(text = "", "Transaction Approval", text)
+            End If
             If ConnInfo.EmailClient = Outlook Then
-'MsgBox "@->Outlook-" + Format(Rs.RecordCount)
-
                 'Call sendOutlookEmailandFax("po.rpt", "Transaction Approval", MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, attention) 'JCG 2008/9/1
-                'Call sendOutlookEmailandFax("po.rpt", "Transaction Approval-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, attention, , , PO) 'JCG 2008/9/1
-                Call sendOutlookEmailandFax(Report_EmailFax_PO_name, "Transaction Approval-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, attention, , , PO)  'JCG 2008/9/1
+                Call sendOutlookEmailandFax("po.rpt", text + "-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO) 'JCG 2008/9/1
+                'Call sendOutlookEmailandFax(Report_EmailFax_PO_name, "Transaction Approval-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO)  'JCG 2008/9/1
 
             ElseIf ConnInfo.EmailClient = ATT Then
 
-                Call SendAttFaxAndEmail("po.rpt", ParamsForRPTI, MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, Message, FieldName)
+                Call SendAttFaxAndEmail("po.rpt", ParamsForRPTI, MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, Message, FieldName)
 
             ElseIf ConnInfo.EmailClient = Unknown Then
 
@@ -674,7 +681,7 @@ Dim cmd As ADODB.Command
 ''''''''''
     End If
     
-    Set Rs = Nothing
+    Set rs = Nothing
     Set cmd = Nothing
     Exit Sub
     
@@ -808,7 +815,7 @@ End Function
 Private Sub SSDBGLine_DblClick()
     On Error GoTo ErrHandler
     Dim PO As String
-    PO = SSDBGLine.Columns("ponumb").Text
+    PO = SSDBGLine.Columns("ponumb").text
     
     With MDI_IMS.CrystalReport1
         .Reset
@@ -843,7 +850,7 @@ ErrHandler:
 End Sub
 
 Private Sub txtsearch_GotFocus()
-If Trim(txtsearch.Text) = "Hit enter to see results" Then txtsearch = ""
+If Trim(txtsearch.text) = "Hit enter to see results" Then txtsearch = ""
 End Sub
 
 Private Sub txtsearch_KeyUp(KeyCode As Integer, Shift As Integer)

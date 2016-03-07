@@ -943,7 +943,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   56295427
+            Format          =   55836675
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1605,7 +1605,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   56295427
+            Format          =   55836675
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2200,7 +2200,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   56295427
+            Format          =   55836675
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -3706,11 +3706,11 @@ On Error GoTo getError
                 dgRecipientList.MoveFirst
                 For i = 0 To dgRecipientList.Rows - 1
                     For Each cont In suppContacts
-                        If cont = dgRecipientList.Columns(0).Text Then
+                        If cont = dgRecipientList.Columns(0).text Then
                             PoReceipients.MoveFirst
                             Do While Not PoReceipients.EOF
                                 If PoReceipients.Receipient = cont Then
-                                    PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).Text)
+                                    PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).text)
                                     Exit Do
                                 End If
                                 PoReceipients.MoveNext
@@ -3723,10 +3723,10 @@ On Error GoTo getError
             End If
             
             Dim rs As ADODB.Recordset
-            Dim Sql As String
-            Sql = "SELECT * FROM SUPPLIERCONTACT WHERE sct_supcode='" + Trim(SSoledbSupplier.Tag) + "'"
+            Dim sql As String
+            sql = "SELECT * FROM SUPPLIERCONTACT WHERE sct_supcode='" + Trim(SSoledbSupplier.Tag) + "'"
             Set rs = New ADODB.Recordset
-            Call rs.Open(Sql, deIms.cnIms, adOpenForwardOnly, adLockReadOnly)
+            Call rs.Open(sql, deIms.cnIms, adOpenForwardOnly, adLockReadOnly)
             rs.MoveFirst
             If rs.RecordCount > 0 Then ReDim suppContacts(rs.RecordCount)
             Dim RecipientName As String
@@ -3970,7 +3970,7 @@ End Sub
 
 Private Sub CmdAssignFQA_Click()
  Dim Company As String
- Dim location As String
+ Dim Location As String
  Dim us As String
  Dim cc As String
  Dim stocktype As String
@@ -3982,7 +3982,7 @@ Private Sub CmdAssignFQA_Click()
  If POFqa.Count > 2 Then
  
     Company = TxtToCompanyFQA
-    location = SSOleDBToLocationFQA
+    Location = SSOleDBToLocationFQA
     us = SSOleDBtoUSChartFQA
     cc = SSOleDBToCamChartFQA
     stocktype = TxtToStocktypeFQA
@@ -3992,7 +3992,7 @@ Private Sub CmdAssignFQA_Click()
            Do While Not POFqa.EOF
                       
                POFqa.ToCompany = Company
-               POFqa.Tolocation = location
+               POFqa.Tolocation = Location
                POFqa.ToUSChart = us
                POFqa.ToCamChart = cc
                POFqa.ToStockType = stocktype
@@ -4044,16 +4044,16 @@ End Sub
 
 Private Sub dgRecipientList_BeforeColUpdate(ByVal ColIndex As Integer, ByVal oldVALUE As Variant, Cancel As Integer)
 If PoReceipients.Count > 0 Then PoReceipients.MoveFirst
- If Trim$(Len(dgRecipientList.Columns(0).Text)) > 0 Then
+ If Trim$(Len(dgRecipientList.Columns(0).text)) > 0 Then
    Do While Not PoReceipients.EOF
        If PoReceipients.Receipient = Trim$(oldVALUE) Then
-         PoReceipients.Receipient = Trim$(dgRecipientList.Columns(0).Text)
+         PoReceipients.Receipient = Trim$(dgRecipientList.Columns(0).text)
          Exit Sub
        End If
        PoReceipients.MoveNext
    Loop
  Else
-   dgRecipientList.Columns(0).Text = oldVALUE
+   dgRecipientList.Columns(0).text = oldVALUE
  End If
 End Sub
 
@@ -4063,7 +4063,7 @@ DispPromptMsg = 0
 msg = translator.Trans("M00781")
 msg = IIf(msg = "", "Are you sure you want to Delete the Recepient?", msg)
 If MsgBox(msg, vbYesNo) = vbYes Then
-     PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).Text)
+     PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).text)
 Else
      Cancel = -1
 End If
@@ -4114,6 +4114,11 @@ If FormMode <> mdvisualization And dtpRequestedDate.value < Now() Then
     MsgBox msg
     dtpRequestedDate.SetFocus
 End If
+End Sub
+
+Private Sub Form_Activate()
+    Me.Left = Round((Screen.Width - Me.Width) / 2)
+    Me.Top = Round((Screen.Height - Me.Height) / 2) - 200
 End Sub
 
 Private Sub NavBar1_OnCloseClick()
@@ -4447,7 +4452,7 @@ If deIms.rsActiveStockmasterLookup.AbsolutePosition = adPosBOF Or deIms.rsActive
         Cancel = True
         MsgBox msg, vbInformation, "Imswin"
         
-ElseIf Trim(ssdcboCommoditty.Text) <> Trim(ssdcboCommoditty.Tag) Then
+ElseIf Trim(ssdcboCommoditty.text) <> Trim(ssdcboCommoditty.Tag) Then
     
         'This case arises when the user uses the TAB instead of ENTER to move to the next tab.
     
@@ -4460,7 +4465,7 @@ End Sub
 Private Sub ssdcboCondition_Click()
 ssdcboCondition.SelStart = 0
 ssdcboCondition.SelLength = 0
-ssdcboCondition.Tag = ssdcboCondition.Columns(0).Text
+ssdcboCondition.Tag = ssdcboCondition.Columns(0).text
 End Sub
 
 Private Sub ssdcboCondition_GotFocus()
@@ -4479,7 +4484,7 @@ Call NormalBackground(ssdcboCondition)
 End Sub
 
 Private Sub ssdcboCondition_Validate(Cancel As Boolean)
-If Len(Trim$(ssdcboCondition.Text)) > 0 And Not ssdcboCondition.IsItemInList Then
+If Len(Trim$(ssdcboCondition.text)) > 0 And Not ssdcboCondition.IsItemInList Then
   Cancel = True
    ssdcboCondition.SetFocus
     '2015-04-13 juan
@@ -4493,7 +4498,7 @@ Private Sub ssdcboDelivery_Click()
 On Error GoTo Handler
 ssdcboDelivery.SelStart = 0
 ssdcboDelivery.SelLength = 0
-ssdcboDelivery.Tag = ssdcboDelivery.Columns(0).Text
+ssdcboDelivery.Tag = ssdcboDelivery.Columns(0).text
 Exit Sub
 Handler:
     '2015-04-13 juan
@@ -4533,7 +4538,7 @@ If ssdcboShipper.Enabled = True Then ssdcboShipper.SetFocus
 End Sub
 
 Private Sub ssdcboDelivery_Validate(Cancel As Boolean)
-If Len(Trim$(ssdcboDelivery.Text)) > 0 And Not ssdcboDelivery.IsItemInList Then
+If Len(Trim$(ssdcboDelivery.text)) > 0 And Not ssdcboDelivery.IsItemInList Then
   Cancel = True
    ssdcboDelivery.SetFocus
     '2015-04-13 juan
@@ -4576,7 +4581,7 @@ Call NormalBackground(ssdcboManNumber)
 End Sub
 
 Private Sub ssdcboManNumber_Validate(Cancel As Boolean)
-If Len(Trim$(ssdcboManNumber.Text)) > 0 Then
+If Len(Trim$(ssdcboManNumber.text)) > 0 Then
 '''   If ssdcboManNumber.IsItemInList = False Then
 '''        Cancel = True
 '''        ssdcboManNumber.SetFocus
@@ -4608,7 +4613,7 @@ End Sub
 
 Private Sub ssdcboRequisition_Validate(Cancel As Boolean)
 
-If Len(Trim(ssdcboRequisition.Text)) = 0 Then
+If Len(Trim(ssdcboRequisition.text)) = 0 Then
 
     lblReqLineitem.Caption = ""
     Exit Sub
@@ -4657,7 +4662,7 @@ Call NormalBackground(ssdcboShipper)
 End Sub
 
 Private Sub ssdcboShipper_Validate(Cancel As Boolean)
-If Len(Trim$(ssdcboShipper.Text)) > 0 And Not ssdcboShipper.IsItemInList Then
+If Len(Trim$(ssdcboShipper.text)) > 0 And Not ssdcboShipper.IsItemInList Then
   Cancel = True
    ssdcboShipper.SetFocus
     '2015-04-15 juan
@@ -4668,36 +4673,36 @@ End If
 End Sub
 
 Private Sub SSOleDBCompany_DropDown()
-SSOleDBCompany.RemoveAll
+SSOleDBcompany.RemoveAll
 If deIms.rsActiveCompany.State = 1 Then deIms.rsActiveCompany.Close
 Call deIms.ActiveCompany(FNameSpace)
 
 Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
 End Sub
 
 Private Sub SSOleDBCompany_GotFocus()
-SSOleDBCompany.SelLength = 0
-SSOleDBCompany.SelStart = 0
-Call HighlightBackground(SSOleDBCompany)
+SSOleDBcompany.SelLength = 0
+SSOleDBcompany.SelStart = 0
+Call HighlightBackground(SSOleDBcompany)
 End Sub
 
 Private Sub SSOleDBCompany_KeyDown(KeyCode As Integer, Shift As Integer)
-If Not SSOleDBCompany.DroppedDown Then SSOleDBCompany.DroppedDown = True
+If Not SSOleDBcompany.DroppedDown Then SSOleDBcompany.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBCompany_LostFocus()
-Call NormalBackground(SSOleDBCompany)
+Call NormalBackground(SSOleDBcompany)
 End Sub
 
 Private Sub SSOleDBCompany_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBCompany.Text)) > 0 Then
-   If SSOleDBCompany.IsItemInList = False Then
+If Len(Trim$(SSOleDBcompany.text)) > 0 Then
+   If SSOleDBcompany.IsItemInList = False Then
         Cancel = True
-        SSOleDBCompany.SetFocus
+        SSOleDBcompany.SetFocus
         '2015-04-13 juan
         msg = translator.Trans("M00122")
         msg = IIf(msg = "", "Invalid Value", msg)
@@ -4735,7 +4740,7 @@ Call NormalBackground(SSOleDBCurrency)
 End Sub
 
 Private Sub SSOleDBCurrency_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBCurrency.Text)) > 0 Then
+If Len(Trim$(SSOleDBCurrency.text)) > 0 Then
     If Not SSOleDBCurrency.IsItemInList Then
          Cancel = True
           SSOleDBCurrency.SetFocus
@@ -4745,10 +4750,10 @@ If Len(Trim$(SSOleDBCurrency.Text)) > 0 Then
         MsgBox msg, , "Imswin"
     Else
       If lookups Is Nothing Then Set lookups = Mainpo.lookups
-      If lookups.CurrencyDetlExist(SSOleDBCurrency.Columns(0).Text) = False Then
+      If lookups.CurrencyDetlExist(SSOleDBCurrency.Columns(0).text) = False Then
          MsgBox "No Currency Detail for today.Please Update Currency Table"
-         SSOleDBCompany.Text = ""
-         SSOleDBCompany.SetFocus
+         SSOleDBcompany.text = ""
+         SSOleDBcompany.SetFocus
          Cancel = True
       End If
           
@@ -4791,7 +4796,7 @@ Call NormalBackground(SSOleDBCustCategory)
 End Sub
 
 Private Sub SSOleDBCustCategory_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBCustCategory.Text)) > 0 Then
+If Len(Trim$(SSOleDBCustCategory.text)) > 0 Then
    If SSOleDBCustCategory.IsItemInList = False Then
         Cancel = True
         SSOleDBCustCategory.SetFocus
@@ -4817,7 +4822,7 @@ SSOleDBDocType.SelStart = 0
 
 PreviousDoctype = SSOleDBDocType.Tag
 
-SSOleDBDocType.Tag = SSOleDBDocType.Columns(0).Text
+SSOleDBDocType.Tag = SSOleDBDocType.Columns(0).text
  
 'JCG 2008/10/26
     ClearPoReceipients
@@ -4857,7 +4862,7 @@ SSOleDBDocType.Tag = SSOleDBDocType.Columns(0).Text
  If IsArrayLoaded(Recepients) Then
  
     For i = 0 To UBound(Recepients)
-        If LTrim(RTrim(SSOleDBDocType.Columns(0).Text)) = "R" Then 'JCG 2008-10-26
+        If LTrim(RTrim(SSOleDBDocType.Columns(0).text)) = "R" Then 'JCG 2008-10-26
             If InStr(Recepients(i), "@") > 0 Then 'JCG 2008-10-26
                 Call AddRecepient(Recepients(i)) 'JCG 2008-10-26
             End If 'JCG 2008-10-26
@@ -4910,7 +4915,7 @@ Call NormalBackground(SSOleDBDocType)
 End Sub
 
 Private Sub SSOleDBDocType_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBDocType.Text)) > 0 And Not SSOleDBDocType.IsItemInList Then
+If Len(Trim$(SSOleDBDocType.text)) > 0 And Not SSOleDBDocType.IsItemInList Then
   Cancel = True
    SSOleDBDocType.SetFocus
     '2015-04-15 juan
@@ -4921,7 +4926,7 @@ End If
 End Sub
 
 Private Sub SSOleDBInvLocation_Click()
-SSOleDBInvLocation.Tag = SSOleDBInvLocation.Columns(0).Text
+SSOleDBInvLocation.Tag = SSOleDBInvLocation.Columns(0).text
 SSOleDBInvLocation.SelLength = 0
 SSOleDBInvLocation.SelStart = 0
 'Call ModifyToFQAWithNewLocation
@@ -4940,7 +4945,7 @@ Call NormalBackground(SSOleDBInvLocation)
 End Sub
 
 Private Sub SSOleDBInvLocation_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBInvLocation.Text)) > 0 And Not SSOleDBInvLocation.IsItemInList Then
+If Len(Trim$(SSOleDBInvLocation.text)) > 0 And Not SSOleDBInvLocation.IsItemInList Then
   Cancel = True
    SSOleDBInvLocation.SetFocus
     '2015-04-15 juan
@@ -4990,7 +4995,7 @@ SSOleDBOriginator.SetFocus
 End Sub
 
 Private Sub SSOleDBOriginator_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBOriginator.Text)) > 0 And Not SSOleDBOriginator.IsItemInList Then
+If Len(Trim$(SSOleDBOriginator.text)) > 0 And Not SSOleDBOriginator.IsItemInList Then
   Cancel = True
    SSOleDBOriginator.SetFocus
     '2015-04-15 juan
@@ -5015,12 +5020,12 @@ If Not FormMode = mdCreation Then
       End If
        Call deIms.Ponumb(deIms.NameSpace)
        If showAll(1).value = True Then
-        Dim Sql As String
-            Sql = "Select po_ponumb from po where  po_npecode = '" + FNameSpace + "' and " _
+        Dim sql As String
+            sql = "Select po_ponumb from po where  po_npecode = '" + FNameSpace + "' and " _
                 & "po_date >=  dateadd(year, -1, getdate())" _
                 & "ORDER BY po_ponumb, po_date, po_reqddelvdate"
             deIms.rsPonumb.Close
-            deIms.rsPonumb.Source = Sql
+            deIms.rsPonumb.Source = sql
             deIms.rsPonumb.Open
         End If
 
@@ -5055,7 +5060,7 @@ End Sub
 Private Sub SSOleDBPriority_Click()
 SSOleDBPriority.SelLength = 0
 SSOleDBPriority.SelStart = 0
-SSOleDBPriority.Tag = SSOleDBPriority.Columns(0).Text
+SSOleDBPriority.Tag = SSOleDBPriority.Columns(0).text
 End Sub
 
 Private Sub SSOleDBPriority_DropDown()
@@ -5087,7 +5092,7 @@ Call NormalBackground(SSOleDBPriority)
 End Sub
 
 Private Sub SSOleDBPriority_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBPriority.Text)) > 0 And Not SSOleDBPriority.IsItemInList Then
+If Len(Trim$(SSOleDBPriority.text)) > 0 And Not SSOleDBPriority.IsItemInList Then
   Cancel = True
    SSOleDBPriority.SetFocus
     '2015-04-15 juan
@@ -5100,7 +5105,7 @@ End Sub
 Private Sub SSOleDBShipTo_Click()
 SSOleDBShipTo.SelLength = 0
 SSOleDBShipTo.SelStart = 0
-SSOleDBShipTo.Tag = SSOleDBShipTo.Columns(0).Text
+SSOleDBShipTo.Tag = SSOleDBShipTo.Columns(0).text
 End Sub
 
 Private Sub SSOleDBShipTo_DropDown()
@@ -5128,7 +5133,7 @@ Call NormalBackground(SSOleDBShipTo)
 End Sub
 
 Private Sub SSOleDBShipTo_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBShipTo.Text)) > 0 And Not SSOleDBShipTo.IsItemInList Then
+If Len(Trim$(SSOleDBShipTo.text)) > 0 And Not SSOleDBShipTo.IsItemInList Then
   Cancel = True
    SSOleDBShipTo.SetFocus
     '2015-04-15 juan
@@ -5141,7 +5146,7 @@ End Sub
 Private Sub SSOledbSrvCode_Click()
 SSOledbSrvCode.SelLength = 0
 SSOledbSrvCode.SelStart = 0
-SSOledbSrvCode.Tag = SSOledbSrvCode.Columns(0).Text
+SSOledbSrvCode.Tag = SSOledbSrvCode.Columns(0).text
 End Sub
 
 Private Sub SSOledbSrvCode_GotFocus()
@@ -5233,7 +5238,7 @@ Call NormalBackground(SSoledbSupplier)
 End Sub
 
 Private Sub SSOleDBsupplier_Validate(Cancel As Boolean)
-If Len(Trim$(SSoledbSupplier.Text)) > 0 And Not SSoledbSupplier.IsItemInList Then
+If Len(Trim$(SSoledbSupplier.text)) > 0 And Not SSoledbSupplier.IsItemInList Then
   Cancel = True
    SSoledbSupplier.SetFocus
     '2015-04-15 juan
@@ -5276,7 +5281,7 @@ Call NormalBackground(SSOleDBToBeUsedFor)
 End Sub
 
 Private Sub SSOleDBToBeUsedFor_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBToBeUsedFor.Text)) > 0 And Not SSOleDBToBeUsedFor.IsItemInList Then
+If Len(Trim$(SSOleDBToBeUsedFor.text)) > 0 And Not SSOleDBToBeUsedFor.IsItemInList Then
   Cancel = True
    SSOleDBToBeUsedFor.SetFocus
     '2015-04-15 juan
@@ -5314,10 +5319,10 @@ End Sub
 Private Sub SSOleDBUnit_DropDown()
 Dim str As String
 On Error GoTo Handler
-If Len(ssdcboCommoditty.Text) > 0 And chk_FrmStkMst.value = 1 Then
+If Len(ssdcboCommoditty.text) > 0 And chk_FrmStkMst.value = 1 Then
         If objUnits Is Nothing Then Set objUnits = Mainpo.PoUnits
        
-        objUnits.stockNumber = Trim$(ssdcboCommoditty.Text)
+        objUnits.StockNumber = Trim$(ssdcboCommoditty.text)
        
         SSOleDBUnit.RemoveAll
         
@@ -5351,10 +5356,10 @@ Call NormalBackground(SSOleDBUnit)
 End Sub
 
 Private Sub SSOleDBUnit_Validate(Cancel As Boolean)
-If Len(Trim$(SSOleDBUnit.Text)) > 0 Then
+If Len(Trim$(SSOleDBUnit.text)) > 0 Then
    
    'If SSOleDBUnit.IsItemInList Then
-    If Len(Trim$(ssdcboCommoditty.Text)) > 0 And Len(txt_Requested) > 0 Then
+    If Len(Trim$(ssdcboCommoditty.text)) > 0 And Len(txt_Requested) > 0 Then
 ''''                  If Not objUnits Is Nothing Then
 ''''                      Set objUnits = MainPO.PoUnits
 ''''                      objUnits.StockNumber = Trim$(ssdcboCommoditty.text)
@@ -5382,7 +5387,7 @@ If Len(Trim$(SSOleDBUnit.Text)) > 0 Then
 End Sub
 
 Private Sub SSoleEccnNo_Click()
-SSoleEccnno.Tag = Trim(UCase(SSoleEccnno.Columns(0).Text))
+SSoleEccnNo.Tag = Trim(UCase(SSoleEccnNo.Columns(0).text))
 End Sub
 
 Private Sub SSoleEccnNo_DropDown()
@@ -5390,40 +5395,40 @@ Call FillEccnCombos(lookups)
 End Sub
 
 Private Sub SSoleEccnNo_GotFocus()
-Call HighlightBackground(SSoleEccnno)
+Call HighlightBackground(SSoleEccnNo)
 End Sub
 
 Private Sub SSoleEccnNo_KeyDown(KeyCode As Integer, Shift As Integer)
  If FormMode <> mdvisualization Then
-    If Not SSoleEccnno.DroppedDown Then SSoleEccnno.DroppedDown = True
+    If Not SSoleEccnNo.DroppedDown Then SSoleEccnNo.DroppedDown = True
  End If
 End Sub
 
 Private Sub SSoleEccnNo_KeyPress(KeyAscii As Integer)
-If FormMode <> mdvisualization Then SSoleEccnno.MoveNext
+If FormMode <> mdvisualization Then SSoleEccnNo.MoveNext
 End Sub
 
 Private Sub SSoleEccnNo_LostFocus()
-Call NormalBackground(SSoleEccnno)
+Call NormalBackground(SSoleEccnNo)
 End Sub
 
 Private Sub SSoleEccnno_Validate(Cancel As Boolean)
 
 If chk_usexportLI.value = 0 Then Exit Sub
 
-If SSoleEccnno.IsItemInList = False Then
+If SSoleEccnNo.IsItemInList = False Then
         '2015-04-15 juan
         msg = translator.Trans("M00796")
         msg = IIf(msg = "", "Eccn # does not exist in the list, please select a valid one.", msg)
         MsgBox msg, , "Imswin"
-        SSoleEccnno.SetFocus
+        SSoleEccnNo.SetFocus
         Cancel = True
         
 End If
    
 End Sub
 Private Sub SSoleSourceofInfo_Click()
-SSOleSourceofinfo.Tag = Trim(UCase(SSOleSourceofinfo.Columns(0).Text))
+SSOleSourceofinfo.Tag = Trim(UCase(SSOleSourceofinfo.Columns(0).text))
 End Sub
 
 Private Sub SSoleSourceofInfo_DropDown()
@@ -5469,9 +5474,9 @@ On Error Resume Next
 
     If Not Cancelled Then
         'txtClause.SelText = Terms
-        txtClause.Text = txtClause.Text & Terms
+        txtClause.text = txtClause.text & Terms
         txtClause.SelStart = Len(txtClause)
-        Terms = txtClause.Text
+        Terms = txtClause.text
         POClause.Clause = Terms
         
     End If
@@ -5607,7 +5612,7 @@ msg = translator.Trans("M00788")
 msg = IIf(msg = "", "Can not Delete the Recepient ,it is being carried over from the Previous Revisions.", msg)
 ElseIf FormMode = mdModification Then
     If IsNothing(lookups) Then Set lookups = Mainpo.lookups
-      x = lookups.CanUserDeleteRecepient(Poheader.Ponumb, IIf(Poheader.revinumb = 0, 0, Poheader.Originalrevinumb - 1), dgRecipientList.Columns(0).Text)
+      x = lookups.CanUserDeleteRecepient(Poheader.Ponumb, IIf(Poheader.revinumb = 0, 0, Poheader.Originalrevinumb - 1), dgRecipientList.Columns(0).text)
          
          If x = 0 Then
                 If Poheader.revinumb = 1 And Poheader.Originalrevinumb = 0 Then
@@ -6490,17 +6495,17 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
         ssOleDbPO.SetFocus
         newSupplier = True 'JDCG 2008/1/20
         CmdConvert.Enabled = True
-        Dim dataX As ADODB.Recordset
-        Dim Sql
-        Set dataX = New ADODB.Recordset
-        Sql = "select npce_from_stockmaster from namespace where npce_code='" + deIms.NameSpace + "'"
-        dataX.Open Sql, deIms.cnIms, adOpenForwardOnly
+        Dim datax As ADODB.Recordset
+        Dim sql
+        Set datax = New ADODB.Recordset
+        sql = "select npce_from_stockmaster from namespace where npce_code='" + deIms.NameSpace + "'"
+        datax.Open sql, deIms.cnIms, adOpenForwardOnly
 
-        If dataX.RecordCount = 0 Then
+        If datax.RecordCount = 0 Then
             chk_FrmStkMst.value = 1
             chk_FrmStkMst.Enabled = False
         Else
-            If dataX!npce_from_stockmaster Then
+            If datax!npce_from_stockmaster Then
                 chk_FrmStkMst.value = 1
                 chk_FrmStkMst.Enabled = False
             Else
@@ -6516,7 +6521,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
           
           If mIsDocTypeLoaded = False Then
               
-              SSOleDBDocType.Text = ""
+              SSOleDBDocType.text = ""
               
               LoadDocType
            
@@ -6550,7 +6555,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
                                 
                                 Else
                                 
-                                     Call FillFromFQAControls(SSOleDBCompany.Tag, "Purch")
+                                     Call FillFromFQAControls(SSOleDBcompany.Tag, "Purch")
                                      Call SavetoFROMFQA
                                      POFqa.Ponumb = Poheader.Ponumb
                                      SetInitialVAluesPoHeader
@@ -6610,7 +6615,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
                             
                             CheckErrors = POFqa.AddNew
                            
-                           Call InitializeNewTOFQARecord(SSOleDBCompany.Tag, SSOleDBInvLocation.Tag)
+                           Call InitializeNewTOFQARecord(SSOleDBcompany.Tag, SSOleDBInvLocation.Tag)
                            
                   Else
                   
@@ -6668,7 +6673,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
              MsgBox msg6
         Else
              ClearPoRemarks
-             txtRemarks.Text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
+             txtRemarks.text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
              txtRemarks.SelStart = Len(txtRemarks)
              txtRemarks.locked = False
              txtRemarks.SetFocus
@@ -6692,7 +6697,7 @@ msg8 = IIf(msg8 = "", "Error In Adding A Notes/Clause", msg8)
              MsgBox msg8
         Else
              ClearPoclause
-             txtClause.Text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
+             txtClause.text = "REVISION " & Poheader.revinumb & "********************************************************" & vbCrLf
              txtClause.SelStart = Len(txtClause)
              txtClause.locked = False
              txtClause.SetFocus
@@ -6958,7 +6963,7 @@ Dim Sourceid As Integer
 Dim Sourceno As String
 Dim EcnLicense As Boolean
 On Error GoTo Handler
-  If Len(Trim$(ssdcboCommoditty.Text)) > 0 Then
+  If Len(Trim$(ssdcboCommoditty.text)) > 0 Then
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
      Dim rsMANUFACTURER As ADODB.Recordset
     
@@ -6985,7 +6990,7 @@ On Error GoTo Handler
         
         If objUnits Is Nothing Then Set objUnits = Mainpo.PoUnits
 
-        objUnits.stockNumber = Trim$(ssdcboCommoditty.Text)
+        objUnits.StockNumber = Trim$(ssdcboCommoditty.text)
 
                   SSOleDBUnit.RemoveAll
                   'NON-STOCK.Append a "N".In SaveToPOitem ,we checkif it is in-stock or non-stock.
@@ -7009,21 +7014,21 @@ On Error GoTo Handler
                       
         Set lookups = Nothing
         
-        ssdcboCommoditty.Tag = Trim(ssdcboCommoditty.Text)   'M 12/16/2002
+        ssdcboCommoditty.Tag = Trim(ssdcboCommoditty.text)   'M 12/16/2002
         'If the user uses the TAB instead of the ENTER, the desc and units were not being populated. By using this option we know if the event was
         'fired, in a case when it is not fired, the tag would have a differnt value from the value selected. We would check this on the Validation event
         'and take an action appropriatly
         
         If chk_usexportLI.value = 1 Then
             
-            If GetEccnForSelectedStock(Trim(ssdcboCommoditty.Text), Eccnid, Eccnno, EcnLicense, Sourceid, Sourceno) = False Then
+            If GetEccnForSelectedStock(Trim(ssdcboCommoditty.text), Eccnid, Eccnno, EcnLicense, Sourceid, Sourceno) = False Then
             
                 Exit Sub
             
             Else
                 
-                SSoleEccnno.Tag = Eccnid
-                SSoleEccnno = Eccnno
+                SSoleEccnNo.Tag = Eccnid
+                SSoleEccnNo = Eccnno
                 Chk_license.value = IIf(EcnLicense = True, 1, 0)
                 SSOleSourceofinfo.Tag = Sourceid
                 SSOleSourceofinfo = Sourceno
@@ -7032,15 +7037,15 @@ On Error GoTo Handler
             
         End If
         
-        If Len(Trim(SSoleEccnno.Tag)) = 0 Then SSoleEccnno.Tag = 0
+        If Len(Trim(SSoleEccnNo.Tag)) = 0 Then SSoleEccnNo.Tag = 0
         If Len(Trim(SSOleSourceofinfo.Tag)) = 0 Then SSOleSourceofinfo.Tag = 0
         
-        If SSoleEccnno.Tag > 0 Then
+        If SSoleEccnNo.Tag > 0 Then
                    
-                   SSoleEccnno.Enabled = False
-        ElseIf SSoleEccnno.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
+                   SSoleEccnNo.Enabled = False
+        ElseIf SSoleEccnNo.Tag = 0 And ConnInfo.Eccnactivate <> Constno And chk_FrmStkMst.value = 1 Then
                    
-                   SSoleEccnno.Enabled = True
+                   SSoleEccnNo.Enabled = True
         End If
         
         If SSOleSourceofinfo.Tag > 0 Then
@@ -7069,8 +7074,8 @@ Private Sub ssdcboRequisition_Click()
 Dim RsReqPO As ADODB.Recordset
 Set lookups = Mainpo.lookups
 ssdcboRequisition.Tag = ssdcboRequisition.value
-lblReqLineitem = Trim$(ssdcboRequisition.Columns(2).Text)
-Set RsReqPO = lookups.GetReqisitionLineItem(lblReqLineitem, Trim$(ssdcboRequisition.Text))
+lblReqLineitem = Trim$(ssdcboRequisition.Columns(2).text)
+Set RsReqPO = lookups.GetReqisitionLineItem(lblReqLineitem, Trim$(ssdcboRequisition.text))
 If RsReqPO.RecordCount > 0 Then Call LoadPOLINEFromRequsition(RsReqPO)
 
 ssdcboRequisition.SelLength = 0
@@ -7088,7 +7093,7 @@ If Not FormMode = mdCreation Then ssdcboRequisition.MoveNext
 End Sub
 Private Sub ssdcboShipper_Click()
 If CheckIfCombosLoaded = False Then FillUPCOMBOS
-ssdcboShipper.Tag = ssdcboShipper.Columns(0).Text
+ssdcboShipper.Tag = ssdcboShipper.Columns(0).text
 End Sub
 
 Private Sub SSOleDBCompany_Click()
@@ -7099,7 +7104,7 @@ Private Sub SSOleDBCompany_Click()
     Dim value As String
     
     deIms.rsCompanyLocations.Filter = ""
-    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBCompany.Columns(0).Text) & "'"
+    deIms.rsCompanyLocations.Filter = "loc_compcode='" & Trim$(SSOleDBcompany.Columns(0).text) & "'"
 
     If deIms.rsCompanyLocations.EOF Then
          SSOleDBInvLocation.RemoveAll
@@ -7117,16 +7122,16 @@ Private Sub SSOleDBCompany_Click()
        Loop
 
     End If
-SSOleDBCompany.SelStart = 0
-SSOleDBCompany.SelLength = 0
-SSOleDBCompany.Tag = SSOleDBCompany.Columns(0).Text
+SSOleDBcompany.SelStart = 0
+SSOleDBcompany.SelLength = 0
+SSOleDBcompany.Tag = SSOleDBcompany.Columns(0).text
 End Sub
 
 Private Sub SSOleDBCurrency_Click()
 If CheckIfCombosLoaded = False Then FillUPCOMBOS
 SSOleDBCurrency.SelLength = 0
 SSOleDBCurrency.SelStart = 0
-SSOleDBCurrency.Tag = SSOleDBCurrency.Columns(0).Text
+SSOleDBCurrency.Tag = SSOleDBCurrency.Columns(0).text
 End Sub
 
 Private Sub Form_Load()
@@ -7212,10 +7217,6 @@ Dim Count As Integer
     
     Caption = Caption + " - " + Tag
 
-    With frm_NewPurchase
-        .Left = Round((Screen.Width - .Width) / 2)
-        .Top = Round((Screen.Height - .Height) / 2)
-    End With
 End Sub
 
 
@@ -7255,13 +7256,13 @@ If Not rsDOCTYPE.AbsolutePosition = adPosEOF Then
     
     SSOleDBDocType.Tag = Poheader.Docutype
 
-    SSOleDBDocType.Text = rsDOCTYPE!doc_desc
+    SSOleDBDocType.text = rsDOCTYPE!doc_desc
 
 Else
     
     SSOleDBDocType.Tag = Poheader.Docutype
 
-    SSOleDBDocType.Text = Poheader.Docutype
+    SSOleDBDocType.text = Poheader.Docutype
     
     '2015-06-16 juan
     msg = translator.Trans("M00844")
@@ -7281,9 +7282,9 @@ If Len(Poheader.shipcode) > 0 Then
     deIms.rsSHIPPER.Find ("shi_code='" & Poheader.shipcode & "'")
     
    If Not deIms.rsSHIPPER.AbsolutePosition = adPosEOF Then
-      ssdcboShipper.Text = deIms.rsSHIPPER!shi_name
+      ssdcboShipper.text = deIms.rsSHIPPER!shi_name
    Else
-         ssdcboShipper.Text = Poheader.shipcode
+         ssdcboShipper.text = Poheader.shipcode
          
         '2015-06-16 juan
         msg = translator.Trans("M00845")
@@ -7292,7 +7293,7 @@ If Len(Poheader.shipcode) > 0 Then
    End If
    
 Else
-    ssdcboShipper.Text = ""
+    ssdcboShipper.text = ""
     ssdcboShipper.Tag = ""
 End If
 
@@ -7304,7 +7305,7 @@ deIms.rsPRIORITY.MoveFirst
 deIms.rsPRIORITY.Find ("pri_code='" & Poheader.priocode & "'")
 
   If Not deIms.rsPRIORITY.AbsolutePosition = adPosEOF Then
-         SSOleDBPriority.Text = deIms.rsPRIORITY!pri_desc
+         SSOleDBPriority.text = deIms.rsPRIORITY!pri_desc
    Else
         'Added/Modified by Juan Gonzalez 12/27/2006
         Dim rsPrio As New ADODB.Recordset
@@ -7314,7 +7315,7 @@ deIms.rsPRIORITY.Find ("pri_code='" & Poheader.priocode & "'")
         rsPrio.Open
         
         If rsPrio.AbsolutePosition = adPosEOF Then
-            SSOleDBPriority.Text = Poheader.priocode 'Previous
+            SSOleDBPriority.text = Poheader.priocode 'Previous
             
             '2015-06-16 juan
             msg = translator.Trans("M00846")
@@ -7322,7 +7323,7 @@ deIms.rsPRIORITY.Find ("pri_code='" & Poheader.priocode & "'")
             MsgBox msg 'Previous
         Else
             SSOleDBPriority.AddItem Poheader.priocode & ";" & rsPrio!pri_desc, 0
-            SSOleDBPriority.Text = rsPrio!pri_desc
+            SSOleDBPriority.text = rsPrio!pri_desc
         End If
         rsPrio.Close
         '-----------------
@@ -7342,9 +7343,9 @@ SSoledbSupplier.Tag = Poheader.suppcode
 deIms.rsActiveSupplier.MoveFirst
 deIms.rsActiveSupplier.Find ("sup_code='" & Poheader.suppcode & "'")
 If Not deIms.rsActiveSupplier.AbsolutePosition = adPosEOF Then
-    SSoledbSupplier.Text = deIms.rsActiveSupplier!sup_name
+    SSoledbSupplier.text = deIms.rsActiveSupplier!sup_name
 Else
-    SSoledbSupplier.Text = Poheader.suppcode
+    SSoledbSupplier.text = Poheader.suppcode
     
     '2015-06-16 juan
     msg = translator.Trans("M00845")
@@ -7360,9 +7361,9 @@ SSOleDBCurrency.Tag = Poheader.currCODE
 deIms.rsCURRENCY.MoveFirst
 deIms.rsCURRENCY.Find ("curr_code='" & Poheader.currCODE & "'")
 If Not deIms.rsCURRENCY.AbsolutePosition = adPosEOF Then
-   SSOleDBCurrency.Text = deIms.rsCURRENCY!curr_desc
+   SSOleDBCurrency.text = deIms.rsCURRENCY!curr_desc
 Else
-   SSOleDBCurrency.Text = Poheader.currCODE
+   SSOleDBCurrency.text = Poheader.currCODE
    
     '2015-06-16 juan
     msg = translator.Trans("M00847")
@@ -7374,12 +7375,12 @@ LblCompanyCode.Caption = Poheader.CompCode
 deIms.rsActiveCompany.MoveFirst
 deIms.rsActiveCompany.Find ("com_compcode='" & Poheader.CompCode & "'")
 
-SSOleDBCompany.Tag = Poheader.CompCode
+SSOleDBcompany.Tag = Poheader.CompCode
 
 If Not deIms.rsActiveCompany.AbsolutePosition = adPosEOF Then
-       SSOleDBCompany.Text = deIms.rsActiveCompany!com_name
+       SSOleDBcompany.text = deIms.rsActiveCompany!com_name
 Else
-       SSOleDBCompany.Text = Poheader.CompCode
+       SSOleDBcompany.text = Poheader.CompCode
        
        
         '2015-06-16 juan
@@ -7397,9 +7398,9 @@ If Len(Trim$(Poheader.invloca)) > 0 Then
     
     If Not deIms.rsCompanyLocations.AbsolutePosition = adPosEOF Then
         SSOleDBInvLocation.Tag = Poheader.invloca
-        SSOleDBInvLocation.Text = deIms.rsCompanyLocations!loc_name
+        SSOleDBInvLocation.text = deIms.rsCompanyLocations!loc_name
     Else
-            SSOleDBInvLocation.Text = Poheader.invloca
+            SSOleDBInvLocation.text = Poheader.invloca
             SSOleDBInvLocation.Tag = Poheader.invloca
     End If
     
@@ -7420,7 +7421,7 @@ If Len(Trim$(Poheader.srvccode)) > 0 And RsSrvCode.RecordCount > 0 Then '03/08
         If Not RsSrvCode.AbsolutePosition = adPosEOF Then '03/08
         
             SSOledbSrvCode.Tag = Poheader.srvccode '03/08
-            SSOledbSrvCode.Text = RsSrvCode("srvc_desc") '03/08
+            SSOledbSrvCode.text = RsSrvCode("srvc_desc") '03/08
             
         Else '03/08
         
@@ -7432,11 +7433,11 @@ If Len(Trim$(Poheader.srvccode)) > 0 And RsSrvCode.RecordCount > 0 Then '03/08
         rsSrvCde.Open
         
         If rsSrvCde.AbsolutePosition = adPosEOF Then
-            SSOledbSrvCode.Text = Poheader.srvccode '03/08
+            SSOledbSrvCode.text = Poheader.srvccode '03/08
             SSOledbSrvCode.Tag = Poheader.srvccode '03/08
         Else
             SSOledbSrvCode.AddItem Poheader.srvccode & ";" & rsSrvCde!srvc_desc, 0
-            SSOledbSrvCode.Text = rsSrvCde!srvc_desc
+            SSOledbSrvCode.text = rsSrvCde!srvc_desc
         End If
         rsSrvCde.Close
         '-----------------
@@ -7461,7 +7462,7 @@ If Len(Poheader.taccode) > 0 Then
     
     If Not deIms.rsTermCondition.AbsolutePosition = adPosEOF Then
        ssdcboCondition.Tag = Poheader.taccode
-       ssdcboCondition.Text = deIms.rsTermCondition!tac_desc
+       ssdcboCondition.text = deIms.rsTermCondition!tac_desc
     Else
     
         'Added/Modified by Juan Gonzalez 12/28/2006
@@ -7473,7 +7474,7 @@ If Len(Poheader.taccode) > 0 Then
         
         If rsSrvCde.AbsolutePosition = adPosEOF Then
             ssdcboCondition.Tag = Poheader.taccode 'previous
-            ssdcboCondition.Text = Poheader.taccode 'previous
+            ssdcboCondition.text = Poheader.taccode 'previous
             
             '2015-06-16 juan
             msg = translator.Trans("M00849")
@@ -7481,7 +7482,7 @@ If Len(Poheader.taccode) > 0 Then
             MsgBox msg 'previous
         Else
             ssdcboCondition.AddItem Poheader.taccode & ";" & rsCond!tac_desc, 0
-            ssdcboCondition.Text = rsCond!tac_desc
+            ssdcboCondition.text = rsCond!tac_desc
         End If
         rsSrvCde.Close
         '-----------------
@@ -7489,7 +7490,7 @@ If Len(Poheader.taccode) > 0 Then
 
 Else
 
-    ssdcboCondition.Text = ""
+    ssdcboCondition.text = ""
  
 End If
 
@@ -7498,10 +7499,10 @@ deIms.rsTermDelivery.Find ("tod_termcode='" & Poheader.termcode & "'")
 
 If Not deIms.rsTermDelivery.AbsolutePosition = adPosEOF Then
    
-    ssdcboDelivery.Text = deIms.rsTermDelivery!tod_desc
+    ssdcboDelivery.text = deIms.rsTermDelivery!tod_desc
     ssdcboDelivery.Tag = Poheader.termcode
 Else
-    ssdcboDelivery.Text = Poheader.termcode
+    ssdcboDelivery.text = Poheader.termcode
     ssdcboDelivery.Tag = Poheader.termcode
     
     '2015-06-16 juan
@@ -7516,11 +7517,11 @@ If Len(Poheader.shipto) > 0 Then
     deIms.rsActiveShipTo.Find ("sht_code='" & Poheader.shipto & "'")
    If Not deIms.rsActiveShipTo.AbsolutePosition = adPosEOF Then
       
-        SSOleDBShipTo.Text = deIms.rsActiveShipTo!sht_name
+        SSOleDBShipTo.text = deIms.rsActiveShipTo!sht_name
         SSOleDBShipTo.Tag = Poheader.shipto
    Else
         SSOleDBShipTo.Tag = Poheader.shipto
-         SSOleDBShipTo.Text = Poheader.shipto
+         SSOleDBShipTo.text = Poheader.shipto
          
         '2015-06-16 juan
         msg = translator.Trans("M00850")
@@ -7528,7 +7529,7 @@ If Len(Poheader.shipto) > 0 Then
        MsgBox msg
    End If
 Else
-    SSOleDBShipTo.Text = ""
+    SSOleDBShipTo.text = ""
     SSOleDBShipTo.Tag = ""
 End If
 
@@ -7639,7 +7640,7 @@ StasINvt = RsStatus!sts_name
 End If
 
 
-dcbostatus(0).Text = Stasliit
+dcbostatus(0).text = Stasliit
 dcbostatus(1) = Stasdlvy
 dcbostatus(2) = Stasship
 dcbostatus(3) = StasINvt
@@ -7649,7 +7650,7 @@ dcbostatus(3) = StasINvt
 LblPOi_PONUMB = IIf(InStr(1, PoItem.Ponumb, "_"), "", PoItem.Ponumb) ' "_" is the first chanrater of a Ponumb which is generated on the fly, before An Auonumber is Generated and the PO number is saved to the database.
 txt_LI = PoItem.Linenumb
 txt_TotalLIs = PoItem.Count
-ssdcboCommoditty.Text = IIf(InStr(1, PoItem.Comm, "_"), "", PoItem.Comm)    ' "_" is the first chanrater of a Ponumb which is generated on the fly, before An Auonumber is Generated and the PO number is saved to the database.
+ssdcboCommoditty.text = IIf(InStr(1, PoItem.Comm, "_"), "", PoItem.Comm)    ' "_" is the first chanrater of a Ponumb which is generated on the fly, before An Auonumber is Generated and the PO number is saved to the database.
 ssdcboManNumber = PoItem.Manupartnumb
 txt_AFE = PoItem.Afe
 SSOleDBCustCategory = PoItem.Custcate
@@ -7705,7 +7706,7 @@ End If
    chk_usexportLI = IIf(PoItem.usexport = True, 1, 0)
    Chk_license = IIf(PoItem.Eccnlicsreq = True, 1, 0)
  
- SSoleEccnno.Tag = PoItem.Eccnid
+ SSoleEccnNo.Tag = PoItem.Eccnid
  'SSoleEccnno.Text = PoItem.Eccnno
  
 If GRsEccnNo Is Nothing Then
@@ -7720,9 +7721,9 @@ If Len(PoItem.Eccnid) > 0 And GRsEccnNo.RecordCount > 0 Then
  GRsEccnNo.MoveFirst
  GRsEccnNo.Find "eccnid='" & PoItem.Eccnid & "'"
          If GRsEccnNo.EOF = False Then
-            SSoleEccnno.Text = GRsEccnNo!eccn_no
+            SSoleEccnNo.text = GRsEccnNo!eccn_no
         Else
-            SSoleEccnno.Text = ""
+            SSoleEccnNo.text = ""
         End If
          
   
@@ -7741,9 +7742,9 @@ If Len(PoItem.Sourceofinfoid) > 0 And GRSSourceOfInfo.RecordCount > 0 Then
         GRSSourceOfInfo.MoveFirst
         GRSSourceOfInfo.Find "sourceid='" & PoItem.Sourceofinfoid & "'"
         If GRSSourceOfInfo.EOF = False Then
-            SSOleSourceofinfo.Text = GRSSourceOfInfo!Source
+            SSOleSourceofinfo.text = GRSSourceOfInfo!Source
         Else
-            SSOleSourceofinfo.Text = ""
+            SSOleSourceofinfo.text = ""
         End If
          
 End If
@@ -7814,8 +7815,10 @@ End If
  
    If Not deIms.rsSHIPPER.EOF Then
         deIms.rsSHIPPER.MoveFirst
-        IntiClass.InitShipperCode = Trim$(deIms.rsSHIPPER!shi_code)
-        IntiClass.InitShipperName = Trim$(deIms.rsSHIPPER!shi_name)
+        If deIms.rsSHIPPER!shi_actvflag = 1 Then
+            IntiClass.InitShipperCode = Trim$(deIms.rsSHIPPER!shi_code)
+            IntiClass.InitShipperName = Trim$(deIms.rsSHIPPER!shi_name)
+        End If
    End If
 ssdcboShipper.RemoveAll 'JCGFIXES 2007/24/1
    Do While Not deIms.rsSHIPPER.EOF
@@ -7915,9 +7918,9 @@ SSOleDBShipTo.RemoveAll 'JCGFIXES 2007/24/1
        IntiClass.InitCompanyCode = Trim$(deIms.rsActiveCompany!com_compcode)
        IntiClass.InitCompanyName = Trim$(deIms.rsActiveCompany!com_name)
    End If
-SSOleDBCompany.RemoveAll 'JCGFIXES 2007/24/1
+SSOleDBcompany.RemoveAll 'JCGFIXES 2007/24/1
    Do While Not deIms.rsActiveCompany.EOF
-       SSOleDBCompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
+       SSOleDBcompany.AddItem deIms.rsActiveCompany!com_compcode & ";" & deIms.rsActiveCompany!com_name
        deIms.rsActiveCompany.MoveNext
        
    Loop
@@ -7965,7 +7968,7 @@ Private Sub SSOleDBInvLocation_DropDown()
         
             Dim value As String
         '
-        LblCompanyCode.Caption = Trim$(SSOleDBCompany.Columns(0).Text)
+        LblCompanyCode.Caption = Trim$(SSOleDBcompany.Columns(0).text)
             deIms.rsCompanyLocations.Filter = ""
             deIms.rsCompanyLocations.Filter = "LOC_COMPCODE= '" & Trim$(LblCompanyCode.Caption) & "'"
         
@@ -8087,7 +8090,7 @@ Poheader.priocode = Trim$(SSOleDBPriority.Tag)
   
   Poheader.currCODE = Trim$(SSOleDBCurrency.Tag)
   
-  Poheader.CompCode = Trim$(SSOleDBCompany.Tag)
+  Poheader.CompCode = Trim$(SSOleDBcompany.Tag)
    
    Poheader.invloca = Trim$(SSOleDBInvLocation.Tag)
   
@@ -8188,7 +8191,7 @@ If lookups Is Nothing Then Set lookups = Mainpo.lookups
   LblAppBy = ""
   
   ssdcboShipper.Tag = ""
-  ssdcboShipper.Text = ""
+  ssdcboShipper.text = ""
   
   txt_ChargeTo = ""
   
@@ -8216,8 +8219,8 @@ If lookups Is Nothing Then Set lookups = Mainpo.lookups
   SSOleDBCurrency = ""
   
   
-  SSOleDBCompany.Tag = ""
-  SSOleDBCompany.Text = ""
+  SSOleDBcompany.Tag = ""
+  SSOleDBcompany.text = ""
   
   SSOleDBInvLocation.Tag = ""
   SSOleDBInvLocation = ""
@@ -8234,7 +8237,7 @@ If lookups Is Nothing Then Set lookups = Mainpo.lookups
   SSOleDBShipTo = ""
   
   SSOledbSrvCode.Tag = "" ' 03/09
-  SSOledbSrvCode.Text = "" ' 03/09
+  SSOledbSrvCode.text = "" ' 03/09
   
   DTPicker_poDate = IntiClass.InitpoDate
   
@@ -8280,7 +8283,7 @@ Private Sub SSOleDBPO_Validate(Cancel As Boolean)
 'End If 'AM
 
 
-If FormMode = mdCreation And Len(ssOleDbPO.Text) > 0 Then
+If FormMode = mdCreation And Len(ssOleDbPO.text) > 0 Then
      If Len(Trim$(ssOleDbPO)) > 15 Then
      
         '2015-06-16 juan
@@ -8293,14 +8296,14 @@ If FormMode = mdCreation And Len(ssOleDbPO.Text) > 0 Then
      
      If deIms.rsPonumb.State = 0 Then Call deIms.Ponumb(deIms.NameSpace)
         deIms.rsPonumb.MoveFirst
-        deIms.rsPonumb.Find "PO_PONUMB='" & Trim$(ssOleDbPO.Text) & "'"
+        deIms.rsPonumb.Find "PO_PONUMB='" & Trim$(ssOleDbPO.text) & "'"
         If Not deIms.rsPonumb.EOF Then
         
         '2015-06-16 juan
         msg = translator.Trans("M00079")
         msg = IIf(msg = "", "PO Number Already Exists", msg)
           MsgBox msg
-          ssOleDbPO.Text = ""
+          ssOleDbPO.text = ""
           Cancel = True
             ssOleDbPO.SetFocus
         End If
@@ -8311,12 +8314,12 @@ Dim suppAddress As String
 Dim DocCode As String
 Dim RSDocautodist As ADODB.Recordset
 On Error GoTo Handler
-If Len(SSoledbSupplier.Text) > 0 Then
+If Len(SSoledbSupplier.text) > 0 Then
 
     deIms.rsActiveSupplier.MoveFirst
-    deIms.rsActiveSupplier.Find ("sup_code='" & SSoledbSupplier.Columns(0).Text & "'")
-    Txt_supContaName.Text = IIf(IsNull(deIms.rsActiveSupplier!sup_contaname), "", deIms.rsActiveSupplier!sup_contaname)
-    Txt_supContaPh.Text = IIf(IsNull(deIms.rsActiveSupplier!sup_contaph), "", deIms.rsActiveSupplier!sup_contaph)
+    deIms.rsActiveSupplier.Find ("sup_code='" & SSoledbSupplier.Columns(0).text & "'")
+    Txt_supContaName.text = IIf(IsNull(deIms.rsActiveSupplier!sup_contaname), "", deIms.rsActiveSupplier!sup_contaname)
+    Txt_supContaPh.text = IIf(IsNull(deIms.rsActiveSupplier!sup_contaph), "", deIms.rsActiveSupplier!sup_contaph)
     
     Set RSDocautodist = New ADODB.Recordset
     
@@ -8338,12 +8341,12 @@ If Len(SSoledbSupplier.Text) > 0 Then
          
          RSDocautodist.Close
          Set RSDocautodist = Nothing
-         SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).Text
+         SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).text
          Exit Sub
          
      End If
     
-    SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).Text
+    SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).text
     
     If Not IsNull(deIms.rsActiveSupplier!sup_faxnumb) And Not Len(deIms.rsActiveSupplier!sup_faxnumb) = 0 Then
         If LTrim(RTrim(DocCode)) <> "R" Then 'JCG 2009/10/26
@@ -8390,7 +8393,7 @@ If Len(SSoledbSupplier.Text) > 0 Then
 
     SSoledbSupplier.SelLength = 0
     SSoledbSupplier.SelStart = 0
-    SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).Text
+    SSoledbSupplier.Tag = SSoledbSupplier.Columns(0).text
 End If
 Exit Sub
 Handler:
@@ -8941,7 +8944,7 @@ Set lookups = Mainpo.lookups
 '                   Loop
                    
               Else
-                    ssdcboRequisition.Text = ""
+                    ssdcboRequisition.text = ""
                     ssdcboRequisition.Enabled = False
               End If
                
@@ -8997,8 +9000,8 @@ ssdcboRequisition = ""
 lblReqLineitem = ""
 
 
-SSoleEccnno.Tag = 0
-SSoleEccnno = ""
+SSoleEccnNo.Tag = 0
+SSoleEccnNo = ""
 
 SSOleSourceofinfo.Tag = 0
 SSOleSourceofinfo = ""
@@ -9023,17 +9026,17 @@ End Function
 Public Function LoadFromPORemarks() As Boolean
 mLoadMode = loadingPoRemark
 Txt_RemNo = PORemark.Linenumb
-txtRemarks.Text = PORemark.remarks
+txtRemarks.text = PORemark.remarks
 mLoadMode = NoLoadInProgress
 End Function
 
 Public Function ClearPoRemarks() As Boolean
-txtRemarks.Text = ""
+txtRemarks.text = ""
 Txt_RemNo = PORemark.Count
 End Function
 
 Public Function ClearPoclause() As Boolean
-txtClause.Text = ""
+txtClause.text = ""
 Txt_ClsNo = POClause.Count
 End Function
 Public Function SaveToPOITEM() As Boolean
@@ -9080,7 +9083,7 @@ PoItem.Requliitnumb = (lblReqLineitem)
 
 PoItem.usexport = chk_usexportLI
 PoItem.Eccnlicsreq = Chk_license
-PoItem.Eccnid = SSoleEccnno.Tag
+PoItem.Eccnid = SSoleEccnNo.Tag
 PoItem.Sourceofinfoid = IIf(Len(SSOleSourceofinfo.Tag) = 0, 0, SSOleSourceofinfo.Tag)
 'PoItem.Eccnno = Trim(SSoleEccnno)
 
@@ -9094,7 +9097,7 @@ On Error GoTo ErrHand
 
 mLoadMode = loadingPoItem
 
-LblPOI_Doctype.Caption = SSOleDBDocType.Text
+LblPOI_Doctype.Caption = SSOleDBDocType.text
 
 If chk_FrmStkMst.value = 1 Then
     
@@ -9149,7 +9152,7 @@ Private Sub Text1_Change()
 If opt_Email.value = False And opt_FaxNum.value = False Then Exit Sub
 If Len(Trim$(Text1)) = 0 Then RsEmailFax.MoveFirst: Exit Sub
    RsEmailFax.MoveFirst
-   RsEmailFax.Find "phd_name like '" & Text1.Text & "%'"
+   RsEmailFax.Find "phd_name like '" & Text1.text & "%'"
 
 End Sub
 
@@ -9379,7 +9382,7 @@ End Sub
 
 Public Function LoadPOLINEFromRequsition(rs As ADODB.Recordset) As Boolean
 
-ssdcboCommoditty.Text = rs("poi_comm") & ""
+ssdcboCommoditty.text = rs("poi_comm") & ""
 ssdcboManNumber = rs("poi_manupartnumb") & ""
 txt_AFE = rs("poi_afe") & ""
 SSOleDBCustCategory = rs("poi_custcate") & ""
@@ -9416,8 +9419,8 @@ dcbostatus(2) = ""
 dcbostatus(3) = ""
 dcbostatus(0) = ""
 
-SSoleEccnno.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
-SSoleEccnno = rs("eccn_no") & ""
+SSoleEccnNo.Tag = IIf(IsNull(rs("poi_eccnid")), 0, rs("poi_eccnid"))
+SSoleEccnNo = rs("eccn_no") & ""
 
 SSOleSourceofinfo.Tag = IIf(IsNull(rs("poi_sourceid")), 0, rs("poi_sourceid"))
 SSOleSourceofinfo = rs("source") & ""
@@ -9445,13 +9448,13 @@ If chk_FrmStkMst.value = 1 Then
    'This means the PO is In-Stock
         If objUnits Is Nothing Then
            Set objUnits = Mainpo.PoUnits
-           objUnits.stockNumber = ssdcboCommoditty.Text
+           objUnits.StockNumber = ssdcboCommoditty.text
         End If
         
-        If objUnits.SecondaryUnit = Trim$(SSOleDBUnit.Text) And objUnits.SecondaryUnit <> objUnits.PrimaryUnit Then
+        If objUnits.SecondaryUnit = Trim$(SSOleDBUnit.text) And objUnits.SecondaryUnit <> objUnits.PrimaryUnit Then
            'It means it is in Seconday mode
                  PoItem.Secoreqdqty = txt_Requested
-                 PoItem.Secouom = SSOleDBUnit.Text
+                 PoItem.Secouom = SSOleDBUnit.text
                  PoItem.SecUnitPrice = (CDbl(txt_Price))
                  PoItem.SecTotaprice = CDbl(txt_Requested) * CDbl(txt_Price)
                  
@@ -9467,11 +9470,11 @@ If chk_FrmStkMst.value = 1 Then
                  PoItem.PriTotaprice = CDbl(PoItem.Primreqdqty) * CDbl(PoItem.PrimUnitprice)
                  PoItem.PriQtytobedlvd = Pqty - PoItem.PriQtydlvd
                  
-        ElseIf objUnits.PrimaryUnit = Trim$(SSOleDBUnit.Text) And objUnits.SecondaryUnit <> objUnits.PrimaryUnit Then
+        ElseIf objUnits.PrimaryUnit = Trim$(SSOleDBUnit.text) And objUnits.SecondaryUnit <> objUnits.PrimaryUnit Then
                  'It is in Primary Mode
           
                  PoItem.Primreqdqty = CDbl(txt_Requested)
-                 PoItem.Primuom = SSOleDBUnit.Text
+                 PoItem.Primuom = SSOleDBUnit.text
                  PoItem.PrimUnitprice = CDbl(txt_Price)
                  PoItem.PriTotaprice = CDbl(txt_Requested) * CDbl(txt_Price)
                  PoItem.PriQtytobedlvd = CDbl(txt_Requested) - PoItem.PriQtydlvd
@@ -9489,7 +9492,7 @@ If chk_FrmStkMst.value = 1 Then
                 If Len(txt_Requested) > 0 Then
                      PoItem.Secoreqdqty = txt_Requested
                 End If
-                PoItem.Secouom = SSOleDBUnit.Text
+                PoItem.Secouom = SSOleDBUnit.text
                 If Len(txt_Price) > 0 Then
                 PoItem.SecUnitPrice = IIf(Len(txt_Price) > 0, CDbl(txt_Price), "")
                 End If
@@ -9501,7 +9504,7 @@ If chk_FrmStkMst.value = 1 Then
                 If Len(txt_Requested) > 0 Then
                    PoItem.Primreqdqty = CDbl(txt_Requested)
                 End If
-                PoItem.Primuom = SSOleDBUnit.Text
+                PoItem.Primuom = SSOleDBUnit.text
                 If Len(txt_Price) > 0 Then
                    PoItem.PrimUnitprice = CDbl(txt_Price)
                 End If
@@ -9522,7 +9525,7 @@ If chk_FrmStkMst.value = 1 Then
         End If
         
         
-        PoItem.Secouom = SSOleDBUnit.Text
+        PoItem.Secouom = SSOleDBUnit.text
         If Len(txt_Price) > 0 Then
            PoItem.SecUnitPrice = IIf(Len(txt_Price) > 0, txt_Price, 0)
         End If
@@ -9535,7 +9538,7 @@ If chk_FrmStkMst.value = 1 Then
         If Len(txt_Requested) > 0 Then
           PoItem.Primreqdqty = CDbl(txt_Requested)
         End If
-        PoItem.Primuom = SSOleDBUnit.Text
+        PoItem.Primuom = SSOleDBUnit.text
         If Len(txt_Price) > 0 Then
         PoItem.PrimUnitprice = CDbl(txt_Price)
         End If
@@ -9608,7 +9611,7 @@ Public Function LoadFromPOClause() As Boolean
 
 mLoadMode = loadingPoClause
 Txt_ClsNo = POClause.Linenumb
-txtClause.Text = POClause.Clause
+txtClause.text = POClause.Clause
 mLoadMode = NoLoadInProgress
 
 End Function
@@ -9622,7 +9625,7 @@ Public Function savetoPOclause() As Boolean
     POClause.Ponumb = Poheader.Ponumb
  End If
  
- POClause.Clause = Trim(txtClause.Text)
+ POClause.Clause = Trim(txtClause.text)
 
 End Function
 
@@ -9635,7 +9638,7 @@ If PORemark.EditMode = 2 Then
     PORemark.Ponumb = Poheader.Ponumb
 End If
 
-PORemark.remarks = Trim(txtRemarks.Text)
+PORemark.remarks = Trim(txtRemarks.text)
 
 End Function
 
@@ -9843,7 +9846,7 @@ Dim i As Long
        Exit Function
     End If
     
-    If Len(Trim$(SSOleDBDocType.Text)) = 0 Then
+    If Len(Trim$(SSOleDBDocType.text)) = 0 Then
         'Call MsgBox(LoadResString(101)): dcboDocumentType.SetFocus: Exit Function
         '2015-06-18 juan
         msg = translator.Trans("M00854")
@@ -9853,7 +9856,7 @@ Dim i As Long
         Exit Function
     End If
         
-    If Len(Trim$(ssdcboShipper.Text)) = 0 Then
+    If Len(Trim$(ssdcboShipper.text)) = 0 Then
         'Call MsgBox(LoadResString(102)): ssdcboShipper.SetFocus: Exit Function
         '2015-06-18 juan
         msg = translator.Trans("M00239")
@@ -9868,7 +9871,7 @@ Dim i As Long
    ' End If
         
     
-    If Len(Trim$(SSOleDBPriority.Text)) = 0 Then
+    If Len(Trim$(SSOleDBPriority.text)) = 0 Then
         'Call MsgBox(LoadResString(103)): dcboPriority.SetFocus: Exit Function
         '2015-06-18 juan
         msg = translator.Trans("M00300")
@@ -9879,7 +9882,7 @@ Dim i As Long
       '  rsPO!po_priocode = dcboPriority.BoundText
     End If
     
-    If Len(Trim$(SSOleDBCurrency.Text)) = 0 Then
+    If Len(Trim$(SSOleDBCurrency.text)) = 0 Then
         'Call MsgBox(LoadResString(104)):
         '2015-06-18 juan
         msg = translator.Trans("M00241")
@@ -9892,7 +9895,7 @@ Dim i As Long
     End If
     
     
-    If Len(Trim$(SSOleDBOriginator.Text)) = 0 Then
+    If Len(Trim$(SSOleDBOriginator.text)) = 0 Then
        ' Call MsgBox(LoadResString(105)): dcboOriginator.SetFocus: Exit Function
         '2015-06-18 juan
         msg = translator.Trans("M00242")
@@ -9905,7 +9908,7 @@ Dim i As Long
     End If
     
         
-    If Len(Trim$(SSOleDBShipTo.Text)) = 0 Then
+    If Len(Trim$(SSOleDBShipTo.text)) = 0 Then
         'Call MsgBox(LoadResString(106)):
         '2015-06-18 juan
         msg = translator.Trans("M00243")
@@ -9923,7 +9926,7 @@ Dim i As Long
 ''''    End If
     
     
-    If Len(Trim$(SSOleDBCompany.Text)) = 0 Then  'M
+    If Len(Trim$(SSOleDBcompany.text)) = 0 Then  'M
     
         'Modified by Juan (9/13/2000) for Multilingual
        ' msg1 = translator.Trans("M00023") 'J added
@@ -9934,7 +9937,7 @@ Dim i As Long
         msg = translator.Trans("M00023")
         msg = IIf(msg = "", "Company can not be left Empty.", msg)
         MsgBox msg
-      SSOleDBCompany.SetFocus
+      SSOleDBcompany.SetFocus
       Exit Function 'M
         
     'Else  'M
@@ -9944,7 +9947,7 @@ Dim i As Long
     
 
     
-    If Len(Trim$(SSOleDBInvLocation.Text)) = 0 Then
+    If Len(Trim$(SSOleDBInvLocation.text)) = 0 Then
       '  Call MsgBox(LoadResString(107)): SSOleDBInvLocation.SetFocus: Exit Function
         '2015-06-18 juan
         msg = translator.Trans("M00244")
@@ -9955,7 +9958,7 @@ Dim i As Long
      '   rsPO!po_invloca = dcboInvLocation.BoundText
     End If
     
-    If Len(Trim$(SSoledbSupplier.Text)) = 0 Then
+    If Len(Trim$(SSoledbSupplier.text)) = 0 Then
        ' Call MsgBox(LoadResString(108)): dcboSupplier.SetFocus: Exit Function
        
         '2015-06-18 juan
@@ -9972,7 +9975,7 @@ Dim i As Long
     'other tab.
     
     
-    If Len(Trim$(ssdcboCondition.Text)) = 0 Then          'M
+    If Len(Trim$(ssdcboCondition.text)) = 0 Then          'M
     
         'Modified by Juan (9/13/2000) for Multilingual
         'msg1 = translator.Trans("M00034") 'J added
@@ -9989,7 +9992,7 @@ Dim i As Long
      '   rsPO!po_taccode = ssdcboCondition.Value  'M
     End If  'M
     
-    If Len(Trim$(ssdcboDelivery.Text)) = 0 Then  'M
+    If Len(Trim$(ssdcboDelivery.text)) = 0 Then  'M
     
         'Modified by Juan (9/14/2000) for Multilingual
        ' msg1 = translator.Trans("M00035") 'J added
@@ -10093,7 +10096,7 @@ msg = IIf(msg = "", "Unit Price cannot be left empty ", msg)
     
     If chk_FrmStkMst.value = vbChecked Then
     
-        If Len(Trim$(ssdcboCommoditty.Text)) = 0 Then
+        If Len(Trim$(ssdcboCommoditty.text)) = 0 Then
         
             'Modified by Juan (9/13/2000) for Multilngual
             msg1 = translator.Trans("M00025") 'J added
@@ -10145,7 +10148,7 @@ msg = IIf(msg = "", "Unit Price cannot be left empty ", msg)
     'this If Statement is in the case when the PO is an old one and there is no associated FQA for it
     If POFqa.Count > 0 Then
     
-        If Len(Trim(SSOleDBToLocationFQA.Text)) = 0 Then
+        If Len(Trim(SSOleDBToLocationFQA.text)) = 0 Then
         
             MsgBox "Please fill the ToFQA location.", vbInformation, "Ims"
             Call HighlightBackground(SSOleDBToLocationFQA)
@@ -10153,7 +10156,7 @@ msg = IIf(msg = "", "Unit Price cannot be left empty ", msg)
             Exit Function
         
         
-        ElseIf Len(Trim(SSOleDBtoUSChartFQA.Text)) = 0 Then
+        ElseIf Len(Trim(SSOleDBtoUSChartFQA.text)) = 0 Then
         
             MsgBox "Please fill the ToFQA Us Chart#.", vbInformation, "Ims"
             Call HighlightBackground(SSOleDBtoUSChartFQA)
@@ -10161,14 +10164,14 @@ msg = IIf(msg = "", "Unit Price cannot be left empty ", msg)
             Exit Function
         
         
-        ElseIf Len(Trim(TxtToStocktypeFQA.Text)) = 0 Then
+        ElseIf Len(Trim(TxtToStocktypeFQA.text)) = 0 Then
         
             MsgBox "Please fill the ToFQA Stocktype.", vbInformation, "Ims"
             Call HighlightBackground(TxtToStocktypeFQA)
             TxtToStocktypeFQA.SetFocus
             Exit Function
         
-        ElseIf Len(Trim(SSOleDBToCamChartFQA.Text)) = 0 Then
+        ElseIf Len(Trim(SSOleDBToCamChartFQA.text)) = 0 Then
         
             MsgBox "Please fill the ToFQA Cam. Chart#.", vbInformation, "Ims"
             Call HighlightBackground(SSOleDBToCamChartFQA)
@@ -10181,9 +10184,9 @@ msg = IIf(msg = "", "Unit Price cannot be left empty ", msg)
     
     If ShouldEccnControlsBeEnabled = True And chk_usexportLI.value = 1 Then
     
-       If Len(Trim(SSoleEccnno & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
+       If Len(Trim(SSoleEccnNo & "")) = 0 And Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Eccn# and Source of Info."
-       ElseIf Len(Trim(SSoleEccnno & "")) = 0 Then
+       ElseIf Len(Trim(SSoleEccnNo & "")) = 0 Then
         MsgBox "Line item does not have Eccn#."
        ElseIf Len(Trim(SSOleSourceofinfo & "")) = 0 Then
         MsgBox "Line item does not have Source of Info."
@@ -10290,7 +10293,7 @@ On Error Resume Next
     fra_FaxSelect.Enabled = value
     'dgRecipientList.Enabled = value 'JCG 2008/8/30
     SSOleDBDocType.Enabled = value
-    Text1.Text = ""
+    Text1.text = ""
     TxtToStocktypeFQA.Enabled = value
     
     If value = True Then
@@ -10299,14 +10302,14 @@ On Error Resume Next
             chk_USExportH.Enabled = True
             chk_usexportLI.Enabled = True
             Chk_license.Enabled = True
-            SSoleEccnno.Enabled = True
+            SSoleEccnNo.Enabled = True
             SSOleSourceofinfo.Enabled = True
         Else
         
             chk_USExportH.Enabled = False
             chk_usexportLI.Enabled = False
             Chk_license.Enabled = False
-            SSoleEccnno.Enabled = False
+            SSoleEccnNo.Enabled = False
             SSOleSourceofinfo.Enabled = False
                 
         End If
@@ -10319,12 +10322,12 @@ On Error Resume Next
 
     comsearch.Hide
     
-    ssdcboCommoditty.Text = sStockNumber
+    ssdcboCommoditty.text = sStockNumber
     txt_Descript = comsearch.Description
     
  If objUnits Is Nothing Then Set objUnits = Mainpo.PoUnits
         
-         objUnits.stockNumber = Trim$(sStockNumber)
+         objUnits.StockNumber = Trim$(sStockNumber)
          SSOleDBUnit.RemoveAll
          SSOleDBUnit.AddItem objUnits.PrimaryUnit
          SSOleDBUnit.AddItem objUnits.SecondaryUnit
@@ -10443,7 +10446,7 @@ Public Function IsPrimQuantLessThanONE() As Boolean
  On Error GoTo Handler
   If Len(txt_Requested) > 0 And Len(SSOleDBUnit) > 0 Then
        If objUnits Is Nothing Then Set objUnits = Mainpo.PoUnits
-       objUnits.stockNumber = Trim$(ssdcboCommoditty)
+       objUnits.StockNumber = Trim$(ssdcboCommoditty)
        If objUnits.PrimaryUnit <> objUnits.SecondaryUnit Then
              If objUnits.PrimaryUnit = Trim$(SSOleDBUnit) Then
                  If CDbl(txt_Requested) < 1 And CDbl(txt_Requested) > 0 Then
@@ -10521,12 +10524,12 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
          
         If Not Trim$(UCase(Poheader.StasINvt)) = "NI" Then
           
-          SSOleDBCompany.Enabled = False
+          SSOleDBcompany.Enabled = False
           SSOleDBInvLocation.Enabled = False
         
         Else
           
-          SSOleDBCompany.Enabled = True
+          SSOleDBcompany.Enabled = True
           SSOleDBInvLocation.Enabled = True
         
         End If
@@ -10536,7 +10539,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         SSOleDBDocType.Enabled = True
         SSoledbSupplier.Enabled = False
         SSOleDBCurrency.Enabled = True
-        SSOleDBCompany.Enabled = True
+        SSOleDBcompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
           
    End If
@@ -10552,7 +10555,7 @@ If FormMode = mdModification And CInt(LblRevNumb) > 0 Then
         
         SSoledbSupplier.Enabled = True
         SSOleDBCurrency.Enabled = True
-        SSOleDBCompany.Enabled = True
+        SSOleDBcompany.Enabled = True
         SSOleDBInvLocation.Enabled = True
         
         
@@ -10895,8 +10898,8 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim Sql, companyNAME
-     Dim dataX As New ADODB.Recordset
+     Dim sql, companyNAME
+     Dim datax As New ADODB.Recordset
 
      Filename = "Fax" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
      FileNumb = FreeFile
@@ -10915,14 +10918,14 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
             reports = reports & Trim$(Attachments(i) & ";")
     Next
 
-    Sql = "SELECT po_ponumb, com_name FROM PO LEFT OUTER JOIN COMPANY ON " _
+    sql = "SELECT po_ponumb, com_name FROM PO LEFT OUTER JOIN COMPANY ON " _
         & "po_compcode = com_compcode AND po_npecode = com_npecode WHERE " _
-        & "po_ponumb = '" + ssOleDbPO.Text + "' AND po_npecode = '" + deIms.NameSpace + "'"
-    Set dataX = New ADODB.Recordset
-    dataX.Open Sql, deIms.cnIms
+        & "po_ponumb = '" + ssOleDbPO.text + "' AND po_npecode = '" + deIms.NameSpace + "'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, deIms.cnIms
     
-    If dataX.RecordCount > 0 Then
-        companyNAME = dataX!com_name
+    If datax.RecordCount > 0 Then
+        companyNAME = datax!com_name
     Else
         companyNAME = ""
     End If
@@ -11332,9 +11335,9 @@ If dgRecipientList.Rows > 0 And Len(Trim(DocType)) > 0 Then
             
                 For j = dgRecipientList.AddItemRowIndex(dgRecipientList.Bookmark) To dgRecipientList.Rows - 1
                 
-                    If Trim(Recepients(i)) = Trim(dgRecipientList.Columns(0).Text) Then
+                    If Trim(Recepients(i)) = Trim(dgRecipientList.Columns(0).text) Then
                     
-                         PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).Text)
+                         PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).text)
                          
                          dgRecipientList.RemoveItem (dgRecipientList.AddItemRowIndex(dgRecipientList.Bookmark))
                         
@@ -11491,7 +11494,7 @@ frm_ConvertToPO.ProgressBar1.value = frm_ConvertToPO.ProgressBar1.Max
 End If
 
 End Sub
-Public Function PopulateCombosWithFQA(companyCode As String, Optional locationCode As String) As Boolean
+Public Function PopulateCombosWithFQA(CompanyCode As String, Optional LocationCode As String) As Boolean
 
 Dim rsCOMPANY As New ADODB.Recordset
 Dim RsLocation As New ADODB.Recordset
@@ -11506,7 +11509,7 @@ PopulateCombosWithFQA = False
 
 nAMEsP = deIms.NameSpace
 
-rsCOMPANY.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(companyCode) & "' and Level ='C'"
+rsCOMPANY.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(CompanyCode) & "' and Level ='C'"
 
 rsCOMPANY.Open , deIms.cnIms
 
@@ -11521,7 +11524,7 @@ If rsCOMPANY.EOF = False Then TxtToCompanyFQA = rsCOMPANY("FQA")
 
 'Get Location FQA
 
-RsLocation.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(companyCode) & "' and Locationcode='" & Trim(locationCode) & "' and Level ='LB' OR LEVEL ='LS'"
+RsLocation.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(CompanyCode) & "' and Locationcode='" & Trim(LocationCode) & "' and Level ='LB' OR LEVEL ='LS'"
 
 RsLocation.Open , deIms.cnIms
 
@@ -11534,7 +11537,7 @@ Loop
 
 'Get US Chart FQA
 
-RsUc.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(companyCode) & "' and Locationcode='" & Trim(locationCode) & "' and Level ='UC'"
+RsUc.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(CompanyCode) & "' and Locationcode='" & Trim(LocationCode) & "' and Level ='UC'"
 
 RsUc.Open , deIms.cnIms
 
@@ -11548,7 +11551,7 @@ Loop
 
 'Get Cam Chart FQA
 
-RsCC.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(companyCode) & "' and Locationcode='" & Trim(locationCode) & "' and Level ='CC'"
+RsCC.Source = "select FQA from FQA where Namespace ='" & nAMEsP & "' and Companycode ='" & Trim(CompanyCode) & "' and Locationcode='" & Trim(LocationCode) & "' and Level ='CC'"
 
 RsCC.Open , deIms.cnIms
 
@@ -11667,16 +11670,16 @@ SSOleDBtoUSChartFQA = ""
 
 End Function
 
-Public Function InitializeNewTOFQARecord(companyCode As String, locationCode As String) As Boolean
+Public Function InitializeNewTOFQARecord(CompanyCode As String, LocationCode As String) As Boolean
 Dim Company As String
 Dim CamChart As String
 Dim stocktype As String
-Dim location As String
+Dim Location As String
 Dim UsChart As String
 'Dim X As Integer
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
     
-    Call lookups.LoadFQAFromLocation(Trim(companyCode), Trim(locationCode), Company, location, UsChart, CamChart, stocktype)
+    Call lookups.LoadFQAFromLocation(Trim(CompanyCode), Trim(LocationCode), Company, Location, UsChart, CamChart, stocktype)
     
     If POFqa.Count = 0 Then Call POFqa.AddNew
                 
@@ -11695,7 +11698,7 @@ Dim UsChart As String
     POFqa.ToCompany = Company
     POFqa.creauser = "DBo"
     POFqa.ToUSChart = UsChart
-    POFqa.Tolocation = location
+    POFqa.Tolocation = Location
     POFqa.ToStockType = stocktype
     
     Call LoadFromTOFQA
@@ -11708,7 +11711,7 @@ Public Function ModifyToFQAWithNewLocation() As Boolean
 Dim Company As String
 Dim CamChart As String
 Dim stocktype As String
-Dim location As String
+Dim Location As String
 Dim UsChart As String
 Dim LineNo As Integer
 Dim x
@@ -11732,7 +11735,7 @@ Dim x
     If POFqa.Count = 0 Then Exit Function
 
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
-    Call lookups.LoadFQAFromLocation(Trim(SSOleDBCompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, location, UsChart, CamChart, stocktype)
+    Call lookups.LoadFQAFromLocation(Trim(SSOleDBcompany.Tag), Trim(SSOleDBInvLocation.Tag), Company, Location, UsChart, CamChart, stocktype)
     
     POFqa.MoveFirst
     
@@ -11743,7 +11746,7 @@ Dim x
         POFqa.ToCompany = Company
         POFqa.creauser = "DBo"
         POFqa.ToUSChart = UsChart
-        POFqa.Tolocation = location
+        POFqa.Tolocation = Location
         POFqa.ToStockType = stocktype
         If POFqa.MoveNext = False Then Exit Do
         
@@ -11758,20 +11761,20 @@ Dim x
    End If
 End Function
 
-Public Function FillFromFQAControls(companyCode As String, locationCode As String) As Boolean
+Public Function FillFromFQAControls(CompanyCode As String, LocationCode As String) As Boolean
 
 Dim Company As String
 Dim CamChart As String
 Dim stocktype As String
-Dim location As String
+Dim Location As String
 Dim UsChart As String
 
     If lookups Is Nothing Then Set lookups = Mainpo.lookups
-    Call lookups.LoadFQAFromLocation(Trim(companyCode), Trim(locationCode), Company, location, UsChart, CamChart, stocktype)
+    Call lookups.LoadFQAFromLocation(Trim(CompanyCode), Trim(LocationCode), Company, Location, UsChart, CamChart, stocktype)
     
     TxtFromCamChart = CamChart
     TxtFromCompany = Company
-    TxtFromLocation = location
+    TxtFromLocation = Location
     TxtFromType = "0000"
     TxtFromUsChart = UsChart
     
@@ -11893,13 +11896,13 @@ On Error GoTo ErrHand
                
          'if SSoleEccnno SSoleEccnno.Enabled = True
               
-              Set SSoleEccnno.DataSourceList = RsEccnNo  ' RSStockNos
-              SSoleEccnno.DataFieldToDisplay = "eccn_no"
-              SSoleEccnno.DataFieldList = "eccnid"
-              SSoleEccnno.Columns(0).Visible = False
+              Set SSoleEccnNo.DataSourceList = RsEccnNo  ' RSStockNos
+              SSoleEccnNo.DataFieldToDisplay = "eccn_no"
+              SSoleEccnNo.DataFieldList = "eccnid"
+              SSoleEccnNo.Columns(0).Visible = False
 
-               SSoleEccnno.Columns(2).Width = 6000
-               SSoleEccnno.RowHeight = 500
+               SSoleEccnNo.Columns(2).Width = 6000
+               SSoleEccnNo.RowHeight = 500
 
        Set GRsEccnNo = lookups.GetListofEccns(0)
         
@@ -11931,7 +11934,7 @@ Exit Function
 ErrHand:
 MsgBox Err.Description
 End Function
-Public Function GetEccnForSelectedStock(stockNumber As String, ByRef Eccnid As Integer, ByRef Eccnno As String, ByRef EccnLicense As Boolean, ByRef Sourceid As Integer, ByRef Sourceno As String) As Boolean
+Public Function GetEccnForSelectedStock(StockNumber As String, ByRef Eccnid As Integer, ByRef Eccnno As String, ByRef EccnLicense As Boolean, ByRef Sourceid As Integer, ByRef Sourceno As String) As Boolean
 
 On Error GoTo ErrHand
 
@@ -11940,7 +11943,7 @@ Dim Rseccn As New ADODB.Recordset
     Rseccn.Source = "select isnull(stk_eccnid,0) stk_eccnid,isnull(stk_eccnsourceid,0) stk_eccnsourceid, isnull(stk_eccnlicsreq,0) stk_eccnlicsreq , isnull(eccn_no,'') eccn_no, isnull(source,'') source  from stockmaster s "
     Rseccn.Source = Rseccn.Source & " inner join eccn e on e.eccnid =s.stk_eccnid"
     Rseccn.Source = Rseccn.Source & " left outer join picklist p on p.sourceid =s.stk_eccnsourceid"
-    Rseccn.Source = Rseccn.Source & " where s.stk_npecode ='" & deIms.NameSpace & "' and s.stk_stcknumb='" & stockNumber & "'"
+    Rseccn.Source = Rseccn.Source & " where s.stk_npecode ='" & deIms.NameSpace & "' and s.stk_stcknumb='" & StockNumber & "'"
     Rseccn.ActiveConnection = deIms.cnIms
     Rseccn.Open , , 3, 3
     

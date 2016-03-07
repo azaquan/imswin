@@ -52,7 +52,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56098819
+         Format          =   56295427
          CurrentDate     =   36524
       End
       Begin MSComCtl2.DTPicker DTdate1 
@@ -65,7 +65,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56098819
+         Format          =   56295427
          CurrentDate     =   36524
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_company 
@@ -264,14 +264,14 @@ Private Sub cmd_ok_Click()
         Dim invocation
         Dim Fromdate
         Dim Todate
-        If Trim$(SSOleDB_company.Text) = "" Then
+        If Trim$(SSOleDB_company.Text) = "" Or Trim$(SSOleDB_company.Text) = "ALL" Then
             CompanyCode = "%"
         Else
             CompanyCode = Trim$(SSOleDB_company.Text)
         End If
         CompanyCode = "-company " + Chr(34) + CompanyCode + Chr(34) + " "
         namespaceCode = "-namespace " + Chr(34) + deIms.NameSpace + Chr(34) + " "
-        If Trim$(UCase(SSOleDB_ware.Text)) = "" Then
+        If Trim$(UCase(SSOleDB_ware.Text)) = "" Or Trim$(UCase(SSOleDB_ware.Text)) = "ALL" Then
             LocationCode = "%"
         Else
             LocationCode = Trim$(UCase(SSOleDB_ware.Text))
@@ -285,7 +285,7 @@ Private Sub cmd_ok_Click()
             + Format(Year(dtdate2.value)) + "-" _
             + Format(Month(dtdate2.value), "00") + "-" _
             + Format(Day(dtdate2.value), "00") + Chr(34) + " "
-        invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name uploadReport "
+        invocation = "cd \imsReportGenerator & java -jar reportGenerator.jar -name uploadReport -xuser " + Chr(34) + CurrentUser + Chr(34) + " "
         Shell "cmd.exe /c " & invocation + CompanyCode + namespaceCode + LocationCode + Fromdate + Todate, vbHide
         MsgBox "An email has been sent to you with the report."
      End If

@@ -35,7 +35,7 @@ Private FTelexNumber As String
 Private FContact As String
 Private FGender As String
 Private FZipCode As String
-Private FNamespace As String
+Private FNameSpace As String
 Private FUser As String
 Private FMode As Boolean
 Private FFlag As Boolean
@@ -204,13 +204,13 @@ Public Property Get CompanyCode() As String
 End Property
 
 Public Property Get NameSpace() As String
-    NameSpace = FNamespace
+    NameSpace = FNameSpace
 End Property
 
 Public Property Let NameSpace(ByVal vNewValue As String)
     vNewValue = Trim$(vNewValue)
 '    If FMode = False Then Exit Property
-    If FNamespace <> vNewValue Then FNamespace = vNewValue: Changed = True
+    If FNameSpace <> vNewValue Then FNameSpace = vNewValue: Changed = True
 End Property
 
 Public Property Get Connection() As ADODB.Connection
@@ -224,13 +224,14 @@ End Property
 'set gender llist details
 
 Public Function GenderList() As String()
-Dim str(4) As String
+Dim str(5) As String
 
     str(0) = "PO"
     str(1) = "BASE"
     str(2) = "OTHER"
     str(3) = "SITE"
     str(4) = "REPAIR"
+    str(5) = "FABRICA"
     GenderList = str
     
 End Function
@@ -273,7 +274,7 @@ Dim rs As ADODB.Recordset
     FLastCode = FLocationCode
     If Len(Trim$(sCode)) = 0 Then sCode = FLocationCode
     If Len(Trim$(CompCode)) = 0 Then CompCode = FCompanyCode
-    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNamespace
+    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNameSpace
    
     
     'If Len(Trim$(sCode)) = 0 Then Exit Function
@@ -303,10 +304,10 @@ Dim rs As ADODB.Recordset
         
         If Len(sCode) = 0 Then sCode = " "
         If Len(CompanyCode) = 0 Then CompanyCode = " "
-        .Parameters.Append .CreateParameter("", adVarChar, adParamInput, 5, SNamespace)
+        .parameters.Append .CreateParameter("", adVarChar, adParamInput, 5, SNamespace)
         
-        .Parameters.Append .CreateParameter("", adVarChar, adParamInput, 10, sCode)
-        .Parameters.Append .CreateParameter("", adVarChar, adParamInput, 10, CompCode)
+        .parameters.Append .CreateParameter("", adVarChar, adParamInput, 10, sCode)
+        .parameters.Append .CreateParameter("", adVarChar, adParamInput, 10, CompCode)
         
         Set rs = .Execute
     End With
@@ -329,7 +330,7 @@ Dim rs As ADODB.Recordset
             FLocationCode = Trim$(!loc_locacode & "")
             FLocationName = Trim$(!loc_name & "")
             FPhoneNumber = Trim$(!loc_phonnumb & "")
-            FNamespace = Trim$(!loc_npecode & "")
+            FNameSpace = Trim$(!loc_npecode & "")
             FFlag = IIf(!loc_actvflag, 1, 0)
         End With
     Else
@@ -349,7 +350,7 @@ On Error GoTo Handled
 
      
     If Len(Trim$(Comp)) = 0 Then Comp = FCompanyCode
-    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNamespace
+    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNameSpace
    
     If con Is Nothing Then Set con = cn
     
@@ -415,74 +416,74 @@ Dim cmd As ADODB.Command
         .CommandType = adCmdStoredProc
         .CommandText = "LOCATIONINSERT"
         
-        .Parameters.Append .CreateParameter("rt", adInteger, adParamReturnValue)
-        .Parameters.Append .CreateParameter("lc", adVarChar, adParamInput, 10, FLocationCode)
+        .parameters.Append .CreateParameter("rt", adInteger, adParamReturnValue)
+        .parameters.Append .CreateParameter("lc", adVarChar, adParamInput, 10, FLocationCode)
         
-        .Parameters.Append .CreateParameter("np", adVarChar, adParamInput, 5, FNamespace)
-        .Parameters.Append .CreateParameter("cc", adVarChar, adParamInput, 10, FCompanyCode)
-        .Parameters.Append .CreateParameter("nm", adVarChar, adParamInput, 35, FLocationName)
+        .parameters.Append .CreateParameter("np", adVarChar, adParamInput, 5, FNameSpace)
+        .parameters.Append .CreateParameter("cc", adVarChar, adParamInput, 10, FCompanyCode)
+        .parameters.Append .CreateParameter("nm", adVarChar, adParamInput, 35, FLocationName)
         
         va = FAddress1
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("ad1", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("ad1", adVarChar, adParamInput, 25, va)
         
         va = FAddress2
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("ad2", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("ad2", adVarChar, adParamInput, 25, va)
         
         va = FCity
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("city", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("city", adVarChar, adParamInput, 25, va)
 
         
         va = FState
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("st", adVarChar, adParamInput, 2, va)
+        .parameters.Append .CreateParameter("st", adVarChar, adParamInput, 2, va)
         
         va = FZipCode
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("zp", adVarChar, adParamInput, 11, va)
+        .parameters.Append .CreateParameter("zp", adVarChar, adParamInput, 11, va)
         
         
         va = FCountry
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("ctry", adVarChar, adParamInput, 25, FCountry)
+        .parameters.Append .CreateParameter("ctry", adVarChar, adParamInput, 25, FCountry)
         
         
         va = FPhoneNumber
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("pn", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("pn", adVarChar, adParamInput, 25, va)
         
         va = FFaxNumber
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("fax", adVarChar, adParamInput, 50, va)
+        .parameters.Append .CreateParameter("fax", adVarChar, adParamInput, 50, va)
         
         
         va = FTelexNumber
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("tx", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("tx", adVarChar, adParamInput, 25, va)
         
         va = FEmail
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("Email", adVarChar, adParamInput, 59, va)
+        .parameters.Append .CreateParameter("Email", adVarChar, adParamInput, 59, va)
         
         va = FContact
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("cont", adVarChar, adParamInput, 25, va)
+        .parameters.Append .CreateParameter("cont", adVarChar, adParamInput, 25, va)
         
         va = FGender
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("gender", adVarChar, adParamInput, 10, va)
+        .parameters.Append .CreateParameter("gender", adVarChar, adParamInput, 10, va)
         
-        .Parameters.Append .CreateParameter("flag", adBoolean, adParamInput, , FFlag)
+        .parameters.Append .CreateParameter("flag", adBoolean, adParamInput, , FFlag)
         
         va = FUser
         If Len(va) = 0 Then va = Null
-        .Parameters.Append .CreateParameter("user", adVarChar, adParamInput, 20, FUser)
+        .parameters.Append .CreateParameter("user", adVarChar, adParamInput, 20, FUser)
         
         Call .Execute(Options:=adExecuteNoRecords)
         
-        Update = .Parameters(0).Value = 0
+        Update = .parameters(0).value = 0
     End With
 
     Set cmd = Nothing
@@ -529,24 +530,24 @@ End Function
 'validate data format
 
 Public Function Validate() As Boolean
-Dim Msg As String
+Dim msg As String
 
 
     If Len(FLocationCode) = 0 Then
-        Msg = "Location code cannot be empty"
+        msg = "Location code cannot be empty"
     ElseIf Len(FCompanyCode) = 0 Then
-        Msg = "Company Code cannot be left empty"
+        msg = "Company Code cannot be left empty"
         
     ElseIf Len(FLocationName) = 0 Then
-        Msg = "Location name cannot be left empty"
+        msg = "Location name cannot be left empty"
         
     ElseIf Len(FGender) = 0 Then
-        Msg = "Location Type cannot ne left empty"
+        msg = "Location Type cannot ne left empty"
         
     End If
     
-    Validate = Len(Msg) = 0
-    If Len(Msg) Then MsgBox Msg
+    Validate = Len(msg) = 0
+    If Len(msg) Then MsgBox msg
 End Function
 
 Public Property Get LastCode() As String
@@ -561,7 +562,7 @@ On Error GoTo Handled
 
      
     If Len(Trim$(Comp)) = 0 Then Comp = FCompanyCode
-    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNamespace
+    If Len(Trim$(SNamespace)) = 0 Then SNamespace = FNameSpace
    
     If con Is Nothing Then Set con = cn
     

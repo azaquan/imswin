@@ -4,6 +4,7 @@ Option Explicit
 
 'MM : March 01 2009
 Public Const Report_EmailFax_PO_name = "poforEmailFaxCR11.rpt"
+'Public Const Report_EmailFax_PO_name = "po.rpt"
 Public Const Report_EmailFax_FreightReceipt_name = "freception.rpt"
 Public Const Report_EmailFax_TrackingPo = "obs.rpt"
 Public Const Report_EmailFax_Supplier_name = "supplier.rpt"
@@ -80,12 +81,12 @@ Public Const ConstOptional = "o"
 
 Dim myASPx As myASPx.Exec 'JCG 2008/7/6
 
+Private Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal HWND As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 
 Private PDFCreator1 As PDFCreator.clsPDFCreator 'JCG 2008/7/10
 Private pErr As clsPDFCreatorError, opt As clsPDFCreatorOptions 'JCG 2008/7/10
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long) 'JCG 2008/712
-'Function and procedures created by Mike Lavery
-
+''Function and procedures created by Mike Lavery
 
 
 Public Function Print_Crystal_Rpt(rpt_filename As String) As Integer
@@ -137,7 +138,7 @@ On Error Resume Next
         ThisObject.BackColor = frm_Color.txt_textbox.BackColor
 
 
-    ElseIf TypeOf ThisObject Is CheckBox Or TypeOf ThisObject Is OptionButton Then
+    ElseIf TypeOf ThisObject Is checkBox Or TypeOf ThisObject Is OptionButton Then
         ThisObject.BackColor = frm_Color.txt_WBackground.BackColor
 
     Else
@@ -221,7 +222,7 @@ On Error Resume Next
         ctl_curr.BackColor = BG.BackColor
     End If
 
-     If TypeOf ctl_curr Is CheckBox Then
+     If TypeOf ctl_curr Is checkBox Then
         ctl_curr.BackColor = BG.BackColor
     End If
    Set TB = Nothing
@@ -344,6 +345,10 @@ Function filterAddresses(ByRef inp() As String, ByVal for_fax As Boolean) As Str
     
 End Function
 
+Private Sub PDFCreator1_eError()
+ Set pErr = PDFCreator1.cError
+ Screen.MousePointer = vbNormal
+End Sub
 'function for send fax, get application path
 Sub sendFaxOnly(subject As String, faxAddresses() As String, Attachment As String)
     Dim IFile As IMSFile
@@ -453,13 +458,13 @@ End Sub
 
 'call function to check file exists or not
 
-Public Function GetFileContents(FileName As String) As String
+Public Function GetFileContents(Filename As String) As String
 Dim i As Integer
     
-    If FileExists(FileName) Then
+    If FileExists(Filename) Then
     
         i = FreeFile
-        Open FileName For Input As #i
+        Open Filename For Input As #i
         GetFileContents = Input(LOF(i), i)
         
         Close #i
@@ -475,7 +480,7 @@ Dim BK As Variant
     
     IsInList = False
     If rsReceptList.RecordCount = 0 Then Exit Function
-    If Not (rsReceptList.EOF Or rsReceptList.Bof) Then BK = rsReceptList.Bookmark
+    If Not (rsReceptList.EOF Or rsReceptList.BOF) Then BK = rsReceptList.Bookmark
     
     rsReceptList.MoveFirst
     Call rsReceptList.Find(FieldName & " = '" & RecepientName & "'", 0, adSearchForward, adBookmarkFirst)
@@ -492,7 +497,7 @@ End Function
 
 'set store procedure parameters and call it to get OBS reciptients
 
-Public Function GetObsRecipients(NameSpace As String, PoNumber As String, MsgNumber As String) As ADODB.Recordset
+Public Function GetObsRecipients(NameSpace As String, poNumber As String, MsgNumber As String) As ADODB.Recordset
 Dim cmd As ADODB.Command
     
     Set cmd = MakeCommand(deIms.cnIms, adCmdStoredProc)
@@ -500,7 +505,7 @@ Dim cmd As ADODB.Command
     With cmd
         .CommandText = "GETOBSRECIPIENTS"
         .parameters.Append .CreateParameter("", adVarChar, adParamInput, 5, NameSpace)
-        .parameters.Append .CreateParameter("", adVarChar, adParamInput, 15, PoNumber)
+        .parameters.Append .CreateParameter("", adVarChar, adParamInput, 15, poNumber)
         .parameters.Append .CreateParameter("", adVarChar, adParamInput, 15, MsgNumber)
         
         Set GetObsRecipients = .Execute
@@ -579,7 +584,7 @@ Public Sub LogErr(RoutineName As String, ErrorDescription As String, ErrorNumber
 Dim i As IMSFile
 Dim ms As imsmisc
 
-Dim FileName As String
+Dim Filename As String
 Dim FileNumb As Integer
 On Error Resume Next
 
@@ -594,9 +599,9 @@ On Error Resume Next
     
     
     FileNumb = FreeFile
-    FileName = LogPath + i.ChangeFileExt(App.EXEName + Format$(Date, "ddmmyy"), "imserrlog")
+    Filename = LogPath + i.ChangeFileExt(App.EXEName + Format$(Date, "ddmmyy"), "imserrlog")
     
-    Open FileName For Append As 1
+    Open Filename For Append As 1
     
         Print #FileNumb, "Module:             " & App.EXEName
         Print #FileNumb, "Routine:            " & RoutineName
@@ -712,7 +717,7 @@ Public Sub SendWareHouseMessage(NameSpace As String, _
                                 ReportInfo As RPTIFileInfo)
 On Error Resume Next
 Dim fo As att_FaxOptions
-Dim Rs As ADODB.Recordset
+Dim rs As ADODB.Recordset
 Dim FaxNumbers() As String
 Dim EmailAddress() As String
 Dim i As Integer, l As Integer
@@ -723,25 +728,25 @@ Dim i As Integer, l As Integer
     
             ReDim FaxNumbers(0)
             ReDim EmailAddress(0)
-            Set Rs = GetWareHouseRecipients(NameSpace, cn)
+            Set rs = GetWareHouseRecipients(NameSpace, cn)
             
             DoEvents
-            Do Until Rs.EOF
+            Do Until rs.EOF
             
                 DoEvents
-                Do While ((Len(Trim$(Rs("Address") & "")) = 0))
-                    Rs.MoveNext
+                Do While ((Len(Trim$(rs("Address") & "")) = 0))
+                    rs.MoveNext
                     DoEvents: DoEvents
-                    If Rs.EOF Then Exit Do
+                    If rs.EOF Then Exit Do
                 Loop
                 
-                If Rs.EOF Then Exit Do
+                If rs.EOF Then Exit Do
                 
-                If LCase(Rs("Type")) = "fax" Then
+                If LCase(rs("Type")) = "fax" Then
                 
                     ReDim Preserve FaxNumbers(i)
                     
-                    FaxNumbers(i) = Rs("Address") & ""
+                    FaxNumbers(i) = rs("Address") & ""
                     
                     If (LCase(Left$(FaxNumbers(i), 4)) <> "fax!") Then
                         FaxNumbers(i) = "FAX!" & FaxNumbers(i)
@@ -750,12 +755,12 @@ Dim i As Integer, l As Integer
                     i = i + 1
                 Else
                     ReDim Preserve EmailAddress(l)
-                    EmailAddress(i) = Rs("Address") & ""
+                    EmailAddress(i) = rs("Address") & ""
                     l = l + 1
                     
                 End If
                 
-                Rs.MoveNext
+                rs.MoveNext
                 DoEvents: DoEvents
             Loop
             
@@ -865,7 +870,7 @@ Dim str As String
 Dim i As IMSFile
 Dim ms As imsmisc
 Dim FileNumb As Integer
-Dim FileName As String
+Dim Filename As String
 On Error Resume Next
 
         
@@ -885,10 +890,10 @@ On Error Resume Next
     
     
     FileNumb = FreeFile
-    FileName = LogPath + i.ChangeFileExt(App.EXEName + Format$(Date, "ddmmyy"), "imsexeclog")
+    Filename = LogPath + i.ChangeFileExt(App.EXEName + Format$(Date, "ddmmyy"), "imsexeclog")
     
-    Call SetAttr(FileName, vbNormal)
-    Open FileName For Append As FileNumb
+    Call SetAttr(Filename, vbNormal)
+    Open Filename For Append As FileNumb
     
         Print #FileNumb, "Module:            " & App.EXEName
         Print #FileNumb, "Description:       " & Message
@@ -899,7 +904,7 @@ On Error Resume Next
     
     Set i = Nothing
     Set ms = Nothing
-    Call SetAttr(FileName, vbReadOnly)
+    Call SetAttr(Filename, vbReadOnly)
     
     If Err Then Err.Clear
 End Sub
@@ -907,16 +912,16 @@ End Sub
 'check file exists or not, if file exist delete it
 'then create new file
 
-Public Function CreateFile(FileName As String) As Integer
+Public Function CreateFile(Filename As String) As Integer
 
 Dim i As IMSFile
 
     Set i = New IMSFile
     
-    If i.FileExists(FileName) Then Call i.DeleteFile(FileName)
+    If i.FileExists(Filename) Then Call i.DeleteFile(Filename)
     
     CreateFile = FreeFile
-    Open FileName For Append As CreateFile
+    Open Filename For Append As CreateFile
 End Function
 
 'print file
@@ -933,23 +938,23 @@ End Sub
 
 'get file information
 
-Public Sub WriteRPTIFile(FileInfo As RPTIFileInfo, Optional FileName As String)
+Public Sub WriteRPTIFile(FileInfo As RPTIFileInfo, Optional Filename As String)
 Dim FileNumb As Integer
 Dim i As Integer, l As Integer
 
     FileNumb = FreeFile
-    FileName = Trim$(FileName)
+    Filename = Trim$(Filename)
     l = UBound(FileInfo.parameters)
     FileInfo.Login = Trim$(FileInfo.Login)
     FileInfo.Password = Trim$(FileInfo.Password)
-    If Len(FileName) = 0 Then FileName = FixDir(App.Path) & "Report.rpti"
+    If Len(Filename) = 0 Then Filename = FixDir(App.Path) & "Report.rpti"
     
     
 '    If Len(FileInfo.Login) = 0 Then FileInfo.Login = "sa"  'M
     If Len(FileInfo.Login) = 0 Then FileInfo.Login = ConnInfo.UId 'userid 'M
     If Len(FileInfo.Password) = 0 Then FileInfo.Password = ConnInfo.Pwd 'DBPassword 'M
     
-    Open FileName For Output As FileNumb
+    Open Filename For Output As FileNumb
     
         Print #FileNumb, "[report]"
         Print #FileNumb, "file=" & Trim$(FileInfo.ReportFileName)
@@ -999,22 +1004,22 @@ Public Function WriteParameterFiles(Recepients() As String, sender As String, At
  
  Dim l
  Dim x
- Dim Y
+ Dim y
  Dim i
  Dim Email() As String
  Dim fax() As String
- Dim Rs As New ADODB.Recordset
+ Dim rs As New ADODB.Recordset
  
  If Len(Trim(sender)) = 0 Then
  
-    Rs.Source = "select com_name from company where com_compcode = ( select psys_compcode from pesys where psys_npecode ='" & deIms.NameSpace & "')"
-    Rs.ActiveConnection = deIms.cnIms
-    Rs.Open
+    rs.Source = "select com_name from company where com_compcode = ( select psys_compcode from pesys where psys_npecode ='" & deIms.NameSpace & "')"
+    rs.ActiveConnection = deIms.cnIms
+    rs.Open
     
-    If Rs.RecordCount > 0 Then
-        If Len(Rs("com_name") & "") > 0 Then sender = Rs("com_name")
+    If rs.RecordCount > 0 Then
+        If Len(rs("com_name") & "") > 0 Then sender = rs("com_name")
     End If
-    Rs.Close
+    rs.Close
     
     
 End If
@@ -1027,7 +1032,7 @@ On Error GoTo errMESSAGE
  
  
     x = 0
-    Y = 0
+    y = 0
  
  
  For i = 0 To l
@@ -1041,9 +1046,9 @@ On Error GoTo errMESSAGE
        
     Else
       
-       ReDim Preserve fax(Y)
-       fax(Y) = Recepients(i)
-       Y = Y + 1
+       ReDim Preserve fax(y)
+       fax(y) = Recepients(i)
+       y = y + 1
        
     End If
        
@@ -1088,7 +1093,7 @@ errMESSAGE:
 
 End Function
 
-Public Sub SendAttFaxAndEmail(ReportName As String, ParamsForRPTI() As String, CrystalControl As crystal.CrystalReport, ParamsForCrystalReport() As String, rsReceptList As ADODB.Recordset, subject As String, Message As String, FieldName As String)
+Public Sub SendAttFaxAndEmail(reportNAME As String, ParamsForRPTI() As String, CrystalControl As Crystal.CrystalReport, ParamsForCrystalReport() As String, rsReceptList As ADODB.Recordset, subject As String, Message As String, FieldName As String)
 
 Dim rptinf As RPTIFileInfo
 
@@ -1100,7 +1105,7 @@ On Error Resume Next
        
     With CrystalControl
         .Reset
-        .ReportFileName = FixDir(App.Path) + "CRreports\" & ReportName
+        .ReportFileName = FixDir(App.Path) + "CRreports\" & reportNAME
 
         For i = 0 To UBound(ParamsForCrystalReport)
 
@@ -1114,9 +1119,9 @@ On Error Resume Next
        
     With rptinf
         
-        .ReportFileName = reportPath & ReportName
+        .ReportFileName = reportPath & reportNAME
         
-        Call translator.Translate_Reports(ReportName)
+        Call translator.Translate_Reports(reportNAME)
         
         Call translator.Translate_SubReports
         
@@ -1140,12 +1145,12 @@ End Sub
 
 
 
-Public Function generateattachments(ReportName As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As crystal.CrystalReport) As String()
+Public Function generateattachments(reportNAME As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As Crystal.CrystalReport) As String()
   Dim Attachments(0) As String
   
   Dim IFile As IMSFile
   
-  Dim FileName As String
+  Dim Filename As String
   
   Dim i As Integer
   
@@ -1157,9 +1162,9 @@ On Error GoTo errMESSAGE
         
         .Reset
         
-        .ReportFileName = reportPath & ReportName
+        .ReportFileName = reportPath & reportNAME
         
-        Call translator.Translate_Reports(ReportName)
+        Call translator.Translate_Reports(reportNAME)
         
         Call translator.Translate_SubReports
        
@@ -1176,12 +1181,12 @@ On Error GoTo errMESSAGE
      
      'FileName = "c:\IMSRequests\IMSRequests\OUT\" & Attachments(0)
      
-     FileName = ConnInfo.EmailOutFolder & Attachments(0)
+     Filename = ConnInfo.EmailOutFolder & Attachments(0)
      'FileName = App.Path + "\messages\" + Attachments(0) 'JCG 2008/7/6
-     If IFile.FileExists(FileName) Then IFile.DeleteFile (FileName)
-     Attachments(0) = FileName
+     If IFile.FileExists(Filename) Then IFile.DeleteFile (Filename)
+     Attachments(0) = Filename
      ' If Not FileExists(Filename) Then MDI_IMS.SaveReport Filename, crptRTF 'JCG 2008/7/6
-     MDI_IMS.SaveReport FileName, crptRTF 'JCG 2008/7/6
+     MDI_IMS.SaveReport Filename, crptRTF 'JCG 2008/7/6
      
      
      generateattachments = Attachments
@@ -1197,13 +1202,13 @@ End Function
 
 
 
-Public Function generateattachmentswithCR11(ReportName As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As crystal.CrystalReport) As String()
+Public Function generateattachmentswithCR11(reportNAME As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As Crystal.CrystalReport) As String()
   
   Dim Attachments(0) As String
   
   Dim IFile As IMSFile
   
-  Dim FileName As String
+  Dim Filename As String
   
   Dim i As Integer
   
@@ -1237,20 +1242,20 @@ On Error GoTo errMESSAGE
      
      'FileName = "c:\IMSRequests\IMSRequests\OUT\" & Attachments(0)
      
-     FileName = ConnInfo.EmailOutFolder & Attachments(0)
+     Filename = ConnInfo.EmailOutFolder & Attachments(0)
 
     Dim x As New clsexport
     
     'x.ParamsForCrystalReport = ParamsForCrystalReport()
     'x.Namespace = "Pect" ' ParamsForCrystalReport(0)
-    x.ExportFilePath = FileName
-    x.ReportName = ReportName
+    x.ExportFilePath = Filename
+    x.reportNAME = reportNAME
 
    ' x.ReporttypesCr11 = EReportTypesForCR11.PO
 
 
-     If IFile.FileExists(FileName) Then IFile.DeleteFile (FileName)
-     Attachments(0) = FileName
+     If IFile.FileExists(Filename) Then IFile.DeleteFile (Filename)
+     Attachments(0) = Filename
     
      Call x.GeneratePdf(ParamsForCrystalReport)
        
@@ -1273,96 +1278,58 @@ Public Function ParseMiddleValue(str As String) As String
 Dim loc1 As String
 Dim loc2 As String
 
-Dim arr() As String
+Dim Arr() As String
 
-arr = Split(str, ";")
+Arr = Split(str, ";")
 
 'loc1 = InStr(0, str, ";")
 'loc2 = InStr(loc1 + 1, str, ";")
 
-ParseMiddleValue = arr(1) 'Mid(ParamsForCrystalReport(1), loc1, loc2 - loc1)
+ParseMiddleValue = Arr(1) 'Mid(ParamsForCrystalReport(1), loc1, loc2 - loc1)
 
 End Function
 
-'
-'Public Function generateattachments(reportNAME As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As Crystal.CrystalReport) As String()
-'  Dim Attachments(0) As String
-'
-'  Dim IFile As IMSFile
-'
-'  Dim FileName As String
-'
-'  Dim i As Integer
-'
-'  Set IFile = New IMSFile
-'
-'On Error GoTo errMESSAGE
-'
-'    With CrystalControl
-'
-'        .Reset
-'
-'        .ReportFileName = ReportPath & reportNAME
-'
-'        Call translator.Translate_Reports(reportNAME)
-'
-'        Call translator.Translate_SubReports
-'
-'       For i = 0 To UBound(ParamsForCrystalReport)
-'
-'        .ParameterFields(i) = ParamsForCrystalReport(i)
-'
-'        Next i
-'
-'    End With
-'
-'     'attachments(0) = "Report-" & ReportCaption & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".rtf"  'JCG 2008/7/6
-'     Attachments(0) = "PO-" + deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".rtf" 'JCG 2008/7/6
-'
-'     'FileName = "c:\IMSRequests\IMSRequests\OUT\" & Attachments(0)
-'
-'     'Filename = ConnInfo.EmailOutFolder & Attachments(0)
-'     FileName = App.Path + "\messages\" + Attachments(0) 'JCG 2008/7/6
-'     If IFile.FileExists(FileName) Then IFile.DeleteFile (FileName)
-'
-'     ' If Not FileExists(Filename) Then MDI_IMS.SaveReport Filename, crptRTF 'JCG 2008/7/6
-'     MDI_IMS.SaveReport FileName, crptRTF 'JCG 2008/7/6
-'
-'     generateattachments = Attachments
-'errMESSAGE:
-'
-'    If Err.number <> 0 Then
-'
-'        MsgBox "Process generateattachments " + Err.Description
-'
-'    End If
-'
-'End Function
 
-Public Function generateattachmentsPDF(ReportName As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As crystal.CrystalReport, poNum As String, Optional docKind As String) As String()
+Public Function generateattachmentsPDF(reportNAME As String, ReportCaption As String, ParamsForCrystalReport() As String, CrystalControl As Crystal.CrystalReport, poNum As String, Optional docKind As String) As String()
   Dim Attachments(0) As String
   Dim IFile As IMSFile
-  Dim FileName As String
+  Dim fileNameString As String
   Dim i As Integer
   Set IFile = New IMSFile
+  Dim rs As ADODB.Recordset
+  Set rs = New ADODB.Recordset
+  Dim sql, DocType, confirm, msg As String
+  Dim Flag As Integer
 On Error GoTo errMESSAGE
-    
+    sql = "select * from po where po_npecode='" + deIms.NameSpace + "' and po_ponumb = '" + poNum + "' "
+    rs.Source = sql
+    rs.ActiveConnection = deIms.cnIms
+    rs.Open
+    If rs.RecordCount > 0 Then
+        DocType = rs!po_docutype
+        confirm = rs!po_confordr
+    Else
+        DocType = ""
+        confirm = ""
+    End If
     ' JCG 2008/7/10
+    Attachments(0) = ""
     If docKind = "receipt" Then
         Attachments(0) = "Receipt-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
     ElseIf docKind = "document" Then
         Attachments(0) = "Document-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
     Else
-        Attachments(0) = "PO-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
+        Attachments(0) = "PO-" + poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
     End If
-     FileName = App.Path + "\messages\" + Attachments(0)
-     If IFile.FileExists(FileName) Then IFile.DeleteFile (FileName)
-     
-    Call pdfStuff(Attachments(0))
-        
+     'Filename = App.Path + "\messages\" + Attachments(0)
+     fileNameString = Attachments(0)
+     'If IFile.FileExists(ConnInfo.EmailOutFolder + fileNameString) Then IFile.DeleteFile (ConnInfo.EmailOutFolder + fileNameString)
+    
+    Call pdfStuff(fileNameString)
+    Attachments(0) = ConnInfo.EmailOutFolder + Attachments(0)
+
     Dim oldPrinter As String
     oldPrinter = Printer.DeviceName
-
     Dim w As New WshNetwork
     w.SetDefaultPrinter ("PDFCreator")
     Set w = Nothing
@@ -1370,78 +1337,108 @@ On Error GoTo errMESSAGE
     With CrystalControl
         .Reset
         .Destination = crptToPrinter
-        .ReportFileName = reportPath & ReportName
-        Call translator.Translate_Reports(ReportName)
+        .ReportFileName = reportPath & reportNAME
+        .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
+        .ParameterFields(1) = "ponumb;" + poNum + ";true"
+
+       'Modified by Juan 2016-02-10
+        msg1 = translator.Trans("M00392")
+        .WindowTitle = IIf(msg1 = "", "Transaction", msg1)
+        Call translator.Translate_Reports("po.rpt")
+
+        msg1 = translator.Trans("M00091")
+        If msg1 = "" Then msg1 = "Total Price of"
+        msg2 = translator.Trans("M00093")
+        If msg2 = "" Then msg2 = "in"
+        Dim curr
+        curr = " : "
+        .Formulas(99) = "gttext = ' " + msg1 + " ' + {DOCTYPE.doc_desc} + ' " + msg2 + " ' + {CURRENCY.curr_desc} + ' " + curr + "' + totext(Sum ({@total}, {PO.po_ponumb}))"
+
+        Dim lbl_doc_desc As String
+        lbl_doc_desc = translator.TranslateObject(deIms.cnIms, "doctype", DocType)
+        If lbl_doc_desc <> "" Then
+            .Formulas(101) = "lbl_doc_desc = '" + lbl_doc_desc + "'"
+        End If
+
+        If confirm And translator.TR_LANGUAGE <> "US" Then
+            msg = translator.Trans("M00881")
+            If msg <> "" Then
+                .Formulas(100) = "confirmingorder = '" + msg + "'"
+            End If
+        End If
+
         Call translator.Translate_SubReports
-        For i = 0 To UBound(ParamsForCrystalReport)
-            .ParameterFields(i) = ParamsForCrystalReport(i)
-        Next i
+
+        '---------------------------------------------
     End With
-    MDI_IMS.PrintDirectReport FileName
+    MDI_IMS.PrintDirectReport ConnInfo.EmailOutFolder + fileNameString
+
+'    Do Until PDFCreator1.cCountOfPrintjobs = 0
+'    DoEvents
+'    Loop
     
-    Do Until PDFCreator1.cCountOfPrintjobs = 0
-    DoEvents
-    Loop
     
     
     Dim ww As New WshNetwork
     ww.SetDefaultPrinter (oldPrinter)
     Set ww = Nothing
+    rs.Close
     '---------------
-    'Sleep 3000
+    Sleep 3000
      generateattachmentsPDF = Attachments
+'     Do While PDFCreator1.cCountOfPrintjobs > 0
+'        DoEvents
+'        If PDFCreator1.cCountOfPrintjobs = 0 Then
+'           If PDFCreator1.cVisible Then PDFCreator1.cVisible = False
+'        End If
+'     Loop
 errMESSAGE:
 
     If Err.number <> 0 Then
     
-        MsgBox "Process generateattachmentsPDF " + Err.Description
+        MsgBox "Process generateattachmentsPDF -flag:" + Err.Description
         
     End If
 
 End Function
 
-Public Sub pdfStuff(FileName As String)
+Public Sub pdfStuff(Filename As String)
+On Error GoTo ErrHandler
  Set PDFCreator1 = New clsPDFCreator
  Set pErr = New clsPDFCreatorError
- With PDFCreator1
-  .cVisible = True
-  If .cStart("/NoProcessingAtStartup") = False Then
-    If .cStart("/NoProcessingAtStartup", True) = False Then
-     Exit Sub
-    End If
-    .cVisible = True
-  End If
-  
-  Set opt = .cOptions
-  .cClearCache
- End With
-
-  Set PDFCreator1 = New clsPDFCreator
- Set pErr = New clsPDFCreatorError
- With PDFCreator1
-  .cVisible = True
-  If .cStart("/NoProcessingAtStartup") = False Then
-    .cVisible = True
-  End If
-  .cErrorClear
-  If .cPrinterStop = True Then .cPrinterStop = False
-  Set opt = .cOptions
-  .cClearCache
- End With
  
-  opt.AutosaveFilename = FileName
-  opt.AutosaveDirectory = App.Path + "/messages"
-  opt.UseAutosave = 1
-  
- Set PDFCreator1.cOptions = opt
+    With PDFCreator1
+        .cVisible = True
+        If .cStart("/NoProcessingAtStartup") = False Then
+            If .cStart("/NoProcessingAtStartup", True) = False Then
+                Exit Sub
+            End If
+            .cVisible = True
+        End If
+        .cErrorClear
+        If .cPrinterStop = True Then .cPrinterStop = False
+        Set opt = .cOptions
+        .cClearCache
+    End With
+
+    opt.AutosaveFilename = Filename
+    opt.AutosaveDirectory = ConnInfo.EmailOutFolder
+    opt.UseAutosave = 1
+
+    Set PDFCreator1.cOptions = opt
+Exit Sub
+
+ErrHandler:
+ If Err.number <> 0 Then
+    MsgBox "Error on pdfStuff -" + Err.Description
+    Err.Clear
+ End If
 End Sub
 Private Sub PDFCreator1_eReady()
     PDFCreator1.cPrinterStop = True
 End Sub
 
-Private Sub PDFCreator1_eError()
-    Set pErr = PDFCreator1.cError
-End Sub
+
 Private Function PrinterIndex(Printername As String) As Long ' JCG 2008/7/10
  Dim i As Long
  For i = 0 To Printers.Count - 1
@@ -1453,12 +1450,10 @@ Private Function PrinterIndex(Printername As String) As Long ' JCG 2008/7/10
 End Function
 
 'Muzammil;s code
-Public Function sendOutlookEmailandFax(ReportName As String, ReportCaption As String, CrystalControl As crystal.CrystalReport, ParamsForCrystalReports() As String, rsReceptList As ADODB.Recordset, subject As String, attention As String, Optional sender As String, Optional FieldName As String, Optional PO As String)
+Public Function sendOutlookEmailandFax(reportNAME As String, ReportCaption As String, CrystalControl As Crystal.CrystalReport, ParamsForCrystalReports() As String, rsReceptList As ADODB.Recordset, subject As String, attention As String, Optional sender As String, Optional FieldName As String, Optional PO As String)
 Dim Params(1) As String
 Dim i As Integer
-
 Dim Attachments() As String
-
 Dim Recepients() As String
 'Recepients = Null 'JCG 2008/8/29
 
@@ -1480,18 +1475,28 @@ On Error GoTo errMESSAGE
         '---------
         poNum = PO
         If poNum = "" Then poNum = subject
-        attention = "Please find here attached PO #" + poNum + " From Pecten Cameroon company" ' JCG 2008/7/12
+        
+        Dim text As String
+        text = "Please find here attached PO #"
+        If translator.TR_LANGUAGE <> "US" Then
+            text = translator.Trans("M00928")
+            text = IIf(text = "", "Please find here attached PO #", text)
+        End If
+        
+        attention = "Please find here attached PO #" + poNum  ' JCG 2008/7/12
 
          'Attachments = generateattachments(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl)  ' JCG 2008/7/10
-         Attachments = generateattachmentswithCR11(ReportName, ReportCaption, ParamsForCrystalReports, CrystalControl)  ' JCG 2008/7/10
-        ' JCG 2008/7/13
+         
+         ' JCG 2016-02-10
+         'Attachments = generateattachmentswithCR11(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl)  ' JCG 2008/7/10
+        
 '
-        'If Left(subject, 2) = "PO" Then
-        '    Attachments = generateattachmentsPDF(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl, poNum)
-       ' Else
-       '     Attachments = generateattachmentsPDF(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl, poNum, "document")
-        'End If
-        '----------------
+        If Left(subject, 2) = "PO" Then
+            Attachments = generateattachmentsPDF(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl, poNum)
+        Else
+            Attachments = generateattachmentsPDF(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl, poNum, "document")
+        End If
+
 
      If Len(Trim(FieldName)) = 0 Then
 
@@ -1609,18 +1614,18 @@ End Function
 'Juan's code
 Public Function WriteParameterFileEmailUsingPDFCreator(Attachments() As String, Recipients() As String, subject As String, sender As String, attention As String) As Integer
 On Error GoTo errMESSAGE
-     Dim FileName As String
+     Dim Filename As String
      Dim FileNumb As Integer
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
 
-     FileName = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
+     Filename = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
      FileNumb = FreeFile
 
      'FileName = "c:\IMSRequests\IMSRequests\" & FileName
 
-     FileName = ConnInfo.EmailParameterFolder & FileName
+     Filename = ConnInfo.EmailParameterFolder & Filename
 
     For i = 0 To UBound(Recipients)
             'recepientSTR = recepientSTR & Trim$(Recipients(i) & ";") 'JCG 2008/7/6
@@ -1667,7 +1672,7 @@ End Function
 Public Function WriteParameterFileEmail(Attachments() As String, Recipients() As String, subject As String, sender As String, attention As String) As Integer
 
 On Error GoTo errMESSAGE
-     Dim FileName As String
+     Dim Filename As String
      Dim FileNumb As Integer
      Dim i As Integer, l As Integer
      Dim reports As String
@@ -1727,18 +1732,18 @@ End Function
 Public Function WriteParameterEfaxUsingPDFCreator(Attachments, Recipients, subject, sender, attention) 'JCG 6/14/2008 added for eFax
     On Error GoTo errMESSAGE
 
-     Dim FileName As String
+     Dim Filename As String
      Dim FileNumb As Integer
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim Sql, companyNAME
+     Dim sql, companyNAME
      Dim datax As New ADODB.Recordset
 
-     FileName = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
+     Filename = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
      FileNumb = FreeFile
 
-     FileName = ConnInfo.EmailParameterFolder & FileName
+     Filename = ConnInfo.EmailParameterFolder & Filename
 
 
     For i = 0 To UBound(Recipients)
@@ -1793,12 +1798,12 @@ End Function
 Public Function WriteParameterEfax(Attachments, Recipients, subject, sender, attention) 'JCG 6/14/2008 added for eFax
     On Error GoTo errMESSAGE
 
-     Dim FileName As String
+     Dim Filename As String
      Dim FileNumb As Integer
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim Sql, companyNAME
+     Dim sql, companyNAME
      Dim datax As New ADODB.Recordset
 
      'FileName = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
@@ -1867,20 +1872,20 @@ End Function
 Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, attention)
     On Error GoTo errMESSAGE
     
-     Dim FileName As String
+     Dim Filename As String
      Dim FileNumb As Integer
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim Sql, companyNAME
+     Dim sql, companyNAME
      Dim datax As New ADODB.Recordset
 
-     FileName = "Fax" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
+     Filename = "Fax" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
      FileNumb = FreeFile
 
      'FileName = "c:\IMSRequests\IMSRequests\" & FileName
      
-     FileName = ConnInfo.EmailParameterFolder & FileName
+     Filename = ConnInfo.EmailParameterFolder & Filename
 
     For i = 0 To UBound(Recipients)
             recepientSTR = recepientSTR & Trim$(Recipients(i) & ";")
@@ -1892,7 +1897,7 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
             reports = reports & Trim$(Attachments(i) & ";")
     Next
     
-    Open FileName For Output As FileNumb
+    Open Filename For Output As FileNumb
 
         Print #FileNumb, "[WINFAX]"
         Print #FileNumb, "Recipients=" & recepientSTR

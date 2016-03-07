@@ -16,7 +16,7 @@ Public ExportFilePath As String
 Public PO As String
 Public NameSpace As String
 'Public ParamsForCrystalReport() As String
-Public ReportName As String
+Public reportNAME As String
 Public ReporttypesCr11 As Integer
 
         Public Function GeneratePdf(ParamsForCrystalReport() As String) As String
@@ -30,11 +30,11 @@ Public ReporttypesCr11 As Integer
             Dim crxSubreport As CRAXDDRT.Report
             Dim Param As CRAXDDRT.ParameterFieldDefinition
             Dim arrparam() As String
-            On Error GoTo ErrHandler
+            On Error GoTo errHandler
              Set crxApplication = New CRAXDDRT.Application
             'Open the report
             
-            Set Report = crxApplication.OpenReport(reportPath + ReportName, 1)
+            Set Report = crxApplication.OpenReport(reportPath + reportNAME, 1)
             
 '        For I = 0 To UBound(ParamsForCrystalReport)
         
@@ -66,7 +66,7 @@ Public ReporttypesCr11 As Integer
             
             Exit Function
             
-ErrHandler:
+errHandler:
             
             GeneratePdfForPO = "Errors Occurred while trying to generate a PDF, please try again." + Err.Description
             Err.Clear
@@ -81,7 +81,7 @@ ErrHandler:
         On Error GoTo ErrHand
         
         '//PO Report
-        If ReportName = Report_EmailFax_PO_name Then
+        If reportNAME = Report_EmailFax_PO_name Then
         
                      Call FixDB(Report.Database.Tables)
                     
@@ -100,7 +100,7 @@ ErrHandler:
         
         
         '//Freight Receipt
-        ElseIf ReportName = Report_EmailFax_FreightReceipt_name Then
+        ElseIf reportNAME = Report_EmailFax_FreightReceipt_name Then
         
         
                     Call FixDB(Report.Database.Tables)
@@ -109,7 +109,7 @@ ErrHandler:
                     Report.ParameterFields.GetItemByName("recnumb").AddCurrentValue (arrparam(1))
                     Report.ParameterFields.GetItemByName("namespace").AddCurrentValue (deIms.NameSpace)
         
-        ElseIf ReportName = Report_EmailFax_TrackingPo Then
+        ElseIf reportNAME = Report_EmailFax_TrackingPo Then
         
         
                     Call FixDB(Report.Database.Tables)
@@ -122,7 +122,7 @@ ErrHandler:
                     arrparam = Split(ParamsForCrystalReport(2), ";")
                     Report.ParameterFields.GetItemByName("ponumb").AddCurrentValue (arrparam(1))
                     
-        ElseIf ReportName = Report_EmailFax_Supplier_name Then
+        ElseIf reportNAME = Report_EmailFax_Supplier_name Then
         
                      Call FixDB(Report.Database.Tables)
                     
@@ -134,7 +134,7 @@ ErrHandler:
                     arrparam = Split(ParamsForCrystalReport(2), ";")
                     Report.ParameterFields.GetItemByName("Intloc").AddCurrentValue (arrparam(1))
                     
-        ElseIf ReportName = Report_EmailFax_PackingManifest_name Then
+        ElseIf reportNAME = Report_EmailFax_PackingManifest_name Then
         
                      Call FixDB(Report.Database.Tables)
                     
@@ -144,7 +144,7 @@ ErrHandler:
                     Report.ParameterFields.GetItemByName("manifestnumb").AddCurrentValue (arrparam(1))
                             
         
-        ElseIf ReportName = Report_EmailFax_Stockmaster_name Then
+        ElseIf reportNAME = Report_EmailFax_Stockmaster_name Then
         
                     Call FixDB(Report.Database.Tables)
                     
@@ -199,21 +199,27 @@ ErrHand:
 
         End Function
         
-        Private Sub Export(Report As CRAXDDRT.Report)
-        
-            'Dim Report As CRAXDDRT.Report
-            
-            '全et the report to be exported to Rich Text Format
-            Report.ExportOptions.FormatType = crEFTPortableDocFormat
-            '全et the destination type to disk
-            Report.ExportOptions.DestinationType = crEDTDiskFile
-            '全et the path and name of the exported document
-            Report.ExportOptions.DiskFileName = ExportFilePath
-            '粗xport the report without prompting the user
-            Report.Export False
-             
-        End Sub
+Private Sub Export(Report As CRAXDDRT.Report)
+On Error GoTo errHandler
+    'Dim Report As CRAXDDRT.Report
+    
+    '全et the report to be exported to Rich Text Format
+    Report.ExportOptions.FormatType = crEFTPortableDocFormat
+    '全et the destination type to disk
+    Report.ExportOptions.DestinationType = crEDTDiskFile
+    '全et the path and name of the exported document
+    Report.ExportOptions.DiskFileName = ExportFilePath
+    '粗xport the report without prompting the user
+    DoEvents
+    Report.Export False
+    DoEvents
+    
+errHandler:
+    If Err.number <> 0 Then
+        MsgBox Err.Description
+        Err.Clear
+    End If
+End Sub
 
 
-'End
 
