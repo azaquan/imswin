@@ -112,11 +112,11 @@ Begin VB.Form frmSapAdjustment
       TabCaption(1)   =   "&Recipients"
       TabPicture(1)   =   "SapAdjustment.frx":0038
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lbl_Recipients"
-      Tab(1).Control(1)=   "ssdbRecepientList"
+      Tab(1).Control(0)=   "cmd_Add"
+      Tab(1).Control(1)=   "cmd_Remove"
       Tab(1).Control(2)=   "Picture1"
-      Tab(1).Control(3)=   "cmd_Remove"
-      Tab(1).Control(4)=   "cmd_Add"
+      Tab(1).Control(3)=   "ssdbRecepientList"
+      Tab(1).Control(4)=   "lbl_Recipients"
       Tab(1).ControlCount=   5
       Begin VB.ComboBox cbo_Transaction 
          Height          =   315
@@ -992,7 +992,7 @@ End Sub
 'get parmeters for crystal report
 
 Public Sub BeforePrint()
-On Error GoTo errHandler
+On Error GoTo ErrHandler
 
      With MDI_IMS.CrystalReport1
         .Reset
@@ -1010,7 +1010,7 @@ On Error GoTo errHandler
     End With
     Exit Sub
     
-errHandler:
+ErrHandler:
     If Err Then
         MsgBox Err.Description
         Err.Clear
@@ -1549,6 +1549,7 @@ newSap = CDbl(Trim$(txtNewSap))
         MsgBox "Transaction can't be saved because could not get stock number description"
     Else
         stockDescription = datax!qs1_desc
+        stockDescription = Replace(stockDescription, "'", "''")
     End If
     
     sql = "select sap_value from sap " _

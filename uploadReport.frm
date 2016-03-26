@@ -52,7 +52,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56295427
+         Format          =   22282243
          CurrentDate     =   36524
       End
       Begin MSComCtl2.DTPicker DTdate1 
@@ -65,7 +65,7 @@ Begin VB.Form uploadReport
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "MM/dd/yyyy"
-         Format          =   56295427
+         Format          =   22282243
          CurrentDate     =   36524
       End
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_company 
@@ -406,7 +406,7 @@ Dim rst As ADODB.Recordset
         .CommandText = .CommandText & " From location "
         .CommandText = .CommandText & " WHERE loc_npecode = '" & deIms.NameSpace & "'"
         .CommandText = .CommandText & " and loc_compcode = '" & Company & "'"
-        .CommandText = .CommandText & " and (UPPER(loc_gender) ='BASE') and loc_actvflag=1 "
+        .CommandText = .CommandText & " and (UPPER(loc_gender)  <> 'OTHER') and loc_actvflag=1 "
         .CommandText = .CommandText & " order by loc_locacode"
          Set rst = .Execute
     End With

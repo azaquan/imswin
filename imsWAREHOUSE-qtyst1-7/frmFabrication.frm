@@ -4,7 +4,7 @@ Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
-Begin VB.Form frmWarehouse 
+Begin VB.Form frmFabrication 
    ClientHeight    =   9885
    ClientLeft      =   165
    ClientTop       =   345
@@ -14,90 +14,54 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
-   Begin VB.PictureBox imsMsgBox 
-      Appearance      =   0  'Flat
-      BackColor       =   &H0000FFFF&
-      ForeColor       =   &H80000008&
-      Height          =   2055
-      Left            =   4560
-      ScaleHeight     =   2025
-      ScaleWidth      =   5145
-      TabIndex        =   107
-      Top             =   3600
+   Begin MSHierarchicalFlexGridLib.MSHFlexGrid stockCombo 
+      Height          =   1215
+      Index           =   0
+      Left            =   3240
+      TabIndex        =   115
+      TabStop         =   0   'False
+      Top             =   3000
       Visible         =   0   'False
-      Width           =   5175
-      Begin VB.CommandButton noButton 
-         Caption         =   "NO"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   13.5
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   615
-         Left            =   2760
-         TabIndex        =   110
-         Top             =   840
-         Width           =   2055
-      End
-      Begin VB.CommandButton yesButton 
-         Caption         =   "YES"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   13.5
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   615
-         Left            =   240
-         TabIndex        =   109
-         Top             =   840
-         Width           =   2055
-      End
-      Begin VB.Label Label6 
-         Alignment       =   2  'Center
-         BackColor       =   &H0000FFFF&
-         Caption         =   "If YES it will be received with PO value"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   240
-         TabIndex        =   111
-         Top             =   1560
-         Width           =   4695
-      End
-      Begin VB.Label Label5 
-         Alignment       =   2  'Center
-         BackColor       =   &H0000FFFF&
-         Caption         =   "No supplier invoice has been entered, do you want to continue?"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   735
-         Left            =   240
-         TabIndex        =   108
-         Top             =   120
-         Width           =   4695
-      End
+      Width           =   1515
+      _ExtentX        =   2672
+      _ExtentY        =   2143
+      _Version        =   393216
+      BackColor       =   16777152
+      Cols            =   1
+      FixedRows       =   0
+      FixedCols       =   0
+      BackColorFixed  =   8421504
+      ForeColorFixed  =   16777215
+      BackColorSel    =   12632064
+      BackColorBkg    =   12648447
+      AllowBigSelection=   0   'False
+      FocusRect       =   0
+      ScrollBars      =   2
+      SelectionMode   =   1
+      Appearance      =   0
+      _NumberOfBands  =   1
+      _Band(0).Cols   =   1
+   End
+   Begin VB.TextBox searchStock 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0E0FF&
+      Height          =   285
+      Index           =   0
+      Left            =   3120
+      TabIndex        =   114
+      TabStop         =   0   'False
+      Top             =   2760
+      Visible         =   0   'False
+      Width           =   1410
+   End
+   Begin VB.CommandButton addFinalStock 
+      Caption         =   "&Add Final Stock #"
+      Height          =   375
+      Left            =   10560
+      TabIndex        =   113
+      Top             =   3840
+      Visible         =   0   'False
+      Width           =   1695
    End
    Begin VB.PictureBox savingLABEL 
       Appearance      =   0  'Flat
@@ -188,7 +152,7 @@ Begin VB.Form frmWarehouse
       BorderStyle     =   0  'None
       Height          =   225
       Index           =   0
-      Left            =   7920
+      Left            =   8280
       MousePointer    =   1  'Arrow
       TabIndex        =   100
       Text            =   "invoiceListBOX"
@@ -244,7 +208,7 @@ Begin VB.Form frmWarehouse
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   840
+      Left            =   3840
       MousePointer    =   1  'Arrow
       TabIndex        =   89
       TabStop         =   0   'False
@@ -253,22 +217,11 @@ Begin VB.Form frmWarehouse
       Visible         =   0   'False
       Width           =   1215
    End
-   Begin VB.TextBox positionBox 
-      BorderStyle     =   0  'None
-      Height          =   220
-      Index           =   0
-      Left            =   600
-      MousePointer    =   1  'Arrow
-      TabIndex        =   88
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   1215
-   End
    Begin VB.TextBox poItemBox 
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   0
+      Left            =   2520
       MousePointer    =   1  'Arrow
       TabIndex        =   87
       Text            =   "poItemBox"
@@ -598,7 +551,7 @@ Begin VB.Form frmWarehouse
       Height          =   375
       Left            =   12360
       TabIndex        =   45
-      Top             =   3870
+      Top             =   4440
       Visible         =   0   'False
       Width           =   855
    End
@@ -619,9 +572,9 @@ Begin VB.Form frmWarehouse
    Begin VB.CommandButton hideDETAIL 
       Caption         =   "&Cancel"
       Height          =   375
-      Left            =   11400
+      Left            =   12360
       TabIndex        =   41
-      Top             =   3870
+      Top             =   3840
       Visible         =   0   'False
       Width           =   855
    End
@@ -630,7 +583,7 @@ Begin VB.Form frmWarehouse
       Height          =   375
       Left            =   13320
       TabIndex        =   40
-      Top             =   3870
+      Top             =   3840
       Visible         =   0   'False
       Width           =   855
    End
@@ -716,15 +669,15 @@ Begin VB.Form frmWarehouse
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0000
+            Picture         =   "frmFabrication.frx":0000
             Key             =   "thing"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0142
+            Picture         =   "frmFabrication.frx":0142
             Key             =   "thing 0"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0284
+            Picture         =   "frmFabrication.frx":0284
             Key             =   "thing 1"
          EndProperty
       EndProperty
@@ -837,7 +790,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55967747
+      Format          =   56426499
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1066,13 +1019,13 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid combo 
       Height          =   1455
       Index           =   1
-      Left            =   120
+      Left            =   840
       TabIndex        =   4
       TabStop         =   0   'False
       Top             =   1230
       Visible         =   0   'False
-      Width           =   1875
-      _ExtentX        =   3307
+      Width           =   1155
+      _ExtentX        =   2037
       _ExtentY        =   2566
       _Version        =   393216
       BackColor       =   16777152
@@ -1365,6 +1318,115 @@ Begin VB.Form frmWarehouse
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.TextBox positionBox 
+      BorderStyle     =   0  'None
+      Height          =   220
+      Index           =   0
+      Left            =   1680
+      MousePointer    =   1  'Arrow
+      TabIndex        =   88
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1215
+   End
+   Begin VB.PictureBox imsMsgBox 
+      Appearance      =   0  'Flat
+      BackColor       =   &H0000FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   2055
+      Left            =   4560
+      ScaleHeight     =   2025
+      ScaleWidth      =   5145
+      TabIndex        =   107
+      Top             =   3600
+      Visible         =   0   'False
+      Width           =   5175
+      Begin VB.CommandButton noButton 
+         Caption         =   "NO"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   615
+         Left            =   2760
+         TabIndex        =   110
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.CommandButton yesButton 
+         Caption         =   "YES"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   615
+         Left            =   240
+         TabIndex        =   109
+         Top             =   840
+         Width           =   2055
+      End
+      Begin VB.Label Label6 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "If YES it will be received with PO value"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   240
+         TabIndex        =   111
+         Top             =   1560
+         Width           =   4695
+      End
+      Begin VB.Label Label5 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "No supplier invoice has been entered, do you want to continue?"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   735
+         Left            =   240
+         TabIndex        =   108
+         Top             =   120
+         Width           =   4695
+      End
+   End
+   Begin VB.TextBox fabCostBOX 
+      Alignment       =   1  'Right Justify
+      BorderStyle     =   0  'None
+      Height          =   225
+      Index           =   0
+      Left            =   5280
+      MousePointer    =   1  'Arrow
+      TabIndex        =   112
+      Text            =   "fabCostBOX"
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   1215
+   End
    Begin VB.Label nothing 
       Caption         =   "nothing"
       Height          =   135
@@ -1431,7 +1493,7 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   7845
+      Left            =   8045
       TabIndex        =   98
       Top             =   3840
       Width           =   1335
@@ -1489,7 +1551,7 @@ Begin VB.Form frmWarehouse
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   0
+      Left            =   120
       TabIndex        =   91
       Top             =   0
       Visible         =   0   'False
@@ -1773,7 +1835,7 @@ Begin VB.Form frmWarehouse
       End
    End
 End
-Attribute VB_Name = "frmWarehouse"
+Attribute VB_Name = "frmFabrication"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -1798,7 +1860,8 @@ Dim ctt2 As New cTreeTips
 Dim ctt3 As New cTreeTips
 
 
-Sub arrowKEYS(direction As String, Index As Integer)
+Public stockListRow As Integer
+Sub fabArrowKEYS(direction As String, Index As Integer)
 Dim grid As MSHFlexGrid
     With cell(Index)
         Set grid = combo(Index)
@@ -1834,8 +1897,43 @@ Dim grid As MSHFlexGrid
             grid.SetFocus
     End With
 End Sub
-
-Sub editMarkRow(StockNumber As String, isSerial As Boolean)
+Sub fabArrowKEYS2(direction As String)
+Dim grid As MSHFlexGrid
+    With searchStock(0)
+        Set grid = stockCombo
+            grid.Visible = True
+            Call gridCOLORnormal(grid, Val(grid.tag))
+            Select Case direction
+                Case "down"
+                    If grid.row < (grid.Rows - 1) Then
+                        If grid.row = 0 And .text = "" Then
+                            .text = grid.text
+                        Else
+                            grid.row = grid.row + 1
+                        End If
+                    Else
+                        grid.row = grid.Rows - 1
+                    End If
+                Case "up"
+                    If grid.row > 0 Then
+                        grid.row = grid.row - 1
+                    Else
+                        grid.row = 1
+                    End If
+            End Select
+            
+            grid.tag = grid.row
+            If Not grid.Visible Then
+                grid.Visible = True
+            End If
+            grid.ZOrder
+            grid.TopRow = IIf(grid.row = 0, 1, grid.row)
+            usingARROWS = True
+            Call gridCOLORdark(grid, grid.row)
+            grid.SetFocus
+    End With
+End Sub
+Sub editfabMarkROW(StockNumber As String, isSerial As Boolean)
     Dim i As Integer
     Dim markIt As Boolean
     Dim currentformname, currentformname1
@@ -1851,7 +1949,7 @@ Sub editMarkRow(StockNumber As String, isSerial As Boolean)
         Next
                 
         Set imsLock = New imsLock.Lock
-        currentformname = frmWarehouse.tag + "stock"
+        currentformname = frmFabrication.tag + "stock"
         currentformname1 = currentformname
         
         If markIt Then
@@ -1867,229 +1965,126 @@ Sub editMarkRow(StockNumber As String, isSerial As Boolean)
     End With
 End Sub
 
-Sub editSummaryList()
-Dim r, QTYpo, cond, condName, serial, key, lastLine, thick, total, poItem, loca, subloca, logicname, sublocaname
-Dim isSerial As Boolean
-Dim moreSerial As Boolean
+Sub fabSubmit()
+On Error Resume Next
+Dim i, ii
+Dim condition, condDesc, key, price, description, sql, unit, toLOGIC, toSUBLOCA, rec, serialText, fromlogic, fromSubLoca As String
+Dim PONumb As String
 Dim StockNumber As String
-Dim qtyColumn
-Dim datax As ADODB.Recordset
-Dim sql As String
-Dim isEditionActive  As Boolean
-Dim translationAdjustmentEntry
-isSerial = False
-isEditionActive = False
-Screen.MousePointer = 11
-Set datax = New ADODB.Recordset
-sql = "SELECT * FROM form_settings WHERE form = 'warehouse' AND mode = 'edition'"
-datax.Open sql, cn, adOpenStatic
-If datax.RecordCount > 0 Then
-    isEditionActive = datax!active
-End If
-datax.Close
-If isEditionActive = False Then Exit Sub
-    Call workBOXESlist("clean")
-    isFirstSubmit = False
-    qtyColumn = 5
-    With SUMMARYlist
-        r = .row
-        '1 "Commodity"
-        '2 "Serial"
-        '3 "Condition"
-        '4 "Unit Price"
-        '5 "Description"
-        '6 "Unit"
-        '7 "Qty"
-        '8 "node"
-        '9 "From Logical"
-        '10 "From Subloca"
-        '11 "To Logical"
-        '12 "To Subloca"
-        '13 "New Condition Code"
-        '14 "New Condition Description"
-        '15 "Unit Code"
-        '16 "Computer Factor"
-        '17 "PO qty"
-        '20 "Original Condition Code"
-        '21 "Secundary Qty"
-        '25 "ratio"
-       
-        Tree.width = frmWarehouse.detailHEADER.width
-         'Juan 2014-01-12, resizing treeFrame ------
-'        treeFrame.Left = detailHEADER.ColWidth(0) + 5200
-'        treeFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
-'        treeFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
-        
-        baseFrame.Left = detailHEADER.ColWidth(0) + 5200
-        baseFrame.width = Tree.width - frmWarehouse.detailHEADER.ColWidth(0)
-        baseFrame.Top = width = frmWarehouse.detailHEADER.Top + frmWarehouse.detailHEADER.Height
-        baseFrame.Height = 5000
-        treeFrame.Top = 0
-        treeFrame.width = baseFrame.width
-        
-        ' ------------
-        
-        Tree.Nodes.Clear
-        StockNumber = .TextMatrix(r, 1)
-        QTYpo = 0
-        Dim translationCondition, translationLogical, translationSublocation, translationSerial, translationPool, translationTotal, translationTot
-        translationCondition = translator.getIt("translationCondition") + ": "
-        translationLogical = translator.getIt("translationLogical") + ": "
-        translationSublocation = translator.getIt("translationSubLocation") + ": "
-        translationSerial = translator.getIt("translationSerial") + ": "
-        translationPool = translator.getIt("translationPool") + ": "
-        translationTotal = translator.getIt("translationTotal") + ": "
-        translationTot = translator.getIt("translationTot")
-        
-        Select Case frmWarehouse.tag
-            'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
-            'AdjustmentIssue,WarehouseToWarehouse,Sales,ReturnFromWell
-            Case "02040400", "02040200", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
-                cond = .TextMatrix(r, 13)
-                condName = .TextMatrix(r, 14)
-                loca = .TextMatrix(r, 9)
-                subloca = .TextMatrix(r, 10)
-                serial = .TextMatrix(r, 2)
-                QTYpo = .TextMatrix(r, 17)
-                
-                Tree.Nodes.Add , tvwChild, "@" + cond, translationCondition + cond + " - " + condName, "thing"
-                Tree.Nodes("@" + cond).Bold = True
-                Tree.Nodes("@" + cond).backcolor = &HE0E0E0
-                Tree.Nodes.Add "@" + cond, tvwChild, "@" + cond + "{{" + loca, translationLogical + loca, "thing 0"
-                'If (frmWarehouse.tag = "02040400" Or frmWarehouse.tag = "02040500" Or frmWarehouse.tag = "02040300") Then
-                    logicname = .TextMatrix(r, 9)
-                    sublocaname = subloca
-                    key = cond + "-" + condName + "{{" + loca + "{{" + subloca
-                    If UCase(serial) = "POOL" Then
-                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, translationSublocation + sublocaname, "thing 1"
-                        Call setupBoxes2(Tree.Nodes.Count, r, False, QTYpo)
-                    Else
-                        isSerial = True
-                        Tree.Nodes.Add "@" + cond + "{{" + loca, tvwChild, key, translationSublocation + sublocaname, "thing 0"
-                    End If
-                'End If
-                If isSerial Then
-                    Tree.Nodes.Add key, tvwChild, key + "#" + serial, translationSerial + serial, "thing 1"
-                    Call setupBoxes2(Tree.Nodes.Count, r, True, .TextMatrix(r, 17))
-                End If
-                Tree.Nodes.Add , , translationTot, Space(53) + translationTotal
-                Tree.Nodes("Total").Bold = True
-                Tree.Nodes("Total").backcolor = &HC0C0C0
-                Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
-            Case "02050200" 'AdjustmentEntry
-                serial = .TextMatrix(r, 2)
-                commodityLABEL = StockNumber
-                unitLABEL(0) = .TextMatrix(r, 6)
-                unitLABEL(1) = .TextMatrix(r, 15)
-                descriptionLABEL = .TextMatrix(r, 5)
-                translationAdjustmentEntry = translator.getIt("translationAdjustmentEntry") + " "
-                Tree.Nodes.Add , tvwChild, "@AE", translationAdjustmentEntry, "thing"
-                Tree.Nodes("@AE").Bold = True
-                Tree.Nodes("@AE").backcolor = &HE0E0E0
-                key = "AE-NEW{"
-                If UCase(serial) = "POOL" Then
-                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Pool", translationPool, "thing 1"
-                    Call setupBoxes2(Tree.Nodes.Count, r, False)
-                Else
-                    isSerial = True
-                    Tree.Nodes.Add "@AE", tvwChild, key + "{{Serial", translationSerial, "thing 1"
-                    Tree.Nodes(Tree.Nodes.Count).text = translationSerial + serial
-                    Call setupBoxes2(Tree.Nodes.Count, r, True)
-                End If
-                Call setupBoxes2(Tree.Nodes.Count, r, isSerial)
-                
-                Tree.Nodes.Add , , translationTot, Space(53) + translationTotal
-                Tree.Nodes("Total").Bold = True
-                Tree.Nodes("Total").backcolor = &HC0C0C0
-                Tree.Nodes(Tree.Nodes.Count - 1).Selected = True
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
+Dim lineno As String
+Dim qty As String
+Dim datax As New ADODB.Recordset
+Dim ratioValue
 
-            Case "02040100" 'WarehouseReceipt
-                '17 "Qty po"
-                '21 "PO" --- changed to 24
-                '22 "lineitem"
-                QTYpo = .TextMatrix(r, 17)
-                cond = .TextMatrix(r, 13)
-                condName = .TextMatrix(r, 14)
-                serial = .TextMatrix(r, 2)
-                commodityLABEL = StockNumber
-                poItemLabel = .TextMatrix(r, 8)
-                unitLABEL(0) = .TextMatrix(r, 6)
-                unitLABEL(1) = .TextMatrix(r, 15)
-                descriptionLABEL = .TextMatrix(r, 5)
-                poItem = .TextMatrix(r, 22)
-                poItemLabel = poItem
-                'Juan 2010-9-5 To add ratio functionallity
-                If IsNumeric(.TextMatrix(r, 25)) Then
-                    ratioValue = Val(.TextMatrix(r, 25))
-                Else
-                    ratioValue = 1
-                End If
-                '-------------------
-                    'Juan 2014-8-27 new version of calculation based on invoice if exists
-                    Select Case frmWarehouse.tag
-                        Case "02040100" 'WarehouseReceipt
-                            Set datax = New ADODB.Recordset
-                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
-                                "and invd_invcnumb = '" + summaryValues.TextMatrix(r, 2) + "' " + _
-                                "and invd_liitnumb = '" + Trim(summaryValues.TextMatrix(r, 3)) + "'"
-                            datax.Open sql, cn, adOpenStatic
-                            If datax.RecordCount > 0 Then
-                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
-                            End If
-                        Case Else
-                    End Select
-                    datax.Close
-                    '----------------------
-            
-                Tree.Nodes.Add , tvwChild, "@" + cond, cond + "-" + condName, "thing"
-                Tree.Nodes("@" + cond).Bold = True
-                Tree.Nodes("@" + cond).backcolor = &HE0E0E0
-                key = cond + "-" + condName + "{{"
-                If serial = "Pool" Then
-                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Pool", translationPool, "thing 1"
-                    Call setupBoxes2(Tree.Nodes.Count, r, False, QTYpo)
-                Else
-                    isSerial = True
-                    Tree.Nodes.Add "@" + cond, tvwChild, key + "{{Serial", translationSerial, "thing 1"
-                    Tree.Nodes(Tree.Nodes.Count).text = translationSerial + serial
-                    Call setupBoxes2(Tree.Nodes.Count, r, True, QTYpo)
-                End If
-            
-                Select Case frmWarehouse.tag
-                    Case "02040100" 'WarehouseReceipt
-                        Tree.Nodes.Add , , translationTot, Space(90) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), "")
-                    Case Else
-                        Tree.Nodes.Add , , translationTot, Space(53) + IIf(frmWarehouse.newBUTTON.Enabled, Space(24), translationTotal)
-                End Select
-                Tree.Nodes("Total").Bold = True
-                Tree.Nodes("Total").backcolor = &HC0C0C0
-                
-                totalNode = Tree.Nodes.Count
-                total = .TextMatrix(r, 7)
-                Call imsWarehouse.bottomLine(totalNode, total, Not isSerial, StockNumber, True, lastLine, ctt)
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
-        End Select
-        Dim stockListRow  As Integer
-        stockListRow = findSTUFF(StockNumber, STOCKlist, 1)
-        Select Case frmWarehouse.tag
-            Case "02050200" 'AdjustmentEntry
-                latestStockNumberQty = "n/a"
+
+    For i = 2 To Tree.Nodes.Count
+        condition = "01"
+        description = ""
+        Err.Clear
+        key = Tree.Nodes(i).key
+        Select Case key
+            Case "@newStock"
+                StockNumber = searchStock(i)
+                price = priceBOX(i)
+                toLOGIC = logicBOX(i).tag
+                toSUBLOCA = sublocaBOX(i).tag
+                condDesc = "new"
+            Case "@processCost"
+                StockNumber = ""
+                price = fabCostBOX(i)
+                toLOGIC = ""
+                toSUBLOCA = ""
+                condDesc = ""
             Case Else
-                latestStockNumberQty = STOCKlist.TextMatrix(stockListRow, qtyColumn)
+                StockNumber = Mid(key, 2)
+                price = priceBOX(i)
+                toLOGIC = "GENERAL"
+                toSUBLOCA = "GENERAL"
+                condDesc = "new"
         End Select
-    End With
-    grid(0).Visible = False
-    grid(1).Visible = False
-    grid(2).Visible = False
-    SUMMARYlist.Visible = False
-    Call SHOWdetails
-    Screen.MousePointer = 0
+        If key = "@processCost" Then
+            description = "...Process cost"
+            unit = ""
+        Else
+            Set datax = New ADODB.Recordset
+            sql = "select * from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + StockNumber + "'"
+            datax.Open sql, cn, adOpenStatic
+            If datax.RecordCount > 0 Then
+                description = datax!stk_desc
+                unit = datax!stk_primuon
+            Else
+                MsgBox "Error when getting the de stock number description of: " + StockNumber
+                description = ""
+                unit = ""
+            End If
+        End If
+        If Err.Number = 0 Then
+            rec = "" + vbTab
+            rec = rec + StockNumber + vbTab
+            serialText = "Pool"
+            rec = rec + serialText + vbTab
+            rec = rec + condition + vbTab
+            rec = rec + price + vbTab
+            rec = rec + description + vbTab
+            rec = rec + unitLABEL(0) + vbTab
+            rec = rec + quantityBOX(i) + vbTab
+            rec = rec + Format(i) + vbTab
+            fromlogic = "GENERAL"
+            rec = rec + fromlogic + vbTab
+            fromSubLoca = "GENERAL"
+            rec = rec + fromSubLoca + vbTab
+            rec = rec + toLOGIC + vbTab
+            rec = rec + toSUBLOCA + vbTab
+            rec = rec + "01" + vbTab
+            rec = rec + condDesc + vbTab
+            rec = rec + unit
+            SUMMARYlist.addITEM rec
+        End If
+
+        Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
+        If datax.RecordCount > 0 Then
+            ratioValue = datax!realratio
+        Else
+            ratioValue = 1
+        End If
+        With SUMMARYlist
+            Select Case key
+                Case "@newStock"
+                    For ii = 1 To .cols - 1
+                        .row = .Rows - 1
+                        .col = ii
+                        .CellBackColor = RGB(255, 255, 0)
+                    Next
+                    .TextMatrix(.Rows - 1, 26) = cell(3).tag
+                Case "@processCost"
+                    .TextMatrix(.Rows - 1, 17) = fabCostBOX(i)
+                    .TextMatrix(.Rows - 1, 2) = ""
+                    .TextMatrix(.Rows - 1, 3) = ""
+                    .TextMatrix(.Rows - 1, 6) = ""
+                    .TextMatrix(.Rows - 1, 7) = ""
+                    .TextMatrix(.Rows - 1, 8) = ""
+                    .TextMatrix(.Rows - 1, 9) = ""
+                    .TextMatrix(.Rows - 1, 10) = ""
+                    .row = .Rows - 1
+                    For ii = 1 To .cols - 1
+                        .col = ii
+                        .CellBackColor = RGB(255, 255, 204)
+                    Next
+                    .TextMatrix(.Rows - 1, 26) = ""
+                Case Else
+                    .TextMatrix(.Rows - 1, 26) = cell(2).tag
+                .TextMatrix(.Rows - 1, 25) = Format(ratioValue)
+                    PONumb = ""
+                    lineno = ""
+                    Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(StockNumber))
+                    Call VerifyAddDeleteFQAFromGrid(StockNumber, "insert", "01", PONumb, lineno, qty)
+                End Select
+                .TextMatrix(.Rows - 1, 20) = "01"
+        End With
+    Next
 End Sub
 
-Sub getEmail()
+Sub fabGetEmail()
     Dim datax As New ADODB.Recordset
     Dim sql, emailText As String
     emailRecepient.text = ""
@@ -2109,70 +2104,46 @@ Sub getEmail()
     datax.Close
 End Sub
 
+Function getRatio(stocknumb As String) As Double
+Dim datax As ADODB.Recordset
+    Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb, cell(2).tag))
+     If datax.RecordCount > 0 Then
+         If IsNull(datax!realratio) Or datax!realratio = 0 Then
+             getRatio = getStockRatioFromStockMaster(nameSP, stocknumb)
+         Else
+             getRatio = datax!realratio
+         End If
+     Else
+         getRatio = getStockRatioFromStockMaster(nameSP, stocknumb)
+     End If
+End Function
+
 Sub limitQty(Index As Integer)
-    Select Case frmWarehouse.tag
-        Case "02040100" 'WarehouseReceipt
-            If (invoiceBOX(Index) <> "" And invoiceBOX(Index) <> "invoiceBOX") Then
-                Dim originalQty, sumQty As Double
-                Dim i As Integer
-                For i = 1 To STOCKlist.Rows - 1
-                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
-                        If Left(STOCKlist.TextMatrix(i, 7), 1) <> "@" Then
-                            originalQty = CDbl(STOCKlist.TextMatrix(i, 9)) 'gets original qty to receieve
-                            Exit For
-                        End If
-                    End If
-                Next
-                For i = 1 To SUMMARYlist.Rows - 1
-                    If commodityLABEL = STOCKlist.TextMatrix(i, 1) Then
-                        If IsNumeric(SUMMARYlist.TextMatrix(i, 7)) Then
-                            sumQty = sumQty + CDbl(SUMMARYlist.TextMatrix(i, 7))
-                        End If
-                    End If
-                Next
-                If (originalQty - sumQty) = 0 Then
-                    MsgBox "No more items to receive"
-                    quantityBOX(Index) = "0.00"
-                Else
-                    If CDbl(quantityBOX(Index)) > (originalQty - sumQty) Then
-                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
-                            If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
-                                quantityBOX(Index) = quantity(Index)
-                            Else
-                                quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
-                                MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
-                            End If
-                        Else
-                            quantityBOX(Index).text = Format((originalQty - sumQty), "0.00")
-                            MsgBox "Total remaining to be received vs PO: " + Format((originalQty - sumQty), "0.00")
-                        End If
-                    Else
-                        If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
-                            If CDbl(quantityBOX(Index)) > (quantity(Index)) Then
-                                quantityBOX(Index) = quantity(Index)
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-        'Case "02050300" 'AdjustmentIssue
-        'Case "02040200" 'WarehouseIssue
-        'Case "02040500" 'WellToWell
-        'Case "02040300" 'Return from Well
-        'Case "02040600" 'WarehouseToWarehouse
-        Case "02040400" 'ReturnFromRepair
-        Case "02050200" 'AdjustmentEntry
-        Case "02040700" 'InternalTransfer
-        Case "02050400" 'Sales
-        Case Else
-            If CDbl(quantityBOX(Index)) > CDbl(quantity(Index)) Then quantityBOX(Index).text = quantity(Index)
-    End Select
+    Dim originalQty, sumQty As Double
+    Dim i As Integer
+    Dim row As Integer
+    For i = 1 To STOCKlist.Rows - 1
+        Dim stockToFind As String
+        stockToFind = Tree.Nodes(Index).key
+        If InStr(stockToFind, "@") > 0 Then
+            stockToFind = Mid(Tree.Nodes(Index).key, 2)
+        End If
+        If stockToFind = STOCKlist.TextMatrix(i, 1) Then
+            originalQty = CDbl(STOCKlist.TextMatrix(i, 6))
+            Exit For
+        End If
+    Next
+    If CDbl(quantityBOX(Index)) > originalQty Then
+        quantityBOX(Index).text = Format(originalQty, "0.00")
+    Else
+        quantityBOX(Index) = Format(CDbl(quantityBOX(Index)), "0.00")
+    End If
 End Sub
 
 Function locateLine(StockNumber As String, searchValue As String, Optional col As Integer) As Integer
     Dim i
     If col = 0 Then col = 10
-    With frmWarehouse.SUMMARYlist
+    With frmFabrication.SUMMARYlist
         For i = 1 To .Rows - 1
             If .TextMatrix(i, 1) = StockNumber Then
                 If .TextMatrix(i, col) = searchValue Then
@@ -2188,13 +2159,204 @@ Function locateLine(StockNumber As String, searchValue As String, Optional col A
     End With
 End Function
 
+Sub saveFabrication(retval As Boolean, cn As ADODB.Connection)
+Dim i, ii
+Dim NP As String
+Dim CompCode As String
+Dim stocknumb As String
+Dim stockDESC As String
+Dim FromWH As String
+Dim ToWH As String
+Dim fromlogic As String
+Dim fromSubLoca As String
+Dim toLOGIC As String
+Dim toSUBLOCA As String
+Dim condition As String
+Dim NEWcondition As String
+Dim unitPRICE As Double
+Dim fabricationCOST As Double
+Dim newUNITprice As Double
+Dim serial As String
+Dim computerFactor
+Dim imsLock As imsLock.Lock
+Dim TranType As String
+
+    ii = 0
+    Dim transactionPoint As String
+    transactionPoint = "issue"
+    TranType = "F"
+    retval = PutIssue("F")
+    If retval = False Then
+        Call RollbackTransaction(cn)
+        MsgBox "Error in Transaction - Issue header"
+        Screen.MousePointer = 0
+        savingLABEL.Visible = False
+        Me.Enabled = True
+        Exit Sub
+    End If
+    Call PutIssueRemarks
+    If retval = False Then
+        Call RollbackTransaction(cn)
+        MsgBox "Error in Transaction - Issue Remarks"
+        Screen.MousePointer = 0
+        savingLABEL.Visible = False
+        Me.Enabled = True
+        Exit Sub
+    End If
+    retval = putReceipt("F")
+    If retval = False Then
+        Call RollbackTransaction(cn)
+        MsgBox "Error in Transaction - Entry header"
+        Screen.MousePointer = 0
+        savingLABEL.Visible = False
+        Me.Enabled = True
+        Exit Sub
+    End If
+
+    If Not retval Then Call RollbackTransaction(cn)
+        Screen.MousePointer = 11
+        For i = 1 To SUMMARYlist.Rows - 1
+            primQty = 0
+            secQty = 0
+            If SUMMARYlist.TextMatrix(i, 5) = "...Process cost" Then
+                fabricationCOST = CDbl(SUMMARYlist.TextMatrix(i, 17))
+                transactionPoint = "cost"
+            Else
+                stocknumb = SUMMARYlist.TextMatrix(i, 1)
+                stockDESC = SUMMARYlist.TextMatrix(i, 5)
+                primQty = CDbl(IIf(SUMMARYlist.TextMatrix(i, 7) = "", 0, SUMMARYlist.TextMatrix(i, 7)))
+                ratioValue = getRatio(stocknumb)
+                secQty = primQty * ratioValue
+                unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
+                condition = SUMMARYlist.TextMatrix(i, 3)
+                fromlogic = SUMMARYlist.TextMatrix(i, 9)
+                fromSubLoca = SUMMARYlist.TextMatrix(i, 10)
+                toLOGIC = SUMMARYlist.TextMatrix(i, 11)
+                toSUBLOCA = SUMMARYlist.TextMatrix(i, 12)
+                serial = "POOL"
+                NEWcondition = "01"
+
+                CompCode = cell(1).tag
+                FromWH = cell(2).tag
+            End If
+            Select Case transactionPoint
+                Case "issue"
+                    ToWH = ""
+                    retval = PutDataInsert(i)
+                    If retval = False Then
+                        Call RollbackTransaction(cn)
+                        MsgBox "Error in Transaction issue side"
+                        Exit Sub
+                    End If
+                    secQty = secQty * -1
+                    primQty = primQty * -1
+                    retval = retval And Quantity_In_stock1_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, stockDESC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock2_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock3_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, fromSubLoca, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock4_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, fromSubLoca, condition, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock5_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "F", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
+                Case "cost"
+                    transactionPoint = "entry"
+                Case "entry"
+                    ToWH = SUMMARYlist.TextMatrix(i, 26)
+                    retval = PutDataInsert2(i, unitPRICE, fabricationCOST)
+                    If retval = False Then
+                        Call RollbackTransaction(cn)
+                        MsgBox "Error in Transaction entry side"
+                        Exit Sub
+                    End If
+
+                    retval = Update_Sap_With_repair_Cost(nameSP, CompCode, stocknumb, ToWH, primQty, CDbl(1), fabricationCOST, unitPRICE - fabricationCOST, NEWcondition, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock1_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, stockDESC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock2_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock3_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, toSUBLOCA, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock4_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, toSUBLOCA, NEWcondition, CurrentUser, cn)
+                    retval = retval And Quantity_In_stock5_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), CDbl(i), ToWH, "F", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
+                    ii = ii + 1
+            End Select
+            If retval = False Then
+                Call RollbackTransaction(cn)
+                MsgBox "Error in Transaction final cycle"
+                Exit Sub
+            End If
+        Next
+    
+End Sub
+
+Function putReceipt(prefix) As Integer
+Dim v As Variant
+    With MakeCommand(cn, adCmdStoredProc)
+        .CommandText = "InvtReceipt_Insert"
+        .parameters.Append .CreateParameter("RV", adInteger, adParamReturnValue)
+        .parameters.Append .CreateParameter("@NAMESPACE", adVarChar, adParamInput, 5, nameSP)
+        .parameters.Append .CreateParameter("@COMPANYCODE", adChar, adParamInput, 10, cell(1).tag)
+        .parameters.Append .CreateParameter("@WHAREHOUSE", adChar, adParamInput, 10, cell(3).tag)
+        .parameters.Append .CreateParameter("@TRANS", adVarChar, adParamInput, 15, Transnumb)
+        .parameters.Append .CreateParameter("@TRANTYPE", adChar, adParamInput, 2, prefix)
+        .parameters.Append .CreateParameter("@TRANFROM", adVarChar, adParamInput, 10, cell(2).tag)
+        .parameters.Append .CreateParameter("@MANFNUMB", adVarChar, adParamInput, 10, Null)
+        .parameters.Append .CreateParameter("@PONUMB", adVarChar, adParamInput, 15, Null)
+        .parameters.Append .CreateParameter("@USER", adVarChar, adParamInput, 20, CurrentUser)
+        Call .Execute(Options:=adExecuteNoRecords)
+        putReceipt = .parameters("RV") = 0
+    End With
+    If putReceipt Then
+        MTSCommit
+    Else
+        MTSRollback
+    End If
+End Function
+Private Function PutIssue(prefix) As Boolean
+Dim NP As String
+Dim cmd As Command
+On Error GoTo errPutIssue
+
+    PutIssue = False
+    Set cmd = getCOMMAND("InvtIssue_Insert")
+    Transnumb = prefix + "-" & GetFabricationTransactionNumber
+    cmd.parameters("@NAMESPACE") = nameSP
+    cmd.parameters("@TRANTYPE") = prefix
+    cmd.parameters("@COMPANYCODE") = cell(1).tag
+    cmd.parameters("@TRANSNUMB") = Transnumb
+    cmd.parameters("@ISSUTO") = cell(2).tag
+    cmd.parameters("@SUPPLIERCODE") = Null
+    cmd.parameters("@WHAREHOUSE") = cell(2).tag
+    cmd.parameters("@STCKNUMB") = Null
+    cmd.parameters("@COND") = Null
+    cmd.parameters("@SAP") = Null
+    cmd.parameters("@NEWSAP") = Null
+    cmd.parameters("@ENTYNUMB") = Null
+    cmd.parameters("@USER") = CurrentUser
+    cmd.Execute
+    PutIssue = cmd.parameters(0).Value = 0
+    Exit Function
+
+errPutIssue:
+    MsgBox Err.description
+    Err.Clear
+End Function
+
+
+Public Function GetFabricationTransactionNumber() As Long
+    With MakeCommand(cn, adCmdStoredProc)
+        .CommandText = "GetFabricationTransactionNumber"
+        .parameters.Append .CreateParameter("@numb", adInteger, adParamOutput, 4, Null)
+        Call .Execute(Options:=adExecuteNoRecords)
+        GetFabricationTransactionNumber = .parameters("@numb").Value
+    End With
+    If GetFabricationTransactionNumber Then
+        MTSCommit
+    Else
+        MTSRollback
+    End If
+End Function
 Public Sub searchStockNumber(Index As Integer)
 Dim datax As New ADODB.Recordset
 Dim sql, list, i, ii, t
 Screen.MousePointer = 11
       
             If Index = 0 Then
-                If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
+                If frmFabrication.tag = "02050200" Then 'AdjustmentEntry
                     sql = "SELECT stk_stcknumb, stk_desc, uni_desc " _
                         & "FROM STOCKMASTER LEFT OUTER JOIN UNIT ON " _
                         & "stk_npecode = uni_npecode AND " _
@@ -2229,7 +2391,7 @@ Screen.MousePointer = 11
                     End With
                 End If
             Else
-                If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
+                If frmFabrication.tag = "02050200" Then 'AdjustmentEntry
                     If searchFIELD(Index) <> "" Then
                     sql = "SELECT stk_stcknumb, stk_desc, uni_desc " _
                         & "FROM STOCKMASTER LEFT OUTER JOIN UNIT ON " _
@@ -2282,7 +2444,7 @@ On Error GoTo errMESSAGE
     Attachments = generateattachmentswithCR11(fileName, reportCaption, parameters, reportName, path)
     Dim sender As String
     sender = ""
-    Call WriteParameterFiles(recipents, sender, Attachments, subject, attention)
+    Call fabWriteParameterFiles(recipents, sender, Attachments, subject, attention)
 errMESSAGE:
     If Err.Number <> 0 Then
         MsgBox "Process sendEMail " + Err.description
@@ -2305,6 +2467,20 @@ Sub updateEmail()
     cn.Execute sql
 End Sub
 
+
+
+Private Sub addFinalStock_Click()
+    Dim answer As String
+    answer = MsgBox("Is it the last item before submit? Do you want to continue?", vbYesNo)
+    If answer = vbYes Then
+        addFinalStock.Enabled = False
+        Call addFabricationNode
+        submitDETAIL.Enabled = True
+        Command5.Enabled = True
+    End If
+End Sub
+
+
 Private Sub emailButton_Click()
 Dim reportName As String
 Dim reportPATH As String
@@ -2317,7 +2493,7 @@ If treeFrame.Visible = True Then
     MsgBox "There is a pending item to submit"
     Exit Sub
 End If
-Select Case frmWarehouse.tag
+Select Case frmFabrication.tag
     Case "02040400" 'ReturnFromRepair
         reportCaption = "Return From Repair"
         reportName = "wareRR.rpt"
@@ -2355,6 +2531,36 @@ Select Case frmWarehouse.tag
     reportCaption = reportCaption + "Report"
     Call sendEMail(reportPATH & reportName, reportCaption, parameters, emailRecepient.text, subject, reportName, reportPATH)
     Call updateEmail
+End Sub
+
+Private Sub fabCostBOX_Click(Index As Integer)
+    With fabCostBOX(Index)
+        .SelStart = 0
+        .SelLength = Len(.text)
+    End With
+End Sub
+
+Private Sub fabCostBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+On Error Resume Next
+    If KeyAscii = 13 Then
+        If Err.Number = 6 Then Exit Sub
+        If IsNumeric(priceBOX(Index)) Then
+            fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
+            Call calculationsFabrication(False, Index)
+        End If
+    End If
+End Sub
+
+
+Private Sub fabCostBOX_LostFocus(Index As Integer)
+    If IsNumeric(priceBOX(Index)) Then
+        fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
+        Call calculationsFabrication(False, Index)
+    End If
+End Sub
+
+Private Sub fabCostBOX_Validate(Index As Integer, Cancel As Boolean)
+    Call validateQTY(fabCostBOX(Index), Index)
 End Sub
 
 Private Sub logicBOX_Validate(Index As Integer, Cancel As Boolean)
@@ -2470,7 +2676,7 @@ On Error Resume Next
 '                        quantityBOX(Index).text = .text
 '                    End If
                     '--------------------------
-                    Select Case frmWarehouse.tag
+                    Select Case frmFabrication.tag
                         Case "02050200" 'AdjustmentEntry
                         Case Else
                             'If CDbl(.text) > CDbl(quantity(Index)) Then .text = quantity(Index)
@@ -2512,6 +2718,110 @@ Private Sub searchButton_Click()
     Call searchStockNumber(0)
 End Sub
 
+Private Sub searchStock_Change(Index As Integer)
+    If Not directCLICK Then
+        Call alphaSEARCH(searchStock(Index), stockCombo(Index), 0)
+    Else
+        directCLICK = False
+    End If
+End Sub
+
+Private Sub searchStock_Click(Index As Integer)
+Dim datax As New ADODB.Recordset
+Dim sql As String
+Dim i
+Screen.MousePointer = 11
+    sql = "select stk_stcknumb from stockmaster where stk_npecode='" + nameSP + "' order by stk_stcknumb"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, cn, adOpenStatic
+    With searchStock(0)
+        If datax.RecordCount > 0 Then
+            stockCombo(Index).Rows = datax.RecordCount + 1
+            i = 1
+            Do While Not datax.EOF
+                stockCombo(Index).TextMatrix(i, 0) = Trim(datax!stk_stcknumb)
+                datax.MoveNext
+                i = i + 1
+            Loop
+            Screen.MousePointer = 0
+            stockCombo(Index).Visible = True
+            stockCombo(Index).ZOrder
+            stockCombo(Index).RemoveItem 1
+            stockCombo(Index).ColWidth(0) = stockCombo(Index).width - 270
+            stockCombo(Index).ColAlignment(0) = 0
+            stockCombo(Index).TextMatrix(0, 0) = "Stock Number"
+            stockCombo(Index).ColAlignmentFixed(0) = 3
+            .text = ""
+            .SelLength = 0
+            .SelStart = Len(.text)
+        End If
+    End With
+    '.SelStart = 0
+    '.SelLength = Len(.text)
+    stockCombo(Index).Left = searchStock(Index).Left
+    stockCombo(Index).Top = searchStock(Index).Top + searchStock(Index).Height
+    stockCombo(Index).Visible = True
+Screen.MousePointer = 0
+End Sub
+
+
+Private Sub searchStock_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Dim activeARROWS As Boolean
+    justCLICK = False
+    With cell(Index)
+        If Not .locked Then
+                Select Case KeyCode
+                    Case 27
+                        stockCombo(Index).Visible = False
+                    Case 40
+                        Call fabArrowKEYS2("down")
+                    Case 38
+                        Call fabArrowKEYS2("up")
+                    Case Else
+                    Dim col
+                End Select
+        End If
+    End With
+End Sub
+
+Private Sub searchStock_KeyPress(Index As Integer, KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 13
+            Call stockCombo_Click(Index)
+            stockCombo(Index).Visible = False
+        Case 27
+            stockCombo(Index).Visible = False
+    End Select
+End Sub
+
+Private Sub stockCombo_Click(Index As Integer)
+Dim i, name
+Dim data As New ADODB.Recordset
+skipAlphaSearch = True
+skipExistance = True
+    With stockCombo(Index)
+        justCLICK = True
+        Dim tempRow As Integer
+        If .row = 0 Then Exit Sub
+        tempRow = .row
+        searchStock(Index) = .TextMatrix(.row, 0) 'Juan  2014-01-02 it was col=1
+        .row = tempRow
+        searchStock(Index) = .TextMatrix(.row, 0)
+        searchStock(Index).SetFocus
+        .Visible = False
+    End With
+End Sub
+
+
+Private Sub stockCombo_KeyPress(KeyAscii As Integer, Index As Integer)
+    Select Case KeyAscii
+        Case 13
+            Call stockCombo_Click(Index)
+        Case 27
+    End Select
+End Sub
+
+
 Private Sub sublocaBOX_Validate(Index As Integer, Cancel As Boolean)
 'juan 2012-1-14 to avoid t he problem when logical warehouse shows up with no reason
 If SUMMARYlist.Visible Then Exit Sub
@@ -2529,28 +2839,23 @@ If UCase(sublocaBOX(Index)) <> "GENERAL" Then
 End If
 End Sub
 
-Sub fillTRANSACTION(datax As ADODB.Recordset)
+Sub fabFillTRANSACTION(datax As ADODB.Recordset)
 Dim i, n, rec, condition, key, conditionCODE, fromlogic
 Dim fromSubLoca, unitCODE, unit, StockNumber, unitPRICE
 Dim shot
     Call cleanDETAILS
-    Call hideDETAILS
+    Call fabFrmHideDETAILS
     STOCKlist.Visible = False
     searchFIELD(0).Visible = False
     searchFIELD(1).Visible = False
     searchButton.Visible = False
-    'treeFrame.Visible = False
     baseFrame.Visible = False
     
     Tree.Height = 2000
     SUMMARYlist.Top = searchFIELD(0).Top
-    'SUMMARYlist.Height = (Tree.Top + Tree.Height) - SUMMARYlist.Top M
-    
     SUMMARYlist.Height = 1980 + 2340 + 1740 'M
-    
     SUMMARYlist.ZOrder
     summaryLABEL.Top = SUMMARYlist.Top - 240
-    'summaryLABEL.Visible = True M
     summaryLABEL.Visible = False
     
     If newBUTTON.Enabled Then
@@ -2565,11 +2870,6 @@ Dim shot
         End If
     End If
     remarks.Visible = True
-    'remarks.ZOrder M
-    'remarksLABEL.Top = remarks.Top - 240 M
-    'remarksLABEL.Visible = True M
-    
-    
     remarks.locked = True
     Me.Refresh
     
@@ -2583,39 +2883,17 @@ Dim shot
         cell(1).tag = datax!Company
         directCLICK = True
         cell(1) = getCOMPANYdescription(cell(1).tag)
-        Select Case frmWarehouse.tag
-            Case "02040400", "02040100", "02040300" 'ReturnFromRepair, 'WarehouseReceipt, 'Return from Well
-                cell(2).tag = datax!FromPlace
-                directCLICK = True
-                cell(2) = getLOCATIONdescription(cell(2).tag)
-                cell(3).tag = datax!Warehouse
-                directCLICK = True
-                cell(3) = getLOCATIONdescription(cell(3).tag)
-                If frmWarehouse.tag = "02040100" Then
-                    cell(4).tag = datax!PO
-                    directCLICK = True
-                    cell(4) = cell(4).tag
-                End If
-            Case "02050200" 'AdjustmentEntry
-                cell(2).tag = datax!FromPlace
-                directCLICK = True
-                cell(2) = getLOCATIONdescription(cell(2).tag)
-            Case "02040200", "02040500", "02040600", "02050400"  'WarehouseIssue, 'WellToWell, 'WarehouseToWarehouse, 'Sales
-                cell(2).tag = datax!Warehouse
-                directCLICK = True
-                cell(2) = getLOCATIONdescription(cell(2).tag)
-                cell(3).tag = datax!IssueToPlace
-                directCLICK = True
-                cell(3) = getLOCATIONdescription(cell(3).tag)
-            Case "02040700", "02050300" 'InternalTransfer, 'AdjustmentIssue
-                cell(2).tag = datax!Warehouse
-                directCLICK = True
-                cell(2) = getLOCATIONdescription(cell(2).tag)
-        End Select
+
+        cell(2).tag = datax!FromPlace
+        directCLICK = True
+        cell(2) = fabGetLOCATIONdescription(cell(2).tag)
+        cell(3).tag = datax!Warehouse
+        directCLICK = True
+        cell(3) = fabGetLOCATIONdescription(cell(3).tag)
+
         Do While Not datax.EOF
-            shot = ImsDataX.GetConditions(nameSP, IIf(IsNull(datax!originalcondition), "", datax!originalcondition), True, cn)
-            condition = shot(0)
-            conditionCODE = shot(1)
+            condition = "New"
+            conditionCODE = "01"
             StockNumber = datax!StockNumber
             rec = Format(datax!TransactionLine) + vbTab
             rec = rec + StockNumber + vbTab
@@ -2653,7 +2931,7 @@ Dim shot
     directCLICK = False
 End Sub
 
-Sub fillGRID(ByRef grid As MSHFlexGrid, box As textBOX, Index)
+Sub fabFillGRID(ByRef grid As MSHFlexGrid, box As textBOX, Index)
 'On Error Resume Next
 Dim paraVECTOR
 Dim i, n, rec, list, size, totalwidth, cols, wide(), title(), extraW, sql, clue, Flag
@@ -2776,7 +3054,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
     Screen.MousePointer = 0
 End Sub
 
-Sub fillCOMBO(ByRef grid As MSHFlexGrid, Index)
+Sub fabFillCOMBO(ByRef grid As MSHFlexGrid, Index)
 On Error Resume Next
 Dim paraVECTOR, sql
 Dim i, n, Params, shot, x, spot, rec, list, list2, size, totalwidth, extraW, align, clue
@@ -2832,7 +3110,7 @@ Dim addCOMBO As Boolean
                 If addCOMBO Then
                     If datax.RecordCount > 0 Then
                         datax.Sort = "loc_name"
-                        Call doCOMBO(Index, datax, list2, totalwidth)
+                        Call fabDoCombo(Index, datax, list2, totalwidth)
                     End If
                 End If
             Next
@@ -2891,7 +3169,7 @@ Dim addCOMBO As Boolean
             
     If datax.RecordCount < 1 Then Exit Sub
     Call doARRAYS("s", matrix.TextMatrix(2, Index), list)
-    Call doCOMBO(Index, datax, list, totalwidth)
+    Call fabDoCombo(Index, datax, list, totalwidth)
     Set datax = New ADODB.Recordset
 End Sub
 
@@ -2903,7 +3181,7 @@ Dim qty As Double
 
     On Error Resume Next
     Screen.MousePointer = 11
-    Call makeLists
+    Call fabMakeLists
     If transaction = "*" Then
         sql = "SELECT * from PO_Details_For_transaction WHERE NAMESPACE = '" + nameSP + "' " _
             & "AND PO = '" + cell(0) + "' ORDER BY PO, CONVERT(integer, LineItem)"
@@ -3079,7 +3357,7 @@ Dim i As Integer
     Next
 End Sub
 
-Sub makeLists()
+Sub fabMakeLists()
 Dim i, col, c, dark As Integer
 Dim translationCommodity, translationUnit, translationUnitPrice, translationDescription
 Dim translationQty, translationSerial, translationPurchaseQty, translationQtyToRec
@@ -3133,10 +3411,7 @@ Dim translationSecondaryQty
             .ColAlignmentFixed(i) = 4
         Next
         .ColAlignment(2) = 6
-        Select Case frmWarehouse.tag
-            'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
-            'AdjustmentIssue,WarehouseToWarehouse,Sales
-            Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
+
                 .cols = 7
                 dark = 1
                 '.TextMatrix(0, 2) = "Unit Price"
@@ -3153,94 +3428,8 @@ Dim translationSecondaryQty
                 .TextMatrix(0, 5) = translationQty
                 .ColWidth(5) = 1200
                 .ColWidth(6) = 0
-            'WarehouseIssue 2012-3-23 to add serial
-            Case "02040200"
-                .cols = 8
-                dark = 1
-                '.TextMatrix(0, 2) = "Serial"
-                .TextMatrix(0, 2) = translationSerial
-                .ColWidth(2) = 1000
-                '.TextMatrix(0, 3) = "Unit Price"
-                .TextMatrix(0, 3) = translationUnitPrice
-                .ColWidth(3) = 1000
-                '.TextMatrix(0, 4) = "Description"
-                .TextMatrix(0, 4) = translationDescription
-                .ColWidth(4) = 6200
-                '.TextMatrix(0, 5) = "Unit"
-                .TextMatrix(0, 5) = translationUnit
-                .ColWidth(5) = 1200
-                .ColAlignment(6) = 6
-                '.TextMatrix(0, 6) = "Qty"
-                .TextMatrix(0, 6) = translationQty
-                .ColWidth(6) = 1200
-                .TextMatrix(0, 7) = "original qty"
-                .ColWidth(7) = 0
-            Case "02050200" 'AdjustmentEntry
-                dark = 0
-                .cols = 4
-                '.TextMatrix(0, 2) = "Description"
-                .TextMatrix(0, 2) = translationDescription
-                .ColAlignment(2) = 0
-                .ColWidth(2) = 8400
-                '.TextMatrix(0, 3) = "Unit"
-                .TextMatrix(0, 3) = translationUnit
-                .ColWidth(3) = 1200
-            Case "02040100" 'WarehouseReceipt
-                dark = 1
-                .cols = 14
-                For i = 8 To .cols - 1
-                    .ColWidth(i) = 0
-                Next
-                'Juan 2010-6-6
-                For i = 1 To .cols - 1
-                    .col = i
-                    .CellFontName = "Arial"
-                    .CellFontSize = 7
-                    .ColAlignment(i) = 0
-                    '.ColAlignmentFixed(i) = 4
-                Next
-                '-----------------------
 
-                .ColAlignment(2) = 6
-                .ColAlignment(3) = 6
-                .ColAlignment(4) = 4
-                .ColAlignment(6) = 4
-                '.TextMatrix(0, 2) = "Purchase Qty"
-                .TextMatrix(0, 2) = translationPurchaseQty
-                .ColWidth(2) = 1100
-                '.TextMatrix(0, 3) = "1Qty to Rec"
-                .TextMatrix(0, 3) = translationQtyToRec
-                .ColWidth(3) = 1100
-                '.TextMatrix(0, 4) = "Primary Unit"
-                .TextMatrix(0, 4) = translationPrimaryUnit
-                .ColWidth(4) = 1100
-                
-                
-                'Juan 2010-6-6
-                '.TextMatrix(0, 5) = "Description"
-                '.ColWidth(5) = 6200
-                '.TextMatrix(0, 6) = "Item #"
-                '.ColWidth(6) = 0
-                '.TextMatrix(0, 5) = "2Qty to Rec"
-                .TextMatrix(0, 5) = "Sec " + translationQtyToRec
-                .ColWidth(5) = 1300
-                '.TextMatrix(0, 6) = "Secundary Unit"
-                .TextMatrix(0, 6) = translationSecondaryUnit
-                .ColWidth(6) = 1100
-                '.TextMatrix(0, 7) = "Description"
-                .TextMatrix(0, 7) = translationDescription
-                .ColWidth(7) = 6200
-                '.TextMatrix(0, 8) = "Item #"
-                .TextMatrix(0, 8) = translationItem + "#"
-                .ColWidth(8) = 0
-                '.TextMatrix(0, 9) = "original Qty to Rec"
-                .TextMatrix(0, 9) = translationOriginal + " " + translationQtyToRec
-                .ColWidth(9) = 0
-                '.TextMatrix(0, 10) = "original 2Qty to Rec"
-                .TextMatrix(0, 10) = translationOriginal + " 2" + translationQtyToRec
-                .ColWidth(10) = 0
-                '---------------------
-        End Select
+
         .RowHeight(0) = 240
         .RowHeightMin = 0
         .RowHeight(1) = 0
@@ -3259,8 +3448,8 @@ Dim translationSecondaryQty
         .ColWidth(4) = 1000
         .ColWidth(5) = 1000
         .ColWidth(6) = 260
-        Select Case frmWarehouse.tag
-            Case "02040100" 'WarehouseReceipt
+
+
                 .cols = 9
                 For i = 1 To .cols - 1
                     .col = i
@@ -3268,10 +3457,9 @@ Dim translationSecondaryQty
                     .CellFontSize = 7
                 Next
                 c = 9
-                '.TextMatrix(0, 0) = "Condition / Serial-Pool"
-                .TextMatrix(0, 0) = translationCondition + " / " + translationSerial + "-Pool"
+                .TextMatrix(0, 0) = "Stock Number component"
                 '.TextMatrix(0, 1) = "Qty po"
-                .TextMatrix(0, 1) = translationQty + " PO"
+                .TextMatrix(0, 1) = translationQty
                 '.TextMatrix(0, 2) = "Logical Warehouse"
                 .TextMatrix(0, 2) = translationLogicalWarehouse
                 '.TextMatrix(0, 3) = "Sublocation"
@@ -3288,96 +3476,30 @@ Dim translationSecondaryQty
                 '.TextMatrix(0, 8) = "Balance"
                 .TextMatrix(0, 8) = translationBalance
                 '---------------------
-            .ColWidth(0) = 3970
-            .ColWidth(5) = 1000
-            .ColWidth(6) = 1000
-            .ColWidth(7) = 1000
-            .ColWidth(8) = 1000
-            .ColWidth(9) = 260
-            Case Else
-                '.TextMatrix(0, 0) = "Condition / Logical Warehouse / Sublocation"
-                .TextMatrix(0, 0) = translationCondition + " / " + translationLogicalWarehouse + " / " + translationSublocation
-                '.TextMatrix(0, 1) = "Qty"
-                .TextMatrix(0, 1) = translationQty
-                '.TextMatrix(0, 2) = "Logical Warehouse"
-                .TextMatrix(0, 2) = translationLogicalWarehouse
-                '.TextMatrix(0, 3) = "Sublocation"
-                .TextMatrix(0, 3) = translationSublocation
-                '.TextMatrix(0, 4) = "Qty"
-                .TextMatrix(0, 4) = translationQty
-                '.TextMatrix(0, 5) = "Balance"
-                .TextMatrix(0, 5) = translationBalance
-                .ColWidth(2) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
-                .ColWidth(3) = 2500 + 480 'Juan 2014-09-13 it was 2230 but made it longer
-        End Select
 
-        Select Case frmWarehouse.tag
-            Case "02040400" 'ReturnFromRepair
+
                 .cols = 9
                 c = 9
                 '.TextMatrix(0, 2) = "Logical Ware."
                 .TextMatrix(0, 2) = translationLogicalWarehouse
                 '.TextMatrix(0, 4) = "Condition"
                 .TextMatrix(0, 4) = translationCondition
-                .TextMatrix(0, 5) = "Repair Cost"
+                .TextMatrix(0, 5) = "Price/Cost"
                 '.TextMatrix(0, 6) = "Qty"
                 .TextMatrix(0, 6) = translationQty
                 '.TextMatrix(0, 7) = "Balance"
                 .TextMatrix(0, 7) = translationBalance
+                .TextMatrix(0, 8) = ""
                 .ColWidth(1) = 950
-                .ColWidth(2) = 1040
-                .ColWidth(3) = 1040
-                .ColWidth(4) = 800
-                .ColWidth(5) = 950
-                .ColWidth(6) = 950
-                .ColWidth(7) = 950
-                .ColWidth(8) = 260
-            Case "02050200" 'AdjustmentEntry
-                .cols = 7
-                c = 6
-                '.TextMatrix(0, 0) = "Condition"
-                .TextMatrix(0, 0) = translationCondition
-                '.TextMatrix(0, 1) = "Logical Warehouse"
-                .TextMatrix(0, 1) = translationLogicalWarehouse
-                '.TextMatrix(0, 2) = "Sublocation"
-                .TextMatrix(0, 2) = translationSublocation
-                '.TextMatrix(0, 3) = "Unit Price"
-                .TextMatrix(0, 3) = translationUnitPrice
-                '.TextMatrix(0, 4) = "Condition"
-                .TextMatrix(0, 4) = translationCondition
-                '.TextMatrix(0, 5) = "Qty"
-                .TextMatrix(0, 5) = translationQty
-                .TextMatrix(0, 6) = ""
-                .ColWidth(0) = 5000
-                .ColWidth(1) = 2800 'Juan 2014-01-02 it was 2230 but made it longer
-                .ColWidth(2) = 2800 'Juan 2014-01-02 it was 2230 but made it longer
-                .ColWidth(3) = 1000
+                .ColWidth(2) = 1740
+                .ColWidth(3) = 1740
                 .ColWidth(4) = 1000
-                .ColWidth(5) = 1000
-                .ColWidth(6) = 260
-            Case "02040200" 'WarehouseIssue
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
-                .cols = 7
-                '.TextMatrix(0, 4) = "Condition"
-                .TextMatrix(0, 4) = translationCondition
-                '.TextMatrix(0, 5) = "Qty"
-                .TextMatrix(0, 5) = translationQty
-                '.TextMatrix(0, 6) = "Balance"
-                .TextMatrix(0, 6) = translationBalance
-                .ColWidth(0) = 4400
-                .ColWidth(2) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
-                .ColWidth(3) = 2630 'Juan 2014-09-13 it was 2230 but made it longer
-                .ColWidth(4) = 1000
-                .ColWidth(5) = 1000
-                .ColWidth(6) = 1000
-                .ColWidth(7) = 260
-        End Select
+                .ColWidth(5) = 1250
+                .ColWidth(6) = 1150
+                .ColWidth(7) = 1150
+                .ColWidth(8) = 0
+
+
         .row = 0
         For i = 1 To c - 1
             .ColAlignmentFixed(i) = 3
@@ -3392,7 +3514,7 @@ Dim translationSecondaryQty
     With SUMMARYlist
         .width = STOCKlist.width 'Juan 2010-5-9
         .Height = newBUTTON.Top - .Top - 100 'Juan 2011-5-7
-        .cols = 26
+        .cols = 27
         .Clear
         .Rows = 2
         .ColWidth(0) = 285
@@ -3457,52 +3579,18 @@ Dim translationSecondaryQty
         '.TextMatrix(0, 23) = "Secundary Qty"
         .TextMatrix(0, 23) = translationSecondaryQty
         .TextMatrix(0, 25) = "ratio"
+        .TextMatrix(0, 26) = "from/to"
         c = 8
         For i = c To .cols
             .ColWidth(i) = 0
         Next
-        Select Case frmWarehouse.tag
-            Case "02040400" 'ReturnFromRepair
-                .TextMatrix(0, 17) = "repaircost"
+
+                .TextMatrix(0, 17) = "fabrication cost"
                 .TextMatrix(0, 18) = "newcomodity"
                 .TextMatrix(0, 19) = "newdescription"
-                'Juan 2010-11-1 new arrangement to show the new condition
                 .ColWidth(14) = 2000
-                .TextMatrix(0, 3) = "Old Cond."
-                '---------------------------
-            Case "02050200" 'AdjustmentEntry
-                'Juan 2010-11-20 new arrangement to show the new condition
-                .ColWidth(14) = 2000
-                .ColWidth(3) = 0
-                '---------------------------
-            Case "02040200" 'WarehouseIssue
-                .ColWidth(12) = 1200
-            Case "02040500" 'WellToWell
-                .TextMatrix(0, 17) = "originalcondition"
-            Case "02040700" 'InternalTransfer
-                .ColWidth(11) = 1200
-                '.TextMatrix(0, 11) = "Logical WH"
-                .TextMatrix(0, 11) = translationLogicalWarehouse
-                .ColWidth(12) = 1200
-                '.TextMatrix(0, 12) = "Sub Location"
-                .TextMatrix(0, 12) = translationSublocation
-            Case "02050300" 'AdjustmentIssue
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-                .cols = .cols + 2
-                .TextMatrix(0, 17) = "Qty po"
-                .TextMatrix(0, 24) = "PO"
-                'Juan 2010-8-19
-                .ColWidth(21) = 1100
-                .ColWidth(23) = 1200
-                '------------
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
-                'Juan 2010-10-31 new arrangement to show the new condition
-                .ColWidth(14) = 2000
-                .TextMatrix(0, 3) = "Old Cond."
-                '---------------------------
-        End Select
+                .TextMatrix(0, 3) = "Condition"
+
         .RowHeight(0) = 240
         .RowHeightMin = 0
         .RowHeight(1) = 0
@@ -3520,14 +3608,6 @@ Dim translationSecondaryQty
         .TextMatrix(0, 2) = "invoice line item"
     End With
     
-    
-    'Juan 2014-01-12, resizing treeFrame ------
-'    With treeFrame
-'        .Left = detailHEADER.ColWidth(0) + Tree.Left
-'        .width = detailHEADER.width - .Left - 800
-'        .Top = detailHEADER.Top + detailHEADER.Height + 300
-'        .Height = Tree.Height - 420
-'    End With
     With baseFrame
         .Left = detailHEADER.ColWidth(0) + Tree.Left
         .width = detailHEADER.width - .Left - 800
@@ -3583,29 +3663,23 @@ Err.Clear
 End Sub
 
 
-'
-'
-'
-Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, Optional isSubmit As Boolean)
+Sub fabFrmHideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, Optional isSubmit As Boolean)
     Dim stockListRow  As String
     Dim i As Integer
     Dim selectedStockNumber As String
-    'Call ctt.enable(False)
-    'Set ctt = Nothing
+
     selectedStockNumber = commodityLABEL
     stockListRow = findSTUFF(commodityLABEL, STOCKlist, 1)
-    'Juan 2010-6-4
+
     If IsMissing(unmark) Then unmark = True
-    
+    Call fabWorkBOXESlistClean
+    Tree.Nodes.Clear
     If unmark Then
         Dim stock
-        'TODO.... stocknumber search
         stock = STOCKlist.TextMatrix(STOCKlist.MouseRow, 1)
-        Call unmarkRow(stock, True, ctt)
+        Call fabUnMarkROW(stock, True, ctt)
     End If
     inProgress = False
-    '---------------------
-
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
     hideDETAIL.Visible = False
@@ -3613,23 +3687,18 @@ Sub hideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boolean, 
     removeDETAIL.Visible = False
     Label4(0).Visible = False
     Label4(1).Visible = False
-    'treeFrame.Visible = False
     baseFrame.Visible = False
     If isReset Then
         isReset = False
     Else
+        isReset = True
         If isFirstSubmit Then
             If resetStockList Then Call calculationsFlat(selectedStockNumber)
             isFirstSubmit = False
         Else
-            
             If isSubmit Then
             Else
-                Select Case frmWarehouse.tag
-                    Case "02050200" 'AdjustmentEntry
-                    Case Else
-                        STOCKlist.TextMatrix(STOCKlist.row, 5) = latestStockNumberQty
-                End Select
+                STOCKlist.TextMatrix(STOCKlist.row, 5) = latestStockNumberQty
             End If
         End If
     End If
@@ -3700,24 +3769,24 @@ Dim n
         If remarks.Visible Then Exit Sub
         If Tree.Visible = False Then Exit Sub
         '------------
-        If Not noFILLING Then Call fillGRID(grid, box, Index)
+        If Not noFILLING Then Call fabFillGRID(grid, box, Index)
         If .Rows > 0 And .text <> "" Then
             n = box.Left + .width
-            If n >= frmWarehouse.width Then
-                .Left = box.Left - (n - frmWarehouse.width) - 100
+            If n >= frmFabrication.width Then
+                .Left = box.Left - (n - frmFabrication.width) - 100
             Else
                 .Left = box.Left
             End If
             '.Left = .Left + treeFrame.Left 'Juan 2014-02-04, to move cell
-            .Left = .Left + baseFrame.Left 'Juan 2014-02-04, to move cell
+            '.Left = .Left + baseFrame.Left 'Juan 2014-02-04, to move cell
             'If (box.Top) < (treeFrame.Height - .Height - 800) Then
-            If (box.Top) < (baseFrame.Height - .Height - 800) Then
+            If (box.Top) > (.Height - 800) Then
                 .Top = box.Top + box.Height + 10
             Else
                 .Top = box.Top - .Height - 10
             End If
             '.Top = .Top + treeFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
-            .Top = .Top + baseFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
+            '.Top = .Top + baseFrame.Top + (80 * Index) 'Juan 2014-02-04, to move cell
             .ZOrder
             .Visible = True
         End If
@@ -3725,7 +3794,7 @@ Dim n
 End Sub
 Sub showCOMBO(ByRef grid As MSHFlexGrid, Index)
     With grid
-        Call fillCOMBO(grid, Index)
+        Call fabFillCOMBO(grid, Index)
         If .Rows > 0 And .text <> "" Then
             .Visible = True
             .ZOrder
@@ -3743,7 +3812,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLabel.Visible = False
+    remarksLABEL.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3774,7 +3843,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLabel.Visible = True
+    remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -3856,7 +3925,7 @@ On Error Resume Next
     quantityBOX(currentBOX).backcolor = vbWhite
     quantity2BOX(currentBOX).backcolor = vbWhite 'Juan 2010-6-14
     NEWconditionBOX(currentBOX).backcolor = vbWhite
-    Select Case frmWarehouse.tag
+    Select Case frmFabrication.tag
         Case "02040400" 'ReturnFromRepair
             repairBOX(currentBOX).backcolor = vbWhite
         Case "02050200" 'AdjustmentEntry
@@ -3903,9 +3972,9 @@ Dim activeARROWS As Boolean
                 Case 27
                     combo(Index).Visible = False
                 Case 40
-                    Call arrowKEYS("down", Index)
+                    Call fabArrowKEYS("down", Index)
                 Case 38
-                    Call arrowKEYS("up", Index)
+                    Call fabArrowKEYS("up", Index)
                 Case Else
                 Dim col
             End Select
@@ -3943,15 +4012,15 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 Dim imsLock As imsLock.Lock
     'Unlock
-    Call unlockBUNCH
+    Call fabUnlockBUNCH
         
     grid1 = True
     grid2 = False
     Set imsLock = New imsLock.Lock
-    Call imsLock.Unlock_Row(locked, cn, CurrentUser, frmWarehouse.POrowguid)  'jawdat, if user hits neither Cancel nor Save, but just closes the form while in edit mode
+    Call imsLock.Unlock_Row(locked, cn, CurrentUser, frmFabrication.POrowguid)  'jawdat, if user hits neither Cancel nor Save, but just closes the form while in edit mode
     '------
 
-    Unload frmWarehouse
+    Unload frmFabrication
     GFQAComboFilled = False
     GDefaultValue = False
 End Sub
@@ -4114,52 +4183,8 @@ Screen.MousePointer = 11
     CompCode = cell(1).tag
     
     Call BeginTransaction(cn)
-    
-    
-    Select Case frmWarehouse.tag
-        Case "02040400" 'ReturnFromRepair
-            retval = PutReturnData("RR")
-            TranType = "RR"
-            'Call PutReceiptRemarks
-        Case "02050200" 'AdjustmentEntry
-            retval = PutReturnData2
-            Call InvtReceiptRem_Insert(nameSP, cell(1).tag, cell(2).tag, Format(Transnumb), remarks, CurrentUser, cn)
-            TranType = "IA"
-        Case "02040200" 'WarehouseIssue
-            retval = PutInvtIssue("I")
-            Call PutIssueRemarks
-            TranType = "I"
-        Case "02040500" 'WellToWell
-            retval = PutInvtIssue("TI")
-            Call PutIssueRemarks
-            TranType = "TI"
-        Case "02040700" 'InternalTransfer
-            retval = PutInvtIssue("IT")
-            Call PutIssueRemarks
-            TranType = "IT"
-        Case "02050300" 'AdjustmentIssue
-            retval = PutInvtIssue("AI")
-            Call PutIssueRemarks
-            TranType = "AI"
-        Case "02040600" 'WarehouseToWarehouse
-            retval = PutInvtIssue("TI")
-            Call PutIssueRemarks
-            TranType = "TI"
-        Case "02040100" 'WarehouseReceipt
-            Transnumb = "R-" & GetTransNumb(nameSP, cn)
-            If Err Then GoTo RollBack
-            retval = InvtReceipt_Insert(NP, cell(4).tag, "R", cell(1).tag, ToWH, CurrentUser, cn, , FromWH, Format(Transnumb))
-            retval = InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks, CurrentUser, cn)
-            TranType = "R"
-        Case "02050400" 'Sales
-            retval = PutInvtIssue("SL")
-            Call PutIssueRemarks
-            TranType = "SL"
-        Case "02040300" 'Return from Well
-            retval = PutReturnData("RT")
-            Call InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks, CurrentUser, cn)
-            TranType = "RT"
-    End Select
+    Call saveFabrication(retval, cn)
+
     If Not retval Then Call RollbackTransaction(cn)
         Screen.MousePointer = 11
         'MDI_IMS.StatusBar1.Panels(1).text = "Saving Line Items"
@@ -4168,18 +4193,9 @@ Screen.MousePointer = 11
             stockDESC = SUMMARYlist.TextMatrix(i, 5)
             PrimUnit = CDbl(IIf(SUMMARYlist.TextMatrix(i, 7) = "", 0, SUMMARYlist.TextMatrix(i, 7)))
             'Juan 2010-11-24 to obtain original price for AE
-            Select Case frmWarehouse.tag
-                Case "02040300" 'Return from Well
-                    Dim r
-                    r = findSTUFF(stocknumb, STOCKlist, 1)
-                    If r > 0 Then
-                        unitPRICE = CDbl(STOCKlist.TextMatrix(r, 2))
-                    Else
-                        unitPRICE = 0
-                    End If
-                Case Else
+
                     unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
-            End Select
+
             condition = SUMMARYlist.TextMatrix(i, 20)
             fromlogic = SUMMARYlist.TextMatrix(i, 9)
             fromSubLoca = SUMMARYlist.TextMatrix(i, 10)
@@ -4199,401 +4215,9 @@ Screen.MousePointer = 11
                 ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
             End If
             Dim sql As String
-            'Juan 2014-8-27 new version of calculation based on invoice if exists
-            Select Case frmWarehouse.tag
-                Case "02040100" 'WarehouseReceipt
-                    Set datax = New ADODB.Recordset
-                    sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
-                        "and invd_invcnumb = '" + summaryValues.TextMatrix(i, 2) + "' " + _
-                        "and invd_liitnumb = '" + Trim(summaryValues.TextMatrix(i, 3)) + "'"
-                    datax.Open sql, cn, adOpenStatic
-                    If datax.RecordCount > 0 Then
-                        ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
-                    End If
-                Case Else
-            End Select
-            datax.Close
-            '----------------------
-            
             SecUnit = PrimUnit * ratioValue
-
-'            If computerFactor = 0 Then
-'                SecUnit = PrimUnit
-'            Else
-'                If IsNumeric(SUMMARYlist.TextMatrix(i, 21)) Then
-'                    SecUnit = CDbl(SUMMARYlist.TextMatrix(i, 21))
-'                Else
-'                    SecUnit = PrimUnit * 10000 / computerFactor
-'                End If
-'            End If
-            '-----------------
             NEWcondition = SUMMARYlist.TextMatrix(i, 13)
-            Select Case frmWarehouse.tag
-                Case "02040400" 'ReturnFromRepair
-                    retval = PutDataInsert2(i, unitPRICE)
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    Dim repairCOST As Double
-                    repairCOST = CDbl(SUMMARYlist.TextMatrix(i, 17))
-                    
-                    retval = Update_Sap_With_repair_Cost(NP, CompCode, stocknumb, ToWH, PrimUnit, CDbl(1), repairCOST, unitPRICE, NEWcondition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), CDbl(i), ToWH, "RR", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), FromWH, CDbl(i), ToWH, "RR", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), FromWH, "RT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), FromWH, "RT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                Case "02050200" 'AdjustmentEntry
-                    ToWH = cell(2).tag
-                    retval = PutDataInsert2(i, unitPRICE)
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
 
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, CDbl(1), unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "AE", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, Val(serial), ToWH, "AE", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                Case "02040200" 'WarehouseIssue
-                    retval = PutDataInsert(i)
-                    If retval = False Then Call RollbackTransaction(cn)
-                    
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, 1, unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                        
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "I", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, CDbl(i), ToWH, "I", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                        
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-            
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "I", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "I", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                Case "02040500" 'WellToWell
-                    retval = PutDataInsert(i)
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    condition = SUMMARYlist.TextMatrix(i, 13)
-                
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, 1, unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "TI", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, CDbl(i), FromWH, "TI", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-        
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), FromWH, "TI", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), FromWH, "TI", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                Case "02040700" 'InternalTransfer
-                    ToWH = FromWH
-                    retval = PutDataInsert(i)
-                    If retval = False Then Call RollbackTransaction(cn)
-
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, 1, unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), FromWH, "IT", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, CDbl(i), FromWH, "IT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), FromWH, "IT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), FromWH, "IT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-
-                Case "02050300" 'AdjustmentIssue
-                    retval = PutDataInsert(i)
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                                        
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "AI", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), ToWH, "AI", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                
-                Case "02040600" 'WarehouseToWarehouse
-                    retval = PutDataInsert(i)
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, 1, unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), CDbl(i), ToWH, "TI", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, condition, Format(Transnumb), FromWH, CDbl(i), FromWH, "TI", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-        
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), FromWH, "TI", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), FromWH, "TI", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                                        
-                Case "02040100" 'WarehouseReceipt
-                    retval = PutDataInsert2(i, unitPRICE)
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        newBUTTON.Enabled = True
-                        saveBUTTON.Enabled = False
-                        savingLABEL.Visible = False
-                        Command3.Enabled = True
-                        Call lockDOCUMENT(True)
-                        Me.Enabled = True
-                        'Unlock
-                        Call unlockBUNCH
-                            
-                        Screen.MousePointer = 0
-                        Exit Sub
-                    End If
-                                    
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, CDbl(1), unitPRICE, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, CurrentUser, cn)
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), CDbl(i), ToWH, "R", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), FromWH, CDbl(i), ToWH, "R", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    'Unlock
-                    Set imsLock = New imsLock.Lock
-                    Call imsLock.Unlock_Row(locked, cn, CurrentUser, frmWarehouse.POrowguid)  'jawdat
-                    '------
-                
-                Case "02050400" 'Sales
-                    retval = PutDataInsert(i)
-                    If retval = False Then Call RollbackTransaction(cn)
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                                        
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                     
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "SL", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), FromWH, CDbl(i), ToWH, "SL", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                
-                Case "02040300" 'Return from Well
-                    If condition = NEWcondition Then
-                        newUNITprice = unitPRICE
-                    Else
-                        Set data = getDATA("conditionVALUE", Array(NP, unitPRICE, NEWcondition))
-                        If data.RecordCount = 0 Then
-                            Call RollbackTransaction(cn)
-                            MsgBox "Error in Transaction"
-                            Exit Sub
-                        Else
-                            newUNITprice = CDbl(data(0))
-                        End If
-                    End If
-                    retval = PutDataInsert2(i, newUNITprice)
-                    If retval = False Then Call RollbackTransaction(cn)
-                    
-                    retval = Update_Sap(NP, CompCode, stocknumb, ToWH, PrimUnit, 1, newUNITprice, NEWcondition, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, CurrentUser, cn)
-                                            
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), CDbl(i), ToWH, "RT", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, ToWH, PrimUnit, SecUnit, toLOGIC, toSUBLOCA, NEWcondition, Format(Transnumb), FromWH, CDbl(i), FromWH, "RT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-                    If retval = False Then
-                        Call RollbackTransaction(cn)
-                        MsgBox "Error in Transaction"
-                        Exit Sub
-                    End If
-                    
-                    SecUnit = SecUnit * -1
-                    PrimUnit = PrimUnit * -1
-                    
-                    retval = retval And Quantity_In_stock1_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, stockDESC, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock2_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock3_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, CurrentUser, cn)
-                    retval = retval And Quantity_In_stock4_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, CurrentUser, cn)
-                    
-                    If serial = "" Or UCase(serial) = "POOL" Then
-                        retval = retval And Quantity_In_stock5_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), FromWH, "RT", CompCode, ToWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
-                    Else
-                        retval = retval And Quantity_In_stock6_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, serial, CurrentUser, cn)
-                        retval = retval And Quantity_In_stock7_Insert(NP, CompCode, stocknumb, FromWH, PrimUnit, SecUnit, fromlogic, fromSubLoca, condition, Format(Transnumb), ToWH, CDbl(i), FromWH, "RT", CompCode, Format(Transnumb), CompCode, CDbl(i), serial, CurrentUser, cn)
-                    End If
-                    
-            End Select
             If retval = False Then
                 Call RollbackTransaction(cn)
                 MsgBox "Error in Transaction"
@@ -4605,7 +4229,7 @@ Screen.MousePointer = 11
         
     If retval Then
         Call CommitTransaction(cn)
-        If frmWarehouse.tag = "02040100" Then  'WarehouseReceipt
+        If frmFabrication.tag = "02040100" Then  'WarehouseReceipt
             Dim poSTATUS As ADODB.Command
             Set poSTATUS = getCOMMAND("UPDATE_PO_INVSTATES")
             poSTATUS.parameters(1) = nameSP
@@ -4632,6 +4256,7 @@ Screen.MousePointer = 11
     Me.Enabled = True
     'Unlock
     Call unlockBUNCH
+    Command5.Enabled = False
         
     Screen.MousePointer = 0
     Exit Sub
@@ -4659,7 +4284,7 @@ getStockRatioFromStockMaster = ratio
 End Function
 
 
-Private Function PutDataInsert2(Item, price) As Boolean
+Private Function PutDataInsert2(Item, price, Optional fabricationCOST As Double) As Boolean
     Dim psVALUE, serial
     Dim cmd As Command
 
@@ -4678,16 +4303,7 @@ Private Function PutDataInsert2(Item, price) As Boolean
     cmd.parameters("@ird_trannumb") = Transnumb
     cmd.parameters("@ird_npecode") = nameSP
     With SUMMARYlist
-        Select Case frmWarehouse.tag
-            Case "02050200" 'AdjustmentEntry
-                cmd.parameters("@ird_ware") = cell(2).tag
-            Case "02040100" 'WarehouseReceipt
-                cmd.parameters("@ird_ponumb") = .TextMatrix(Item, 24)
-                cmd.parameters("@ird_lirtnumb") = Val(.TextMatrix(Item, 22))
-                cmd.parameters("@ird_ware") = cell(3).tag
-            Case Else
-                cmd.parameters("@ird_ware") = cell(3).tag
-        End Select
+        cmd.parameters("@ird_ware") = cell(3).tag
         cmd.parameters("@ird_transerl") = Item
         cmd.parameters("@ird_stcknumb") = .TextMatrix(Item, 1)
         If UCase(.TextMatrix(Item, 2)) = "POOL" Or .TextMatrix(Item, 2) = "" Then
@@ -4699,31 +4315,13 @@ Private Function PutDataInsert2(Item, price) As Boolean
         End If
         cmd.parameters("@ird_ps") = psVALUE
         cmd.parameters("@ird_serl") = serial
-        Select Case frmWarehouse.tag
-            Case "02040400" 'ReturnFromRepair
-                cmd.parameters("@ird_reprcost") = CDbl(.TextMatrix(Item, 17))
+
+                cmd.parameters("@ird_fabrication_cost") = fabricationCOST
                 cmd.parameters("@ird_newcond") = .TextMatrix(Item, 13)
                 cmd.parameters("@ird_newstcknumb") = .TextMatrix(Item, 18)
                 cmd.parameters("@ird_newdesc") = .TextMatrix(Item, 19)
-            Case "02050200" 'AdjustmentEntry
-                'cmd.Parameters("@ird_newcond") = .TextMatrix(Item, 13)
-                cmd.parameters("@ird_newcond") = .TextMatrix(Item, 20) 'M
-                'Modified by Muzammil
-                'Reason : would not save the condition only to the ird_origcond.
-                'The above value begin passed is just an empty string
-            Case "02040200" 'WarehouseIssue
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-                cmd.parameters("@ird_newcond") = "01"
-                cmd.parameters("@ird_invoice") = summaryValues.TextMatrix(Item, 2) 'Juan 2014-8-29
-                cmd.parameters("@ird_invoiceLine") = summaryValues.TextMatrix(Item, 3) 'Juan 2014-8-30
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
-                cmd.parameters("@ird_newcond") = .TextMatrix(Item, 13)
-        End Select
+                
+                
         cmd.parameters("@ird_stcktype") = ""
         cmd.parameters("@ird_ctry") = "US"
         cmd.parameters("@ird_tosubloca") = .TextMatrix(Item, 12)
@@ -4731,7 +4329,7 @@ Private Function PutDataInsert2(Item, price) As Boolean
         cmd.parameters("@ird_owle") = 1
         cmd.parameters("@ird_leasecomp") = Null
         cmd.parameters("@ird_primqty") = CDbl(.TextMatrix(Item, 7))
-        cmd.parameters("@ird_secoqty") = SecUnit
+        cmd.parameters("@ird_secoqty") = secQty
         cmd.parameters("@ird_unitpric") = CDbl(price)
         cmd.parameters("@ird_stckdesc") = .TextMatrix(Item, 5)
         cmd.parameters("@ird_fromlogiware") = .TextMatrix(Item, 9)
@@ -4789,13 +4387,17 @@ On Error Resume Next
         cmd.parameters("@iid_currvalu") = 1
         cmd.parameters("@iid_stckdesc") = .TextMatrix(row, 5)
         cmd.parameters("@iid_fromlogiware") = .TextMatrix(row, 9)
-        If frmWarehouse.tag = "02040700" Then 'InternalTransfer
+        If frmFabrication.tag = "02040700" Then 'InternalTransfer
             cmd.parameters("@iid_fromsubloca") = .TextMatrix(row, 10)
         Else
             cmd.parameters("@iid_fromsubloca") = .TextMatrix(row, 12)
         End If
-        
         cmd.parameters("@iid_origcond") = .TextMatrix(row, 13)
+        
+            cmd.parameters("@iid_secoqty") = secQty
+            cmd.parameters("@iid_origcond") = "01"
+            cmd.parameters("@iid_newcond") = "01"
+        
         cmd.parameters("@user") = CurrentUser
     End With
     'Execute the command.
@@ -4851,7 +4453,7 @@ On Error GoTo errPutInvtIssue
     cmd.parameters("@TRANSNUMB") = Transnumb
     cmd.parameters("@ISSUTO") = cell(3).tag
     cmd.parameters("@SUPPLIERCODE") = Null
-    Select Case frmWarehouse.tag
+    Select Case frmFabrication.tag
         Case "02040500" 'WellToWell
         'Juan 2010-11-30 Modified becasue internal transfer was wrong
         Case "02040700", "02050300" 'InternalTransfer, AdjustmentIssue
@@ -4888,48 +4490,11 @@ Screen.MousePointer = 11
     With CrystalReport1
         .Reset
         reportPATH = repoPATH + "\"
-        Select Case frmWarehouse.tag
-            Case "02040400" 'ReturnFromRepair
-                .ReportFileName = reportPATH & "wareRR.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02050200" 'AdjustmentEntry
-                .ReportFileName = reportPATH & "wareAEIA.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040200" 'WarehouseIssue
-                .ReportFileName = reportPATH & "wareI.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040500" 'WellToWell
-                .ReportFileName = reportPATH & "wareI.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040700" 'InternalTransfer
-                .ReportFileName = reportPATH & "wareI.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02050300" 'AdjustmentIssue
-                .ReportFileName = reportPATH & "wareI.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040600" 'WarehouseToWarehouse
-                .ReportFileName = reportPATH & "wareI.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040100" 'WarehouseReceipt
-                .ReportFileName = reportPATH + "wareR.rpt"
-                .ParameterFields(1) = "NAMESPACE;" + nameSP + ";TRUE"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-            Case "02050400" 'Sales
-                .ReportFileName = reportPATH + "wareSL.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-            Case "02040300" 'Return from Well
-                .ReportFileName = reportPATH & "wareRT.rpt"
-                .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
-                .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
-        End Select
+
+        .ReportFileName = reportPATH & "wareFabrication.rpt"
+        .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
+        .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
+ 
         cnSTRING = Split(cn.ConnectionString, ";")
         For Each text In cnSTRING
             Select Case Left(UCase(text), InStr(text, "="))
@@ -4985,6 +4550,8 @@ End Sub
 
 Private Sub newBUTTON_Click()
 Dim i
+    fabricationFirst = True
+    newFabricatedStock = False
     nodeONtop = 0
     treeFrame.Top = 0
     treeFrame.Refresh
@@ -4994,9 +4561,9 @@ Dim i
     cell(0).Visible = False
     Command3.Enabled = False
     emailButton.Enabled = False
-    Call cleanSTOCKlist
-    Call cleanSUMMARYlist
-    Call hideDETAILS
+    Call fabCleanSTOCKlist
+    Call fabCleanSUMMARYlist
+    Call fabFrmHideDETAILS
     Line2.Visible = False
     'STOCKlist.Top = 1920
     'STOCKlist.Top = 2080
@@ -5026,10 +4593,17 @@ Dim i
     Next
     Call hideREMARKS
     Call CleanFQA
-    Call ChangeMode(False)
+    Call fabChangeMode(False)
+    If frmFabrication.tag = "02040800" Then
+        submitDETAIL.Enabled = False
+        addFinalStock.Visible = True
+        addFinalStock.Enabled = True
+    End If
+    
     remarks = ""
     
-    'frmWarehouse.Height = 8910
+    
+    'frmFabrication.Height = 8910
     Call cell_Click(1)
 End Sub
 
@@ -5053,38 +4627,28 @@ Dim answer, i
                 Exit For
             End If
         Next
-        Select Case frmWarehouse.tag
-            'ReturnFromRepair, WarehouseIssue,WellToWell,InternalTransfer,
-            'AdjustmentIssue,WarehouseToWarehouse,Sales
-            Case "02040400", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
-                .TextMatrix(i, 5) = .TextMatrix(i, 6)
-            Case "02050200" 'AdjustmentEntry
-            'WarehouseIssue
-            Case "02040200"
-                .TextMatrix(i, 6) = .TextMatrix(i, 7)
-            Case "02040100" 'WarehouseReceipt
-        End Select
     End With
     If Tree.Nodes.Count > 0 Then
         If IsNumeric(quantityBOX(totalNode)) Then
             If CDbl(quantityBOX(totalNode)) > 0 Then
                 answer = MsgBox("Are you sure you want to lose last changes?", vbYesNo)
                 If answer = vbYes Then
-                    Call hideDETAILS(True, True, False)
+                    Call fabFrmHideDETAILS(True, True, False)
+                    Call combo_Click(2)
                 End If
             Else
-                hideDETAILS (True)
+                Call fabFrmHideDETAILS(True)
             End If
         Else
-            hideDETAILS (True)
+            Call fabFrmHideDETAILS(True)
         End If
     Else
-        hideDETAILS (True)
+        Call fabFrmHideDETAILS(True)
     End If
     For i = 0 To 2
         grid(i).Visible = False
     Next
-'
+    addFinalStock.Visible = False
 End Sub
 
 Private Sub cell_Click(Index As Integer)
@@ -5166,9 +4730,9 @@ Dim activeARROWS As Boolean
                     Case 27
                         combo(Index).Visible = False
                     Case 40
-                        Call arrowKEYS("down", Index)
+                        Call fabArrowKEYS("down", Index)
                     Case 38
-                        Call arrowKEYS("up", Index)
+                        Call fabArrowKEYS("up", Index)
                     Case Else
                     Dim col
                 End Select
@@ -5313,14 +4877,15 @@ Dim ratio As Integer
                 Next
             End If
             
-            currentformname = frmWarehouse.tag
+            currentformname = frmFabrication.tag
             currentformname1 = currentformname
             
-            Select Case frmWarehouse.tag
-                Case "02040400" 'ReturnFromRepair
+            Select Case frmFabrication.tag
+
+                Case "02040800" 'Fabrication
                     Select Case Index
                         Case 0
-                            sql = "SELECT * FROM Receptions WHERE " _
+                            sql = "SELECT * FROM issues_receptions WHERE " _
                                 & "NAMESPACE = '" + nameSP + "' AND " _
                                 & "Transaction# = '" + cell(0) + "' " _
                                 & "ORDER BY TransactionLine"
@@ -5329,7 +4894,7 @@ Dim ratio As Integer
                                 sql = "SELECT * FROM StockInfo WHERE " _
                                     & "NAMESPACE = '" + nameSP + "' AND " _
                                     & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
+                                    & "Location = '" + cell(2).tag + "' AND qty>0" _
                                     & "ORDER BY Stocknumber"
                             End If
                             cleanDETAILS = True
@@ -5337,173 +4902,8 @@ Dim ratio As Integer
                             .Visible = False
                             Screen.MousePointer = 0
                             Exit Sub
-                    End Select
-                Case "02050200" 'AdjustmentEntry
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Receptions WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                    End Select
-                Case "02040200" 'WarehouseIssue
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then 'Juan 2014-01-05, had to use the new StockInfoForIssue
-                                sql = "SELECT  * " _
-                                    & "FROM StockInfoForIssue WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                        Case 3
-                            Screen.MousePointer = 0
-                            Exit Sub
-                    End Select
-                Case "02040500" 'WellToWell
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                    End Select
-                Case "02040700" 'InternalTransfer
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                    End Select
-                Case "02050300" 'AdjustmentIssue
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                    End Select
-                Case "02040600" 'WarehouseToWarehouse
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                    End Select
-                Case "02040100" 'WarehouseReceipt
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Receptions WHERE QTY1 > 0 AND " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1
-                            cleanDETAILS = True
-                        Case 2
-                            cleanDETAILS = True
-                        Case 3
-                            cleanDETAILS = True
-                        Case 4
-                            'Unlock
-                            Dim imsLock As imsLock.Lock
-                            Set imsLock = New imsLock.Lock
-                            If locked = True Then 'sets locked = true because another user has this record open in edit mode
-                                Call imsLock.Unlock_Row(locked, cn, CurrentUser, frmWarehouse.POrowguid)  'jawdat
-                            End If
-                            
-                            'Lock
-                            Dim ListOfPrimaryControls() As String
-                            Call imsLock.Check_Lock(locked, cn, CurrentUser, Array("", frmWarehouse.cell(4), nameSP, "", "", "", "", ""), currentformname1, POrowguid)
-                            If locked = True Then 'sets locked = true because another user has this record open in edit mode
-                                Screen.MousePointer = 0
-                                Exit Sub 'Exit Edit sub because theres nothing the user can do
-                            Else
-                                locked = True
-                            End If
-                            '----
-                            
-                            sql = "StoredProcedure"
-                            cleanDETAILS = True
-                    End Select
-                Case "02050400" 'Sales
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Issues WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
-                    End Select
-                Case "02040300" 'Return from Well
-                    Select Case Index
-                        Case 0
-                            sql = "SELECT * FROM Receptions WHERE " _
-                                & "NAMESPACE = '" + nameSP + "' AND " _
-                                & "Transaction# = '" + cell(0) + "' " _
-                                & "ORDER BY TransactionLine"
-                        Case 1, 2
-                            If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
-                                    & "NAMESPACE = '" + nameSP + "' AND " _
-                                    & "Company = '" + cell(1).tag + "' AND " _
-                                    & "Location = '" + cell(2).tag + "' " _
-                                    & "ORDER BY Stocknumber"
-                            End If
-                            cleanDETAILS = True
+    
+
                     End Select
             End Select
             If sql = "" Then
@@ -5511,10 +4911,10 @@ Dim ratio As Integer
                 If Index = 0 Then
                     datax.Open sql, cn, adOpenForwardOnly
                     If datax.RecordCount > 0 Then
-                        Call fillTRANSACTION(datax)
+                        Call fabFillTRANSACTION(datax)
                     End If
                 Else
-                    Call cleanSTOCKlist
+                    Call fabCleanSTOCKlist
                     If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
                         If sql = "StoredProcedure" Then
                             t = cell(4)
@@ -5539,7 +4939,7 @@ Dim ratio As Integer
                          
                          If savingLABEL.Visible Then
                          
-                            If frmWarehouse.tag = "02040200" And Index = 2 Then
+                            If frmFabrication.tag = "02040200" And Index = 2 Then
                             
                                     'StockListDuplicate.Visible = True
                                     
@@ -5548,12 +4948,12 @@ Dim ratio As Integer
                             For i = 1 To 4
                                 If cell(i).Visible And cell(i) = "" Then STOCKlist.Enabled = False
                             Next
-                            Call fillSTOCKlist(datax)
+                            Call fabFillSTOCKlist(datax)
                             'detailHEADER.ZOrder 0
                             If savingLABEL.Visible Then
                                 Label3 = "SAVING..."
                                 savingLABEL.Visible = False
-                                If frmWarehouse.tag = "02040200" And Index = 2 Then
+                                If frmFabrication.tag = "02040200" And Index = 2 Then
                                     'StockListDuplicate.Visible = False
                                  End If
                             End If
@@ -5567,10 +4967,10 @@ Dim ratio As Integer
     End With
     If cleanDETAILS Then
         inProgress = False 'Juan 2010-7-22
-        Call fillDETAILlist("", "", "", , , , , ctt)
-        Call unlockBUNCH
+        Call fabFillDETAILlist("", "", "", , , , , ctt)
+        Call fabUnlockBUNCH
     End If
-    Select Case frmWarehouse.tag
+    Select Case frmFabrication.tag
         Case "02040400" 'ReturnFromRepair
         Case "02050200" 'AdjustmentEntry
         Case "02040200" 'WarehouseIssue
@@ -5587,7 +4987,8 @@ Dim ratio As Integer
         Case "02040700" 'InternalTransfer
         Case "02050300" 'AdjustmentIssue
         Case "02040600" 'WarehouseToWarehouse
-        Case "02040100" 'WarehouseReceipt
+        Case "02040800" 'Fabrication
+        Case "02040100" 'WarehouseReceip
             If Index < 4 Then Call cleanSTOCKlist
         Case "02050400" 'Sales
     End Select
@@ -5602,9 +5003,9 @@ Dim ratio As Integer
     End If
         
     If newBUTTON.Enabled = True Then
-        Call ChangeMode(True)
+        Call fabChangeMode(True)
     ElseIf newBUTTON.Enabled = False Then
-        Call ChangeMode(False)
+        Call fabChangeMode(False)
     End If
     emailButton.Enabled = True
     Screen.MousePointer = 0
@@ -5659,7 +5060,7 @@ Dim rights As Boolean
     newBUTTON.Enabled = rights
     
     'Added by Juan (2015/02/13) for Multilingual
-    Call translator.Translate_Forms("frmWarehouse")
+    Call translator.Translate_Forms("frmFabrication")
     '------------------------------------------
     
     Me.Visible = True
@@ -5667,16 +5068,17 @@ Dim rights As Boolean
     Me.Refresh
     userNAMEbox = CurrentUser
     dateBOX = Format(Now, "mm/dd/yyyy")
-    hideDETAILS
-    Call makeLists
+    fabFrmHideDETAILS
+    Call fabMakeLists
     Load grid(1)
     Load grid(2)
     DoEvents
-    Call fillGRID(grid(1), logicBOX(0), 0)
+    Call fabFillGRID(grid(1), logicBOX(0), 0)
     DoEvents
-    Call fillGRID(grid(2), sublocaBOX(0), 0)
-    Call cleanDETAILS
-    Call getEmail
+    Call fabFillGRID(grid(2), sublocaBOX(0), 0)
+    Call fabCleanDETAILS
+    Call fabGetEmail
+    Command5.Enabled = False
 End Sub
 
 Public Sub setCN(conn As ADODB.Connection)
@@ -5685,10 +5087,13 @@ Public Sub setCN(conn As ADODB.Connection)
 End Sub
 Private Sub Form_Load()
 On Error Resume Next
-    'Call translator.Translate_Forms("frmWarehouse")
+    'Call translator.Translate_Forms("frmFabrication")
     Screen.MousePointer = 11
+    fabricationFirst = True
+    stockListRow = 0
+    
     Call lockDOCUMENT(True)
-    frmWarehouse.Caption = frmWarehouse.Caption + " - " + frmWarehouse.tag
+    frmFabrication.Caption = frmFabrication.Caption + " - " + frmFabrication.tag
     Screen.MousePointer = 0
     If Err Then MsgBox "Error: " + Err.description
     'StockListDuplicate.Visible = False
@@ -5697,7 +5102,7 @@ On Error Resume Next
     SSOleDBLocation.columns(0).width = 975
     SSOleDBUsChart.columns(0).width = 1455
     SSOleDBCamChart.columns(0).width = 1455
-    With frmWarehouse
+    With frmFabrication
         .Left = Round((Screen.width - .width) / 2)
         .Top = Round((Screen.Height - .Height) / 2)
     End With
@@ -5857,7 +5262,7 @@ skipExistance = True
                 Set data = getDATA("conditionVALUE", Array(nameSP, priceBOX(i), NEWconditionBOX(i)))
                 If data.RecordCount = 0 Then
                 Else
-                    Select Case frmWarehouse.tag
+                    Select Case frmFabrication.tag
                         Case "02050200" 'AdjustmentEntry
                         Case Else
                             priceBOX(i) = Format(CDbl(data(0)), "0.00")
@@ -5962,7 +5367,15 @@ Private Sub quantityBOX_Click(Index As Integer)
 End Sub
 
 Private Sub quantityBOX_GotFocus(Index As Integer)
-    If Index <> totalNode Then
+Dim doIt As Boolean
+    doIt = False
+    Select Case frmFabrication.tag
+        Case "02040800" 'Fabrication
+            doIt = True
+        Case Else
+            If Index <> totalNode Then doIt = True
+    End Select
+    If doIt Then
         Call whitening
         quantityBOX(Index).backcolor = &H80FFFF
     End If
@@ -5977,13 +5390,23 @@ End Sub
 
 Private Sub quantityBOX_LostFocus(Index As Integer)
     If submitted Then Exit Sub
-    Call quantityBOX_Validate(Index, True)
-    If Index <> totalNode Then quantityBOX(Index).backcolor = vbWhite
+    If frmFabrication.tag <> "02040800" Then
+        Call quantityBOX_Validate(Index, True) 'fabrication
+        If Index <> totalNode Then quantityBOX(Index).backcolor = vbWhite
+    End If
 End Sub
 
 
 Private Sub quantityBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index > 0 And Index <> totalNode Then
+Dim doIt As Boolean
+    doIt = False
+    Select Case frmFabrication.tag
+        Case "02040800" 'Fabrication
+            If Index > 0 Then doIt = True
+        Case Else
+            If Index > 0 And Index <> totalNode Then doIt = True
+    End Select
+    If doIt Then
         If currentBOX <> Index Then Call whitening
         currentBOX = Index
         quantityBOX(Index).backcolor = &H80FFFF
@@ -5995,14 +5418,10 @@ Dim qty, qty2
 On Error Resume Next
     If submitted Then Exit Sub
     With quantityBOX(Index)
-        If Index <> totalNode Then
+        If Index <> totalNode Or frmFabrication.tag = "02040800" Then
             If IsNumeric(.text) Then
                 If CDbl(.text) > 0 Then
-                    If serialStockNumber Then .text = 1
-                    'Juan 2010-6-5
-                    '.text = Format(.text, 0)
-                    .text = Format(.text, "0.00")
-                    'doChanges = False
+                    If serialStockNumber Then .text = "1.00"
                     
                     'Juan 2010-9-4 implementing ratio rather than computer factor
                     If ratioValue > 1 Then
@@ -6010,7 +5429,6 @@ On Error Resume Next
                             qty = CDbl(.text)
                             If qty > 0 Then
                                 Call limitQty(Index)
-                                'If (invoiceBOX(index) <> "" And invoiceBOX(index) <> "invoiceBOX") And qty > CDbl(quantity(index)) Then .text = quantity(index)
                                 qty2 = qty * ratioValue
                                 quantity2BOX(Index).text = Format(qty2, "0.00")
                             Else
@@ -6019,65 +5437,17 @@ On Error Resume Next
                         End If
                     Else
                         Call limitQty(Index)
-                        'If (invoiceBOX(index) <> "" And invoiceBOX(index) <> "invoiceBOX") And CDbl(.text) > CDbl(quantity(index)) Then .text = quantity(index)
                         quantity2BOX(Index).text = .text
                     End If
                     If Err.Number = 340 Then Err.Clear 'if error is about element n doesn't exist it clear errors variables
-                    
-'                    If computerFactorValue > 0 Then
-'                        If IsNumeric(.text) Then
-'                            qty = CDbl(.text)
-'                            If qty > 0 Then
-'                                If Round(computerFactorValue) > 0 Then
-'                                    qty2 = qty * 10000 / computerFactorValue
-'                                Else
-'                                    qty2 = qty / (10000 * computerFactorValue)
-'                                End If
-'                                quantity2BOX(Index).text = Format(qty2, "0.00")
-'                            Else
-'                                quantity2BOX(Index).text = .text
-'                            End If
-'                        End If
-'                    Else
-'                        quantity2BOX(Index).text = .text
-'                    End If
-                    '--------------------
-                    Select Case frmWarehouse.tag
-                        Case "02040100" 'WarehouseReceipt
-                            
-                        Case "02040200" 'WarehouseIssue
-                            
-                        Case "02050200" 'AdjustmentEntry
-                        Case Else
-                            'If CDbl(.text) > CDbl(quantity(Index)) Then .text = quantity(Index)
-                    End Select
                 Else
-                    'Juan 2010-6-5
-                    '.text = "0"
                     .text = "0.00"
-                    '-----------------
                 End If
                     If Err.Number = 0 Then
-                        If isFirstSubmit Then
-                            If frmWarehouse.Tree.Nodes(Index).text = "Pool" Then
-                                Call calculations(True, True, True)
-                            Else
-                                Call calculations(True, True)
-                            End If
-                        Else
-                            Select Case .tag
-                                Case "02040100" 'WarehouseReceipt
-                                    Call calculations(True, True)
-                                Case Else
-                                    Call calculations2(SUMMARYlist.row, Tree.Nodes(Index).text, Index)
-                            End Select
-                        End If
+                        Call calculationsFabrication(True, Index)
                     End If
             Else
-                    'Juan 2010-6-5
-                    '.text = "0"
-                    .text = "0.00"
-                    '-----------------
+                .text = "0.00"
             End If
         End If
         .SelStart = Len(.text)
@@ -6114,8 +5484,8 @@ Dim RowPosition As Integer
         End If
         Call VerifyAddDeleteFQAFromGrid(commodityLABEL, "delete", "", "", "", "", RowPosition)
         Call reNUMBER(SUMMARYlist)
-        Call fillDETAILlist("", "", "", , , , , ctt)
-        'Call updateStockListBalance
+        Call fabFillDETAILlist("", "", "", , , , , ctt)
+        'Call fabUpdateStockListBalance
 'Juan 30-10-2010 this part is not useful any more
 '        With STOCKlist
 '            For i = 1 To .Rows - 1
@@ -6125,7 +5495,7 @@ Dim RowPosition As Integer
 '                End If
 '            Next
 '        End With
-        Call hideDETAILS(True)
+        Call fabFrmHideDETAILS(True)
         .Visible = True
         .ZOrder
     End With
@@ -6391,18 +5761,17 @@ Screen.MousePointer = 11
             If .MouseCol = 0 Then
                 .col = 0
                 If .row > 0 Then
+                    stockListRow = .row
                     pointerCOL = 0
-                    Call markROW(STOCKlist, , ctt)
+                    Call fabMarkROW(STOCKlist, , ctt)
                     hideDETAIL.Visible = True
-                    submitDETAIL.Visible = True
-                    'juan 2012-1-8 commented the line until edition mode works well
-                    'removeDETAIL.Visible = True
+                    'submitDETAIL.Visible = True
                 End If
             End If
         End If
     End With
 Screen.MousePointer = 0
-frmWarehouse.STOCKlist.MousePointer = Screen.MousePointer
+frmFabrication.STOCKlist.MousePointer = Screen.MousePointer
 End Sub
 
 Private Sub STOCKlist_DblClick()
@@ -6413,7 +5782,7 @@ Private Sub STOCKlist_DblClick()
 '            If .text = "?" Then 'Juan 2010-5-25
 '            Else '----
 '                inProgress = True
-'                Call markROW(STOCKlist)
+'                Call fabMarkROW(STOCKlist)
 '            End If '-----
 '            hideDETAIL.Visible = True
 '            submitDETAIL.Visible = True
@@ -6422,28 +5791,28 @@ Private Sub STOCKlist_DblClick()
 '            Me.MousePointer = 0
 '        End If
 '    End With
-'frmWarehouse.STOCKlist.MousePointer = Screen.MousePointer
+'frmFabrication.STOCKlist.MousePointer = Screen.MousePointer
 End Sub
 
 Private Sub stocklist_EnterCell()
 Screen.MousePointer = 11
-    Call selectROW(STOCKlist)
+    Call fabSelectROW(STOCKlist)
 Screen.MousePointer = 0
-frmWarehouse.STOCKlist.MousePointer = Screen.MousePointer
+frmFabrication.STOCKlist.MousePointer = Screen.MousePointer
 End Sub
 
 Private Sub STOCKlist_GotFocus()
     With STOCKlist
         If STOCKlist.Rows > 2 Or Not (STOCKlist.Rows = 2 And STOCKlist.TextMatrix(1, 0) = "") Then
             If .row = 0 And .col = 1 Then .row = 1
-            Call selectROW(STOCKlist)
+            Call fabSelectROW(STOCKlist)
         End If
     End With
 End Sub
 
 Private Sub STOCKlist_LostFocus()
     If STOCKlist.Rows > 2 Or Not (STOCKlist.Rows = 2 And STOCKlist.TextMatrix(1, 0) = "") Then
-        Call selectROW(STOCKlist, True)
+        Call fabSelectROW(STOCKlist, True)
         STOCKlist.tag = 0
     End If
 End Sub
@@ -6451,7 +5820,7 @@ End Sub
 Private Sub STOCKlist_RowColChange()
 '    With STOCKlist
 '        If IsNumeric(.TextMatrix(.row, 0)) Then
-'            Call fillDETAILlist("", "", "")
+'            Call fabFillDETAILlist("", "", "")
 '        Else
 '            Call PREdetails
 '        End If
@@ -6537,17 +5906,17 @@ Public Sub SUMMARYlist_DblClick()
 If newBUTTON.Enabled Then Exit Sub
 Screen.MousePointer = 11
     With SUMMARYlist
-        Select Case frmWarehouse.tag
+        Select Case frmFabrication.tag
             'ReturnFromRepair, AdjustmentEntry,WarehouseIssue,WellToWell,InternalTransfer,
             'AdjustmentIssue,WarehouseToWarehouse,Sales
             Case "02040400", "02050200", "02040200", "02040500", "02040700", "02050300", "02040600", "02050400", "02040300"
-                'Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6))
+                'Call fabFillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6))
                 'Call editSummaryList 'Juan new procedure to edit items: juan 2013-12-28 not working at this point
             Case "02040100" 'WarehouseReceipt
-                'Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 17))
+                'Call fabFillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 17))
                 'Call editSummaryList 'Juan new procedure to edit items juan 2013-12-28 not working at this point
             Case "02050200" 'AdjustmentEntry
-                Call fillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), , .row, , , ctt)
+                Call fabFillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 2), .TextMatrix(.row, 3), , .row, , , ctt)
         End Select
     End With
 Screen.MousePointer = 0
@@ -6556,13 +5925,13 @@ End Sub
 
 Private Sub SUMMARYlist_EnterCell()
     If newBUTTON.Enabled Then Exit Sub
-    Call selectROW(SUMMARYlist)
+    Call fabSelectROW(SUMMARYlist)
 End Sub
 
-Private Function fxLogicFilledIn() As Boolean
+Private Function fabFxLogicFilledIn() As Boolean
 Dim i, n
 
-fxLogicFilledIn = True
+fabFxLogicFilledIn = True
 
 '-----> (gib 10/04) Itirate through all of the node items and for each node which has a
 '       quantity value, make sure that the sub-location(sublocaBOX) is filled in; if it
@@ -6570,7 +5939,7 @@ fxLogicFilledIn = True
 '
 On Error Resume Next
     
-n = frmWarehouse.Tree.Nodes.Count
+n = frmFabrication.Tree.Nodes.Count
 
 For i = 1 To n
     Err.Clear
@@ -6579,7 +5948,7 @@ For i = 1 To n
             Err.Clear
             If logicBOX(i) = "" Or IsNull(logicBOX(i)) = True Then
                 If Err.Number = 0 Then
-                    fxLogicFilledIn = False
+                    fabFxLogicFilledIn = False
                     Exit Function
                 End If
             End If
@@ -6588,10 +5957,10 @@ For i = 1 To n
 Next
 
 End Function
-Private Function fxSubLocFilledIn() As Boolean
+Private Function fabFxSubLocFilledIn() As Boolean
 Dim i, n
 
-fxSubLocFilledIn = True
+fabFxSubLocFilledIn = True
 
 '-----> (gib 10/04) Itirate through all of the node items and for each node which has a
 '       quantity value, make sure that the sub-location(sublocaBOX) is filled in; if it
@@ -6599,7 +5968,7 @@ fxSubLocFilledIn = True
 '
 On Error Resume Next
     
-n = frmWarehouse.Tree.Nodes.Count
+n = frmFabrication.Tree.Nodes.Count
 
 For i = 1 To n
     Err.Clear
@@ -6608,7 +5977,7 @@ For i = 1 To n
             Err.Clear
             If sublocaBOX(i) = "" Or IsNull(sublocaBOX(i)) = True Then
                 If Err.Number = 0 Then
-                    fxSubLocFilledIn = False
+                    fabFxSubLocFilledIn = False
                     Exit Function
                 End If
             End If
@@ -6622,7 +5991,7 @@ Private Function isQtyEntered() As Boolean
 Dim i
 isQtyEntered = True
 On Error GoTo errorHandler
-For i = 1 To frmWarehouse.Tree.Nodes.Count
+For i = 1 To frmFabrication.Tree.Nodes.Count
     Err.Clear
         If Err.Number = 0 Then  'we need to check the error number because this control may not exist for this 'i' value.
             If sublocaBOX(i) = "" Or IsNull(sublocaBOX(i)) = True Then
@@ -6649,8 +6018,9 @@ End Function
 Private Sub submitDETAIL_Click()
 Dim aproved As Boolean
 On Error Resume Next
-Dim i, n, rec, condition, key, conditionCODE, fromlogic, unitCODE
+Dim n, rec, condition, key, conditionCODE, fromlogic, unitCODE, sql
 Dim fromSubLoca As String
+Dim i As Integer
 Dim str As String
 Dim PONumb As String
 Dim lineno As String
@@ -6673,66 +6043,63 @@ askForSubLocation = False
 askForLogic = False
 Dim askForQTy As Boolean
 askForQTy = False
+Dim askForFabricationCost As Boolean
 serialText = ""
 
+For i = 2 To Tree.Nodes.Count
+    Select Case Tree.Nodes(i).key
+        Case "@newStock"
+            If logicBOX(i) = "" Then
+                MsgBox "Logical Warehouse must be entered."
+                Exit Sub
+            End If
+            If sublocaBOX(i) = "" Then
+                MsgBox "Sub-Location must be entered."
+                Exit Sub
+            End If
+            If searchStock(i) = "" Then
+                MsgBox "Please enter new stock number"
+                Exit Sub
+            Else
+                Set datax = New ADODB.Recordset
+                sql = "select stk_stcknumb from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + searchStock(i) + "'"
+                datax.Open sql, cn, adOpenStatic
+                If datax.RecordCount <= 0 Then
+                    MsgBox "Please select an existing stock number"
+                    Exit Sub
+                End If
+            End If
+        Case "@processCost"
+            If controlExists("fabCostBOX", i) And CDbl(fabCostBOX(i)) <= 0 Then
+                MsgBox "Fabrication cost should be bigger than zero."
+                Exit Sub
+            End If
+        Case Else
+            If controlExists("quantityBOX", i) Then
+                If CDbl(quantityBOX(i)) <= 0 Then
+                    MsgBox "A qty bigger than zero must be entered."
+                    Exit Sub
+                End If
+            End If
+    End Select
+    askForSubLocation = False
+    askForLogic = False
+    askForQTy = False
+Next
 
-Select Case frmWarehouse.tag
-    Case "02040400" 'ReturnFromRepair
-    Case "02050200" 'AdjustmentEntry
-        If UCase(Tree.Nodes.Item(2).text) = "SERIAL:" Or UCase(Tree.Nodes.Item(2).text) = "SERIAL" Or RTrim(Tree.Nodes.Item(2).text) = "" Then
-            MsgBox "Please enter a valid serial #"
-            Call Tree_Click
-            Exit Sub
-        End If
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02040200" 'WarehouseIssue
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02040500" 'WellToWell
-    Case "02040700" 'InternalTransfer
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02050300" 'AdjustmentIssue
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02040600" 'WarehouseToWarehouse
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02040100" 'WarehouseReceipt
-        If Tree.Nodes.Item(2).text = "Serial:" Or RTrim(Tree.Nodes.Item(2).text) = "" Then
-            MsgBox "Please enter a valid serial #"
-            Call Tree_Click
-            Exit Sub
-        End If
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-    Case "02050400" 'Sales
-    Case "02040300" 'Return from Well
-        askForSubLocation = True
-        askForLogic = True
-        askForQTy = True
-End Select
 
 If askForLogic Then
-    If Not fxLogicFilledIn() Then
+    If Not fabFxLogicFilledIn() Then
         MsgBox "Logical Warehouse must be entered."
         Exit Sub
     End If
 End If
 If askForSubLocation Then
-    If Not fxSubLocFilledIn() Then
+    If Not fabFxSubLocFilledIn() Then
         MsgBox "Sub-Location must be entered."
         Exit Sub
     End If
 End If
-
 If isFirstSubmit Then
 Else
     If askForQTy Then
@@ -6744,517 +6111,38 @@ Else
 End If
 
 summaryValueFirstTime = True
+totalNode = Tree.Nodes.Count
     If IsNumeric(quantityBOX(totalNode)) Then
-        If CDbl(quantityBOX(totalNode)) > 0 Or frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-            Select Case frmWarehouse.tag
-                Case "02040400" 'ReturnFromRepair
-                    aproved = True
-                    For i = 1 To Tree.Nodes.Count
-                        If i <> totalNode Then
-                            If IsNumeric(repairBOX(i)) Then
-                                If Err.Number = 0 Then
-                                    If CDbl(repairBOX(i)) = 0 Then
-                                        aproved = False
-                                        Exit For
-                                    Else
-                                        Exit For
-                                    End If
-                                Else
-                                    Err.Clear
-                                End If
-                            Else
-                                If repairBOX(i) = "" Then
-                                    If Err.Number = 0 Then
-                                        aproved = False
-                                        Exit For
-                                    Else
-                                        Err.Clear
-                                    End If
-                                Else
-                                    aproved = False
-                                    Exit For
-                                End If
-                            End If
-                        End If
-                    Next
-                    If Not aproved Then
-                        MsgBox "Invalid Repair Cost"
-                        repairBOX(i).SelStart = 0
-                        repairBOX(i).SelLength = Len(repairBOX(i))
-                        repairBOX(i).SetFocus
-                        Exit Sub
-                    End If
-                    If cell(5) = "" Then
-                        MsgBox "Invalid New Commodity"
-                        cell(5).SetFocus
-                        Exit Sub
-                    End If
-                Case "02050200" 'AdjustmentEntry
-                Case "02040200" 'WarehouseIssue
-                Case "02040500" 'WellToWell
-                Case "02040700" 'InternalTransfer
-                Case "02050300" 'AdjustmentIssue
-                Case "02040600" 'WarehouseToWarehouse
-                Case "02040100" 'WarehouseReceipt
-                Case "02050400" 'Sales
-                Case "02040300" 'Return from Well
-            End Select
-            
+        If CDbl(quantityBOX(totalNode)) > 0 Or frmFabrication.tag = "02050200" Then 'AdjustmentEntry
             With SUMMARYlist
-'Juan 2010-7-4
-'                    For i = .Rows - 1 To 1 Step -1
-'                        If .TextMatrix(i, 1) = commodityLABEL Then
-'                            If STOCKlist.text = "?" Then
-'                                If .TextMatrix(i, 2) <> "Pool" Then
-'                                    serialText = Tree.Nodes(Tree.Nodes.Count - 1).text
-'                                    If InStr(serialText, "#") > 0 Then
-'                                        serialText = Mid(nodeText, InStrRev(nodeText, "#") + 3)
-'                                        If .TextMatrix(i, 2) = serialText Then
-'                                            If .Rows > 2 Then
-'                                                .RemoveItem i
-'                                            Else
-'                                                .TextMatrix(1, 0) = ""
-'                                                .TextMatrix(1, 1) = ""
-'                                            End If
-'                                        End If
-'                                    End If
-'                                End If
-'                            Else
-'                                If .Rows > 2 Then
-'                                    .RemoveItem i
-'                                Else
-'                                    .TextMatrix(1, 0) = ""
-'                                    .TextMatrix(1, 1) = ""
-'                                End If
-'                            End If
-'                        End If
-'                    Next
-'-----------------------
-
                 If Tree.Nodes.Count > 3 Then
                     'differenceWithTable = 1 'Juan 2010-10-3 this was provocating a bug
                     differenceWithTable = 0
-                    startingPoint = 3
-                    Select Case frmWarehouse.tag
-                        Case "02040400" 'ReturnFromRepair
-                        Case "02050200" 'AdjustmentEntry
-                            startingPoint = 2
-                        Case "02040200" 'WarehouseIssue
-                        Case "02040500" 'WellToWell
-                        Case "02040700" 'InternalTransfer
-                        Case "02050300" 'AdjustmentIssue
-                        Case "02040600" 'WarehouseToWarehouse
-                        Case "02040100" 'WarehouseReceipt
-                        Case "02050400" 'Sales
-                        Case "02040300" 'Return from Well
-                    End Select
+                    startingPoint = 2
                 Else
                     startingPoint = 2
                     differenceWithTable = 0
-                    Select Case frmWarehouse.tag
-                        Case "02040400" 'ReturnFromRepair
-                        Case "02050200" 'AdjustmentEntry
-                        Case "02040200" 'WarehouseIssue
-                        Case "02040500" 'WellToWell
-                        Case "02040700" 'InternalTransfer
-                        Case "02050300" 'AdjustmentIssue
-                        Case "02040600" 'WarehouseToWarehouse
-                        Case "02040100" 'WarehouseReceipt
-                        Case "02050400" 'Sales
-                        Case "02040300" 'Return from Well
-                    End Select
                 End If
-                For i = startingPoint To Tree.Nodes.Count - 1
-                    If i <> totalNode + differenceWithTable Then
-                        key = Tree.Nodes(i - IIf(differenceWithTable > 0, 1, 0)).key
-                        rowKey = Tree.Nodes(i).key
-                        nodeText = Tree.Nodes(i + differenceWithTable).text
-                        condition = Mid(key, InStr(key, "-") + 1, InStr(key, "{{") - InStr(key, "-") - 1)
-                        conditionCODE = Left(key, 2)
-                        If InStr(conditionCODE, "{") > 0 Or InStr(conditionCODE, "-") Then conditionCODE = Left(conditionCODE, 1)
-                        Err.Clear
-                        Dim alreadyPosition As Integer
-                        If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                            fromSubLoca = "GENERAL"
-                            condition = NEWconditionBOX(i - differenceWithTable)
-                            conditionCODE = condition
-                        Else
-                            fromSubLoca = Mid(key, InStr(key, "{{") + 2)
-                        End If
 
-                        If isFirstSubmit Then
-                        Else
-                            Dim serialNumber
-                            If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                serialNumber = pieceText
-                                alreadyPosition = locateLine(commodityLABEL, fromSubLoca, 2) 'serial
-                            Else
-                                alreadyPosition = locateLine(commodityLABEL, fromSubLoca)
-                            End If
-                        End If
-                        If positionBox(i - differenceWithTable) = "" And alreadyPosition = 0 Then
-                            If Val(quantityBOX(i - differenceWithTable)) > 0 Then
-                                Dim Message
-                                If Val(quantity(i - differenceWithTable)) = Val(quantityBOX(i - differenceWithTable)) Then
-                                    Message = "This Receipt PO Item valuation is done with Supplier invoice item values"
-                                End If
-'                                If Val(quantity(i - differenceWithTable)) = Val(quantityBOX(i - differenceWithTable)) Then
-'                                    message = "This Receipt valuation is done with Supplier invoice Item values"
-'                                End If
-'                            "This PO Item has already been received.Please continue"
-                            
-                            
-                            
-                            
-                                If Err.Number = 0 Then
-                                    rec = "" + vbTab
-                                    rec = rec + commodityLABEL + vbTab
-                                    'If InStrRev(key, "#") > 0 Then  ' Juan 2010-04-21 change for the below one
-                                    If InStrRev(nodeText, "#") > 0 Then
-                                        'Juan 2010-4-21
-                                        'rec = rec + Mid(key, InStrRev(key, "#") + 1) + vbTab
-                                        'pieceText = Mid(rowKey, 2)
-                                        pieceText = Mid(nodeText, InStrRev(nodeText, "#") + 3)
-                                        '---------------------
-                                    Else
-                                        pieceText = "Pool"
-                                    End If
-                                    serialText = pieceText
-                                    'rec = rec + pieceText + vbTab
-                                    rec = rec + serialText + vbTab
-                                    rec = rec + condition + vbTab
-                                    rec = rec + Format(priceBOX(i - differenceWithTable), "0.00") + vbTab
-                                    
-                                    
-                                    
-                                    rec = rec + descriptionLABEL + vbTab
-                                    rec = rec + unitLABEL(0) + vbTab
-                                    rec = rec + quantityBOX(i - differenceWithTable) + vbTab
-                                    rec = rec + Format(i) + vbTab
-                                    fromlogic = Mid(key, InStr(key, "{{") + 2)
-                                    If InStr(fromlogic, "Serial") > 0 Then
-                                        If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Then  'Return from Well, 'WarehouseIssue
-                                            fromlogic = Left(fromlogic, InStr(fromlogic, "{{") - 1)
-                                        Else
-                                            fromlogic = "GENERAL"
-                                        End If
-                                    Else
-                                        If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                            fromlogic = "GENERAL"
-                                        Else
-                                            fromlogic = Left(fromlogic, InStr(fromlogic, "{{") - 1)
-                                        End If
-                                    End If
-                                    rec = rec + fromlogic + vbTab
-                                    If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                        fromSubLoca = "GENERAL"
-                                    Else
-                                        fromSubLoca = Mid(key, InStr(key, "{{") + 2)
-                                        If InStr(fromSubLoca, "{{") > 0 Then
-                                            fromSubLoca = Mid(fromSubLoca, InStr(fromSubLoca, "{{") + 2)
-                                            If InStr(fromSubLoca, "{{#") > 0 Then
-                                                fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "#") - 3)
-                                            Else
-                                                If InStr(fromSubLoca, "Serial") > 0 Then
-                                                    If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Then  'Return from Well, 'WarehouseIssue
-                                                        fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 1)
-                                                    Else
-                                                        fromSubLoca = "GENERAL"
-                                                    End If
-                                                Else
-                                                    fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 2)
-                                                End If
-                                            End If
-                                        End If
-                                    End If
-                                    rec = rec + fromSubLoca + vbTab
-                                    rec = rec + logicBOX(i - differenceWithTable).tag + vbTab 'Juan 2014-12-04, it was text but changed to tag
-                                    rec = rec + sublocaBOX(i - differenceWithTable).tag + vbTab 'Juan 2014-12-04, it was text but changed to tag
-                                    rec = rec + NEWconditionBOX(i - differenceWithTable) + vbTab
-                                    rec = rec + NEWconditionBOX(i - differenceWithTable).ToolTipText + vbTab
-                                    rec = rec + unitBOX(i)
-                                    .addITEM rec
-                                    Dim qtyArrayTxt, subLocationArrayTxt As String
-                                    qtyArrayTxt = ""
-                                    Dim counter
-                                    For counter = 0 To UBound(qtyArray())
-                                        qtyArrayTxt = qtyArrayTxt + Format(qtyArray(counter))
-                                    Next
-                                    subLocationArrayTxt = Join(subLocationArray())
-                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
-                                    If summaryValueFirstTime And summaryValues.TextMatrix(1, 0) + summaryValues.TextMatrix(1, 1) + summaryValues.TextMatrix(1, 2) = "" Then
-                                        summaryValues.RemoveItem (1)
-                                        summaryValueFirstTime = False
-                                    End If
-                                    'Juan 2010-9-4 implementing ratio rather than computer
-                                    computerFactorValue = ImsDataX.ComputingFactor(nameSP, commodityLABEL, cn) 'deprecated
-                                    .TextMatrix(.Rows - 1 - differenceWithTable, 16) = Format(computerFactorValue) 'deprecated
-                                    .TextMatrix(.Rows - 1 - differenceWithTable, 23) = Format(quantity2BOX(i - differenceWithTable)) 'deprecated
-                                    .TextMatrix(.Rows - 1 - differenceWithTable, 22) = poItemBox(i - differenceWithTable)
-                                    Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
-                                    If datax.RecordCount > 0 Then
-                                        ratioValue = datax!realratio
-                                    Else
-                                        ratioValue = 1
-                                    End If
-                                    
-                                    'Juan 2014-8-28 fixing new ratio method
-                                    Select Case frmWarehouse.tag
-                                        Case "02040100" 'WarehouseReceipt
-                                            Dim sql As String
-                                            Set datax = New ADODB.Recordset
-                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
-                                                "and invd_invcnumb = '" + invoiceBOX(i) + "' " + _
-                                                "and invd_liitnumb = '" + Trim(invoiceLineBOX(i)) + "'"
-                                            datax.Open sql, cn, adOpenStatic
-                                            If datax.RecordCount > 0 Then
-                                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
-                                            End If
-                                        Case Else
-                                    End Select
-                                    
-                                    .TextMatrix(.Rows - 1 - differenceWithTable, 25) = Format(ratioValue)
-                                    '----------------------------------
-                                    
-                                    'SSOleDBFQA.addITEM commodityLABEL
-                                    
-                                    If frmWarehouse.tag = "02040100" Then
-                                        PONumb = cell(4).tag
-                                        lineno = SUMMARYlist.TextMatrix(.Rows - 1, 8)
-                                    Else
-                                        PONumb = ""
-                                        lineno = ""
-                                    End If
-                                    
-                                    quant = SUMMARYlist.TextMatrix(.Rows - 1, 7)
-                                    
-                                    Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(commodityLABEL))
-                                    
-                                    'Juan 2011-11-13 to validate fqa header and details
-                                    Select Case frmWarehouse.tag
-                                        'Case "02040400" 'ReturnFromRepair
-                                        'Case "02050200" 'AdjustmentEntry
-                                        Case "02040200" 'WarehouseIssue
-                                            Call VerifyAddDeleteFQAFromGrid(commodityLABEL, "insert", NEWconditionBOX(i - differenceWithTable).text, PONumb, lineno, quant)
-                                        'Case "02040500" 'WellToWell
-                                        'Case "02040700" 'InternalTransfer
-                                        'Case "02050300" 'AdjustmentIssue
-                                        'Case "02040600" 'WarehouseToWarehouse
-                                        Case "02040100" 'WarehouseReceipt
-                                            Call VerifyAddDeleteFQAFromGrid(commodityLABEL, "insert", NEWconditionBOX(i - differenceWithTable).text, PONumb, lineno, quant, , True)
-                                        'Case "02050400" 'Sales
-                                        'Case "02040300" 'Return from Well
-                                        Case Else
-                                            Call VerifyAddDeleteFQAFromGrid(commodityLABEL, "insert", NEWconditionBOX(i - differenceWithTable).text, PONumb, lineno, quant)
-                                    End Select
+                Call fabSubmit
 
-
-                                    
-                                    
-                                    Select Case frmWarehouse.tag
-                                        Case "02040400" 'ReturnFromRepair
-                                            .TextMatrix(.Rows - 1, 17) = repairBOX(i)
-                                            .TextMatrix(.Rows - 1, 18) = cell(5)
-                                            .TextMatrix(.Rows - 1, 19) = newDESCRIPTION
-                                        Case "02050200" 'AdjustmentEntry
-                                            .TextMatrix(.Rows - 1, 19) = condition
-                                        Case "02040200" 'WarehouseIssue
-                                            .TextMatrix(.Rows - 1, 17) = quantity(i)
-                                        Case "02040500" 'WellToWell
-                                            .TextMatrix(.Rows - 1, 17) = Left(Tree.Nodes(i).key, 2)
-                                        Case "02040700" 'InternalTransfer
-                                            .TextMatrix(.Rows - 1, 17) = quantity(i)
-                                        Case "02050300" 'AdjustmentIssue
-                                        Case "02040600" 'WarehouseToWarehouse
-                                        Case "02040100" 'WarehouseReceipt
-                                            .TextMatrix(.Rows - 1, 17) = quantity(i - differenceWithTable)
-                                            'Juan 2010-7-1
-                                            '.TextMatrix(.Rows - 1, 22) = repairBOX(i)
-                                            'It is necessary to switch between 21&23 to leave first the unit than the qty
-                                            .TextMatrix(.Rows - 1, 23) = Format(quantity2BOX(i - differenceWithTable), "0.00")
-                                            .TextMatrix(.Rows - 1, 21) = unit2BOX(i - differenceWithTable)
-                                            .ColWidth(21) = 1200
-                                            .ColWidth(23) = 1200
-                                            .TextMatrix(.Rows - 1, 24) = cell(4).tag 'PO num
-                                            '--------------------
-                                        Case "02050400" 'Sales
-                                        Case "02040300" 'Return from Well
-                                            .TextMatrix(.Rows - 1, 17) = quantity(i - differenceWithTable)
-                                    End Select
-                                    'Juan 2010 - 4 - 28
-                                    .TextMatrix(.Rows - 1, 20) = Left(Tree.Nodes(i).key, 2)
-                                    .TextMatrix(.Rows - 1, 20) = conditionCODE
-                                    '---------------------------
-                                Else
-                                    Err.Clear
-                                End If
-                            End If
-                        Else 'if position <> ""... means editing
-                                If Err.Number = 0 Then
-                                    Dim position
-                                    If alreadyPosition > 0 Then
-                                        position = alreadyPosition
-                                    Else
-                                        position = Val(positionBox(i - differenceWithTable))
-                                    End If
-                                    .TextMatrix(position, 1) = commodityLABEL
-                                    If InStrRev(nodeText, "#") > 0 Then
-                                        pieceText = Mid(nodeText, InStrRev(nodeText, "#") + 3)
-                                    Else
-                                        pieceText = "Pool"
-                                    End If
-                                    serialText = pieceText
-                                    .TextMatrix(position, 2) = serialText
-                                    .TextMatrix(position, 3) = condition
-                                    .TextMatrix(position, 4) = Format(priceBOX(i - differenceWithTable), "0.00")
-                                    .TextMatrix(position, 5) = descriptionLABEL
-                                    .TextMatrix(position, 6) = unitBOX(i).text
-                                    .TextMatrix(position, 7) = quantityBOX(i - differenceWithTable)
-                                    .TextMatrix(position, 8) = Format(i)
-                                    fromlogic = Mid(key, InStr(key, "{{") + 2)
-                                    If InStr(fromlogic, "Serial") > 0 Then
-                                        If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                            fromlogic = Left(fromlogic, InStr(fromlogic, "{{") - 1)
-                                        Else
-                                            fromlogic = "GENERAL"
-                                        End If
-                                    Else
-                                        If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                            fromlogic = "GENERAL"
-                                        Else
-                                            fromlogic = Left(fromlogic, InStr(fromlogic, "{{") - 1)
-                                        End If
-                                    End If
-                                    .TextMatrix(position, 9) = fromlogic
-                                    If frmWarehouse.tag = "02050200" Then 'AdjustmentEntry
-                                        fromSubLoca = "GENERAL"
-                                    Else
-                                        fromSubLoca = Mid(key, InStr(key, "{{") + 2)
-                                        If InStr(fromSubLoca, "{{") > 0 Then
-                                            fromSubLoca = Mid(fromSubLoca, InStr(fromSubLoca, "{{") + 2)
-                                            If InStr(fromSubLoca, "#") > 0 Then
-                                                fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "#") - 1)
-                                            Else
-                                                If InStr(fromSubLoca, "Serial") > 0 Then
-                                                    If frmWarehouse.tag = "02040300" Or frmWarehouse.tag = "02040200" Then  'Return from Well, 'WarehouseIssue
-                                                        fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 2)
-                                                    Else
-                                                        fromSubLoca = "GENERAL"
-                                                    End If
-                                                Else
-                                                    fromSubLoca = Left(fromSubLoca, InStr(fromSubLoca, "{{") - 2)
-                                                End If
-                                            End If
-                                        End If
-                                    End If
-                                    .TextMatrix(position, 10) = fromSubLoca
-                                    .TextMatrix(position, 11) = logicBOX(i - differenceWithTable)
-                                    .TextMatrix(position, 12) = sublocaBOX(i - differenceWithTable)
-                                    .TextMatrix(position, 13) = NEWconditionBOX(i - differenceWithTable)
-                                    .TextMatrix(position, 14) = NEWconditionBOX(i - differenceWithTable).ToolTipText
-                                    .TextMatrix(position, 15) = unitLABEL(i - differenceWithTable)
-                                    computerFactorValue = ImsDataX.ComputingFactor(nameSP, commodityLABEL, cn)
-                                    .TextMatrix(position, 16) = Format(computerFactorValue)
-                                    .TextMatrix(position, 23) = Format(quantity2BOX(i - differenceWithTable), "0.00")
-                                    '.TextMatrix(position, 21) = Format(quantity2BOX(i - differenceWithTable))
-                                    
-                                    .TextMatrix(position, 22) = poItemBox(i - differenceWithTable)
-                                    .TextMatrix(position, 21) = unit2BOX(i)
-                                    '.TextMatrix(position, 23) = unit2BOX(i)
-                                    If frmWarehouse.tag = "02040100" Then
-                                        PONumb = cell(4).tag
-                                        lineno = SUMMARYlist.TextMatrix(.Rows - 1, 8)
-                                    Else
-                                        PONumb = ""
-                                        lineno = ""
-                                    End If
-                                    'Juan 2010-9-5 Added to have new ratio functionality
-                                    Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
-                                    If datax.RecordCount > 0 Then
-                                        ratioValue = datax!realratio
-                                    Else
-                                        ratioValue = 1
-                                    End If
-                                    'Juan 2014-8-28 new version of calculation based on invoice if exists
-                                    Select Case frmWarehouse.tag
-                                        Case "02040100" 'WarehouseReceipt
-                                            Set datax = New ADODB.Recordset
-                                            sql = "select * from invoicedetl where invd_npecode = '" + nameSP + "'  " + _
-                                                "and invd_invcnumb = '" + invoiceBOX(i) + "' " + _
-                                                "and invd_liitnumb = '" + Trim(invoiceLineBOX(i)) + "'"
-                                            datax.Open sql, cn, adOpenStatic
-                                            If datax.RecordCount > 0 Then
-                                                ratioValue = datax!invd_secoreqdqty / datax!invd_primreqdqty
-                                            End If
-                                        Case Else
-                                    End Select
-                                    datax.Close
-                    '----------------------
-                                    .TextMatrix(position, 25) = Format(ratioValue)
-                                    '---------------------
-                                    
-                                    quant = SUMMARYlist.TextMatrix(.Rows - 1, 7)
-                                    Select Case frmWarehouse.tag
-                                        Case "02040400" 'ReturnFromRepair
-                                            .TextMatrix(position, 17) = repairBOX(i)
-                                            .TextMatrix(position, 18) = cell(5)
-                                            .TextMatrix(position, 19) = newDESCRIPTION
-                                        Case "02050200" 'AdjustmentEntry
-                                        Case "02040200" 'WarehouseIssue
-                                        Case "02040500" 'WellToWell
-                                            .TextMatrix(position, 17) = Left(Tree.Nodes(i).key, 2)
-                                        Case "02040700" 'InternalTransfer
-                                        Case "02050300" 'AdjustmentIssue
-                                        Case "02040600" 'WarehouseToWarehouse
-                                        Case "02040100" 'WarehouseReceipt
-                                            .TextMatrix(position, 17) = quantity(i)
-                                            .TextMatrix(position, 24) = PONumb
-                                            'Juan 2010-8-19
-                                            ' It is necessary to switch between 21 & 23
-                                            .TextMatrix(position, 23) = Format(quantity2BOX(i - differenceWithTable), "0.00")
-                                            .TextMatrix(position, 21) = unit2BOX(i)
-                                            '---------------------
-                                        Case "02050400" 'Sales
-                                        Case "02040300" 'Return from Well
-                                    End Select
-                                    .TextMatrix(position, 20) = conditionCODE
-                                Else
-                                    Err.Clear
-                                End If
-                        End If
-                    End If
-                Next
                 If .Rows > 2 And .TextMatrix(1, 0) = "" Then .RemoveItem 1
                 Call reNUMBER(SUMMARYlist)
                 .RowHeight(.Rows - 1) = .RowHeight(1)
             End With
             If serialText = "" Or UCase(serialText) = "POOL" Then
-                Call hideDETAILS(False, , True)
+                Call fabFrmHideDETAILS(False, , True)
             Else
-                'Call hideDETAILS(False, True, True) 'juan 2012-3-10
-                Call hideDETAILS(False, , True)
+                'Call fabFrmHideDETAILS(False, True, True) 'juan 2012-3-10
+                Call fabFrmHideDETAILS(False, , True)
             End If
             Exit Sub
         End If
+        Command5.Enabled = True
     End If
-    Select Case frmWarehouse.tag
-        Case "02040400" 'ReturnFromRepair
-            MsgBox "Please enter the quantity you want to return from repair"
-        Case "02050200" 'AdjustmentEntry
-        Case "02040200" 'WarehouseIssue
-            MsgBox "Please enter the quantity you want to issue of this commodity"
-        Case "02040500" 'WellToWell
-        Case "02040700" 'InternalTransfer
-        Case "02050300" 'AdjustmentIssue
-        Case "02040600" 'WarehouseToWarehouse
-        Case "02040100" 'WarehouseReceipt
-        Case "02050400" 'Sales
-        Case "02040300" 'Return from Well
-    End Select
     grid(0).Visible = False
     grid(1).Visible = False
     grid(2).Visible = False
-'    grid(3).Visible = False
 End Sub
 
 Private Sub TextLINE_KeyPress(KeyAscii As Integer)
@@ -7414,12 +6302,12 @@ Dim n
         n = .SelectedItem.Index
         If n = totalNode Then
             If nodeSEL <> totalNode Then
-                quantity(totalNode).backcolor = &H800000
-                quantity(totalNode).ForeColor = vbWhite
+               ' quantity(totalNode).backcolor = &H800000
+                'quantity(totalNode).ForeColor = vbWhite
             End If
         Else
             'Juan 2010-5-29
-            Select Case frmWarehouse.tag
+            Select Case frmFabrication.tag
                 Case "02040100", "02050200"  'WarehouseReceipt, AdjustmentEntry
                     n = InStr(.SelectedItem.key, "{{Serial")
                     If n > 0 Then
@@ -7448,7 +6336,7 @@ On Error Resume Next
     With Tree
         nodeSEL = .SelectedItem.Index
         If nodeSEL > 0 Then
-            quantity(totalNode).backcolor = &HC0C0C0
+            'quantity(totalNode).backcolor = &HC0C0C0
             quantity(totalNode).ForeColor = vbBlack
             If nodeSEL <> totalNode Then
                 quantity(nodeSEL).backcolor = vbWhite
@@ -8540,7 +7428,7 @@ Err.Clear
 
 End Function
 
-Public Function ChangeMode(ReadOnly As Boolean)
+Public Function fabChangeMode(ReadOnly As Boolean)
 
 SSOleDBFQA.Enabled = Not ReadOnly
 

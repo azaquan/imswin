@@ -47,6 +47,8 @@ Public Property Let cPwd(ByRef p As String)
 End Property
 Function getName(var) As String
     Select Case var
+        Case Fabrication
+            getName = "Fabrication"
         Case ReturnFromRepair
             getName = "ReturnFromRepair"
         Case AdjustmentEntry
@@ -151,52 +153,55 @@ Screen.MousePointer = 11
                 tag = "02040800"
                 
                 'cell 0
-                .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
-                .matrix.TextMatrix(1, 0) = 1
-                .matrix.TextMatrix(2, 0) = "ir_trannumb"
-                .matrix.TextMatrix(3, 0) = "ir_trannumb"
-                .matrix.TextMatrix(4, 0) = "ir_trannumb"
-                .matrix.TextMatrix(5, 0) = "0"
-                .matrix.TextMatrix(6, 0) = nameSP + ", @1, F"
-                .matrix.TextMatrix(7, 0) = ""
-                .matrix.TextMatrix(9, 0) = "1200"
-                .matrix.TextMatrix(10, 0) = 0
+                frmFabrication.matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
+                frmFabrication.matrix.TextMatrix(1, 0) = 1
+                frmFabrication.matrix.TextMatrix(2, 0) = "ir_trannumb"
+                frmFabrication.matrix.TextMatrix(3, 0) = "ir_trannumb"
+                frmFabrication.matrix.TextMatrix(4, 0) = "ir_trannumb"
+                frmFabrication.matrix.TextMatrix(5, 0) = "0"
+                frmFabrication.matrix.TextMatrix(6, 0) = nameSP + ", @1, F"
+                frmFabrication.matrix.TextMatrix(7, 0) = ""
+                frmFabrication.matrix.TextMatrix(9, 0) = "1200"
+                frmFabrication.matrix.TextMatrix(10, 0) = 0
                                 
                 'cell 2
-                .matrix.TextMatrix(0, 2) = "Get_Location2"
-                .matrix.TextMatrix(1, 2) = 2
-                .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
-                .matrix.TextMatrix(3, 2) = "loc_name"
-                .matrix.TextMatrix(4, 2) = "loc_locacode"
-                .matrix.TextMatrix(5, 2) = "0, 0"
-                .matrix.TextMatrix(6, 2) = "FABRICA, TRUE"
-                .matrix.TextMatrix(7, 2) = ""
-                .matrix.TextMatrix(9, 2) = "4000, 1000"
-                .matrix.TextMatrix(10, 2) = 1
+                frmFabrication.matrix.TextMatrix(0, 2) = "Get_Location2"
+                frmFabrication.matrix.TextMatrix(1, 2) = 2
+                frmFabrication.matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
+                frmFabrication.matrix.TextMatrix(3, 2) = "loc_name"
+                frmFabrication.matrix.TextMatrix(4, 2) = "loc_locacode"
+                frmFabrication.matrix.TextMatrix(5, 2) = "0, 0"
+                frmFabrication.matrix.TextMatrix(6, 2) = "FABRICA, TRUE"
+                frmFabrication.matrix.TextMatrix(7, 2) = ""
+                frmFabrication.matrix.TextMatrix(9, 2) = "4000, 1000"
+                frmFabrication.matrix.TextMatrix(10, 2) = 1
                 
                 '.Label(2).Caption = "From"
-                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
+                frmFabrication.label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
+
                 
                 'cell 3
-                .matrix.TextMatrix(0, 3) = "Get_Location2"
-                .matrix.TextMatrix(1, 3) = 2
-                .matrix.TextMatrix(2, 3) = "loc_name, loc_locacode"
-                .matrix.TextMatrix(3, 3) = "loc_name"
-                .matrix.TextMatrix(4, 3) = "loc_locacode"
-                .matrix.TextMatrix(5, 3) = "0, 0"
-                .matrix.TextMatrix(6, 3) = "BASE, TRUE"
-                .matrix.TextMatrix(7, 3) = ""
-                .matrix.TextMatrix(9, 3) = "4000, 1000"
-                .matrix.TextMatrix(10, 3) = 1
+                frmFabrication.matrix.TextMatrix(0, 3) = "Get_Location2"
+                frmFabrication.matrix.TextMatrix(1, 3) = 2
+                frmFabrication.matrix.TextMatrix(2, 3) = "loc_name, loc_locacode"
+                frmFabrication.matrix.TextMatrix(3, 3) = "loc_name"
+                frmFabrication.matrix.TextMatrix(4, 3) = "loc_locacode"
+                frmFabrication.matrix.TextMatrix(5, 3) = "0, 0"
+                frmFabrication.matrix.TextMatrix(6, 3) = "BASE, TRUE"
+                frmFabrication.matrix.TextMatrix(7, 3) = ""
+                frmFabrication.matrix.TextMatrix(9, 3) = "4000, 1000"
+                frmFabrication.matrix.TextMatrix(10, 3) = 1
                 
                 '.Label(3).Caption = "To Warehouse"
-                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
-                .label(3).Visible = True
-                .cell(3).Visible = True
+                frmFabrication.label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
+                frmFabrication.label(3).Visible = True
+                frmFabrication.label(3).ZOrder
+                frmFabrication.cell(3).Visible = True
+                frmFabrication.cell(3).ZOrder
                 
                 'cell 4
-                .label(4).Visible = False
-                .cell(4).Visible = False
+                frmFabrication.label(4).Visible = False
+                frmFabrication.cell(4).Visible = False
                 
             Case ReturnFromRepair
                 title = "Return From Repair"
@@ -683,6 +688,115 @@ Screen.MousePointer = 11
     End With
 Screen.MousePointer = 0
 End Sub
+Public Sub Loading3(transaction As kindTRANSAC)
+Dim title, tag
+Screen.MousePointer = 11
+
+    Load frmFabrication
+    With frmFabrication
+        .Visible = False
+        'cell 0 (common)
+        .matrix.TextMatrix(0, 0) = "GETISSUENUMBER"
+        .matrix.TextMatrix(1, 0) = 1
+        .matrix.TextMatrix(2, 0) = "ii_trannumb"
+        .matrix.TextMatrix(3, 0) = "ii_trannumb"
+        .matrix.TextMatrix(4, 0) = "ii_trannumb"
+        .matrix.TextMatrix(5, 0) = "0"
+        .matrix.TextMatrix(7, 0) = ""
+        '.matrix.TextMatrix(8, 0) = "Transaction #"
+        .matrix.TextMatrix(8, 0) = getName("cel0")
+        .matrix.TextMatrix(9, 0) = "1200"
+        .matrix.TextMatrix(10, 0) = 0
+        
+        'cell 1 (common)
+        .matrix.TextMatrix(0, 1) = "GETCOMPANY"
+        .matrix.TextMatrix(1, 1) = 2
+        .matrix.TextMatrix(2, 1) = "com_name, com_compcode"
+        .matrix.TextMatrix(3, 1) = "com_name"
+        .matrix.TextMatrix(4, 1) = "com_compcode"
+        .matrix.TextMatrix(5, 1) = "0, 0"
+        .matrix.TextMatrix(6, 1) = nameSP
+        .matrix.TextMatrix(7, 1) = ""
+        '.matrix.TextMatrix(8, 1) = "Company, Code"
+        .matrix.TextMatrix(8, 1) = translator.getIt("cel1")
+        .matrix.TextMatrix(9, 1) = "3000, 1000"
+        .matrix.TextMatrix(10, 1) = 1
+        
+        'cell 2(common)
+        .matrix.TextMatrix(8, 2) = translator.getIt("cel2")
+        
+        'cell 3(common)
+        .matrix.TextMatrix(8, 3) = translator.getIt("cel3")
+        
+                title = "Fabrication"
+                tag = "02040800"
+                
+                'cell 0
+                .matrix.TextMatrix(0, 0) = "GETRECEPTIONNUMBER"
+                .matrix.TextMatrix(1, 0) = 1
+                .matrix.TextMatrix(2, 0) = "ir_trannumb"
+                .matrix.TextMatrix(3, 0) = "ir_trannumb"
+                .matrix.TextMatrix(4, 0) = "ir_trannumb"
+                .matrix.TextMatrix(5, 0) = "0"
+                .matrix.TextMatrix(6, 0) = nameSP + ", @1, F"
+                .matrix.TextMatrix(7, 0) = ""
+                .matrix.TextMatrix(9, 0) = "1200"
+                .matrix.TextMatrix(10, 0) = 0
+                                
+                'cell 2
+                .matrix.TextMatrix(0, 2) = "Get_Location2"
+                .matrix.TextMatrix(1, 2) = 2
+                .matrix.TextMatrix(2, 2) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 2) = "loc_name"
+                .matrix.TextMatrix(4, 2) = "loc_locacode"
+                .matrix.TextMatrix(5, 2) = "0, 0"
+                .matrix.TextMatrix(6, 2) = "FABRICA, TRUE"
+                .matrix.TextMatrix(7, 2) = ""
+                .matrix.TextMatrix(9, 2) = "4000, 1000"
+                .matrix.TextMatrix(10, 2) = 1
+                
+                '.Label(2).Caption = "From"
+                .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
+
+                
+                'cell 3
+                .matrix.TextMatrix(0, 3) = "Get_Location2"
+                .matrix.TextMatrix(1, 3) = 2
+                .matrix.TextMatrix(2, 3) = "loc_name, loc_locacode"
+                .matrix.TextMatrix(3, 3) = "loc_name"
+                .matrix.TextMatrix(4, 3) = "loc_locacode"
+                .matrix.TextMatrix(5, 3) = "0, 0"
+                .matrix.TextMatrix(6, 3) = "BASE, TRUE"
+                .matrix.TextMatrix(7, 3) = ""
+                .matrix.TextMatrix(9, 3) = "4000, 1000"
+                .matrix.TextMatrix(10, 3) = 1
+                
+                '.Label(3).Caption = "To Warehouse"
+                .label(3).Caption = translator.getIt(getName(transaction) + ".Label(3)")
+                .label(3).Visible = True
+                .label(3).ZOrder
+                .cell(3).Visible = True
+                .cell(3).ZOrder
+                
+                'cell 4
+                .label(4).Visible = False
+                .cell(4).Visible = False
+                
+                
+        'Juan (2015-02-16) for Multilingual
+        msg1 = translator.getIt(getName(transaction) + ".title")
+        title = IIf(msg1 = "", title, msg1)
+        '---------------------------------------------
+        
+        .Caption = title + " " + tag
+        .tag = tag
+        Set frm = frmWarehouse
+        .Show 1
+        
+    End With
+Screen.MousePointer = 0
+End Sub
+
 
 '
 '

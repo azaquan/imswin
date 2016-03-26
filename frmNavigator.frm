@@ -5586,7 +5586,7 @@ On Error Resume Next
             Call WH.Loading(WarehouseReceipt)
             'Call MDI_IMS.OpenDLLChild(WarehouseReceipt)
         Case 1
-            Call WH.Loading(Fabrication)
+            Call WH.Loading3(Fabrication)
         Case 2
             Call WH.Loading(WarehouseIssue)
             'Call MDI_IMS.OpenDLLChild(WarehouseIssue)
