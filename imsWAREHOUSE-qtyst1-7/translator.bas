@@ -119,7 +119,7 @@ Public Sub Translate_Reports(repo As String)
     On Error GoTo errSTOP
     
     If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
-        Set data = getDATA("translatorCONTROLS", Array(TR_LANGUAGE, thisrepo.ReportFileName))
+        Set data = getDATA("translatorCONTROLS", Array(TR_LANGUAGE, "wareFabrication.rpt"))
         With data
             If .RecordCount > 0 Then
                 n = 0

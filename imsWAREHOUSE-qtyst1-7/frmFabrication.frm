@@ -790,7 +790,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   56426499
+      Format          =   69861379
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -4511,7 +4511,7 @@ Screen.MousePointer = 11
         Set thisrepo = CrystalReport1
         mainREPORT = True
         Call Translate_Reports(CrystalReport1.ReportFileName)
-        Call Translate_SubReports
+        'Call Translate_SubReports
         .Action = 1
         .Reset
     End With

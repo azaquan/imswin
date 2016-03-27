@@ -157,7 +157,6 @@ On Error Resume Next
                                 Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
                                 Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
-                                .quantity(i) = "1.00"
                         End Select
                         .priceBOX(i).Enabled = False
                         .quantity(i).backcolor = vbWhite
@@ -2061,7 +2060,7 @@ On Error Resume Next
             'Step to update cells on screen-----------------
             If qBoxExists Then
                 If .quantityBOX(i) = 0 Then
-                    .quantity(i) = originalQty
+                    .quantity(i) = Format(originalQty, "0.00")
                 Else
                     .quantity(i) = Format(originalQty - CDbl(.quantityBOX(i)), "0.00")
                 End If
