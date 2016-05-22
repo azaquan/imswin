@@ -116,10 +116,15 @@ Public Sub Translate_Reports(repo As String)
     Dim i, j, n, x, xx As Integer
     Dim tableNAME As String
     Dim formNAME, controlNAME
+    Dim subreportQUERY As New ADODB.Recordset
+    Dim sql, mainREP, subREP
+    mainREP = thisrepo.ReportFileName
+    mainREP = Mid(mainREP, InStrRev(mainREP, "\") + 1)
     On Error GoTo errSTOP
     
+    
     If TR_LANGUAGE <> "*" And TR_LANGUAGE <> "" Then
-        Set data = getDATA("translatorCONTROLS", Array(TR_LANGUAGE, "wareFabrication.rpt"))
+        Set data = getDATA("translatorCONTROLS", Array(TR_LANGUAGE, repo))
         With data
             If .RecordCount > 0 Then
                 n = 0
@@ -137,10 +142,6 @@ Public Sub Translate_Reports(repo As String)
         x = thisrepo.RetrieveLogonInfo - 1
         x = thisrepo.RetrieveDataFiles - 1
     Else
-        Dim subreportQUERY As New ADODB.Recordset
-        Dim sql, mainREP, subREP
-        mainREP = thisrepo.ReportFileName
-        mainREP = Mid(mainREP, InStrRev(mainREP, "\") + 1)
         subREP = repo
         subREP = Mid(subREP, InStrRev(subREP, "\") + 1)
         tableNAME = ""

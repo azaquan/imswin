@@ -661,7 +661,7 @@ Dim str As String
             
             .Source = "Select loc_locacode, loc_name from LOCATION"
             .Source = .Source & " where loc_npecode = '" & deIms.NameSpace & "'"
-            .Source = .Source & " and (UPPER(loc_gender) <> 'OTHER') and loc_actvflag=1 "
+            .Source = .Source & " and (UPPER(loc_gender) = 'BASE') and loc_actvflag=1 "
             .Source = .Source & " order by loc_locacode "
             .Open
             ssdcbolocation.DataMode = ssDataModeAddItem

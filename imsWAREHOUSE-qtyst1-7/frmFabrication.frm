@@ -790,7 +790,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   69861379
+      Format          =   22413315
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1897,10 +1897,14 @@ Dim grid As MSHFlexGrid
             grid.SetFocus
     End With
 End Sub
-Sub fabArrowKEYS2(direction As String)
+Sub fabArrowKEYS2(direction As String, Optional otherCombo As MSHFlexGrid)
 Dim grid As MSHFlexGrid
     With searchStock(0)
-        Set grid = stockCombo
+        If IsNothing(otherCombo) Then
+            Set grid = stockCombo
+        Else
+            Set grid = otherCombo
+        End If
             grid.Visible = True
             Call gridCOLORnormal(grid, Val(grid.tag))
             Select Case direction
@@ -2082,6 +2086,7 @@ Dim ratioValue
                 .TextMatrix(.Rows - 1, 20) = "01"
         End With
     Next
+    Command5.Enabled = True
 End Sub
 
 Sub fabGetEmail()
@@ -2476,7 +2481,6 @@ Private Sub addFinalStock_Click()
         addFinalStock.Enabled = False
         Call addFabricationNode
         submitDETAIL.Enabled = True
-        Command5.Enabled = True
     End If
 End Sub
 
@@ -2720,7 +2724,9 @@ End Sub
 
 Private Sub searchStock_Change(Index As Integer)
     If Not directCLICK Then
-        Call alphaSEARCH(searchStock(Index), stockCombo(Index), 0)
+        If Index <= Tree.Nodes.Count Then
+            Call alphaSEARCH(searchStock(Index), stockCombo(Index), 0)
+        End If
     Else
         directCLICK = False
     End If
@@ -2768,20 +2774,22 @@ End Sub
 Private Sub searchStock_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
 Dim activeARROWS As Boolean
     justCLICK = False
-    With cell(Index)
-        If Not .locked Then
-                Select Case KeyCode
-                    Case 27
-                        stockCombo(Index).Visible = False
-                    Case 40
-                        Call fabArrowKEYS2("down")
-                    Case 38
-                        Call fabArrowKEYS2("up")
-                    Case Else
-                    Dim col
-                End Select
-        End If
-    End With
+    If Index <= Tree.Nodes.Count Then
+        With searchStock(Index)
+            If Not .locked Then
+                    Select Case KeyCode
+                        Case 27
+                            stockCombo(Index).Visible = False
+                        Case 40
+                            Call fabArrowKEYS2("down", stockCombo(Index))
+                        Case 38
+                            Call fabArrowKEYS2("up", stockCombo(Index))
+                        Case Else
+                        Dim col
+                    End Select
+            End If
+        End With
+    End If
 End Sub
 
 Private Sub searchStock_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -2813,9 +2821,9 @@ skipExistance = True
 End Sub
 
 
-Private Sub stockCombo_KeyPress(KeyAscii As Integer, Index As Integer)
+Private Sub stockCombo_KeyPress(Index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
-        Case 13
+        Case 13, 6
             Call stockCombo_Click(Index)
         Case 27
     End Select
@@ -6070,9 +6078,19 @@ For i = 2 To Tree.Nodes.Count
                 End If
             End If
         Case "@processCost"
-            If controlExists("fabCostBOX", i) And CDbl(fabCostBOX(i)) <= 0 Then
-                MsgBox "Fabrication cost should be bigger than zero."
-                Exit Sub
+            If fabControlExists("fabCostBOX", i) Then
+                Select Case CDbl(fabCostBOX(i))
+                    Case 0
+                        Dim answer As String
+                        answer = MsgBox("Do you really want to submit the transaction with no fabrication cost?", vbYesNo)
+                        If answer = vbNo Then
+                            Call fabCostBOX(i).SetFocus
+                            Exit Sub
+                        End If
+                    Case Is < 0
+                        MsgBox "Fabrication cost can't be a negative value."
+                        Exit Sub
+                End Select
             End If
         Case Else
             If controlExists("quantityBOX", i) Then
@@ -6138,7 +6156,6 @@ totalNode = Tree.Nodes.Count
             End If
             Exit Sub
         End If
-        Command5.Enabled = True
     End If
     grid(0).Visible = False
     grid(1).Visible = False
