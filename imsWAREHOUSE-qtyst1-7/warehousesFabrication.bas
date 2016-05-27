@@ -1413,13 +1413,12 @@ submitted = False
                 End If
             End If
 
-            If .name = frmFabrication.STOCKlist.name Then
-                If frmFabrication.STOCKlist.TextMatrix(frmFabrication.STOCKlist.row, 1) = "" Then
-                Else
-                    Call fabPREdetails(ctt)
-                End If
+            If frmFabrication.STOCKlist.TextMatrix(frmFabrication.STOCKlist.row, 1) = "" Then
             Else
-                Call fabFillDETAILlist(.TextMatrix(.row, 1), .TextMatrix(.row, 5), .TextMatrix(.row, 6), .TextMatrix(.row, 2), .row, , , ctt)
+                If frmFabrication.many(1).Value Then
+                    frmFabrication.STOCKlist.Enabled = False
+                End If
+                Call fabPREdetails(ctt)
             End If
     End With
     For i = 0 To 2
@@ -1531,38 +1530,21 @@ Sub fabUnMarkROW(stock, Optional unmarkIt As Boolean, Optional ctt As cTreeTips)
     Dim tempMove As Boolean
     Dim commodity
     tempMove = False
-    If IsMissing(unmarkIt) Then unmarkIt = True
-    If unmarkIt Then
-        With frmFabrication.STOCKlist
-'            If (.Rows - 1) > .MouseRow Then
-'                If stock = "@thisRow" Then
-'                Else
-'                    'comoddity = .TextMatrix(.row, 1)
-'                    '.row = .row + 1
-'                    If stock = .TextMatrix(.MouseRow, 1) Then
-'                        tempMove = True
-'                    Else
-'                        '.row = .row - 1
-'                    End If
-'                End If
-'            End If
+    Dim row As Integer
+    With frmFabrication.STOCKlist
+        For row = 1 To .Rows - 1
             Dim markChar
-            markChar = .TextMatrix(rowMark, 0)
+            markChar = .TextMatrix(row, 0)
             If markChar = "?" Or markChar = "Æ" Then
                 .col = 0
-                .row = rowMark
+                .row = row
                 .CellFontName = "MS Sans Serif"
                 .CellFontSize = 8.5
-                .TextMatrix(rowMark, 0) = previousItemMark
+                .TextMatrix(row, 0) = Format(row)
             End If
-'            If tempMove Then
-'                tempMove = False
-'                .row = .row - 1
-'            End If
-        End With
-    End If
-    '------------------
-    
+        Next
+    End With
+
     Call fabFillDETAILlist("", "", "", , , , , ctt)
     
     'Unlock

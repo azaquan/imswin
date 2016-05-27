@@ -10,10 +10,40 @@ Begin VB.Form frmFabrication
    ClientTop       =   345
    ClientWidth     =   14415
    MaxButton       =   0   'False
-   ScaleHeight     =   13717.92
-   ScaleMode       =   0  'User
+   ScaleHeight     =   9885
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.PictureBox Picture5 
+      Appearance      =   0  'Flat
+      AutoRedraw      =   -1  'True
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   390
+      Left            =   13080
+      Picture         =   "frmFabrication.frx":0000
+      ScaleHeight     =   390
+      ScaleWidth      =   870
+      TabIndex        =   117
+      Top             =   1200
+      Width           =   870
+   End
+   Begin VB.PictureBox Picture1 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   390
+      Left            =   13080
+      Picture         =   "frmFabrication.frx":056C
+      ScaleHeight     =   390
+      ScaleWidth      =   870
+      TabIndex        =   116
+      Top             =   240
+      Width           =   870
+   End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid stockCombo 
       Height          =   1215
       Index           =   0
@@ -221,7 +251,7 @@ Begin VB.Form frmFabrication
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   2520
+      Left            =   2640
       MousePointer    =   1  'Arrow
       TabIndex        =   87
       Text            =   "poItemBox"
@@ -669,15 +699,15 @@ Begin VB.Form frmFabrication
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0000
+            Picture         =   "frmFabrication.frx":0A7A
             Key             =   "thing"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0142
+            Picture         =   "frmFabrication.frx":0BBC
             Key             =   "thing 0"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0284
+            Picture         =   "frmFabrication.frx":0CFE
             Key             =   "thing 1"
          EndProperty
       EndProperty
@@ -1322,7 +1352,7 @@ Begin VB.Form frmFabrication
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   1680
+      Left            =   2040
       MousePointer    =   1  'Arrow
       TabIndex        =   88
       Top             =   0
@@ -1427,12 +1457,31 @@ Begin VB.Form frmFabrication
       Visible         =   0   'False
       Width           =   1215
    End
+   Begin VB.OptionButton many 
+      Caption         =   "one to many"
+      Height          =   375
+      Index           =   1
+      Left            =   12840
+      TabIndex        =   119
+      Top             =   1560
+      Width           =   1335
+   End
+   Begin VB.OptionButton many 
+      Caption         =   "many to one"
+      Height          =   375
+      Index           =   0
+      Left            =   12840
+      TabIndex        =   118
+      Top             =   600
+      Value           =   -1  'True
+      Width           =   1335
+   End
    Begin VB.Label nothing 
       Caption         =   "nothing"
       Height          =   135
-      Left            =   12720
+      Left            =   10560
       TabIndex        =   105
-      Top             =   600
+      Top             =   1800
       Visible         =   0   'False
       Width           =   975
    End
@@ -1650,8 +1699,8 @@ Begin VB.Form frmFabrication
    Begin VB.Line Line2 
       X1              =   1500
       X2              =   1500
-      Y1              =   5034.761
-      Y2              =   4028.642
+      Y1              =   3628
+      Y2              =   2903
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -1723,8 +1772,8 @@ Begin VB.Form frmFabrication
    Begin VB.Line Line1 
       X1              =   120
       X2              =   11880
-      Y1              =   1783.26
-      Y2              =   1783.26
+      Y1              =   1285
+      Y2              =   1285
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -1861,6 +1910,7 @@ Dim ctt3 As New cTreeTips
 
 
 Public stockListRow As Integer
+
 Sub fabArrowKEYS(direction As String, Index As Integer)
 Dim grid As MSHFlexGrid
     With cell(Index)
@@ -3675,7 +3725,7 @@ Sub fabFrmHideDETAILS(Optional unmark As Boolean, Optional resetStockList As Boo
     Dim stockListRow  As String
     Dim i As Integer
     Dim selectedStockNumber As String
-
+    STOCKlist.Enabled = True
     selectedStockNumber = commodityLABEL
     stockListRow = findSTUFF(commodityLABEL, STOCKlist, 1)
 
