@@ -58,69 +58,41 @@ Begin VB.Form Frm_StockMaster
       TabPicture(1)   =   "NewStockMaster.frx":001C
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "txtTechSpec"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "Manufacturer"
       TabPicture(2)   =   "NewStockMaster.frx":0038
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "TxtManuStock"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "txtTotal"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "TxtLineNumber"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "TxtPartnumb"
-      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "txtManSpecs"
-      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "TxtEstPrice"
-      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).Control(6)=   "ChkManufActive"
-      Tab(2).Control(6).Enabled=   0   'False
       Tab(2).Control(7)=   "SSoleManufacturer"
-      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).Control(8)=   "Label8"
-      Tab(2).Control(8).Enabled=   0   'False
       Tab(2).Control(9)=   "Label6"
-      Tab(2).Control(9).Enabled=   0   'False
       Tab(2).Control(10)=   "Label5"
-      Tab(2).Control(10).Enabled=   0   'False
       Tab(2).Control(11)=   "Label1"
-      Tab(2).Control(11).Enabled=   0   'False
       Tab(2).Control(12)=   "Label2"
-      Tab(2).Control(12).Enabled=   0   'False
       Tab(2).Control(13)=   "Label3"
-      Tab(2).Control(13).Enabled=   0   'False
       Tab(2).ControlCount=   14
       TabCaption(3)   =   "Recepients"
       TabPicture(3)   =   "NewStockMaster.frx":0054
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "TxtRecpStockNumb"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "fra_FaxSelect"
-      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "cmd_Add"
-      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "txt_Recipient"
-      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).Control(4)=   "cmdRemove"
-      Tab(3).Control(4).Enabled=   0   'False
       Tab(3).Control(5)=   "Txt_search"
-      Tab(3).Control(5).Enabled=   0   'False
       Tab(3).Control(6)=   "OptFax"
-      Tab(3).Control(6).Enabled=   0   'False
       Tab(3).Control(7)=   "OptEmail"
-      Tab(3).Control(7).Enabled=   0   'False
       Tab(3).Control(8)=   "dgRecipientList"
-      Tab(3).Control(8).Enabled=   0   'False
       Tab(3).Control(9)=   "SSOLEDBEmail"
-      Tab(3).Control(9).Enabled=   0   'False
       Tab(3).Control(10)=   "SSOLEDBFax"
-      Tab(3).Control(10).Enabled=   0   'False
       Tab(3).Control(11)=   "Label7"
-      Tab(3).Control(11).Enabled=   0   'False
       Tab(3).Control(12)=   "Lbl_search"
-      Tab(3).Control(12).Enabled=   0   'False
       Tab(3).ControlCount=   13
       Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSoleSource 
          Height          =   375
@@ -1446,7 +1418,7 @@ Call ClearStockMasterDetails
 
 If StockHeader.Count = 0 Then Exit Function
        
-TxtStockNumber = StockHeader.stockNumber
+TxtStockNumber = StockHeader.StockNumber
 
 SsOleCategory.Tag = StockHeader.CategoryCode
 SsOleCategory = GetNameForTagFromCombo(SsOleCategory, StockHeader.CategoryCode)
@@ -1525,7 +1497,7 @@ If Len(StockHeader.Eccnid) > 0 And GRsSource.RecordCount > 0 Then
 End If
 
 
-lblManufacNo = lookups.HowManyManufacturers(StockHeader.stockNumber) ' & " Manufacturers "
+lblManufacNo = lookups.HowManyManufacturers(StockHeader.StockNumber) ' & " Manufacturers "
 
 End Function
 
@@ -1811,7 +1783,7 @@ On Error GoTo ErrHandler
         
         txtTotal = manufacturer.Count
 
-        TxtManuStock = manufacturer.stockNumber
+        TxtManuStock = manufacturer.StockNumber
         
 '    End If
 
@@ -1860,13 +1832,13 @@ Private Sub LROleDBNavBar1_BeforeSaveClick()
 
 Dim x As String
 Dim EditMode As Integer
-
+On Error GoTo ErrHandler
  Screen.MousePointer = vbHourglass
 
 If ValidateStockHeaderValues = True Then
 
     Call SaveToStockHeader
-    
+
     EditMode = StockHeader.EditMode
     
     x = Main.SAVE
@@ -1887,14 +1859,17 @@ If ValidateStockHeaderValues = True Then
         Call ToggleNavbar
         Call ToogleManufacturerControls
         Call ToogleStockHeaderControls
-        
-        RsStockNameDesc.CancelUpdate
-        RsStockNameDesc.Close
-        RsStockNameDesc.Open , deIms.cnIms, 3, 3
 
-        RsStockNameDesc.Requery
+'        RsStockNameDesc.CancelUpdate
+'
+'        RsStockNameDesc.Close
+
+'        RsStockNameDesc.Open , deIms.cnIms, 3, 3
+'
+'        RsStockNameDesc.Requery
         
         Set lookups = InitializeLookup
+        Set RsStockNameDesc = lookups.GetStocknumbers
         
         lblManufacNo = lookups.HowManyManufacturers(TxtStockNumber)
         
@@ -1925,8 +1900,18 @@ Else
     
 End If
 
- Screen.MousePointer = vbArrow
+ 
 
+ErrHandler:
+    If Err.number <> 0 Then
+        msg = translator.Trans("M00891")
+        msg = IIf(msg = "", "Errors occurred while trying to Save the Stock Record. Please try again.", msg)
+        msg2 = translator.Trans("M00829")
+        msg2 = IIf(msg2 = "", "Error Description ", msg2)
+        MsgBox msg + " " + msg2 & Err.Description, vbCritical, "Imswin"
+    End If
+Err.Clear
+Screen.MousePointer = vbArrow
 End Sub
 
 Private Sub LROleDBNavBar1_OnCancelClick()
@@ -2887,7 +2872,7 @@ Select Case SSTab1.Tab
         
         Set manufacturer = InitializeManufacturer
         
-        If UCase(Trim(manufacturer.stockNumber)) <> UCase(Trim(TxtStockNumber)) Or UCase(Trim(TxtManuStock)) <> UCase(Trim(TxtStockNumber)) Then
+        If UCase(Trim(manufacturer.StockNumber)) <> UCase(Trim(TxtStockNumber)) Or UCase(Trim(TxtManuStock)) <> UCase(Trim(TxtStockNumber)) Then
         
                 RetCode = manufacturer.MoveToStocknumber(TxtStockNumber)
                 
@@ -3011,17 +2996,23 @@ Public Function SaveToStockHeader() As Boolean
 SaveToStockHeader = False
 
 On Error GoTo ErrHandler
-            
-        StockHeader.stockNumber = Trim(TxtStockNumber)
-        
+
+        StockHeader.StockNumber = Trim(TxtStockNumber)
+
         StockHeader.CategoryCode = Trim(SsOleCategory.Tag)
-        
+
         StockHeader.PrimUOfMeasure = Trim(SSOlePrimUnit.Tag)
-        
+
         StockHeader.SecoUOfMeasure = Trim(SsoleSecUnit.Tag)
-        
+        If txt_Maximum = "" Then
+            txt_Maximum = "0"
+        End If
+        If txt_Minimum = "" Then
+            txt_Minimum = "0"
+        End If
+
         StockHeader.Maximum = Trim(txt_Maximum)
-        
+
         StockHeader.Minimum = Trim(txt_Minimum)
         
         StockHeader.Activeflag = CheckActive.value
@@ -3051,7 +3042,7 @@ On Error GoTo ErrHandler
         
         If GFormmode = mdCreation Then StockHeader.CreateUser = CurrentUser ' 07/02/02 Modified to make sure the creation user and modification user is stored.
         
-        StockHeader.ModiUser = CurrentUser ' 07/02/02 Modified to make sure the creation user and modification user is stored.
+        StockHeader.modiuser = CurrentUser ' 07/02/02 Modified to make sure the creation user and modification user is stored.
         
         StockHeader.Eccnid = IIf(Len(SSoleEccnNo.Tag) = 0, 0, SSoleEccnNo.Tag)
         
@@ -3098,7 +3089,7 @@ On Error GoTo ErrHandler
         
          manufacturer.Techspec = txtManSpecs
 
-         manufacturer.stockNumber = TxtManuStock
+         manufacturer.StockNumber = TxtManuStock
          
      End If
         
@@ -3935,7 +3926,7 @@ Public Function StoreStocksPlayedwith(EditMode As Integer)
                  
             End If
             
-            GInitiliazeParams.StockAdded(UBound(GInitiliazeParams.StockAdded)) = StockHeader.stockNumber
+            GInitiliazeParams.StockAdded(UBound(GInitiliazeParams.StockAdded)) = StockHeader.StockNumber
             
             
         SSDBHeader.Columns(0).CellStyleSet "RowAdded"
@@ -3956,7 +3947,7 @@ Public Function StoreStocksPlayedwith(EditMode As Integer)
                  
             End If
             
-            GInitiliazeParams.StocksModified(UBound(GInitiliazeParams.StocksModified)) = Trim(StockHeader.stockNumber)
+            GInitiliazeParams.StocksModified(UBound(GInitiliazeParams.StocksModified)) = Trim(StockHeader.StockNumber)
             
             
         SSDBHeader.Columns(0).CellStyleSet "RowModified"
@@ -4083,13 +4074,13 @@ Public Sub GetSupplierPhoneDirFAX()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim sql As String
+Dim Sql As String
 
-sql = "select sup_name Names,  upper( sup_contaFax) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_contaFax is not null and len(sup_contaFax) > 0   union"
+Sql = "select sup_name Names,  upper( sup_contaFax) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_contaFax is not null and len(sup_contaFax) > 0   union"
 
-sql = sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
+Sql = Sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
 
-rst.Source = sql
+rst.Source = Sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -4123,13 +4114,13 @@ Public Sub GetSupplierPhoneDirEmails()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim sql As String
+Dim Sql As String
 
-sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
+Sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
 
-sql = sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
+Sql = Sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
 
-rst.Source = sql
+rst.Source = Sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -4315,17 +4306,17 @@ On Error Resume Next
 End Sub
 
 
-Public Function MoveGridTo(stockNumber As String)
+Public Function MoveGridTo(StockNumber As String)
 
 Dim Count As Integer
 
 If GFormmode = mdvisualization Then
 
-If Len(Trim(stockNumber)) = 0 Then Exit Function
+If Len(Trim(StockNumber)) = 0 Then Exit Function
 
 RsStockNameDesc.MoveFirst
 
-RsStockNameDesc.Find "Stk_stcknumb like '" & Trim(stockNumber) & "%'"
+RsStockNameDesc.Find "Stk_stcknumb like '" & Trim(StockNumber) & "%'"
 
 Else
 

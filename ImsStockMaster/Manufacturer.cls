@@ -422,7 +422,7 @@ Set mRsManufacturer = Nothing
    Set mRsManufacturer = CmdHead.Execute
        
        mRsManufacturer.Close
-       mRsManufacturer.Open , , adOpenKeyset, adLockBatchOptimistic
+       mRsManufacturer.Open , , adOpenDynamic, adLockBatchOptimistic
     
    LoadCollection = True
    

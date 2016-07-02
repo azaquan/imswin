@@ -122,7 +122,7 @@ mRsStock.Source = "select * from stockmaster stk"
 mRsStock.Source = mRsStock.Source & " where stk_npecode='" & mNamespace & "' and stk_stcknumb ='" & mStocknumber & "'"
 
 
-mRsStock.Open , mConnection, adOpenKeyset, adLockOptimistic
+mRsStock.Open , mConnection, adOpenDynamic, adLockOptimistic
 
    LoadCollection = True
    
