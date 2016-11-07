@@ -1759,7 +1759,7 @@ End Sub
 
 'load form and show it
 
-Private Sub itmr_PhysicalInventory_Click()
+Private Sub la_Click()
 'Load frm_physicalinventory
 ' frm_physicalinventory.Show
     Load StockOnHandNew

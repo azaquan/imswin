@@ -1,9 +1,80 @@
 Attribute VB_Name = "warehousesFabrication"
 Global fabricationFirst As Boolean
 Global newFabricatedStock As Boolean
+Global firstNewMultipleNode As Boolean
+Global newStockCount As Integer
+Sub addFabricationMultipleNode()
+Dim datax As ADODB.Recordset
+Set datax = New ADODB.Recordset
+On Error GoTo ErrHandler
+    With frmFabrication.Tree
+        If firstNewMultipleNode Then
+            .Nodes.Add "Fabrication", tvwChild, "@" + "processCost", "Process Cost", "thing 1"
+            Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+            Call fabWorkBOXESlist
+            firstNewMultipleNode = False
+        End If
+        newStockCount = newStockCount + 1
+        .Nodes.Add "@processCost", tvwChild, "@" + "newStock-" + Format(newStockCount), "New Stock - " + Format(newStockCount) + ":", "thing 1"
+        Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+        Call fabWorkBOXESlist
+    End With
+
+    With frmFabrication
+        totalNode = .Tree.Nodes.Count
+        .combo(5).Visible = False
+        lastLine = 8
+        For i = 1 To totalNode
+            .Tree.Nodes(i).Expanded = True
+        Next
+        If Not .Visible Then
+            Call fabSHOWdetails
+        End If
+        .ZOrder
+        Dim newStocks As Integer
+        If .many(1).Value Then
+            For i = 1 To .Tree.Nodes.Count
+                key = .Tree.Nodes(i).key
+                If InStr(key, "@newStock") Then key = "@newStock"
+                Select Case key
+                    Case "@newStock"
+                        newStocks = newStocks + 1
+                End Select
+            Next
+            Dim totalCost As Double
+            totalCost = CDbl(.fabCostBOX(3)) + .priceBOX(2)
+            For i = 1 To .Tree.Nodes.Count
+                key = .Tree.Nodes(i).key
+                If InStr(key, "@newStock") Then key = "@newStock"
+                Select Case key
+                    Case "@newStock"
+                        If newStocks > 0 Then
+                            .priceBOX(i) = Format((totalCost / newStocks), "0.00")
+                        End If
+                End Select
+            Next
+        End If
+'        Call FabLineStuff(lastLine, thick)
+'        Call calculationsFabrication(False, totalNode)
+    End With
+    frmFabrication.Tree.Nodes(1).EnsureVisible
+    Err.Clear
+    baseFrame.Refresh
+    Exit Sub
+    
+ErrHandler:
+If Err.Number > 0 Then
+    'MsgBox Err.description
+    Err.Clear
+End If
+Resume Next
+End Sub
+
+
 Sub addFabricationNode()
 Dim datax As ADODB.Recordset
 Set datax = New ADODB.Recordset
+Dim nodePosition As Integer
 On Error GoTo ErrHandler
     With frmFabrication.Tree
         .Nodes.Add "Fabrication", tvwChild, "@" + "processCost", "Process Cost", "thing 1"
@@ -12,6 +83,7 @@ On Error GoTo ErrHandler
         .Nodes.Add "@processCost", tvwChild, "@" + "newStock", "New Stock#:", "thing 1"
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
         Call fabWorkBOXESlist
+        nodePosition = .Nodes.Count
     End With
 
     With frmFabrication
@@ -31,6 +103,7 @@ On Error GoTo ErrHandler
     frmFabrication.Tree.Nodes(1).EnsureVisible
     Err.Clear
     baseFrame.Refresh
+    
     Exit Sub
     
 ErrHandler:
@@ -40,9 +113,6 @@ If Err.Number > 0 Then
 End If
 Resume Next
 End Sub
-
-
-
 Sub fillDetailListFabrication(datax As ADODB.Recordset)
 On Error GoTo ErrHandler
     With frmFabrication.Tree
@@ -121,8 +191,9 @@ Dim i, size, point, balanceCol
 On Error Resume Next
 'On Error GoTo errHandler
     With frmFabrication
-        topvalue = 160
+        topvalue = 120
         topvalue2 = 0
+        xPos = 0
         i = .Tree.Nodes.Count
         If i > 0 Then
             Err.Clear
@@ -134,14 +205,19 @@ On Error Resume Next
                     qtyCol = 6
                     If Not .newBUTTON.Enabled Then
                         Call fabPutBOX(.quantity(i), .linesV(1).Left + 20, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4 + point) - 50, &HC0C0C0)
-                        Select Case .Tree.Nodes(i).key
+                        Dim key As String
+                        key = .Tree.Nodes(i).key
+                        If InStr(key, "@newStock") Then key = "@newStock"
+                        Select Case key
                             Case "@processCost"
                                 Call fabPutBOX(.fabCostBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
                                 .fabCostBOX(i).backcolor = RGB(0, 204, 255)
                                 .fabCostBOX(i).Enabled = True
                                 .quantity(i).Visible = False
                             Case "@newStock"
-                                Call fabPutBOX(.searchStock(i), 3200, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
+                                xPos = 3200
+                                If .many(1).Value Then xPos = 2100
+                                Call fabPutBOX(.searchStock(i), xPos, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
                                 Call fabPutBOX(.logicBOX(i), .linesV(2).Left + 55, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
                                 Call fabPutBOX(.sublocaBOX(i), .linesV(3).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(3) - 50, &HC0C0FF)
                                 Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
@@ -151,12 +227,16 @@ On Error Resume Next
                                 .balanceBOX(i) = "0.00"
                                 .quantityBOX(i).Enabled = False
                                 .quantityBOX(i) = "1.00"
+                                .NEWconditionBOX(i) = "01"
                             Case Else
                                 Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
                                 Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
                                 Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
+                                .balanceBOX(i) = "0.00"
+                                .quantityBOX(i).Enabled = True
+                                .quantityBOX(i) = "1.00"
                         End Select
                         .priceBOX(i).Enabled = False
                         .quantity(i).backcolor = vbWhite
@@ -251,6 +331,7 @@ With frmFabrication
     .unitBOX(Index).Visible = False
     .unit2BOX(Index).Visible = False
     .repairBOX(Index).Visible = False
+    .searchStock(Index).Visible = False
 End With
 End Sub
 Sub fabShowBoxes(Index)
@@ -1417,43 +1498,27 @@ submitted = False
             Else
                 If frmFabrication.many(1).Value Then
                     frmFabrication.STOCKlist.Enabled = False
+                    frmFabrication.oneStock = .TextMatrix(.row, 1) + "-- " + .TextMatrix(.row, 3)
+                    frmFabrication.oneStock.Top = addFinalStock.Top
+                    frmFabrication.oneStock.Visible = True
+                    frmFabrication.addFinalStock.Caption = "&Add New Stock #"
+                    firstNewMultipleNode = True
+                Else
+                    frmFabrication.oneStock = ""
+                    frmFabrication.addFinalStock.Caption = "&Add Final Stock #"
                 End If
                 Call fabPREdetails(ctt)
             End If
+            
     End With
     For i = 0 To 2
         frmFabrication.grid(i).Visible = False
     Next
+    
 Screen.MousePointer = 0
 End Sub
 Sub fabSHOWdetails()
     With frmFabrication
-        Select Case .tag
-            Case "02040400" 'ReturnFromRepair
-                .detailHEADER.Top = .newDESCRIPTION.Top + .newDESCRIPTION.Height + 100
-                .Tree.Top = .detailHEADER.Top + 315
-                .hideDETAIL.Top = .Tree.Top - .hideDETAIL.Height - 410
-                .removeDETAIL.Top = .hideDETAIL.Top
-                .submitDETAIL.Top = .hideDETAIL.Top
-                .Tree.Height = .Command5.Top - .Tree.Top - 150
-                .cell(5).Visible = True
-                .newDESCRIPTION.Visible = True
-                If .newBUTTON.Enabled Then
-                    .cell(5).Enabled = False
-                Else
-                    .cell(5).Enabled = False
-                End If
-                
-            Case "02050200" 'AdjustmentEntry
-            Case "02040200" 'WarehouseIssue
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Repair
-        End Select
         Call fabWorkBOXESlist
         .otherLABEL(0).Visible = True
         .commodityLABEL.Visible = True
@@ -1484,10 +1549,15 @@ Sub fabPutBOX(box As textBOX, Left, Top, width, backcolor)
 End Sub
 
 Function fabTopNODE(Index) As Integer
-Dim heightFactor, spaceFactor As Integer
-    heightFactor = 320
-    spaceFactor = 100
-    fabTopNODE = frmFabrication.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1))
+Dim heightFactor, spaceFactor, firstSpacer As Integer
+    heightFactor = 240
+    spaceFactor = 0
+    If Index = 2 Then
+        firstSpacer = 40
+    Else
+        firstSpacer = 0
+    End If
+    fabTopNODE = frmFabrication.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1)) + firstSpacer
 End Function
 
 Sub fabUnlockBUNCH()
@@ -2062,17 +2132,36 @@ On Error Resume Next
         End If
         Dim finalPrice As Double
         finalPrice = 0
+        Dim newStocks As Integer
+        newStocks = 0
         For i = 1 To .Tree.Nodes.Count
-            Select Case .Tree.Nodes(i).key
+            key = .Tree.Nodes(i).key
+            If InStr(key, "@newStock") Then key = "@newStock"
+            Select Case key
                 Case "@processCost"
                     finalPrice = finalPrice + CDbl(.fabCostBOX(i))
                 Case "@newStock"
+                    newStocks = newStocks + 1
                 Case Else
                     finalPrice = finalPrice + (CDbl(.priceBOX(i)) * CDbl(.quantityBOX(i)))
             End Select
         Next
         If .Tree.Nodes(.Tree.Nodes.Count).key = "@newStock" Then
             .priceBOX(.Tree.Nodes.Count) = Format(finalPrice, "0.00")
+        End If
+        If .many(1).Value Then
+            Dim totalCost As Double
+            totalCost = CDbl(.fabCostBOX(3)) + .priceBOX(2)
+            For i = 1 To .Tree.Nodes.Count
+                key = .Tree.Nodes(i).key
+                If InStr(key, "@newStock") Then key = "@newStock"
+                Select Case key
+                    Case "@newStock"
+                        If newStocks > 0 Then
+                            .priceBOX(i) = Format((totalCost / newStocks), "0.00")
+                        End If
+                End Select
+            Next
         End If
     End With
     Exit Sub

@@ -12,7 +12,7 @@ Begin VB.Form frm_physicalinventory
    MDIChild        =   -1  'True
    ScaleHeight     =   3045
    ScaleWidth      =   3885
-   Tag             =   "03030500"
+   Tag             =   "L00611"
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo Combo_compcode 
       Height          =   315
       Left            =   2160

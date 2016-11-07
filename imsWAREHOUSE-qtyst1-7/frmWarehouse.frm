@@ -837,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   55771139
+      Format          =   54001667
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -4187,17 +4187,17 @@ Screen.MousePointer = 11
             toSUBLOCA = SUMMARYlist.TextMatrix(i, 12)
             serial = SUMMARYlist.TextMatrix(i, 2)
             'Juan 2010-9-4 implementing ratio rather than computer factor
-            computerFactor = ImsDataX.ComputingFactor(nameSP, stocknumb, cn)
-            Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb, cell(3).tag))
-            If datax.RecordCount > 0 Then
-                If IsNull(datax!realratio) Or datax!realratio = 0 Then
+            'computerFactor = ImsDataX.ComputingFactor(nameSP, stocknumb, cn)
+            'Set datax = getDATA("getStockRatio", Array(nameSP, stocknumb, cell(3).tag))
+            'If datax.RecordCount > 0 Then
+                'If IsNull(datax!realratio) Or datax!realratio = 0 Then
                     ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
-                Else
-                    ratioValue = datax!realratio
-                End If
-            Else
-                ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
-            End If
+                'Else
+                    'ratioValue = datax!realratio
+                'End If
+            'Else
+                'ratioValue = getStockRatioFromStockMaster(nameSP, stocknumb)
+            'End If
             Dim sql As String
             'Juan 2014-8-27 new version of calculation based on invoice if exists
             Select Case frmWarehouse.tag

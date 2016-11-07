@@ -13,6 +13,15 @@ Begin VB.Form frmFabrication
    ScaleHeight     =   9885
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.CommandButton setUpTransaction 
+      Caption         =   "Set up transaction"
+      Height          =   255
+      Left            =   12720
+      TabIndex        =   120
+      TabStop         =   0   'False
+      Top             =   1800
+      Width           =   1455
+   End
    Begin VB.PictureBox Picture5 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -26,7 +35,8 @@ Begin VB.Form frmFabrication
       ScaleHeight     =   390
       ScaleWidth      =   870
       TabIndex        =   117
-      Top             =   1200
+      ToolTipText     =   "You take one single item to fabricate many new ones"
+      Top             =   960
       Width           =   870
    End
    Begin VB.PictureBox Picture1 
@@ -41,7 +51,8 @@ Begin VB.Form frmFabrication
       ScaleHeight     =   390
       ScaleWidth      =   870
       TabIndex        =   116
-      Top             =   240
+      ToolTipText     =   "You take many items to fabricate a unit of a new one"
+      Top             =   120
       Width           =   870
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid stockCombo 
@@ -716,7 +727,7 @@ Begin VB.Form frmFabrication
       BackColor       =   &H00C0E0FF&
       Height          =   285
       Index           =   1
-      Left            =   3020
+      Left            =   3015
       TabIndex        =   29
       TabStop         =   0   'False
       Top             =   1770
@@ -730,7 +741,7 @@ Begin VB.Form frmFabrication
       TabIndex        =   28
       TabStop         =   0   'False
       Top             =   1770
-      Width           =   1410
+      Width           =   1290
    End
    Begin VB.TextBox cell 
       Appearance      =   0  'Flat
@@ -1018,7 +1029,7 @@ Begin VB.Form frmFabrication
       Indentation     =   706
       LabelEdit       =   1
       Style           =   1
-      FullRowSelect   =   -1  'True
+      SingleSel       =   -1  'True
       ImageList       =   "ImageList1"
       Appearance      =   1
    End
@@ -1463,7 +1474,8 @@ Begin VB.Form frmFabrication
       Index           =   1
       Left            =   12840
       TabIndex        =   119
-      Top             =   1560
+      ToolTipText     =   "You take one single item to fabricate many new ones"
+      Top             =   1320
       Width           =   1335
    End
    Begin VB.OptionButton many 
@@ -1472,9 +1484,49 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   12840
       TabIndex        =   118
-      Top             =   600
+      ToolTipText     =   "You take many items to fabricate a unit of a new one"
+      Top             =   480
       Value           =   -1  'True
       Width           =   1335
+   End
+   Begin VB.Label oneStock 
+      Appearance      =   0  'Flat
+      BackColor       =   &H8000000A&
+      Caption         =   "invoiceLine:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   255
+      Left            =   120
+      TabIndex        =   122
+      Top             =   3960
+      Visible         =   0   'False
+      Width           =   9975
+   End
+   Begin VB.Label manyLabel 
+      Alignment       =   1  'Right Justify
+      Caption         =   "Fabricating Many to One"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   8040
+      TabIndex        =   121
+      Top             =   240
+      Width           =   3855
    End
    Begin VB.Label nothing 
       Caption         =   "nothing"
@@ -1907,7 +1959,7 @@ Dim ctt As New cTreeTips
 Dim ctt1 As New cTreeTips
 Dim ctt2 As New cTreeTips
 Dim ctt3 As New cTreeTips
-
+Dim firstAdding As Boolean
 
 Public stockListRow As Integer
 
@@ -2036,6 +2088,7 @@ Dim ratioValue
         description = ""
         Err.Clear
         key = Tree.Nodes(i).key
+        If InStr(key, "@newStock") Then key = "@newStock"
         Select Case key
             Case "@newStock"
                 StockNumber = searchStock(i)
@@ -2235,7 +2288,8 @@ Dim serial As String
 Dim computerFactor
 Dim imsLock As imsLock.Lock
 Dim TranType As String
-
+Dim fabCostRow
+    fabCostRow = 0
     ii = 0
     Dim transactionPoint As String
     transactionPoint = "issue"
@@ -2275,6 +2329,11 @@ Dim TranType As String
             secQty = 0
             If SUMMARYlist.TextMatrix(i, 5) = "...Process cost" Then
                 fabricationCOST = CDbl(SUMMARYlist.TextMatrix(i, 17))
+                Dim itemCount As Integer
+                itemCount = (SUMMARYlist.Rows) - (i + 1)
+                If itemCount < 1 Then itemCount = 1
+                fabricationCOST = fabricationCOST / itemCount
+                
                 transactionPoint = "cost"
             Else
                 stocknumb = SUMMARYlist.TextMatrix(i, 1)
@@ -2525,12 +2584,24 @@ End Sub
 
 
 Private Sub addFinalStock_Click()
-    Dim answer As String
-    answer = MsgBox("Is it the last item before submit? Do you want to continue?", vbYesNo)
-    If answer = vbYes Then
-        addFinalStock.Enabled = False
-        Call addFabricationNode
+    If many(0).Value Then
+        Dim answer As String
+        answer = MsgBox("Is it the last item to fabricate?", vbYesNo)
+        If answer = vbYes Then
+            STOCKlist.Enabled = False
+            addFinalStock.Enabled = False
+            Call addFabricationNode
+            submitDETAIL.Enabled = True
+        End If
+    Else
+        Call addFabricationMultipleNode
         submitDETAIL.Enabled = True
+    End If
+    If firstAdding Then
+        fabCostBOX(Tree.Nodes.Count - 1).SelStart = 0
+        fabCostBOX(Tree.Nodes.Count - 1).SelLength = 4
+        fabCostBOX(Tree.Nodes.Count - 1).SetFocus
+        firstAdding = False
     End If
 End Sub
 
@@ -2636,6 +2707,14 @@ With logicBOX(Index)
         .backcolor = vbWhite
     End If
 End With
+End Sub
+
+Private Sub many_Click(Index As Integer)
+    If Index = 0 Then
+        manyLabel = "Fabricating Many to One"
+    Else
+        manyLabel = "Fabricating One to Many"
+    End If
 End Sub
 
 Private Sub noButton_Click()
@@ -2852,6 +2931,19 @@ Private Sub searchStock_KeyPress(Index As Integer, KeyAscii As Integer)
     End Select
 End Sub
 
+Private Sub searchStock_LostFocus(Index As Integer)
+    If many(1).Value Then
+        If stockCombo(Index).Visible = False Then searchStock(Index).Visible = False
+    End If
+End Sub
+
+Private Sub setUpTransaction_Click()
+    many(0).Enabled = False
+    many(1).Enabled = False
+    setUpTransaction.Enabled = False
+    STOCKlist.Enabled = True
+End Sub
+
 Private Sub stockCombo_Click(Index As Integer)
 Dim i, name
 Dim data As New ADODB.Recordset
@@ -2862,9 +2954,9 @@ skipExistance = True
         Dim tempRow As Integer
         If .row = 0 Then Exit Sub
         tempRow = .row
-        searchStock(Index) = .TextMatrix(.row, 0) 'Juan  2014-01-02 it was col=1
         .row = tempRow
         searchStock(Index) = .TextMatrix(.row, 0)
+        Tree.Nodes(Index).text = "New Stock " + searchStock(Index)
         searchStock(Index).SetFocus
         .Visible = False
     End With
@@ -2983,7 +3075,11 @@ Dim shot
             datax.MoveNext
             i = i + 1
         Loop
-        If .Rows > 2 Then .RemoveItem 1
+        If .Rows > 2 Then
+            If .TextMatrix(1, 0) + .TextMatrix(1, 1) = "" Then
+                .RemoveItem 1
+            End If
+        End If
         Call reNUMBER(SUMMARYlist)
     End With
     directCLICK = False
@@ -3870,7 +3966,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLABEL.Visible = False
+    remarksLabel.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3901,7 +3997,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLABEL.Visible = True
+    remarksLabel.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -4252,7 +4348,7 @@ Screen.MousePointer = 11
             PrimUnit = CDbl(IIf(SUMMARYlist.TextMatrix(i, 7) = "", 0, SUMMARYlist.TextMatrix(i, 7)))
             'Juan 2010-11-24 to obtain original price for AE
 
-                    unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
+            unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
 
             condition = SUMMARYlist.TextMatrix(i, 20)
             fromlogic = SUMMARYlist.TextMatrix(i, 9)
@@ -4302,6 +4398,10 @@ Screen.MousePointer = 11
         combo(0).Visible = False
         combo(1).Visible = False
         combo(0).TextMatrix(1, 0) = Transnumb
+        
+        many(0).Enabled = True
+        many(1).Enabled = True
+        setUpTransaction.Enabled = True
     End If
     Screen.MousePointer = 11
         
@@ -4548,8 +4648,11 @@ Screen.MousePointer = 11
     With CrystalReport1
         .Reset
         reportPATH = repoPATH + "\"
-
-        .ReportFileName = reportPATH & "wareFabrication.rpt"
+        If many(0).Value Then
+            .ReportFileName = reportPATH & "wareFabrication2.rpt"
+        Else
+            .ReportFileName = reportPATH & "wareFabrication.rpt"
+        End If
         .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
         .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
  
@@ -4659,8 +4762,8 @@ Dim i
     End If
     
     remarks = ""
-    
-    
+    STOCKlist.Enabled = False
+    firstAdding = True
     'frmFabrication.Height = 8910
     Call cell_Click(1)
 End Sub
@@ -4707,6 +4810,7 @@ Dim answer, i
         grid(i).Visible = False
     Next
     addFinalStock.Visible = False
+    submitDETAIL.Visible = True
 End Sub
 
 Private Sub cell_Click(Index As Integer)
@@ -4885,7 +4989,7 @@ Dim ratio As Integer
     Set datax = New ADODB.Recordset
     DoEvents
     With combo(Index)
-        STOCKlist.Enabled = True
+'        STOCKlist.Enabled = True
         If Index = 5 Then
             Set datax = New ADODB.Recordset
             sql = "SELECT stk_desc,stk_ratio2 FROM STOCKMASTER WHERE " _
@@ -4970,6 +5074,20 @@ Dim ratio As Integer
                     datax.Open sql, cn, adOpenForwardOnly
                     If datax.RecordCount > 0 Then
                         Call fabFillTRANSACTION(datax)
+                        Dim n As Integer
+                        n = 0
+                        datax.MoveFirst
+                        Do While Not datax.EOF
+                            If datax!TransactionType = "i" Then
+                                n = n + 1
+                            End If
+                            datax.MoveNext
+                        Loop
+                        If n > 1 Then
+                            many(0).Value = True
+                        Else
+                            many(1).Value = True
+                        End If
                     End If
                 Else
                     Call fabCleanSTOCKlist
@@ -5006,6 +5124,7 @@ Dim ratio As Integer
                             For i = 1 To 4
                                 If cell(i).Visible And cell(i) = "" Then STOCKlist.Enabled = False
                             Next
+
                             Call fabFillSTOCKlist(datax)
                             'detailHEADER.ZOrder 0
                             If savingLABEL.Visible Then
@@ -6105,7 +6224,9 @@ Dim askForFabricationCost As Boolean
 serialText = ""
 
 For i = 2 To Tree.Nodes.Count
-    Select Case Tree.Nodes(i).key
+    key = Tree.Nodes(i).key
+    If InStr(key, "@newStock") Then key = "@newStock"
+    Select Case key
         Case "@newStock"
             If logicBOX(i) = "" Then
                 MsgBox "Logical Warehouse must be entered."
@@ -6372,17 +6493,11 @@ Dim n
                ' quantity(totalNode).backcolor = &H800000
                 'quantity(totalNode).ForeColor = vbWhite
             End If
-        Else
-            'Juan 2010-5-29
-            Select Case frmFabrication.tag
-                Case "02040100", "02050200"  'WarehouseReceipt, AdjustmentEntry
-                    n = InStr(.SelectedItem.key, "{{Serial")
-                    If n > 0 Then
-                        .SelectedItem.text = "Serial:"
-                        .StartLabelEdit
-                    End If
-            End Select
-            '---------------------
+        End If
+        If many(1).Value Then
+            If searchStock(n).Visible Then
+'                searchStock(n).Visible = False
+            End If
         End If
     End With
 End Sub
@@ -6393,7 +6508,7 @@ End Sub
 
 
 Private Sub Tree_LostFocus()
-    Tree.SelectedItem = Nothing
+'    Tree.SelectedItem = Nothing
     'Call Tree_Click
 End Sub
 
@@ -6408,6 +6523,15 @@ On Error Resume Next
             If nodeSEL <> totalNode Then
                 quantity(nodeSEL).backcolor = vbWhite
                 quantity(nodeSEL).ForeColor = vbBlack
+            End If
+            
+            If many(1).Value Then
+                If searchStock(nodeSEL).Visible = False Then
+                    If x < 4000 Then
+                        searchStock(nodeSEL).Visible = True
+                        searchStock(nodeSEL).ZOrder
+                    End If
+                End If
             End If
         End If
     End With
