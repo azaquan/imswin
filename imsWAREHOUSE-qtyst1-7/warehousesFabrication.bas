@@ -3,6 +3,7 @@ Global fabricationFirst As Boolean
 Global newFabricatedStock As Boolean
 Global firstNewMultipleNode As Boolean
 Global newStockCount As Integer
+Global finalCostNode As Integer
 Sub addFabricationMultipleNode()
 Dim datax As ADODB.Recordset
 Set datax = New ADODB.Recordset
@@ -14,9 +15,22 @@ On Error GoTo ErrHandler
             Call fabWorkBOXESlist
             firstNewMultipleNode = False
         End If
-        newStockCount = newStockCount + 1
-        .Nodes.Add "@processCost", tvwChild, "@" + "newStock-" + Format(newStockCount), "New Stock - " + Format(newStockCount) + ":", "thing 1"
+        .Nodes.Add "Fabrication", tvwChild, "@" + "finalCost", "Final Cost", "thing 0"
+        finalCostNode = .Nodes.Count
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+        Call fabWorkBOXESlist
+        
+        
+        newStockCount = newStockCount + 1
+        .Nodes.Add "@finalCost", tvwChild, "@" + "newStock-" + Format(newStockCount), "New Stock - " + Format(newStockCount) + ":", "thing 1"
+        Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+        
+        
+        
+
+            
+            
+            
         Call fabWorkBOXESlist
     End With
 
@@ -49,7 +63,13 @@ On Error GoTo ErrHandler
                 Select Case key
                     Case "@newStock"
                         If newStocks > 0 Then
-                            .priceBOX(i) = Format((totalCost / newStocks), "0.00")
+                            If .many(0).Value Then
+                                .priceBOX(i) = Format((totalCost / newStocks), "0.00")
+                            Else
+                                If .priceBOX(i) = "" Then
+                                    .priceBOX(i) = "0.00"
+                                End If
+                            End If
                         End If
                 End Select
             Next
@@ -80,7 +100,7 @@ On Error GoTo ErrHandler
         .Nodes.Add "Fabrication", tvwChild, "@" + "processCost", "Process Cost", "thing 1"
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
         Call fabWorkBOXESlist
-        .Nodes.Add "@processCost", tvwChild, "@" + "newStock", "New Stock#:", "thing 1"
+        .Nodes.Add "@fprocessCost", tvwChild, "@" + "newStock", "New Stock#:", "thing 1"
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
         Call fabWorkBOXESlist
         nodePosition = .Nodes.Count
@@ -209,9 +229,19 @@ On Error Resume Next
                         key = .Tree.Nodes(i).key
                         If InStr(key, "@newStock") Then key = "@newStock"
                         Select Case key
+                            Case "@finalCost"
+                                .quantity(i).Visible = False
+                                .quantityBOX(i).Visible = False
+                                Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
+                                Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
+                                .priceBOX(i).backcolor = &HC0FFC0
+                                .balanceBOX(i) = "0.00"
+                                .balanceBOX(i).Visible = True
+                                .balanceBOX(i).Enabled = True
+                                .balanceBOX(i).locked = True
                             Case "@processCost"
                                 Call fabPutBOX(.fabCostBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
-                                .fabCostBOX(i).backcolor = RGB(0, 204, 255)
+                                .fabCostBOX(i).backcolor = &HFFFF80
                                 .fabCostBOX(i).Enabled = True
                                 .quantity(i).Visible = False
                             Case "@newStock"
@@ -225,9 +255,10 @@ On Error Resume Next
                                 Call fabPutBOX(.quantityBOX(i), .linesV(6).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
                                 .balanceBOX(i) = "0.00"
-                                .quantityBOX(i).Enabled = False
+                                .quantityBOX(i).Enabled = True
                                 .quantityBOX(i) = "1.00"
                                 .NEWconditionBOX(i) = "01"
+                                .priceBOX(i).Enabled = True
                             Case Else
                                 Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
@@ -238,7 +269,15 @@ On Error Resume Next
                                 .quantityBOX(i).Enabled = True
                                 .quantityBOX(i) = "1.00"
                         End Select
-                        .priceBOX(i).Enabled = False
+                        If .addFinalStock.Enabled Then
+'                            .priceBOX(i).Enabled = False
+                        Else
+                            If .many(0).Value Then
+                                .priceBOX(i).Enabled = False
+                            Else
+                                .priceBOX(i).Enabled = True
+                            End If
+                        End If
                         .quantity(i).backcolor = vbWhite
                         .quantityBOX(i).backcolor = vbWhite
                     End If
@@ -1379,11 +1418,11 @@ onDetailListInProcess = True
         If frmFabrication.STOCKlist.Rows > 2 Then frmFabrication.STOCKlist.RemoveItem (1)
         frmFabrication.STOCKlist.RowHeightMin = 240
         frmFabrication.STOCKlist.row = 0
-        If frmFabrication.STOCKlist.TopRow = 0 Then ' uh oh needs fixing .
+        If frmFabrication.STOCKlist.topROW = 0 Then ' uh oh needs fixing .
             If frmFabrication.STOCKlist.Rows > 1 Then
                 frmFabrication.STOCKlist.FixedRows = 0
                 frmFabrication.STOCKlist.FixedRows = 1
-                frmFabrication.STOCKlist.TopRow = 1
+                frmFabrication.STOCKlist.topROW = 1
             End If
         End If
     End With
@@ -1805,10 +1844,6 @@ once = True
 balanceTotal = 0
 Dim goAhead As Boolean
 goAhead = False
-'This applies to reciept only
-'balance and balance2 are meant to store the difference between the PO qty to be recieved and what is being recieved.
-'that is for primary and secondary qty's
-'originalQTY is meant to store the qty to be recieved as originally got from the PO and thus is never updated
 
 'On Error GoTo errorHandler
 On Error Resume Next
@@ -1822,45 +1857,12 @@ On Error Resume Next
         colRef2 = 7
         colTot = 5
         Select Case .tag
-            Case "02040400" 'ReturnFromRepair
             Case "02040800" 'Fabrication
                 colTot = 5
                 colRef = 7
-            Case "02050200" 'AdjustmentEntry
-            Case "02040200" 'WarehouseIssue
-                colTot = 6
-                colRef = 7
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-                If IsMissing(isPool) Then isPool = True
-                    If isPool Then
-                        colRef = 9
-                        colTot = 3
-                    Else
-                        colRef = 3
-                        colTot = 3
-                    End If
-                isDynamic = False
-                fromStockList = True
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
         End Select
-        'Restore initial values
-'        For i = 0 To .STOCKlist.Rows - 1
-'            .STOCKlist.TextMatrix(i, colTot) = .STOCKlist.TextMatrix(i, colRef)
-'            .STOCKlist.TextMatrix(i, colTot + 2) = .STOCKlist.TextMatrix(i, colRef + 1)
-'        Next
-        'WarehouseReceipt
         r = .STOCKlist.row
-        If .tag = "02040100" Then
-            r = findSTUFF(.commodityLABEL, .STOCKlist, 1, .poItemLabel, 8)
-        Else
             r = findSTUFF(.commodityLABEL, .STOCKlist, 1)
-        End If
         
         If r > 0 Then
             'When isDynamic variable is false means we are taking the values from the stockList
@@ -1957,14 +1959,7 @@ On Error Resume Next
                             '-------------
                               
                             balance = balance - .quantityBOX(i)
-    '                        this = this + CDbl(.quantityBOX(i))
-    '                        qtyBoxTotal = qtyBoxTotal + CDbl(.quantity(i))
-    '                        originalQty = originalQty + CDbl(.quantityBOX(i))
-    '                        .balanceBOX(i) = Format(balance, "0.00")
-    '                        balanceTotal = balanceTotal + balance
-                            
-                            'new
-                            '.quantity(i) = Format(sumByLine, "0.00")
+
                             .balanceBOX(i) = Format(sumByLine, "0.00")
                             '------------------
                         End If
@@ -1973,17 +1968,6 @@ On Error Resume Next
                     End If
                 End If
             Next
-'        Else
-'            sumByQtyBox = 1
-'            sumByQty = 1
-'            balanceTotal = 1
-'            sumByLines = 1
-'        End If
-        'Final step to totalize--------------------
-'        .quantityBOX(totalNode) = Format(this, "0.00")
-'        .quantity(totalNode) = Format(qtyBoxTotal, "0.00")
-        
-        'New
         submitted = True
         .quantityBOX(totalNode) = Format(sumByQtyBox, "0.00")
         .quantity(totalNode) = Format(sumByQty, "0.00")
@@ -1992,11 +1976,6 @@ On Error Resume Next
             .balanceBOX(totalNode) = Format(balanceTotal, "0.00")
             .balanceBOX(totalNode) = Format(sumByLines, "0.00")
             balance = balanceTotal
-            Select Case frmFabrication.tag
-                'WarehouseIssue
-                Case "02040200"
-                    .quantity(totalNode) = Format(sumByQty, "0.00")
-            End Select
         Else
             .balanceBOX(totalNode) = Format(balance, "0.00")
         End If
@@ -2008,21 +1987,11 @@ On Error Resume Next
         If updateStockList Then
             Select Case .tag
                 Case "02040100" 'WarehouseReceipt
-                    If balance < 0 Then
-                        .STOCKlist.TextMatrix(r, colTot) = "0.00"
-                    Else
-                        .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
-                    End If
                 Case Else
                     .STOCKlist.TextMatrix(r, colTot) = Format(balance, "0.00")
             End Select
             Select Case .tag
                 Case "02040100" 'WarehouseReceipt
-                    If sumByLines < 0 Then
-                        .STOCKlist.TextMatrix(r, colTot) = "0.00" 'new juan 2015-10-3
-                    Else
-                        .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
-                    End If
                 Case Else
                     .STOCKlist.TextMatrix(r, colTot) = Format(sumByLines, "0.00") 'new juan 2015-10-3
             End Select
@@ -2032,27 +2001,6 @@ On Error Resume Next
             Call calculateMainItem(stockReference, True) 'r before next
             '----------------------
         End If
-        Select Case .tag
-            Case "02040400" 'ReturnFromRepair
-            Case "02050200" 'AdjustmentEntry
-            Case "02040200" 'WarehouseIssue
-                If updateStockList Then .STOCKlist.TextMatrix(r, 6) = Format(sumByLines, "0.00")
-            Case "02040500" 'WellToWell
-            Case "02040700" 'InternalTransfer
-            Case "02050300" 'AdjustmentIssue
-            
-            Case "02040600" 'WarehouseToWarehouse
-            Case "02040100" 'WarehouseReceipt
-                If updateStockList Then
-                    If balance2 < 0 Then
-                        .STOCKlist.TextMatrix(r, colTot + 2) = "0.00"
-                    Else
-                        .STOCKlist.TextMatrix(r, colTot + 2) = Format(balance2, "0.00")
-                    End If
-                End If
-            Case "02050400" 'Sales
-            Case "02040300" 'Return from Well
-        End Select
     End With
     Exit Sub
 errorHandler:
@@ -2114,7 +2062,12 @@ On Error Resume Next
                 If .quantityBOX(i) = 0 Then
                     .quantity(i) = Format(originalQty, "0.00")
                 Else
-                    .quantity(i) = Format(originalQty - CDbl(.quantityBOX(i)), "0.00")
+                    key = .Tree.Nodes(i).key
+                    If InStr(key, "@newStock") Then
+                        .quantity(i) = .quantityBOX(i)
+                    Else
+                        .quantity(i) = Format(originalQty - CDbl(.quantityBOX(i)), "0.00")
+                    End If
                 End If
                 If CDbl(.quantity(i)) > 0 Then
                     sumByLine = .quantity(i) - .quantityBOX(i)
@@ -2132,37 +2085,63 @@ On Error Resume Next
         End If
         Dim finalPrice As Double
         finalPrice = 0
+        Dim stockTotalPrice As Double
+        stockTotalPrice = 0
         Dim newStocks As Integer
         newStocks = 0
+        'summarizing
         For i = 1 To .Tree.Nodes.Count
             key = .Tree.Nodes(i).key
             If InStr(key, "@newStock") Then key = "@newStock"
             Select Case key
+                Case "@finalCost"
+                    'does nothing but just to not get it into the sumes
                 Case "@processCost"
                     finalPrice = finalPrice + CDbl(.fabCostBOX(i))
                 Case "@newStock"
-                    newStocks = newStocks + 1
+                    newStocks = newStocks + CDbl(.quantityBOX(i))
+                    stockTotalPrice = stockTotalPrice + CDbl(.priceBOX(i))
                 Case Else
                     finalPrice = finalPrice + (CDbl(.priceBOX(i)) * CDbl(.quantityBOX(i)))
             End Select
         Next
+        
+        
         If .Tree.Nodes(.Tree.Nodes.Count).key = "@newStock" Then
-            .priceBOX(.Tree.Nodes.Count) = Format(finalPrice, "0.00")
+            If IsNumeric(.Tree.Nodes.Count) Then
+                If .many(0).Value Then
+                    .priceBOX(.Tree.Nodes.Count) = Format(finalPrice / CDbl(.quantityBOX(.Tree.Nodes.Count)), "0.00")
+                Else
+                    
+                End If
+            Else
+                .priceBOX(.Tree.Nodes.Count) = Format(finalPrice, "0.00")
+            End If
         End If
-        If .many(1).Value Then
-            Dim totalCost As Double
-            totalCost = CDbl(.fabCostBOX(3)) + .priceBOX(2)
-            For i = 1 To .Tree.Nodes.Count
-                key = .Tree.Nodes(i).key
-                If InStr(key, "@newStock") Then key = "@newStock"
-                Select Case key
-                    Case "@newStock"
-                        If newStocks > 0 Then
+        Dim totalCost As Double
+        totalCost = finalPrice
+        For i = 1 To .Tree.Nodes.Count
+            key = .Tree.Nodes(i).key
+            If InStr(key, "@newStock") Then key = "@newStock"
+            If InStr(key, "@finalCost") Then key = "@finalCost"
+            Select Case key
+                Case "@finalCost"
+                    .priceBOX(i) = Format((totalCost), "0.00")
+                    .balanceBOX(i) = Format((totalCost - stockTotalPrice), "0.00")
+                    If (totalCost - stockTotalPrice) < 0 Then
+                        .balanceBOX(i).ForeColor = vbRed
+                    Else
+                        .balanceBOX(i).ForeColor = vbBlack
+                    End If
+                Case "@newStock"
+                    If newStocks > 0 Then
+                        If .many(0).Value Then
                             .priceBOX(i) = Format((totalCost / newStocks), "0.00")
+                        Else
                         End If
-                End Select
-            Next
-        End If
+                    End If
+            End Select
+        Next
     End With
     Exit Sub
 errorHandler:

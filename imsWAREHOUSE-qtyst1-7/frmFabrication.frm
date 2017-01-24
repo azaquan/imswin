@@ -5,14 +5,191 @@ Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmFabrication 
-   ClientHeight    =   9885
+   ClientHeight    =   9945
    ClientLeft      =   165
    ClientTop       =   345
    ClientWidth     =   14415
    MaxButton       =   0   'False
-   ScaleHeight     =   9885
+   ScaleHeight     =   9945
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin VB.PictureBox invoiceFrame 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0E0FF&
+      ForeColor       =   &H80000008&
+      Height          =   5895
+      Left            =   0
+      ScaleHeight     =   5865
+      ScaleWidth      =   13785
+      TabIndex        =   123
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   13815
+      Begin VB.PictureBox Picture2 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         ForeColor       =   &H80000008&
+         Height          =   3240
+         Left            =   11020
+         ScaleHeight     =   3210
+         ScaleWidth      =   0
+         TabIndex        =   133
+         Top             =   1220
+         Width           =   15
+      End
+      Begin VB.CommandButton Command4 
+         Caption         =   "&Remove"
+         Height          =   435
+         Left            =   9720
+         TabIndex        =   129
+         Top             =   240
+         Width           =   1395
+      End
+      Begin VB.CommandButton newInvoice 
+         Caption         =   "&NEW"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   435
+         Left            =   11280
+         TabIndex        =   128
+         Top             =   240
+         Width           =   1395
+      End
+      Begin VB.TextBox box 
+         Appearance      =   0  'Flat
+         BackColor       =   &H0000FFFF&
+         Height          =   285
+         Left            =   0
+         MousePointer    =   1  'Arrow
+         TabIndex        =   127
+         Text            =   "box"
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   1215
+      End
+      Begin VB.CommandButton invoiceClose 
+         Caption         =   "&Close"
+         Height          =   435
+         Left            =   11280
+         TabIndex        =   125
+         Top             =   4920
+         Width           =   1395
+      End
+      Begin MSHierarchicalFlexGridLib.MSHFlexGrid invoiceGrid 
+         CausesValidation=   0   'False
+         Height          =   3615
+         Left            =   600
+         TabIndex        =   124
+         TabStop         =   0   'False
+         Top             =   840
+         Width           =   12075
+         _ExtentX        =   21299
+         _ExtentY        =   6376
+         _Version        =   393216
+         BackColor       =   16777215
+         Cols            =   4
+         FixedCols       =   0
+         RowHeightMin    =   260
+         BackColorFixed  =   8421504
+         ForeColorFixed  =   16777215
+         BackColorSel    =   12632064
+         BackColorBkg    =   12648447
+         AllowBigSelection=   0   'False
+         FocusRect       =   0
+         HighLight       =   0
+         GridLinesFixed  =   1
+         GridLinesUnpopulated=   1
+         ScrollBars      =   2
+         Appearance      =   0
+         _NumberOfBands  =   1
+         _Band(0).Cols   =   4
+         _Band(0).GridLinesBand=   1
+         _Band(0).TextStyleBand=   0
+         _Band(0).TextStyleHeader=   0
+      End
+      Begin MSComCtl2.MonthView calendar 
+         Height          =   2370
+         Left            =   2400
+         TabIndex        =   130
+         Top             =   -360
+         Visible         =   0   'False
+         Width           =   2700
+         _ExtentX        =   4763
+         _ExtentY        =   4180
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483633
+         Appearance      =   1
+         StartOfWeek     =   54591489
+         CurrentDate     =   36972
+      End
+      Begin VB.Label totalInvoiceLabel 
+         Alignment       =   1  'Right Justify
+         BackStyle       =   0  'Transparent
+         Caption         =   "0.00"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   9240
+         TabIndex        =   132
+         Top             =   4560
+         Width           =   1815
+      End
+      Begin VB.Label Label8 
+         Alignment       =   1  'Right Justify
+         BackStyle       =   0  'Transparent
+         Caption         =   "Total:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   6360
+         TabIndex        =   131
+         Top             =   4560
+         Width           =   2775
+      End
+      Begin VB.Label Label7 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Invoices for this Fabrication"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   255
+         Left            =   600
+         TabIndex        =   126
+         Top             =   480
+         Width           =   7815
+      End
+   End
    Begin VB.CommandButton setUpTransaction 
       Caption         =   "Set up transaction"
       Height          =   255
@@ -262,7 +439,7 @@ Begin VB.Form frmFabrication
       BorderStyle     =   0  'None
       Height          =   220
       Index           =   0
-      Left            =   2640
+      Left            =   2520
       MousePointer    =   1  'Arrow
       TabIndex        =   87
       Text            =   "poItemBox"
@@ -418,7 +595,7 @@ Begin VB.Form frmFabrication
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   46
-      Top             =   6240
+      Top             =   4560
       Width           =   11775
    End
    Begin VB.Timer Timer1 
@@ -831,7 +1008,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   22413315
+      Format          =   54591491
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1963,6 +2140,141 @@ Dim firstAdding As Boolean
 
 Public stockListRow As Integer
 
+Dim Mode As String
+Dim currentROW As Integer
+Dim oldVALUE
+Dim originalValue
+Dim bypassFOCUS As Boolean
+Dim previousRow As Integer
+Dim previousCol As Integer
+Sub saveFabricationInvoices(nameSP, CompCode)
+    Dim i As Integer
+    Dim datax As New ADODB.Recordset
+    Dim sql As String
+    Dim sql2 As String
+    Dim amount As Double
+    sql = "insert into invoice_fabrication (namespace_code,company_code,transaction_number,invoice_number,description,amount,[invoice_date]) "
+    sql = sql + "values('" + nameSP + "','" + CompCode + "','" + Format(Transnumb, "F-#") + "',"
+    With invoiceGrid
+        For i = 1 To .Rows - 1
+            If (IsNumeric(.TextMatrix(i, 2))) Then
+                amount = CDbl(.TextMatrix(i, 2))
+            Else
+                amount = 0
+            End If
+            sql2 = sql + "'" + .TextMatrix(i, 0) + "','" + .TextMatrix(i, 1) + "',"
+            sql2 = sql2 + Format(amount) + ",'" + Format(calendar.Value, "YYYY-MM-DD") + "')"
+            cn.Execute sql2
+        Next
+    End With
+End Sub
+
+Sub showBOX(col As Integer)
+Dim x As Integer
+Dim y As Integer
+    With invoiceGrid
+        .col = col
+        previousCol = col
+        previousRow = .row
+        If .row = 0 And .FixedRows > 0 Then .row = 1
+        box.Height = .RowHeight(.row)
+        If .row = 1 Then
+            box.Height = box.Height - 20
+        Else
+            box.Height = box.Height + 10
+        End If
+        x = leftCOL(col) - 20
+        box.Left = x
+        y = topROW(.row) - 40
+        box.Top = y + .Top
+        box.width = .ColWidth(col) + 10
+        box.Visible = True
+        box.text = .TextMatrix(.row, col)
+        oldVALUE = box.text
+        originalValue = box.text
+        Select Case .ColAlignment(col)
+            Case 0 To 2
+                box.Alignment = 0
+            Case 3 To 5
+                box.Alignment = 2
+            Case 6 To 8
+                box.Alignment = 1
+        End Select
+        Select Case col
+            Case 0
+                box.MaxLength = 50
+            Case 1
+                box.MaxLength = 1500
+            Case 2
+                box.MaxLength = 18
+        End Select
+        box.tag = col
+        box.SetFocus
+        box.ZOrder
+    End With
+End Sub
+
+
+Function leftCOL(col) As Integer
+Dim x As Integer
+Dim i As Integer
+    With invoiceGrid
+        x = .Left + 10
+        If col > 0 Then
+            For i = 0 To col - 1
+                x = x + .ColWidth(i)
+            Next
+        End If
+    End With
+    leftCOL = x + 10
+End Function
+
+
+Sub sumInvoices()
+    Dim totalInvoice As Double
+    Dim subTot As Double
+    Dim i As Integer
+    With invoiceGrid
+        For i = 1 To .Rows - 1
+            If IsNumeric(.TextMatrix(i, 2)) Then
+                subTot = CDbl(.TextMatrix(i, 2))
+                totalInvoice = totalInvoice + subTot
+            End If
+        Next
+    End With
+    totalInvoiceLabel = Format(totalInvoice, "#,###,##0.00")
+End Sub
+
+Function topROW(row, Optional Bottom As Boolean) As Integer
+Dim y As Integer
+Dim i As Integer
+Dim n As Integer
+    With invoiceGrid
+        If Bottom Then
+            n = row
+        Else
+            n = row - 1
+        End If
+        y = 20
+        For i = 0 To n
+            y = y + .RowHeight(row)
+        Next
+    End With
+    If Bottom Then
+        If row = 1 Then
+            y = y + 20
+        Else
+            y = y + 30
+        End If
+    Else
+        If row = 1 Then
+            y = y + 10
+        End If
+    End If
+    topROW = y
+End Function
+
+
 Sub fabArrowKEYS(direction As String, Index As Integer)
 Dim grid As MSHFlexGrid
     With cell(Index)
@@ -1993,7 +2305,7 @@ Dim grid As MSHFlexGrid
                 grid.Visible = True
             End If
             grid.ZOrder
-            grid.TopRow = IIf(grid.row = 0, 1, grid.row)
+            grid.topROW = IIf(grid.row = 0, 1, grid.row)
             usingARROWS = True
             Call gridCOLORdark(grid, grid.row)
             grid.SetFocus
@@ -2033,7 +2345,7 @@ Dim grid As MSHFlexGrid
                 grid.Visible = True
             End If
             grid.ZOrder
-            grid.TopRow = IIf(grid.row = 0, 1, grid.row)
+            grid.topROW = IIf(grid.row = 0, 1, grid.row)
             usingARROWS = True
             Call gridCOLORdark(grid, grid.row)
             grid.SetFocus
@@ -2226,6 +2538,19 @@ Dim datax As ADODB.Recordset
      End If
 End Function
 
+Sub hideInvoiceFrame()
+    Dim Index As Integer
+    Index = Val(invoiceFrame.tag)
+    fabCostBOX(Index) = totalInvoiceLabel
+    invoiceFrame.Visible = False
+End Sub
+Sub showInvoiceFrame(Index)
+    invoiceFrame.tag = Index
+    invoiceFrame.Visible = True
+    calendar.Value = Now
+    invoiceFrame.ZOrder
+End Sub
+
 Sub limitQty(Index As Integer)
     Dim originalQty, sumQty As Double
     Dim i As Integer
@@ -2241,10 +2566,16 @@ Sub limitQty(Index As Integer)
             Exit For
         End If
     Next
-    If CDbl(quantityBOX(Index)) > originalQty Then
-        quantityBOX(Index).text = Format(originalQty, "0.00")
-    Else
+    If stockToFind = "newStock" Then
         quantityBOX(Index) = Format(CDbl(quantityBOX(Index)), "0.00")
+        originalQty = quantityBOX(Index)
+        quantity(Index) = quantityBOX(Index)
+    Else
+        If CDbl(quantityBOX(Index)) > originalQty Then
+            quantityBOX(Index).text = Format(originalQty, "0.00")
+        Else
+            quantityBOX(Index) = Format(CDbl(quantityBOX(Index)), "0.00")
+        End If
     End If
 End Sub
 
@@ -2333,7 +2664,6 @@ Dim fabCostRow
                 itemCount = (SUMMARYlist.Rows) - (i + 1)
                 If itemCount < 1 Then itemCount = 1
                 fabricationCOST = fabricationCOST / itemCount
-                
                 transactionPoint = "cost"
             Else
                 stocknumb = SUMMARYlist.TextMatrix(i, 1)
@@ -2349,7 +2679,6 @@ Dim fabCostRow
                 toSUBLOCA = SUMMARYlist.TextMatrix(i, 12)
                 serial = "POOL"
                 NEWcondition = "01"
-
                 CompCode = cell(1).tag
                 FromWH = cell(2).tag
             End If
@@ -2370,6 +2699,7 @@ Dim fabCostRow
                     retval = retval And Quantity_In_stock4_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, fromSubLoca, condition, CurrentUser, cn)
                     retval = retval And Quantity_In_stock5_Insert(nameSP, CompCode, stocknumb, FromWH, primQty, secQty, fromlogic, fromSubLoca, condition, Format(Transnumb), CDbl(i), ToWH, "F", CompCode, FromWH, Format(Transnumb), CompCode, CDbl(i), CurrentUser, cn)
                 Case "cost"
+                    Call saveFabricationInvoices(nameSP, CompCode)
                     transactionPoint = "entry"
                 Case "entry"
                     ToWH = SUMMARYlist.TextMatrix(i, 26)
@@ -2380,7 +2710,7 @@ Dim fabCostRow
                         Exit Sub
                     End If
 
-                    retval = Update_Sap_With_repair_Cost(nameSP, CompCode, stocknumb, ToWH, primQty, CDbl(1), fabricationCOST, unitPRICE - fabricationCOST, NEWcondition, CurrentUser, cn)
+                    retval = UpdateSap(nameSP, CompCode, stocknumb, ToWH, primQty, CDbl(1), unitPRICE, NEWcondition, CurrentUser, cn)
                     retval = retval And Quantity_In_stock1_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, stockDESC, CurrentUser, cn)
                     retval = retval And Quantity_In_stock2_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, CurrentUser, cn)
                     retval = retval And Quantity_In_stock3_Insert(nameSP, CompCode, stocknumb, ToWH, primQty, secQty, toLOGIC, toSUBLOCA, CurrentUser, cn)
@@ -2396,7 +2726,6 @@ Dim fabCostRow
         Next
     
 End Sub
-
 Function putReceipt(prefix) As Integer
 Dim v As Variant
     With MakeCommand(cn, adCmdStoredProc)
@@ -2542,7 +2871,7 @@ Screen.MousePointer = 11
                 End If
             End If
         
-    STOCKlist.TopRow = 1
+    STOCKlist.topROW = 1
     Screen.MousePointer = 0
 End Sub
 
@@ -2584,6 +2913,7 @@ End Sub
 
 
 Private Sub addFinalStock_Click()
+    Dim factor As Integer
     If many(0).Value Then
         Dim answer As String
         answer = MsgBox("Is it the last item to fabricate?", vbYesNo)
@@ -2593,18 +2923,138 @@ Private Sub addFinalStock_Click()
             Call addFabricationNode
             submitDETAIL.Enabled = True
         End If
+        factor = 0
     Else
         Call addFabricationMultipleNode
         submitDETAIL.Enabled = True
+        factor = 2
     End If
     If firstAdding Then
-        fabCostBOX(Tree.Nodes.Count - 1).SelStart = 0
-        fabCostBOX(Tree.Nodes.Count - 1).SelLength = 4
-        fabCostBOX(Tree.Nodes.Count - 1).SetFocus
+        fabCostBOX(Tree.Nodes.Count - factor).SelStart = 0
+        fabCostBOX(Tree.Nodes.Count - factor).SelLength = 4
+        fabCostBOX(Tree.Nodes.Count - factor).SetFocus
+        'total cost line
         firstAdding = False
     End If
 End Sub
 
+
+Private Sub box_KeyPress(KeyAscii As Integer)
+    With invoiceGrid
+        .col = previousCol
+        .row = previousRow
+        Select Case KeyAscii
+            Case 13
+                .TextMatrix(previousRow, previousCol) = box
+                If (.col >= 0) Or (.col <= 2) Then
+                    If .col = 2 Then
+                        If IsNumeric(box) Then
+                            Call sumInvoices
+                            box = Format(CDbl(box), "#,###,##0.00")
+                        Else
+                            box = "0.00"
+                        End If
+                    End If
+                    bypassFOCUS = True
+                    .RowSel = .row
+                    .col = .col + 1
+                    .ColSel = .col
+                        Select Case .col
+                            Case 3
+                                Call showCALENDAR(3)
+                            Case 2
+                                showBOX (2)
+                            Case Else
+                                Call showBOX(.col)
+                        End Select
+
+                    .tag = .row
+                End If
+            Case 27
+                box = originalValue
+            Case Else
+                Exit Sub
+        End Select
+        Call box_LostFocus
+    End With
+End Sub
+
+
+Private Sub box_LostFocus()
+Dim Flag As Integer
+    If bypassFOCUS Then
+        bypassFOCUS = False
+    Else
+        With invoiceGrid
+            If previousCol = 2 Then
+                If IsNumeric(box) Then
+                    box = Format(CDbl(box), "#,###,##0.00")
+                Else
+                    box = "0.00"
+                End If
+            End If
+            If box <> "" Then .TextMatrix(previousRow, previousCol) = box
+            If previousCol = 2 Then
+                If IsNumeric(box) Then
+                    Call sumInvoices
+                End If
+            End If
+            
+            '.col = Flag
+            box = ""
+            'box.tag = ""
+            box.Visible = False
+            box.Refresh
+        End With
+    End If
+End Sub
+
+
+Private Sub box_Validate(Cancel As Boolean)
+Dim sql As String
+Dim currDATA As New ADODB.Recordset
+        
+    With invoiceGrid
+'        If .col = 0 Then
+'            sql = "SELECT curr_code  FROM CURRENCY WHERE " _
+'                & "curr_code = '" + Trim(box) + "' AND " _
+'                & "curr_npecode = '" + deIms.NameSpace + "'"
+'            Set currDATA = New ADODB.Recordset
+'            currDATA.Open sql, deIms.cnIms, adOpenForwardOnly
+'            If currDATA.RecordCount > 0 Then
+'                currencyLIST.Col = 0
+'                box = ""
+'                MsgBox "Currency Code already exists"
+'                currencyLIST.row = currentRow
+'            End If
+'        End If
+    End With
+End Sub
+
+
+Private Sub calendar_DateClick(ByVal DateClicked As Date)
+    With invoiceGrid
+        .TextMatrix(.row, Val(calendar.tag)) = calendar.Value
+        calendar.Visible = False
+    End With
+End Sub
+
+Private Sub calendar_LostFocus()
+    calendar.Visible = False
+End Sub
+
+Private Sub Command4_Click()
+    Dim i As Integer
+    With invoiceGrid
+        If .Rows > 2 Then
+            .RemoveItem (.row)
+        Else
+            For i = 0 To .cols - 1
+                .TextMatrix(1, i) = ""
+            Next
+        End If
+    End With
+End Sub
 
 Private Sub emailButton_Click()
 Dim reportName As String
@@ -2658,10 +3108,19 @@ Select Case frmFabrication.tag
     Call updateEmail
 End Sub
 
+Private Sub fabCostBOX_Change(Index As Integer)
+    If IsNumeric(priceBOX(Index)) Then
+        fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
+        Call calculationsFabrication(False, Index)
+    End If
+End Sub
+
+
 Private Sub fabCostBOX_Click(Index As Integer)
     With fabCostBOX(Index)
-        .SelStart = 0
-        .SelLength = Len(.text)
+        '.SelStart = 0
+        '.SelLength = Len(.text)
+        Call showInvoiceFrame(Index)
     End With
 End Sub
 
@@ -2687,6 +3146,74 @@ End Sub
 Private Sub fabCostBOX_Validate(Index As Integer, Cancel As Boolean)
     Call validateQTY(fabCostBOX(Index), Index)
 End Sub
+
+Private Sub invoiceClose_Click()
+    Dim r As Integer
+    Dim c As Integer
+    Dim missing As Boolean
+    missing = False
+    With invoiceGrid
+        For r = 0 To .Rows - 1
+            For c = 0 To .cols - 1
+                If .TextMatrix(r, c) = "" Then
+                    missing = True
+                    Exit For
+                End If
+            Next
+        Next
+    End With
+    If missing Then
+        MsgBox "Please make sure all fields are filled for each invoice before closing the form"
+    Else
+        Call hideInvoiceFrame
+    End If
+        
+End Sub
+
+Private Sub invoiceGrid_Click()
+    calendar.Visible = False
+    With invoiceGrid
+        previousRow = .row
+        .row = .MouseRow
+        .RowSel = .row
+        previousCol = .col
+        .col = .MouseCol
+        .ColSel = .col
+        Select Case .MouseCol
+            Case 3
+                If IsDate(.TextMatrix(previousRow, previousCol)) Then
+                    calendar.Value = .TextMatrix(previousRow, previousCol)
+                End If
+                Call showCALENDAR(.col)
+            Case Else
+                box = .TextMatrix(previousRow, previousCol)
+                Call showBOX(.col)
+        End Select
+        .tag = .row
+    End With
+End Sub
+
+Sub showCALENDAR(col As Integer)
+Dim x As Integer
+Dim y As Integer
+Dim i As Integer
+    With invoiceGrid
+        .col = col
+        If .row = 0 And .FixedRows > 0 Then .row = 1
+        calendar.Left = .ColPos(.col) + .Left
+        y = topROW(.row, True)
+        'If (box.Top) <= (calendar.Height + 1200) Then
+            y = box.Top
+        'End If
+        '.CellBackColor = &HC0FFFF
+        calendar.Top = y
+        calendar.Visible = True
+        calendar.tag = col
+        calendar.SetFocus
+        calendar.ZOrder
+    End With
+End Sub
+
 
 Private Sub logicBOX_Validate(Index As Integer, Cancel As Boolean)
 If skipExistance Then
@@ -2717,6 +3244,39 @@ Private Sub many_Click(Index As Integer)
     End If
 End Sub
 
+Private Sub newInvoice_Click()
+    With invoiceGrid
+        If .Rows = 2 Then
+            If .TextMatrix(.row, 0) + .TextMatrix(.row, 1) + .TextMatrix(.row, 2) + .TextMatrix(.row, 3) = "" Then
+            Else
+            .addITEM ""
+            End If
+        Else
+            .addITEM ""
+        End If
+        Mode = "new"
+        .row = .Rows - 1
+        .col = 0
+        .tag = "0"
+        .row = .Rows - 1
+        previousRow = .row
+        previousCol = 0
+        Call showBOX(0)
+    End With
+End Sub
+
+Sub Coloring(dye)
+Dim currentCOL As Integer
+Dim i As Integer
+    With invoiceGrid
+        currentCOL = .col
+        For i = 0 To 3
+            .col = i
+            .CellBackColor = dye
+        Next
+        .col = currentCOL
+    End With
+End Sub
 Private Sub noButton_Click()
     
     msgBoxResponse = False
@@ -2938,8 +3498,12 @@ Private Sub searchStock_LostFocus(Index As Integer)
 End Sub
 
 Private Sub setUpTransaction_Click()
+    Dim i As Integer
     many(0).Enabled = False
     many(1).Enabled = False
+    For i = 1 To 4
+        cell(i).locked = True
+    Next
     setUpTransaction.Enabled = False
     STOCKlist.Enabled = True
 End Sub
@@ -3072,6 +3636,9 @@ Dim shot
             rec = rec + unit
             .addITEM rec
             .TextMatrix(.Rows - 1, 20) = conditionCODE
+            If datax!TransactionType = "r" Then
+                cell(3) = datax!Warehouse
+            End If
             datax.MoveNext
             i = i + 1
         Loop
@@ -3769,6 +4336,21 @@ Dim translationSecondaryQty
         .Height = Tree.Height - 420
     End With
     ' ------------
+    
+    With invoiceGrid
+        .TextMatrix(0, 0) = "invoice #"
+        .ColWidth(0) = 1600
+        .ColAlignment(0) = flexAlignLeftCenter
+        .TextMatrix(0, 1) = "description"
+        .ColWidth(1) = 7000
+        .ColAlignment(1) = flexAlignLeftCenter
+        .TextMatrix(0, 2) = "amount"
+        .ColWidth(2) = 1800
+        .ColAlignment(2) = flexAlignRightCenter
+        .TextMatrix(0, 3) = "invoice date"
+        .ColWidth(3) = 1200
+        .ColAlignment(3) = flexAlignLeftCenter
+    End With
 End Sub
 
 
@@ -3966,7 +4548,7 @@ Sub hideREMARKS()
     unitLABEL(0).Visible = True
     commodityLABEL.Visible = True
     descriptionLABEL.Visible = True
-    remarksLabel.Visible = False
+    remarksLABEL.Visible = False
     remarks.Visible = False
     SUMMARYlist.Visible = True
     SUMMARYlist.ZOrder
@@ -3997,7 +4579,7 @@ Sub showREMARKS()
     h = Tree.Top - detailHEADER.Top + Tree.Height - SSOleDBFQA.Height
     If h < 0 Then h = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
     remarks.Height = h
-    remarksLabel.Visible = True
+    remarksLABEL.Visible = True
     remarks.Visible = True
     remarks.ZOrder
     
@@ -4039,7 +4621,7 @@ Dim positionX, positionY, i, currentCOL, currentROW As Integer
                     positionX = positionX + .ColWidth(i)
                 Next
                 positionY = .Top + 20
-                For i = .TopRow - 1 To .row - IIf(.TopRow = 1, 1, 0)
+                For i = .topROW - 1 To .row - IIf(.topROW = 1, 1, 0)
                     positionY = positionY + .RowHeight(i)
                 Next
                 TextLINE.text = .text
@@ -4241,6 +4823,7 @@ End Sub
 
 Private Sub priceBOX_Validate(Index As Integer, Cancel As Boolean)
     Call validateQTY(priceBOX(Index), Index)
+    Call calculationsFabrication(False, Index)
 End Sub
 
 Private Sub PrintButton_Click()
@@ -4507,6 +5090,43 @@ Private Function PutDataInsert2(Item, price, Optional fabricationCOST As Double)
 errPutDataInsert:
     MsgBox Err.description: Err.Clear
 End Function
+
+
+Private Function UpdateSap(nameSP_val, CompCode_val, stocknumb_val, ToWH_val, primQty_val As Double, currency_val, unitPRICE_val As Double, NEWcondition_val, CurrentUser_val, cn As Connection) As Boolean
+    Dim psVALUE, serial
+    Dim cmd As Command
+    On Error GoTo errPutDataInsert
+    UpdateSap = False
+    Set cmd = getCOMMAND("UPDATE_SAP_FOR_FABRICATION")
+    
+'nameSP, CompCode, stocknumb, ToWH, primQty, CDbl(1), fabricationCOST, unitPRICE, NEWcondition, CurrentUser, cn
+'    @NAMESPACE NPECODE,
+'    @COMPANYCODE CHAR(10),
+'    @STOCKNUMBER CHAR(20),
+'    @WHAREHOUSE CHAR(10),
+'    @UNITPRICE NUMERIC(12,3),
+'    @CONDITIONCODE CHAR(2),
+'    @PRIMARYQUANTITY NUMERIC(12,4),
+'    @CURRENCYVALUE  NUMERIC(18,5),
+'    @USER VARCHAR(20) )
+    
+    cmd.parameters("@CURRENCYVALUE") = currency_val
+    cmd.parameters("@COMPANYCODE") = CompCode_val
+    cmd.parameters("@NAMESPACE") = nameSP_val
+    cmd.parameters("@WHAREHOUSE") = ToWH_val
+    cmd.parameters("@STOCKNUMBER") = stocknumb_val
+    cmd.parameters("@CONDITIONCODE") = NEWcondition_val
+    cmd.parameters("@PRIMARYQUANTITY") = primQty_val
+    cmd.parameters("@UNITPRICE") = unitPRICE_val
+    cmd.parameters("@USER") = CurrentUser_val
+    cmd.Execute
+    UpdateSap = True
+    Exit Function
+
+errPutDataInsert:
+    MsgBox Err.description: Err.Clear
+End Function
+
 
 
 Private Function PutDataInsert(row) As Boolean
@@ -5256,6 +5876,8 @@ Dim rights As Boolean
     Call fabCleanDETAILS
     Call fabGetEmail
     Command5.Enabled = False
+    
+    
 End Sub
 
 Public Sub setCN(conn As ADODB.Connection)
@@ -5591,7 +6213,7 @@ Dim doIt As Boolean
 End Sub
 
 Public Sub quantityBOX_Validate(Index As Integer, Cancel As Boolean)
-Dim qty, qty2
+Dim qty, qty2, q
 On Error Resume Next
     If submitted Then Exit Sub
     With quantityBOX(Index)
@@ -5603,18 +6225,25 @@ On Error Resume Next
                     'Juan 2010-9-4 implementing ratio rather than computer factor
                     If ratioValue > 1 Then
                         If IsNumeric(.text) Then
+                            .text = Format(.text, "0.00")
                             qty = CDbl(.text)
                             If qty > 0 Then
-                                Call limitQty(Index)
+                                'Call limitQty(Index)
                                 qty2 = qty * ratioValue
                                 quantity2BOX(Index).text = Format(qty2, "0.00")
                             Else
-                                quantity2BOX(Index).text = .text
+                                q = CDbl(.text)
+                                quantity2BOX(Index).text = Format(q, "0.00")
                             End If
                         End If
                     Else
-                        Call limitQty(Index)
-                        quantity2BOX(Index).text = .text
+                        If IsNumeric(.text) Then
+                            .text = Format(.text, "0.00")
+    '                        Call limitQty(Index)
+                            quantity2BOX(Index).text = .text
+                        Else
+                            .text = ""
+                        End If
                     End If
                     If Err.Number = 340 Then Err.Clear 'if error is about element n doesn't exist it clear errors variables
                 Else
@@ -6226,7 +6855,15 @@ serialText = ""
 For i = 2 To Tree.Nodes.Count
     key = Tree.Nodes(i).key
     If InStr(key, "@newStock") Then key = "@newStock"
+    If InStr(key, "@finalCost") Then key = "@finalCost"
     Select Case key
+        Case "@finalCost"
+            If IsNumeric(balanceBOX(i)) Then
+                If CDbl(balanceBOX(i)) <> 0 Then
+                    MsgBox "The SUM of the new items has to be equal as the final Cost"
+                    Exit Sub
+                End If
+            End If
         Case "@newStock"
             If logicBOX(i) = "" Then
                 MsgBox "Logical Warehouse must be entered."

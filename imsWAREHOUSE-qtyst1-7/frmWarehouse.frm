@@ -5,12 +5,12 @@ Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmWarehouse 
-   ClientHeight    =   9885
+   ClientHeight    =   9960
    ClientLeft      =   165
    ClientTop       =   345
    ClientWidth     =   14415
    MaxButton       =   0   'False
-   ScaleHeight     =   13717.92
+   ScaleHeight     =   14620.71
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
@@ -837,7 +837,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   54001667
+      Format          =   22478851
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1588,8 +1588,8 @@ Begin VB.Form frmWarehouse
    Begin VB.Line Line2 
       X1              =   1500
       X2              =   1500
-      Y1              =   5034.761
-      Y2              =   4028.642
+      Y1              =   5035.042
+      Y2              =   4028.033
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -1661,8 +1661,8 @@ Begin VB.Form frmWarehouse
    Begin VB.Line Line1 
       X1              =   120
       X2              =   11880
-      Y1              =   1783.26
-      Y2              =   1783.26
+      Y1              =   1783.55
+      Y2              =   1783.55
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -2249,7 +2249,7 @@ Screen.MousePointer = 11
                                         t = t + datax!stk_stcknumb + vbTab
                                         t = t + IIf(IsNull(datax!stk_desc), "", datax!stk_desc) + vbTab
                                         t = t + IIf(IsNull(datax!uni_desc), "", datax!uni_desc)
-                                        STOCKlist.addITEM t, 1
+                                        STOCKlist.AddItem t, 1
                                     End If
                                     datax.MoveNext
                                 Loop
@@ -2642,7 +2642,7 @@ Dim shot
             rec = rec + IIf(IsNull(datax!toSUBLOCA), "", Trim(datax!toSUBLOCA)) + vbTab
             rec = rec + IIf(IsNull(datax!originalcondition), "", datax!originalcondition) + vbTab
             rec = rec + unit
-            .addITEM rec
+            .AddItem rec
             .TextMatrix(.Rows - 1, 20) = conditionCODE
             datax.MoveNext
             i = i + 1
@@ -2748,7 +2748,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
                     rec = rec + vbTab
                 End If
             Next
-            .addITEM rec
+            .AddItem rec
             If datax(clue) = box.tag Then
                 Flag = .Rows - 1
             End If
@@ -2952,7 +2952,7 @@ Dim qty As Double
                     rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPriceI1), 0, !UnitPriceI1), 2) + vbTab 'Primary Unit Price
                 End If
                 
-                STOCKlist.addITEM rowTEXT
+                STOCKlist.AddItem rowTEXT
                 STOCKlist.row = STOCKlist.Rows - 1
                 STOCKlist.TextMatrix(STOCKlist.row, 16) = !Unit1Code
                 STOCKlist.TextMatrix(STOCKlist.row, 17) = IIf(IsNull(!transactions), 0, !transactions)
@@ -2993,7 +2993,7 @@ Dim qty As Double
                         rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPriceI2), 0, !UnitPriceI2), 2) + vbTab 'Primary Unit Price
                     End If
                     
-                    STOCKlist.addITEM rowTEXT
+                    STOCKlist.AddItem rowTEXT
                     STOCKlist.row = STOCKlist.Rows - 1
                     STOCKlist.TextMatrix(STOCKlist.row, 15) = !UnitSwitch
                     STOCKlist.TextMatrix(STOCKlist.row, 16) = !Unit2Code
@@ -3014,7 +3014,7 @@ Dim qty As Double
                 End If
                 
                 STOCKlist.RowHeight(STOCKlist.row) = 240
-                STOCKlist.addITEM ""
+                STOCKlist.AddItem ""
                 STOCKlist.row = STOCKlist.Rows - 1
                 For i = 0 To STOCKlist.cols - 1
                     STOCKlist.col = i
@@ -4068,7 +4068,7 @@ Screen.MousePointer = 11
     For i = 1 To 3
         If cell(i) = "" And cell(i).Visible Then
             Screen.MousePointer = 0
-            MsgBox "Missing " + label(i)
+            MsgBox "Missing " + Label(i)
             cell(i).SetFocus
             Exit Sub
         End If
@@ -4212,7 +4212,9 @@ Screen.MousePointer = 11
                     End If
                 Case Else
             End Select
-            datax.Close
+            If datax.State <> 0 Then
+                datax.Close
+            End If
             '----------------------
             
             SecUnit = PrimUnit * ratioValue
@@ -4817,7 +4819,7 @@ Dim cmd As New ADODB.Command
         .parameters.Append .CreateParameter("@USER", adChar, adParamInput, 20, CurrentUser)
         Call .Execute(, , adExecuteNoRecords)
     End With
-    PutReceiptRemarks = cmd.parameters(0).Value = 0
+    PutReceiptRemarks = cmd.parameters(0).value = 0
 End Function
 Private Function PutIssueRemarks() As Boolean
 Dim cmd As ADODB.Command
@@ -4833,7 +4835,7 @@ Dim cmd As ADODB.Command
     cmd.parameters("@USER") = CurrentUser
     
     Call cmd.Execute(0, , adExecuteNoRecords)
-    PutIssueRemarks = cmd.parameters(0).Value = 0
+    PutIssueRemarks = cmd.parameters(0).value = 0
 End Function
 
 Private Function PutInvtIssue(prefix) As Boolean
@@ -4868,7 +4870,7 @@ On Error GoTo errPutInvtIssue
     cmd.parameters("@ENTYNUMB") = Null
     cmd.parameters("@USER") = CurrentUser
     cmd.Execute
-    PutInvtIssue = cmd.parameters(0).Value = 0
+    PutInvtIssue = cmd.parameters(0).value = 0
     Exit Function
 
 errPutInvtIssue:
@@ -4990,7 +4992,7 @@ Dim i
     treeFrame.Refresh
     baseFrame.Refresh
     isReset = True
-    label(0).Visible = False
+    Label(0).Visible = False
     cell(0).Visible = False
     Command3.Enabled = False
     emailButton.Enabled = False
@@ -5101,7 +5103,7 @@ Screen.MousePointer = 11
                         If datax.RecordCount > 0 Then
                             combo(5).Rows = 2
                             Do While Not datax.EOF
-                                combo(5).addITEM Trim(datax!stk_stcknumb)
+                                combo(5).AddItem Trim(datax!stk_stcknumb)
                                 datax.MoveNext
                             Loop
                             Screen.MousePointer = 0
@@ -5125,7 +5127,7 @@ Screen.MousePointer = 11
                 If saveBUTTON.Enabled Or Index = 0 Then
                     If Index > 1 Then
                         If combo(Index - 1) = "" Then
-                            MsgBox "Please select " + label(Index - 1) + " first"
+                            MsgBox "Please select " + Label(Index - 1) + " first"
                             Screen.MousePointer = 0
                             Exit Sub
                         End If
@@ -5292,9 +5294,9 @@ Dim ratio As Integer
                 'user change the FROM Location
                 If (Index = 1 Or Index = 2 Or Index = 3) And Len(cell(Index).text) > 0 And HasUserSelectedAnyStocks = True Then
                   If Index = 2 Then
-                    labelname = label(2).Caption
+                    labelname = Label(2).Caption
                   ElseIf Index = 3 Then
-                    labelname = label(3).Caption
+                    labelname = Label(3).Caption
                   End If
                   Call MsgBox("Please select and remove each selected Line items before changing the " & labelname & " .", vbInformation, "Imswin")
                   Screen.MousePointer = 0
@@ -5580,7 +5582,7 @@ Dim ratio As Integer
                     cell(Index) = ""
                     cell(Index).tag = ""
                     If Index = 2 Then Call cleanSTOCKlist
-                    MsgBox label(2) + " and " + label(Index) + " can not be the same"
+                    MsgBox Label(2) + " and " + Label(Index) + " can not be the same"
                     cell(Index).SetFocus
                 End If
             End If
@@ -5623,7 +5625,7 @@ Private Sub DTPicker1_KeyDown(KeyCode As Integer, Shift As Integer)
     With DTPicker1
         Select Case KeyCode
             Case 13
-                cell(Val(.tag)).text = Format(.Value, "MMMM/dd/yyyy")
+                cell(Val(.tag)).text = Format(.value, "MMMM/dd/yyyy")
                 cell(Val(.tag) + 1).SetFocus
         End Select
     End With
@@ -5633,7 +5635,7 @@ Private Sub DTPicker1_LostFocus()
 Dim indexCELL As Integer
     With DTPicker1
         If IsNumeric(.tag) Then
-            cell(Val(.tag)).text = Format(.Value, "MMMM/dd/yyyy")
+            cell(Val(.tag)).text = Format(.value, "MMMM/dd/yyyy")
             indexCELL = Val(.tag)
             If Me.ActiveControl.name = "cell" Then
                 If Me.ActiveControl.Index <> Val(.tag) Then .Visible = False
@@ -5645,7 +5647,7 @@ Dim indexCELL As Integer
                 .Visible = False
             End If
         End If
-        .Value = Now
+        .value = Now
     End With
 End Sub
 
@@ -6210,11 +6212,11 @@ Private Sub searchFIELD_LostFocus(Index As Integer)
 End Sub
 
 Private Sub SSOleCompany_Click()
-SSOleDBFQA.columns("company").Value = SSOleCompany.columns(0).text
+SSOleDBFQA.columns("company").value = SSOleCompany.columns(0).text
 End Sub
 
 Private Sub SSOleDBCamChart_Click()
-SSOleDBFQA.columns("Camchart#").Value = SSOleDBCamChart.columns(0).text
+SSOleDBFQA.columns("Camchart#").value = SSOleDBCamChart.columns(0).text
 End Sub
 
 Private Sub SSOleDBFQA_BeforeRowColChange(Cancel As Integer)
@@ -6370,15 +6372,15 @@ SSOleDBUsChart.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBLocation_Click()
-SSOleDBFQA.columns("location").Value = SSOleDBLocation.columns(0).text
+SSOleDBFQA.columns("location").value = SSOleDBLocation.columns(0).text
 End Sub
 
 Private Sub SSOleDBStockType_Click()
-SSOleDBFQA.columns("stocktype").Value = SSOleDBStockType.columns(0).text
+SSOleDBFQA.columns("stocktype").value = SSOleDBStockType.columns(0).text
 End Sub
 
 Private Sub SSOleDBUsChart_Click()
-SSOleDBFQA.columns("UsChart#").Value = SSOleDBUsChart.columns(0).text
+SSOleDBFQA.columns("UsChart#").value = SSOleDBUsChart.columns(0).text
 End Sub
 
 Private Sub STOCKlist_Click()
@@ -6973,7 +6975,7 @@ summaryValueFirstTime = True
                                     rec = rec + NEWconditionBOX(i - differenceWithTable) + vbTab
                                     rec = rec + NEWconditionBOX(i - differenceWithTable).ToolTipText + vbTab
                                     rec = rec + unitBOX(i)
-                                    .addITEM rec
+                                    .AddItem rec
                                     Dim qtyArrayTxt, subLocationArrayTxt As String
                                     qtyArrayTxt = ""
                                     Dim counter
@@ -6981,7 +6983,7 @@ summaryValueFirstTime = True
                                         qtyArrayTxt = qtyArrayTxt + Format(qtyArray(counter))
                                     Next
                                     subLocationArrayTxt = Join(subLocationArray())
-                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
+                                    frmWarehouse.summaryValues.AddItem qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
                                     If summaryValueFirstTime And summaryValues.TextMatrix(1, 0) + summaryValues.TextMatrix(1, 1) + summaryValues.TextMatrix(1, 2) = "" Then
                                         summaryValues.RemoveItem (1)
                                         summaryValueFirstTime = False
@@ -7483,7 +7485,7 @@ Dim nody As node
 getOUT:
     Exit Sub
     If Err.Number = 91 Then
-        addITEM.Enabled = False
+        AddItem.Enabled = False
         deleteITEM.Enabled = True
         PopupMenu treeMENU
     End If
@@ -7544,7 +7546,7 @@ For i = 1 To SSOleDBFQA.Rows
     
     RsUnitPrice.source = " select sap_value, sap_value * (select top 1 curd_value from currencydetl where curd_code ='" & GExtendedCurrency & "' and"
     RsUnitPrice.source = RsUnitPrice.source & " getdate() > curd_from and getdate() < curd_to) Extnsapvalue from sap where sap_compcode ='" & Company & "' and sap_npecode ='" & nameSP & "'"
-    RsUnitPrice.source = RsUnitPrice.source & " and sap_loca='" & Location & "' and sap_stcknumb='" & SSOleDBFQA.columns("STOCKNUMBER").Value & "' and sap_cond ='" & SSOleDBFQA.columns("tocond").Value & "'"
+    RsUnitPrice.source = RsUnitPrice.source & " and sap_loca='" & Location & "' and sap_stcknumb='" & SSOleDBFQA.columns("STOCKNUMBER").value & "' and sap_cond ='" & SSOleDBFQA.columns("tocond").value & "'"
     RsUnitPrice.Open , cn
         
     RsInventoryFQA("BaseCURUnitPrice") = "0"
@@ -7567,11 +7569,11 @@ For i = 1 To SSOleDBFQA.Rows
     RsInventoryFQA("FromUsChar") = Trim(TxtUSChart)
     RsInventoryFQA("FromStockType") = Trim(TxtStockType)
     RsInventoryFQA("FromCamChar") = Trim(TxtCamChart)
-    RsInventoryFQA("ToCompany") = Trim(SSOleDBFQA.columns("company").Value)
-    RsInventoryFQA("ToLocation") = Trim(SSOleDBFQA.columns("location").Value)
-    RsInventoryFQA("ToUsChar") = Trim(SSOleDBFQA.columns("USChart#").Value)
-    RsInventoryFQA("ToStockType") = Trim(SSOleDBFQA.columns("stocktype").Value)
-    RsInventoryFQA("ToCamChar") = Trim(SSOleDBFQA.columns("CamChart#").Value)
+    RsInventoryFQA("ToCompany") = Trim(SSOleDBFQA.columns("company").value)
+    RsInventoryFQA("ToLocation") = Trim(SSOleDBFQA.columns("location").value)
+    RsInventoryFQA("ToUsChar") = Trim(SSOleDBFQA.columns("USChart#").value)
+    RsInventoryFQA("ToStockType") = Trim(SSOleDBFQA.columns("stocktype").value)
+    RsInventoryFQA("ToCamChar") = Trim(SSOleDBFQA.columns("CamChart#").value)
     RsInventoryFQA("TBS") = 1
     RsInventoryFQA("CreaUser") = CurrentUser
     RsInventoryFQA("CreaDate") = Now()
@@ -7731,7 +7733,7 @@ On Error GoTo ErrHand
 
     Do While Not rs.EOF
             
-        SSOleDBFQA.addITEM rs("StockNo") & vbTab & rs("toCompany") & vbTab & rs("toLocation") & vbTab & rs("toUsChar") & vbTab & rs("toStockType") & vbTab & rs("toCamChar") & vbTab & rs("ponumb") & "" & vbTab & rs("PoItemNo") & "" & vbTab & rs("ToCondition") & vbTab & rs("Quantity")
+        SSOleDBFQA.AddItem rs("StockNo") & vbTab & rs("toCompany") & vbTab & rs("toLocation") & vbTab & rs("toUsChar") & vbTab & rs("toStockType") & vbTab & rs("toCamChar") & vbTab & rs("ponumb") & "" & vbTab & rs("PoItemNo") & "" & vbTab & rs("ToCondition") & vbTab & rs("Quantity")
         'SSOleDBFQA.addITEM No & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
         rs.MoveNext
     Loop
@@ -7762,7 +7764,7 @@ RsCompany.Open , cn
 
 Do While Not RsCompany.EOF
 
-    SSOleCompany.addITEM RsCompany("FQA")
+    SSOleCompany.AddItem RsCompany("FQA")
     RsCompany.MoveNext
     
 Loop
@@ -7772,10 +7774,10 @@ RsLocation.source = "select distinct(FQA) from FQA where Namespace ='" & nameSP 
 
 RsLocation.Open , cn
 
-If RsLocation.RecordCount = 0 Then SSOleDBLocation.addITEM LocationCode
+If RsLocation.RecordCount = 0 Then SSOleDBLocation.AddItem LocationCode
 Do While Not RsLocation.EOF
 
-    SSOleDBLocation.addITEM RsLocation("FQA")
+    SSOleDBLocation.AddItem RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop
@@ -7790,7 +7792,7 @@ RsUC.Open , cn
 
 Do While Not RsUC.EOF
 
-    SSOleDBUsChart.addITEM RsUC("FQA")
+    SSOleDBUsChart.AddItem RsUC("FQA")
     RsUC.MoveNext
     
 Loop
@@ -7804,7 +7806,7 @@ RsCC.Open , cn
 
 Do While Not RsCC.EOF
 
-    SSOleDBCamChart.addITEM RsCC("FQA")
+    SSOleDBCamChart.AddItem RsCC("FQA")
     RsCC.MoveNext
     
 Loop
@@ -7959,7 +7961,7 @@ End If
                 TxtCompany.RemoveAll
                 Do While Not RsCompany.EOF
                     
-                    TxtCompany.addITEM RsCompany("FQA")
+                    TxtCompany.AddItem RsCompany("FQA")
                     RsCompany.MoveNext
                     
                 Loop
@@ -7978,7 +7980,7 @@ End If
                 TxtLocation.RemoveAll
                 Do While Not RsLocation.EOF
                                 
-                    TxtLocation.addITEM RsLocation("FQA")
+                    TxtLocation.AddItem RsLocation("FQA")
                     RsLocation.MoveNext
                     
                 Loop
@@ -7998,7 +8000,7 @@ End If
                 Do While Not RsUC.EOF
                 
                     'USChartFQA = RsUC("FQA")
-                    TxtUSChart.addITEM RsUC("FQA")
+                    TxtUSChart.AddItem RsUC("FQA")
                     RsUC.MoveNext
                     
                 Loop
@@ -8017,7 +8019,7 @@ End If
                 TxtCamChart.RemoveAll
                 Do While Not RsCC.EOF
                     
-                    TxtCamChart.addITEM RsCC("FQA")
+                    TxtCamChart.AddItem RsCC("FQA")
                     RsCC.MoveNext
                     
                 Loop
@@ -8028,7 +8030,7 @@ End If
             
             TxtStockType = StockType
             TxtStockType.RemoveAll
-            TxtStockType.addITEM "0000"
+            TxtStockType.AddItem "0000"
 
 Exit Function
 ErrHand:
@@ -8140,7 +8142,7 @@ Insert_delete = UCase(Insert_delete)
             
                 StockType = GDefaultFQA.StockType
                 
-                SSOleDBFQA.addITEM stockno & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
+                SSOleDBFQA.AddItem stockno & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
                 
         End If
         
@@ -8148,7 +8150,7 @@ Insert_delete = UCase(Insert_delete)
     SSOleDBFQA.MoveFirst
           For i = 0 To SSOleDBFQA.Rows - 1
           
-                If stockno = SSOleDBFQA.columns(0).Value And i = RowPositionToBedeleted - 1 Then
+                If stockno = SSOleDBFQA.columns(0).value And i = RowPositionToBedeleted - 1 Then
                       
                       SSOleDBFQA.RemoveItem i
                       Exit Function
@@ -8196,7 +8198,7 @@ RsCompany.Open , cn
 
 If RsCompany.EOF = False Then
     
-    GDefaultFQA.Company = RsCompany("FQA").Value
+    GDefaultFQA.Company = RsCompany("FQA").value
     
     Else
     
@@ -8225,7 +8227,7 @@ RsLocation.Open , cn
 
 If RsLocation.EOF = False Then
     
-    GDefaultFQA.Location = RsLocation("FQA").Value
+    GDefaultFQA.Location = RsLocation("FQA").value
     
     Else
     
@@ -8303,7 +8305,7 @@ End If
  
                         If RsCC.EOF = False Then
                             
-                            GDefaultFQA.CamChart = RsCC("FQA").Value
+                            GDefaultFQA.CamChart = RsCC("FQA").value
                             
                             Else
                             
@@ -8313,7 +8315,7 @@ End If
                         
                         If RsUC.EOF = False Then
                             
-                            GDefaultFQA.UsChart = RsUC("FQA").Value
+                            GDefaultFQA.UsChart = RsUC("FQA").value
                             
                             Else
                             
@@ -8395,7 +8397,7 @@ RsCompany.Open , cn
 
 If RsCompany.EOF = False Then
     
-    GDefaultFQA.Company = RsCompany("FQA").Value
+    GDefaultFQA.Company = RsCompany("FQA").value
     
     Else
     
@@ -8411,7 +8413,7 @@ RsLocation.Open , cn
 
 If RsLocation.EOF = False Then
     
-    GDefaultFQA.Location = RsLocation("FQA").Value
+    GDefaultFQA.Location = RsLocation("FQA").value
     
     Else
     
@@ -8469,7 +8471,7 @@ End If
 
     If RsCC.EOF = False Then
         
-        GDefaultFQA.CamChart = RsCC("FQA").Value
+        GDefaultFQA.CamChart = RsCC("FQA").value
         
         Else
         
@@ -8479,7 +8481,7 @@ End If
     
     If RsUC.EOF = False Then
         
-        GDefaultFQA.UsChart = RsUC("FQA").Value
+        GDefaultFQA.UsChart = RsUC("FQA").value
         
         Else
         
@@ -8563,7 +8565,7 @@ PopulateFROMCombosWithFQA = False
 If RsCompany.RecordCount > 0 Then
 Do While Not RsCompany.EOF
 
-    TxtCompany.addITEM RsCompany("FQA")
+    TxtCompany.AddItem RsCompany("FQA")
     RsCompany.MoveNext
     
 Loop
@@ -8572,7 +8574,7 @@ End If
 If RsLocation.RecordCount > 0 Then
 Do While Not RsLocation.EOF
 
-    TxtLocation.addITEM RsLocation("FQA")
+    TxtLocation.AddItem RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop
@@ -8581,7 +8583,7 @@ End If
 If RsUC.RecordCount > 0 Then
 Do While Not RsUC.EOF
 
-    TxtUSChart.addITEM RsUC("FQA")
+    TxtUSChart.AddItem RsUC("FQA")
     RsUC.MoveNext
     
 Loop
@@ -8591,7 +8593,7 @@ End If
 If RsCC.RecordCount > 0 Then
 Do While Not RsCC.EOF
 
-    TxtCamChart.addITEM RsCC("FQA")
+    TxtCamChart.AddItem RsCC("FQA")
     RsCC.MoveNext
     
 Loop

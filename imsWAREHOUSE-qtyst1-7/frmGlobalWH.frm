@@ -600,9 +600,24 @@ Public goAhead As Boolean
 Function allSelected() As Boolean
 allSelected = True
 Dim i As Integer
+Dim txt As String
+Screen.MousePointer = 0
     For i = 2 To 6
         If cell(i) = "" Then
             allSelected = False
+            Select Case i
+                Case 2
+                    txt = "Please enter a valid From Company"
+                Case 3
+                    txt = "Please enter a valid From Warehouse"
+                Case 4
+                    txt = "Please enter a valid To Namespace"
+                Case 5
+                    txt = "Please enter a valid To Company"
+                Case 6
+                    txt = "Please enter a valid To Warehouse"
+            End Select
+            MsgBox txt
             Exit For
         End If
     Next
@@ -764,6 +779,10 @@ inList = False
             Exit Function
         End If
     Next
+End Function
+
+Function itemsSelected() As Boolean
+
 End Function
 
 Sub makeLists()
@@ -1625,6 +1644,8 @@ Dim sql As String
 Dim fullQty1, fullQty2 As Double
 Dim datax As New ADODB.Recordset
     Screen.MousePointer = 11
+
+    
     If remarks = "" Then
         Call showREMARKS
         Screen.MousePointer = 0
@@ -1636,8 +1657,6 @@ Dim datax As New ADODB.Recordset
     Call hideREMARKS
     
     If Not allSelected Then
-        MsgBox "Please select all fields"
-        Screen.MousePointer = 0
         Exit Sub
     End If
     Screen.MousePointer = 11
@@ -1686,6 +1705,7 @@ Dim datax As New ADODB.Recordset
     End If
     goAhead = True
     refStockNumber = ""
+    retval = False
     With STOCKlist
         Item = 0
         For i = 1 To .Rows - 1
@@ -1774,8 +1794,6 @@ Dim datax As New ADODB.Recordset
                 End If
             End If
         Next
- 
-        
     End With
     
     If retval Then
@@ -1785,15 +1803,16 @@ Dim datax As New ADODB.Recordset
         cell(0).Visible = True
         combo(0).Visible = False
         combo(0).TextMatrix(1, 0) = Transnumb
+        newBUTTON.Enabled = True
+        saveBUTTON.Enabled = False
+    Else
+        MsgBox "Please make sure to include items for the transaction"
+        Call RollbackTransaction(cn)
     End If
-    
+    Me.Enabled = True
     Call enableCells(False)
     If Err Then Err.Clear
-    newBUTTON.Enabled = True
-    saveBUTTON.Enabled = False
     savingLABEL.Visible = False
-    savingLABEL.Visible = False
-    Me.Enabled = True
     Screen.MousePointer = 0
     Exit Sub
 RollBack:
