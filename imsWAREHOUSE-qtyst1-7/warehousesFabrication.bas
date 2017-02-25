@@ -15,22 +15,14 @@ On Error GoTo ErrHandler
             Call fabWorkBOXESlist
             firstNewMultipleNode = False
         End If
-        .Nodes.Add "Fabrication", tvwChild, "@" + "finalCost", "Final Cost", "thing 0"
+        .Nodes.Add "Fabrication", tvwChild, "@" + "finalCost", "Final Unit Cost", "thing 0"
         finalCostNode = .Nodes.Count
-        Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+        Call fabSetupBOXES(.Nodes.Count + 1, datax.Fields, False)
         Call fabWorkBOXESlist
-        
-        
+
         newStockCount = newStockCount + 1
         .Nodes.Add "@finalCost", tvwChild, "@" + "newStock-" + Format(newStockCount), "New Stock - " + Format(newStockCount) + ":", "thing 1"
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
-        
-        
-        
-
-            
-            
-            
         Call fabWorkBOXESlist
     End With
 
@@ -100,9 +92,18 @@ On Error GoTo ErrHandler
         .Nodes.Add "Fabrication", tvwChild, "@" + "processCost", "Process Cost", "thing 1"
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
         Call fabWorkBOXESlist
-        .Nodes.Add "@fprocessCost", tvwChild, "@" + "newStock", "New Stock#:", "thing 1"
+        
+        .Nodes.Add "Fabrication", tvwChild, "@" + "finalCost", "Final Unit Cost", "thing 0"
+        finalCostNode = .Nodes.Count
         Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
         Call fabWorkBOXESlist
+
+        .Nodes.Add "@finalCost", tvwChild, "@" + "newStock", "New Stock:", "thing 1"
+        '.Nodes.Add "@processCost", tvwChild, "@" + "newStock", "New Stock#:", "thing 1"
+        Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+        Call fabWorkBOXESlist
+        
+
         nodePosition = .Nodes.Count
     End With
 
@@ -236,29 +237,29 @@ On Error Resume Next
                                 Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
                                 .priceBOX(i).backcolor = &HC0FFC0
                                 .balanceBOX(i) = "0.00"
-                                .balanceBOX(i).Visible = True
-                                .balanceBOX(i).Enabled = True
-                                .balanceBOX(i).locked = True
+                                .balanceBOX(i).Visible = False
+                                .priceBOX(i).locked = True
                             Case "@processCost"
                                 Call fabPutBOX(.fabCostBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
                                 .fabCostBOX(i).backcolor = &HFFFF80
                                 .fabCostBOX(i).Enabled = True
                                 .quantity(i).Visible = False
                             Case "@newStock"
-                                xPos = 3200
-                                If .many(1).Value Then xPos = 2100
-                                Call fabPutBOX(.searchStock(i), xPos, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
-                                Call fabPutBOX(.logicBOX(i), .linesV(2).Left + 55, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
-                                Call fabPutBOX(.sublocaBOX(i), .linesV(3).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(3) - 50, &HC0C0FF)
-                                Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
-                                Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
-                                Call fabPutBOX(.quantityBOX(i), .linesV(6).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
-                                Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
-                                .balanceBOX(i) = "0.00"
-                                .quantityBOX(i).Enabled = True
-                                .quantityBOX(i) = "1.00"
-                                .NEWconditionBOX(i) = "01"
-                                .priceBOX(i).Enabled = True
+                                If Not .quantityBOX(i).Visible Then
+                                    xPos = 2100
+                                    Call fabPutBOX(.searchStock(i), xPos, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
+                                    Call fabPutBOX(.logicBOX(i), .linesV(2).Left + 55, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(2) - 80, &HC0C0FF)
+                                    Call fabPutBOX(.sublocaBOX(i), .linesV(3).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(3) - 50, &HC0C0FF)
+                                    Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
+                                    Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
+                                    Call fabPutBOX(.quantityBOX(i), .linesV(6).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
+                                    Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
+                                    .balanceBOX(i) = "0.00"
+                                    .quantityBOX(i).Enabled = True
+                                    .quantityBOX(i) = "1.00"
+                                    .NEWconditionBOX(i) = "01"
+                                    .priceBOX(i).Enabled = True
+                                End If
                             Case Else
                                 Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                 Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
@@ -273,7 +274,7 @@ On Error Resume Next
 '                            .priceBOX(i).Enabled = False
                         Else
                             If .many(0).Value Then
-                                .priceBOX(i).Enabled = False
+'                                .priceBOX(i).Enabled = False
                             Else
                                 .priceBOX(i).Enabled = True
                             End If
@@ -2119,7 +2120,9 @@ On Error Resume Next
             End If
         End If
         Dim totalCost As Double
+        Dim totalCostBalance As Double
         totalCost = finalPrice
+        totalCostBalance = finalPrice
         For i = 1 To .Tree.Nodes.Count
             key = .Tree.Nodes(i).key
             If InStr(key, "@newStock") Then key = "@newStock"
@@ -2127,17 +2130,30 @@ On Error Resume Next
             Select Case key
                 Case "@finalCost"
                     .priceBOX(i) = Format((totalCost), "0.00")
-                    .balanceBOX(i) = Format((totalCost - stockTotalPrice), "0.00")
-                    If (totalCost - stockTotalPrice) < 0 Then
-                        .balanceBOX(i).ForeColor = vbRed
-                    Else
-                        .balanceBOX(i).ForeColor = vbBlack
-                    End If
+'                    .balanceBOX(i) = Format((totalCost - stockTotalPrice), "0.00")
                 Case "@newStock"
                     If newStocks > 0 Then
                         If .many(0).Value Then
                             .priceBOX(i) = Format((totalCost / newStocks), "0.00")
                         Else
+                            totalCostBalance = totalCostBalance - (CDbl(.priceBOX(i)) * .quantityBOX(i))
+                            .balanceBOX(i) = Format((totalCostBalance), "0.00")
+                            If (CDbl(.balanceBOX(i))) < 0 Then
+                                .balanceBOX(i).ForeColor = vbRed
+                            Else
+                                .balanceBOX(i).ForeColor = vbBlack
+                            End If
+                        End If
+                    End If
+                Case Else
+                    If .Tree.Nodes(key).Parent.key = "Fabrication" Then
+                        Dim baseBalance As Double
+                        baseBalance = (CDbl(.priceBOX(i)) * .quantityBOX(i))
+                        .balanceBOX(i) = Format((baseBalance), "0.00")
+                        If (CDbl(.balanceBOX(i))) < 0 Then
+                            .balanceBOX(i).ForeColor = vbRed
+                        Else
+                            .balanceBOX(i).ForeColor = vbBlack
                         End If
                     End If
             End Select

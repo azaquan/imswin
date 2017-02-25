@@ -18,7 +18,7 @@ Begin VB.Form frmFabrication
       BackColor       =   &H00C0E0FF&
       ForeColor       =   &H80000008&
       Height          =   5895
-      Left            =   0
+      Left            =   -120
       ScaleHeight     =   5865
       ScaleWidth      =   13785
       TabIndex        =   123
@@ -127,7 +127,7 @@ Begin VB.Form frmFabrication
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
          Appearance      =   1
-         StartOfWeek     =   54591489
+         StartOfWeek     =   53673985
          CurrentDate     =   36972
       End
       Begin VB.Label totalInvoiceLabel 
@@ -1008,7 +1008,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   54591491
+      Format          =   53673987
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2414,6 +2414,7 @@ Dim ratioValue
                 toLOGIC = ""
                 toSUBLOCA = ""
                 condDesc = ""
+            Case "@finalCost"
             Case Else
                 StockNumber = Mid(key, 2)
                 price = priceBOX(i)
@@ -2425,81 +2426,84 @@ Dim ratioValue
             description = "...Process cost"
             unit = ""
         Else
-            Set datax = New ADODB.Recordset
-            sql = "select * from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + StockNumber + "'"
-            datax.Open sql, cn, adOpenStatic
-            If datax.RecordCount > 0 Then
-                description = datax!stk_desc
-                unit = datax!stk_primuon
-            Else
-                MsgBox "Error when getting the de stock number description of: " + StockNumber
-                description = ""
-                unit = ""
+            If key <> "@finalCost" Then
+                Set datax = New ADODB.Recordset
+                sql = "select * from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + StockNumber + "'"
+                datax.Open sql, cn, adOpenStatic
+                If datax.RecordCount > 0 Then
+                    description = datax!stk_desc
+                    unit = datax!stk_primuon
+                Else
+                    MsgBox "Error when getting the de stock number description of: " + StockNumber
+                    description = ""
+                    unit = ""
+                End If
             End If
         End If
-        If Err.Number = 0 Then
-            rec = "" + vbTab
-            rec = rec + StockNumber + vbTab
-            serialText = "Pool"
-            rec = rec + serialText + vbTab
-            rec = rec + condition + vbTab
-            rec = rec + price + vbTab
-            rec = rec + description + vbTab
-            rec = rec + unitLABEL(0) + vbTab
-            rec = rec + quantityBOX(i) + vbTab
-            rec = rec + Format(i) + vbTab
-            fromlogic = "GENERAL"
-            rec = rec + fromlogic + vbTab
-            fromSubLoca = "GENERAL"
-            rec = rec + fromSubLoca + vbTab
-            rec = rec + toLOGIC + vbTab
-            rec = rec + toSUBLOCA + vbTab
-            rec = rec + "01" + vbTab
-            rec = rec + condDesc + vbTab
-            rec = rec + unit
-            SUMMARYlist.addITEM rec
-        End If
-
-        Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
-        If datax.RecordCount > 0 Then
-            ratioValue = datax!realratio
-        Else
-            ratioValue = 1
-        End If
-        With SUMMARYlist
-            Select Case key
-                Case "@newStock"
-                    For ii = 1 To .cols - 1
+        If key <> "@finalCost" Then
+            If Err.Number = 0 Then
+                rec = "" + vbTab
+                rec = rec + StockNumber + vbTab
+                serialText = "Pool"
+                rec = rec + serialText + vbTab
+                rec = rec + condition + vbTab
+                rec = rec + price + vbTab
+                rec = rec + description + vbTab
+                rec = rec + unitLABEL(0) + vbTab
+                rec = rec + quantityBOX(i) + vbTab
+                rec = rec + Format(i) + vbTab
+                fromlogic = "GENERAL"
+                rec = rec + fromlogic + vbTab
+                fromSubLoca = "GENERAL"
+                rec = rec + fromSubLoca + vbTab
+                rec = rec + toLOGIC + vbTab
+                rec = rec + toSUBLOCA + vbTab
+                rec = rec + "01" + vbTab
+                rec = rec + condDesc + vbTab
+                rec = rec + unit
+                SUMMARYlist.addITEM rec
+            End If
+            Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
+            If datax.RecordCount > 0 Then
+                ratioValue = datax!realratio
+            Else
+                ratioValue = 1
+            End If
+            With SUMMARYlist
+                Select Case key
+                    Case "@newStock"
+                        For ii = 1 To .cols - 1
+                            .row = .Rows - 1
+                            .col = ii
+                            .CellBackColor = RGB(255, 255, 0)
+                        Next
+                        .TextMatrix(.Rows - 1, 26) = cell(3).tag
+                    Case "@processCost"
+                        .TextMatrix(.Rows - 1, 17) = fabCostBOX(i)
+                        .TextMatrix(.Rows - 1, 2) = ""
+                        .TextMatrix(.Rows - 1, 3) = ""
+                        .TextMatrix(.Rows - 1, 6) = ""
+                        .TextMatrix(.Rows - 1, 7) = ""
+                        .TextMatrix(.Rows - 1, 8) = ""
+                        .TextMatrix(.Rows - 1, 9) = ""
+                        .TextMatrix(.Rows - 1, 10) = ""
                         .row = .Rows - 1
-                        .col = ii
-                        .CellBackColor = RGB(255, 255, 0)
-                    Next
-                    .TextMatrix(.Rows - 1, 26) = cell(3).tag
-                Case "@processCost"
-                    .TextMatrix(.Rows - 1, 17) = fabCostBOX(i)
-                    .TextMatrix(.Rows - 1, 2) = ""
-                    .TextMatrix(.Rows - 1, 3) = ""
-                    .TextMatrix(.Rows - 1, 6) = ""
-                    .TextMatrix(.Rows - 1, 7) = ""
-                    .TextMatrix(.Rows - 1, 8) = ""
-                    .TextMatrix(.Rows - 1, 9) = ""
-                    .TextMatrix(.Rows - 1, 10) = ""
-                    .row = .Rows - 1
-                    For ii = 1 To .cols - 1
-                        .col = ii
-                        .CellBackColor = RGB(255, 255, 204)
-                    Next
-                    .TextMatrix(.Rows - 1, 26) = ""
-                Case Else
-                    .TextMatrix(.Rows - 1, 26) = cell(2).tag
-                .TextMatrix(.Rows - 1, 25) = Format(ratioValue)
-                    PONumb = ""
-                    lineno = ""
-                    Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(StockNumber))
-                    Call VerifyAddDeleteFQAFromGrid(StockNumber, "insert", "01", PONumb, lineno, qty)
-                End Select
-                .TextMatrix(.Rows - 1, 20) = "01"
-        End With
+                        For ii = 1 To .cols - 1
+                            .col = ii
+                            .CellBackColor = RGB(255, 255, 204)
+                        Next
+                        .TextMatrix(.Rows - 1, 26) = ""
+                    Case Else
+                        .TextMatrix(.Rows - 1, 26) = cell(2).tag
+                    .TextMatrix(.Rows - 1, 25) = Format(ratioValue)
+                        PONumb = ""
+                        lineno = ""
+                        Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(StockNumber))
+                        Call VerifyAddDeleteFQAFromGrid(StockNumber, "insert", "01", PONumb, lineno, qty)
+                    End Select
+                    .TextMatrix(.Rows - 1, 20) = "01"
+            End With
+        End If
     Next
     Command5.Enabled = True
 End Sub
@@ -2923,7 +2927,7 @@ Private Sub addFinalStock_Click()
             Call addFabricationNode
             submitDETAIL.Enabled = True
         End If
-        factor = 0
+        factor = 2
     Else
         Call addFabricationMultipleNode
         submitDETAIL.Enabled = True
@@ -3492,9 +3496,9 @@ Private Sub searchStock_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub searchStock_LostFocus(Index As Integer)
-    If many(1).Value Then
+
         If stockCombo(Index).Visible = False Then searchStock(Index).Visible = False
-    End If
+
 End Sub
 
 Private Sub setUpTransaction_Click()
@@ -6851,6 +6855,7 @@ Dim askForQTy As Boolean
 askForQTy = False
 Dim askForFabricationCost As Boolean
 serialText = ""
+totalNode = Tree.Nodes.Count
 
 For i = 2 To Tree.Nodes.Count
     key = Tree.Nodes(i).key
@@ -6858,10 +6863,12 @@ For i = 2 To Tree.Nodes.Count
     If InStr(key, "@finalCost") Then key = "@finalCost"
     Select Case key
         Case "@finalCost"
-            If IsNumeric(balanceBOX(i)) Then
-                If CDbl(balanceBOX(i)) <> 0 Then
-                    MsgBox "The SUM of the new items has to be equal as the final Cost"
-                    Exit Sub
+            If many(1).Value Then
+                If IsNumeric(balanceBOX(totalNode)) Then
+                    If CDbl(balanceBOX(totalNode)) <> 0 Then
+                        MsgBox "There is a balance to be allocated. Are sure you want to confirm the submit?"
+                        Exit Sub
+                    End If
                 End If
             End If
         Case "@newStock"
@@ -6937,7 +6944,6 @@ Else
 End If
 
 summaryValueFirstTime = True
-totalNode = Tree.Nodes.Count
     If IsNumeric(quantityBOX(totalNode)) Then
         If CDbl(quantityBOX(totalNode)) > 0 Or frmFabrication.tag = "02050200" Then 'AdjustmentEntry
             With SUMMARYlist
