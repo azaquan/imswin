@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm MDI_IMS 
    AutoShowChildren=   0   'False
    BackColor       =   &H8000000C&
@@ -667,7 +667,7 @@ Option Explicit
 '''''''''''' Idle time API used for unlocking and closing Application / Form added by jawdat 1.31.02
 Private Type POINTAPI
     x As Long
-    y As Long
+    Y As Long
     End Type
    
 Private Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
@@ -951,7 +951,7 @@ End Sub
 
 Private Sub itm_CurrencyTable_Click()
     'Load the Currency form
-    Call LockWindowUpdate(HWND)
+    Call LockWindowUpdate(hwnd)
     
     Load frmCurrency
     frmCurrency.Show
@@ -1839,7 +1839,7 @@ End Sub
 'call function get help file
 
 Private Sub itm_Help_Click()
-    Call ShowHelpContents(HWND, App.HelpFile, 0)
+    Call ShowHelpContents(hwnd, App.HelpFile, 0)
 End Sub
 
 'get crystal report parameters and load form
@@ -2023,7 +2023,7 @@ m_OutlookLocation = "C:\OutLook\"
     '------------------------------------------------------
     
     Call Move(0, 0)
-    Call LockWindowUpdate(HWND)
+    Call LockWindowUpdate(hwnd)
 
     Call LogExec("Loading Background")
         
@@ -2033,7 +2033,7 @@ m_OutlookLocation = "C:\OutLook\"
     
     'Hide
     DoEvents: DoEvents
-    Call StayOnTop(frm_Load.HWND, True)
+    Call StayOnTop(frm_Load.hwnd, True)
     
     Set i = New IMSFile
     str = FixDir(App.Path) & "RDCPrint.exe"
@@ -2177,11 +2177,21 @@ m_OutlookLocation = "C:\OutLook\"
     frmNavigator.Show
     If Err Then Err.Clear
     Call LockWindowUpdate(0)
-    CrystalReport1.WindowParentHandle = HWND
-    MDI_IMS.CrystalReport1.DialogParentHandle = HWND
+    CrystalReport1.WindowParentHandle = hwnd
+    MDI_IMS.CrystalReport1.DialogParentHandle = hwnd
     
     DoEvents: DoEvents
     StatusBar1.Panels(4).Text = CurrentUser
+    
+    If InStr(UCase(ConnInfo.InitCatalog), "TEST") > 0 Then
+        StatusBar1.Panels(1).Picture = VB.LoadPicture("images/danger.bmp")
+        StatusBar1.Panels(1).Text = "RUNNING TESTING MODE"
+    Else
+        
+    End If
+    
+    
+    
     
     'Modified by Juan Gonzalez(8/29/200) for Multilingual
     msg1 = translator.Trans("M00218")

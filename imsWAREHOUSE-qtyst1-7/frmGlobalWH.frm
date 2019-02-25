@@ -1,6 +1,7 @@
 VERSION 5.00
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmGlobalWH 
    Caption         =   "Form1"
    ClientHeight    =   7440
@@ -12,6 +13,17 @@ Begin VB.Form frmGlobalWH
    ScaleWidth      =   14910
    StartUpPosition =   3  'Windows Default
    Tag             =   "02050801"
+   Begin RichTextLib.RichTextBox remarks 
+      Height          =   3375
+      Left            =   120
+      TabIndex        =   39
+      Top             =   3480
+      Width           =   14655
+      _ExtentX        =   25850
+      _ExtentY        =   5953
+      _Version        =   393217
+      TextRTF         =   $"frmGlobalWH.frx":0000
+   End
    Begin VB.TextBox dateBOX 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
@@ -19,7 +31,7 @@ Begin VB.Form frmGlobalWH
       Height          =   285
       Left            =   10920
       Locked          =   -1  'True
-      TabIndex        =   37
+      TabIndex        =   36
       TabStop         =   0   'False
       Top             =   1530
       Width           =   2775
@@ -30,7 +42,7 @@ Begin VB.Form frmGlobalWH
       Height          =   285
       Left            =   10920
       Locked          =   -1  'True
-      TabIndex        =   36
+      TabIndex        =   35
       TabStop         =   0   'False
       Top             =   930
       Width           =   2775
@@ -40,7 +52,7 @@ Begin VB.Form frmGlobalWH
       Height          =   285
       Index           =   0
       Left            =   720
-      TabIndex        =   35
+      TabIndex        =   34
       TabStop         =   0   'False
       Top             =   2880
       Width           =   1410
@@ -49,7 +61,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "Search"
       Height          =   255
       Left            =   2145
-      TabIndex        =   34
+      TabIndex        =   33
       TabStop         =   0   'False
       Top             =   2910
       Width           =   855
@@ -443,16 +455,6 @@ Begin VB.Form frmGlobalWH
       WindowState     =   2
       PrintFileLinesPerPage=   60
    End
-   Begin VB.TextBox remarks 
-      Height          =   3255
-      Left            =   120
-      MaxLength       =   7000
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   32
-      Top             =   3480
-      Width           =   14655
-   End
    Begin VB.CheckBox checkAll 
       Caption         =   "to transfer all items"
       Height          =   255
@@ -465,7 +467,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "Date"
       Height          =   255
       Left            =   10920
-      TabIndex        =   39
+      TabIndex        =   38
       Top             =   1290
       Width           =   975
    End
@@ -473,7 +475,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "User"
       Height          =   255
       Left            =   10920
-      TabIndex        =   38
+      TabIndex        =   37
       Top             =   690
       Width           =   1575
    End
@@ -481,7 +483,7 @@ Begin VB.Form frmGlobalWH
       Caption         =   "Remarks:"
       Height          =   255
       Left            =   120
-      TabIndex        =   33
+      TabIndex        =   32
       Top             =   3240
       Width           =   2295
    End
@@ -1127,7 +1129,7 @@ Dim grid As MSHFlexGrid
                 grid.Visible = True
             End If
             grid.ZOrder
-            grid.TopRow = IIf(grid.row = 0, 1, grid.row)
+            grid.topROW = IIf(grid.row = 0, 1, grid.row)
             usingARROWS = True
             Call gridCOLORdark(grid, grid.row)
             grid.SetFocus
@@ -1623,13 +1625,6 @@ Private Sub remarks_GotFocus()
 End Sub
 
 
-Private Sub remarks_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Call Command5_Click
-    End If
-End Sub
-
-
 Private Sub remarks_LostFocus()
     remarks.backcolor = vbWhite
 End Sub
@@ -2036,8 +2031,8 @@ Dim row, i
                     If quantityBOX.Visible Then quantityBOX.Visible = False
                     row = Round((y - 60) / .RowHeight(1))
                     .row = row
-                    If .TopRow > 1 Then
-                        .row = .row + .TopRow - 1
+                    If .topROW > 1 Then
+                        .row = .row + .topROW - 1
                     End If
                     For i = 1 To .cols - 1
                         .col = i

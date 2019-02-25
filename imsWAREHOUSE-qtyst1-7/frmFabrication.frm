@@ -3,7 +3,8 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmFabrication 
    ClientHeight    =   9945
    ClientLeft      =   165
@@ -12,7 +13,19 @@ Begin VB.Form frmFabrication
    MaxButton       =   0   'False
    ScaleHeight     =   9945
    ScaleWidth      =   14415
-   Tag             =   "02050700"
+   Tag             =   "02040800"
+   Begin RichTextLib.RichTextBox remarks 
+      Height          =   3015
+      Left            =   120
+      TabIndex        =   133
+      Top             =   4560
+      Width           =   12735
+      _ExtentX        =   22463
+      _ExtentY        =   5318
+      _Version        =   393217
+      Enabled         =   -1  'True
+      TextRTF         =   $"frmFabrication.frx":0000
+   End
    Begin VB.PictureBox invoiceFrame 
       Appearance      =   0  'Flat
       BackColor       =   &H00C0E0FF&
@@ -21,7 +34,7 @@ Begin VB.Form frmFabrication
       Left            =   -120
       ScaleHeight     =   5865
       ScaleWidth      =   13785
-      TabIndex        =   123
+      TabIndex        =   122
       Top             =   480
       Visible         =   0   'False
       Width           =   13815
@@ -33,7 +46,7 @@ Begin VB.Form frmFabrication
          Left            =   11020
          ScaleHeight     =   3210
          ScaleWidth      =   0
-         TabIndex        =   133
+         TabIndex        =   132
          Top             =   1220
          Width           =   15
       End
@@ -41,7 +54,7 @@ Begin VB.Form frmFabrication
          Caption         =   "&Remove"
          Height          =   435
          Left            =   9720
-         TabIndex        =   129
+         TabIndex        =   128
          Top             =   240
          Width           =   1395
       End
@@ -58,7 +71,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   435
          Left            =   11280
-         TabIndex        =   128
+         TabIndex        =   127
          Top             =   240
          Width           =   1395
       End
@@ -68,7 +81,7 @@ Begin VB.Form frmFabrication
          Height          =   285
          Left            =   0
          MousePointer    =   1  'Arrow
-         TabIndex        =   127
+         TabIndex        =   126
          Text            =   "box"
          Top             =   0
          Visible         =   0   'False
@@ -78,7 +91,7 @@ Begin VB.Form frmFabrication
          Caption         =   "&Close"
          Height          =   435
          Left            =   11280
-         TabIndex        =   125
+         TabIndex        =   124
          Top             =   4920
          Width           =   1395
       End
@@ -86,7 +99,7 @@ Begin VB.Form frmFabrication
          CausesValidation=   0   'False
          Height          =   3615
          Left            =   600
-         TabIndex        =   124
+         TabIndex        =   123
          TabStop         =   0   'False
          Top             =   840
          Width           =   12075
@@ -117,7 +130,7 @@ Begin VB.Form frmFabrication
       Begin MSComCtl2.MonthView calendar 
          Height          =   2370
          Left            =   2400
-         TabIndex        =   130
+         TabIndex        =   129
          Top             =   -360
          Visible         =   0   'False
          Width           =   2700
@@ -127,7 +140,7 @@ Begin VB.Form frmFabrication
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
          Appearance      =   1
-         StartOfWeek     =   53673985
+         StartOfWeek     =   35258369
          CurrentDate     =   36972
       End
       Begin VB.Label totalInvoiceLabel 
@@ -145,7 +158,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   375
          Left            =   9240
-         TabIndex        =   132
+         TabIndex        =   131
          Top             =   4560
          Width           =   1815
       End
@@ -164,7 +177,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   255
          Left            =   6360
-         TabIndex        =   131
+         TabIndex        =   130
          Top             =   4560
          Width           =   2775
       End
@@ -185,7 +198,7 @@ Begin VB.Form frmFabrication
          ForeColor       =   &H80000008&
          Height          =   255
          Left            =   600
-         TabIndex        =   126
+         TabIndex        =   125
          Top             =   480
          Width           =   7815
       End
@@ -194,7 +207,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Set up transaction"
       Height          =   255
       Left            =   12720
-      TabIndex        =   120
+      TabIndex        =   119
       TabStop         =   0   'False
       Top             =   1800
       Width           =   1455
@@ -208,10 +221,10 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   390
       Left            =   13080
-      Picture         =   "frmFabrication.frx":0000
+      Picture         =   "frmFabrication.frx":0083
       ScaleHeight     =   390
       ScaleWidth      =   870
-      TabIndex        =   117
+      TabIndex        =   116
       ToolTipText     =   "You take one single item to fabricate many new ones"
       Top             =   960
       Width           =   870
@@ -224,10 +237,10 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   390
       Left            =   13080
-      Picture         =   "frmFabrication.frx":056C
+      Picture         =   "frmFabrication.frx":05EF
       ScaleHeight     =   390
       ScaleWidth      =   870
-      TabIndex        =   116
+      TabIndex        =   115
       ToolTipText     =   "You take many items to fabricate a unit of a new one"
       Top             =   120
       Width           =   870
@@ -236,7 +249,7 @@ Begin VB.Form frmFabrication
       Height          =   1215
       Index           =   0
       Left            =   3240
-      TabIndex        =   115
+      TabIndex        =   114
       TabStop         =   0   'False
       Top             =   3000
       Visible         =   0   'False
@@ -266,7 +279,7 @@ Begin VB.Form frmFabrication
       Height          =   285
       Index           =   0
       Left            =   3120
-      TabIndex        =   114
+      TabIndex        =   113
       TabStop         =   0   'False
       Top             =   2760
       Visible         =   0   'False
@@ -276,7 +289,7 @@ Begin VB.Form frmFabrication
       Caption         =   "&Add Final Stock #"
       Height          =   375
       Left            =   10560
-      TabIndex        =   113
+      TabIndex        =   112
       Top             =   3840
       Visible         =   0   'False
       Width           =   1695
@@ -289,7 +302,7 @@ Begin VB.Form frmFabrication
       Left            =   4320
       ScaleHeight     =   945
       ScaleWidth      =   3105
-      TabIndex        =   63
+      TabIndex        =   62
       Top             =   3720
       Visible         =   0   'False
       Width           =   3135
@@ -308,7 +321,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   375
          Left            =   0
-         TabIndex        =   64
+         TabIndex        =   63
          Top             =   360
          Width           =   3135
       End
@@ -316,7 +329,7 @@ Begin VB.Form frmFabrication
    Begin MSComctlLib.TreeView treeNothing 
       Height          =   735
       Left            =   10320
-      TabIndex        =   106
+      TabIndex        =   105
       Top             =   120
       Visible         =   0   'False
       Width           =   615
@@ -335,7 +348,7 @@ Begin VB.Form frmFabrication
       Left            =   1800
       ScaleHeight     =   1935
       ScaleWidth      =   6975
-      TabIndex        =   102
+      TabIndex        =   101
       Top             =   3960
       Width           =   6975
       Begin VB.PictureBox treeFrame 
@@ -347,7 +360,7 @@ Begin VB.Form frmFabrication
          Left            =   0
          ScaleHeight     =   2895
          ScaleWidth      =   4815
-         TabIndex        =   103
+         TabIndex        =   102
          Top             =   0
          Width           =   4815
          Begin VB.PictureBox linesH 
@@ -358,7 +371,7 @@ Begin VB.Form frmFabrication
             Left            =   0
             ScaleHeight     =   375
             ScaleWidth      =   10650
-            TabIndex        =   104
+            TabIndex        =   103
             Top             =   0
             Visible         =   0   'False
             Width           =   10650
@@ -372,7 +385,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   8280
       MousePointer    =   1  'Arrow
-      TabIndex        =   100
+      TabIndex        =   99
       Text            =   "invoiceListBOX"
       Top             =   0
       Visible         =   0   'False
@@ -385,7 +398,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   6480
       MousePointer    =   1  'Arrow
-      TabIndex        =   97
+      TabIndex        =   96
       Text            =   "invoiceBOX"
       Top             =   0
       Visible         =   0   'False
@@ -394,7 +407,7 @@ Begin VB.Form frmFabrication
    Begin VB.TextBox emailRecepient 
       Height          =   375
       Left            =   3000
-      TabIndex        =   93
+      TabIndex        =   92
       Top             =   9405
       Width           =   3255
    End
@@ -402,7 +415,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Search"
       Height          =   255
       Left            =   2040
-      TabIndex        =   92
+      TabIndex        =   91
       TabStop         =   0   'False
       Top             =   1800
       Width           =   855
@@ -410,7 +423,7 @@ Begin VB.Form frmFabrication
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid summaryValues 
       Height          =   1815
       Left            =   7680
-      TabIndex        =   90
+      TabIndex        =   89
       Top             =   6360
       Visible         =   0   'False
       Width           =   615
@@ -428,7 +441,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   3840
       MousePointer    =   1  'Arrow
-      TabIndex        =   89
+      TabIndex        =   88
       TabStop         =   0   'False
       Text            =   "price2BOX"
       Top             =   0
@@ -441,7 +454,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   2520
       MousePointer    =   1  'Arrow
-      TabIndex        =   87
+      TabIndex        =   86
       Text            =   "poItemBox"
       Top             =   0
       Visible         =   0   'False
@@ -450,7 +463,7 @@ Begin VB.Form frmFabrication
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid unitCombo 
       Height          =   495
       Left            =   10800
-      TabIndex        =   86
+      TabIndex        =   85
       TabStop         =   0   'False
       Top             =   5400
       Visible         =   0   'False
@@ -477,7 +490,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCompany 
       Height          =   375
       Left            =   1080
-      TabIndex        =   78
+      TabIndex        =   77
       Top             =   1320
       Width           =   615
       DataFieldList   =   "Column 0"
@@ -497,7 +510,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBCamChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   76
+      TabIndex        =   75
       Top             =   7320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -516,7 +529,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBStockType 
       Height          =   735
       Left            =   8520
-      TabIndex        =   75
+      TabIndex        =   74
       Top             =   7200
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -535,7 +548,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBUsChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   74
+      TabIndex        =   73
       Top             =   7200
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -554,7 +567,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBLocation 
       Height          =   735
       Left            =   8520
-      TabIndex        =   73
+      TabIndex        =   72
       Top             =   6960
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -573,7 +586,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleCompany 
       Height          =   735
       Left            =   8520
-      TabIndex        =   72
+      TabIndex        =   71
       Top             =   6720
       Width           =   855
       DataFieldList   =   "Column 0"
@@ -587,16 +600,6 @@ Begin VB.Form frmFabrication
       _ExtentY        =   1296
       _StockProps     =   77
       DataFieldToDisplay=   "Column 0"
-   End
-   Begin VB.TextBox remarks 
-      Height          =   3015
-      Left            =   120
-      MaxLength       =   7000
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   46
-      Top             =   4560
-      Width           =   11775
    End
    Begin VB.Timer Timer1 
       Left            =   2280
@@ -618,7 +621,7 @@ Begin VB.Form frmFabrication
       Caption         =   "&New Transaction"
       Height          =   375
       Left            =   9240
-      TabIndex        =   62
+      TabIndex        =   61
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1695
@@ -627,7 +630,7 @@ Begin VB.Form frmFabrication
       Height          =   1455
       Index           =   5
       Left            =   1560
-      TabIndex        =   58
+      TabIndex        =   57
       TabStop         =   0   'False
       Top             =   4515
       Visible         =   0   'False
@@ -657,7 +660,7 @@ Begin VB.Form frmFabrication
       Left            =   5640
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   59
+      TabIndex        =   58
       Text            =   "NEWconditionBOX"
       Top             =   6600
       Visible         =   0   'False
@@ -677,7 +680,7 @@ Begin VB.Form frmFabrication
       Height          =   240
       Index           =   5
       Left            =   1560
-      TabIndex        =   57
+      TabIndex        =   56
       Top             =   4290
       Visible         =   0   'False
       Width           =   1335
@@ -689,7 +692,7 @@ Begin VB.Form frmFabrication
       Left            =   3000
       Locked          =   -1  'True
       MultiLine       =   -1  'True
-      TabIndex        =   56
+      TabIndex        =   55
       TabStop         =   0   'False
       Top             =   4290
       Visible         =   0   'False
@@ -701,7 +704,7 @@ Begin VB.Form frmFabrication
       Height          =   285
       Left            =   8040
       Locked          =   -1  'True
-      TabIndex        =   53
+      TabIndex        =   52
       TabStop         =   0   'False
       Top             =   960
       Width           =   2775
@@ -713,7 +716,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   51
+      TabIndex        =   50
       TabStop         =   0   'False
       Text            =   "repairBOX"
       Top             =   6360
@@ -729,7 +732,7 @@ Begin VB.Form frmFabrication
       Left            =   5880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   50
+      TabIndex        =   49
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   6120
@@ -740,7 +743,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Show &Remarks, FQA"
       Height          =   375
       Left            =   120
-      TabIndex        =   49
+      TabIndex        =   48
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1815
@@ -750,7 +753,7 @@ Begin VB.Form frmFabrication
       Enabled         =   0   'False
       Height          =   375
       Left            =   2040
-      TabIndex        =   48
+      TabIndex        =   47
       TabStop         =   0   'False
       Top             =   9405
       Width           =   975
@@ -759,7 +762,7 @@ Begin VB.Form frmFabrication
       Caption         =   "&Print"
       Height          =   375
       Left            =   6960
-      TabIndex        =   47
+      TabIndex        =   46
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1575
@@ -887,15 +890,15 @@ Begin VB.Form frmFabrication
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0A7A
+            Picture         =   "frmFabrication.frx":0AFD
             Key             =   "thing"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0BBC
+            Picture         =   "frmFabrication.frx":0C3F
             Key             =   "thing 0"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0CFE
+            Picture         =   "frmFabrication.frx":0D81
             Key             =   "thing 1"
          EndProperty
       EndProperty
@@ -1008,7 +1011,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   53673987
+      Format          =   35258371
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1288,7 +1291,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDBCombo2 
       Height          =   375
       Left            =   2280
-      TabIndex        =   79
+      TabIndex        =   78
       Top             =   720
       Visible         =   0   'False
       Width           =   615
@@ -1304,7 +1307,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtStockType 
       Height          =   375
       Left            =   7680
-      TabIndex        =   80
+      TabIndex        =   79
       Top             =   1320
       Width           =   1095
       DataFieldList   =   "Column 0"
@@ -1324,7 +1327,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtUSChart 
       Height          =   375
       Left            =   5280
-      TabIndex        =   81
+      TabIndex        =   80
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1344,7 +1347,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtLocation 
       Height          =   375
       Left            =   2760
-      TabIndex        =   82
+      TabIndex        =   81
       Top             =   1320
       Width           =   1215
       DataFieldList   =   "Column 0"
@@ -1364,7 +1367,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCamChart 
       Height          =   375
       Left            =   10080
-      TabIndex        =   83
+      TabIndex        =   82
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1414,7 +1417,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   2880
       MousePointer    =   1  'Arrow
-      TabIndex        =   84
+      TabIndex        =   83
       Text            =   "quantityBOX"
       Top             =   120
       Visible         =   0   'False
@@ -1429,7 +1432,7 @@ Begin VB.Form frmFabrication
       Left            =   2880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   85
+      TabIndex        =   84
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   120
@@ -1439,7 +1442,7 @@ Begin VB.Form frmFabrication
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSOleDBFQA 
       Height          =   2220
       Left            =   120
-      TabIndex        =   71
+      TabIndex        =   70
       Top             =   3840
       Visible         =   0   'False
       Width           =   12615
@@ -1542,7 +1545,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   2040
       MousePointer    =   1  'Arrow
-      TabIndex        =   88
+      TabIndex        =   87
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -1555,7 +1558,7 @@ Begin VB.Form frmFabrication
       Left            =   4560
       ScaleHeight     =   2025
       ScaleWidth      =   5145
-      TabIndex        =   107
+      TabIndex        =   106
       Top             =   3600
       Visible         =   0   'False
       Width           =   5175
@@ -1572,7 +1575,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   615
          Left            =   2760
-         TabIndex        =   110
+         TabIndex        =   109
          Top             =   840
          Width           =   2055
       End
@@ -1589,7 +1592,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   615
          Left            =   240
-         TabIndex        =   109
+         TabIndex        =   108
          Top             =   840
          Width           =   2055
       End
@@ -1608,7 +1611,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   375
          Left            =   240
-         TabIndex        =   111
+         TabIndex        =   110
          Top             =   1560
          Width           =   4695
       End
@@ -1627,7 +1630,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   735
          Left            =   240
-         TabIndex        =   108
+         TabIndex        =   107
          Top             =   120
          Width           =   4695
       End
@@ -1639,7 +1642,7 @@ Begin VB.Form frmFabrication
       Index           =   0
       Left            =   5280
       MousePointer    =   1  'Arrow
-      TabIndex        =   112
+      TabIndex        =   111
       Text            =   "fabCostBOX"
       Top             =   0
       Visible         =   0   'False
@@ -1650,7 +1653,7 @@ Begin VB.Form frmFabrication
       Height          =   375
       Index           =   1
       Left            =   12840
-      TabIndex        =   119
+      TabIndex        =   118
       ToolTipText     =   "You take one single item to fabricate many new ones"
       Top             =   1320
       Width           =   1335
@@ -1660,7 +1663,7 @@ Begin VB.Form frmFabrication
       Height          =   375
       Index           =   0
       Left            =   12840
-      TabIndex        =   118
+      TabIndex        =   117
       ToolTipText     =   "You take many items to fabricate a unit of a new one"
       Top             =   480
       Value           =   -1  'True
@@ -1682,7 +1685,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   120
-      TabIndex        =   122
+      TabIndex        =   121
       Top             =   3960
       Visible         =   0   'False
       Width           =   9975
@@ -1701,7 +1704,7 @@ Begin VB.Form frmFabrication
       EndProperty
       Height          =   375
       Left            =   8040
-      TabIndex        =   121
+      TabIndex        =   120
       Top             =   240
       Width           =   3855
    End
@@ -1709,7 +1712,7 @@ Begin VB.Form frmFabrication
       Caption         =   "nothing"
       Height          =   135
       Left            =   10560
-      TabIndex        =   105
+      TabIndex        =   104
       Top             =   1800
       Visible         =   0   'False
       Width           =   975
@@ -1730,7 +1733,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   7845
-      TabIndex        =   101
+      TabIndex        =   100
       Top             =   0
       Visible         =   0   'False
       Width           =   1095
@@ -1751,7 +1754,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   9390
-      TabIndex        =   99
+      TabIndex        =   98
       Top             =   3840
       Width           =   2175
    End
@@ -1772,7 +1775,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   8045
-      TabIndex        =   98
+      TabIndex        =   97
       Top             =   3840
       Width           =   1335
    End
@@ -1781,7 +1784,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Label5"
       Height          =   255
       Left            =   10560
-      TabIndex        =   96
+      TabIndex        =   95
       Top             =   120
       Visible         =   0   'False
       Width           =   1335
@@ -1801,7 +1804,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   4440
-      TabIndex        =   95
+      TabIndex        =   94
       Top             =   4035
       Width           =   1215
    End
@@ -1811,7 +1814,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   2
       Left            =   3000
-      TabIndex        =   94
+      TabIndex        =   93
       Top             =   4035
       Width           =   1335
    End
@@ -1830,7 +1833,7 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   120
-      TabIndex        =   91
+      TabIndex        =   90
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -1839,7 +1842,7 @@ Begin VB.Form frmFabrication
       Caption         =   "US Chart#"
       Height          =   255
       Left            =   4200
-      TabIndex        =   70
+      TabIndex        =   69
       Top             =   1320
       Width           =   975
    End
@@ -1847,7 +1850,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Company"
       Height          =   255
       Left            =   120
-      TabIndex        =   77
+      TabIndex        =   76
       Top             =   1320
       Width           =   855
    End
@@ -1855,7 +1858,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Location"
       Height          =   255
       Left            =   1920
-      TabIndex        =   69
+      TabIndex        =   68
       Top             =   1320
       Width           =   615
    End
@@ -1864,7 +1867,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   1
       Left            =   6960
-      TabIndex        =   68
+      TabIndex        =   67
       Top             =   1320
       Width           =   375
    End
@@ -1872,7 +1875,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Cam. Chart #"
       Height          =   255
       Left            =   9000
-      TabIndex        =   67
+      TabIndex        =   66
       Top             =   1320
       Width           =   975
    End
@@ -1881,7 +1884,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   1
       Left            =   420
-      TabIndex        =   66
+      TabIndex        =   65
       Top             =   1380
       Width           =   1215
    End
@@ -1890,7 +1893,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   0
       Left            =   3000
-      TabIndex        =   65
+      TabIndex        =   64
       Top             =   1380
       Visible         =   0   'False
       Width           =   1215
@@ -1911,7 +1914,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   1
       Left            =   1560
-      TabIndex        =   61
+      TabIndex        =   60
       Top             =   4560
       Width           =   1335
    End
@@ -1921,7 +1924,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   4
       Left            =   120
-      TabIndex        =   60
+      TabIndex        =   59
       Top             =   4560
       Width           =   1335
    End
@@ -1937,7 +1940,7 @@ Begin VB.Form frmFabrication
       Height          =   255
       Index           =   3
       Left            =   120
-      TabIndex        =   55
+      TabIndex        =   54
       Top             =   4320
       Width           =   1335
    End
@@ -1945,7 +1948,7 @@ Begin VB.Form frmFabrication
       Caption         =   "User"
       Height          =   255
       Left            =   8040
-      TabIndex        =   54
+      TabIndex        =   53
       Top             =   720
       Width           =   1575
    End
@@ -1953,7 +1956,7 @@ Begin VB.Form frmFabrication
       Caption         =   "Summary"
       Height          =   255
       Left            =   120
-      TabIndex        =   52
+      TabIndex        =   51
       Top             =   5640
       Visible         =   0   'False
       Width           =   1695
@@ -2147,6 +2150,8 @@ Dim originalValue
 Dim bypassFOCUS As Boolean
 Dim previousRow As Integer
 Dim previousCol As Integer
+Dim remarksFocus As Boolean
+
 Sub saveFabricationInvoices(nameSP, CompCode)
     Dim i As Integer
     Dim datax As New ADODB.Recordset
@@ -3411,6 +3416,10 @@ Private Sub quantityBOX_KeyDown(Index As Integer, KeyCode As Integer, Shift As I
     submitted = False
 End Sub
 
+Private Sub RichTextBox1_Change()
+
+End Sub
+
 Private Sub searchButton_Click()
     Call searchStockNumber(0)
 End Sub
@@ -3569,9 +3578,9 @@ Dim shot
     searchButton.Visible = False
     baseFrame.Visible = False
     
-    Tree.Height = 2000
+    Tree.Height = 1000
     SUMMARYlist.Top = searchFIELD(0).Top
-    SUMMARYlist.Height = 1980 + 2340 + 1740 'M
+    SUMMARYlist.Height = 1980 + 2340 '+ 1740 'M
     SUMMARYlist.ZOrder
     summaryLABEL.Top = SUMMARYlist.Top - 240
     summaryLABEL.Visible = False
@@ -5304,15 +5313,8 @@ Screen.MousePointer = 0
 End Sub
 
 Public Sub Command5_Click()
+    
     With Command5
-    
-''        If newBUTTON.Enabled = True And Len(Trim(cell(0).text)) > 0 Then
-''
-''            SSOleDBFQA.Top = Tree.Top
-''            SSOleDBFQA.Height = 1740 + 2340
-''
-''         End If
-    
         If treeFrame.Visible = True Then
             Screen.MousePointer = 0
             MsgBox "There is a pending item to submit"
@@ -5881,7 +5883,7 @@ Dim rights As Boolean
     Call fabGetEmail
     Command5.Enabled = False
     
-    
+    remarksFocus = False
 End Sub
 
 Public Sub setCN(conn As ADODB.Connection)
@@ -6268,12 +6270,6 @@ Private Sub remarks_GotFocus()
     remarks.backcolor = &HC0FFFF
 End Sub
 
-
-Private Sub remarks_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Call Command5_Click
-    End If
-End Sub
 
 Private Sub remarks_LostFocus()
     remarks.backcolor = vbWhite
@@ -6866,7 +6862,7 @@ For i = 2 To Tree.Nodes.Count
             If many(1).Value Then
                 If IsNumeric(balanceBOX(totalNode)) Then
                     If CDbl(balanceBOX(totalNode)) <> 0 Then
-                        MsgBox "There is a balance to be allocated. Are sure you want to confirm the submit?"
+                        MsgBox "There is a balance to be allocated, please verify before submit."
                         Exit Sub
                     End If
                 End If

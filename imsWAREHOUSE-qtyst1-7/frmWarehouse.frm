@@ -3,7 +3,8 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmWarehouse 
    ClientHeight    =   9960
    ClientLeft      =   165
@@ -14,6 +15,17 @@ Begin VB.Form frmWarehouse
    ScaleMode       =   0  'User
    ScaleWidth      =   14415
    Tag             =   "02050700"
+   Begin RichTextLib.RichTextBox remarks 
+      Height          =   3015
+      Left            =   120
+      TabIndex        =   111
+      Top             =   6240
+      Width           =   13935
+      _ExtentX        =   24580
+      _ExtentY        =   5318
+      _Version        =   393217
+      TextRTF         =   $"frmWarehouse.frx":0000
+   End
    Begin VB.PictureBox imsMsgBox 
       Appearance      =   0  'Flat
       BackColor       =   &H0000FFFF&
@@ -22,7 +34,7 @@ Begin VB.Form frmWarehouse
       Left            =   4560
       ScaleHeight     =   2025
       ScaleWidth      =   5145
-      TabIndex        =   107
+      TabIndex        =   106
       Top             =   3600
       Visible         =   0   'False
       Width           =   5175
@@ -39,7 +51,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   615
          Left            =   2760
-         TabIndex        =   110
+         TabIndex        =   109
          Top             =   840
          Width           =   2055
       End
@@ -56,7 +68,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   615
          Left            =   240
-         TabIndex        =   109
+         TabIndex        =   108
          Top             =   840
          Width           =   2055
       End
@@ -75,7 +87,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   375
          Left            =   240
-         TabIndex        =   111
+         TabIndex        =   110
          Top             =   1560
          Width           =   4695
       End
@@ -94,7 +106,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   735
          Left            =   240
-         TabIndex        =   108
+         TabIndex        =   107
          Top             =   120
          Width           =   4695
       End
@@ -107,7 +119,7 @@ Begin VB.Form frmWarehouse
       Left            =   4320
       ScaleHeight     =   945
       ScaleWidth      =   3105
-      TabIndex        =   63
+      TabIndex        =   62
       Top             =   3720
       Visible         =   0   'False
       Width           =   3135
@@ -126,7 +138,7 @@ Begin VB.Form frmWarehouse
          EndProperty
          Height          =   375
          Left            =   0
-         TabIndex        =   64
+         TabIndex        =   63
          Top             =   360
          Width           =   3135
       End
@@ -134,7 +146,7 @@ Begin VB.Form frmWarehouse
    Begin MSComctlLib.TreeView treeNothing 
       Height          =   735
       Left            =   10320
-      TabIndex        =   106
+      TabIndex        =   105
       Top             =   120
       Visible         =   0   'False
       Width           =   615
@@ -153,7 +165,7 @@ Begin VB.Form frmWarehouse
       Left            =   1800
       ScaleHeight     =   1935
       ScaleWidth      =   6975
-      TabIndex        =   102
+      TabIndex        =   101
       Top             =   3960
       Width           =   6975
       Begin VB.PictureBox treeFrame 
@@ -165,7 +177,7 @@ Begin VB.Form frmWarehouse
          Left            =   0
          ScaleHeight     =   2895
          ScaleWidth      =   4815
-         TabIndex        =   103
+         TabIndex        =   102
          Top             =   0
          Width           =   4815
          Begin VB.PictureBox linesH 
@@ -176,7 +188,7 @@ Begin VB.Form frmWarehouse
             Left            =   0
             ScaleHeight     =   375
             ScaleWidth      =   10650
-            TabIndex        =   104
+            TabIndex        =   103
             Top             =   0
             Visible         =   0   'False
             Width           =   10650
@@ -190,7 +202,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   7920
       MousePointer    =   1  'Arrow
-      TabIndex        =   100
+      TabIndex        =   99
       Text            =   "invoiceListBOX"
       Top             =   0
       Visible         =   0   'False
@@ -203,7 +215,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   6480
       MousePointer    =   1  'Arrow
-      TabIndex        =   97
+      TabIndex        =   96
       Text            =   "invoiceBOX"
       Top             =   0
       Visible         =   0   'False
@@ -212,7 +224,7 @@ Begin VB.Form frmWarehouse
    Begin VB.TextBox emailRecepient 
       Height          =   375
       Left            =   3000
-      TabIndex        =   93
+      TabIndex        =   92
       Top             =   9405
       Width           =   3255
    End
@@ -220,7 +232,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Search"
       Height          =   255
       Left            =   2040
-      TabIndex        =   92
+      TabIndex        =   91
       TabStop         =   0   'False
       Top             =   1800
       Width           =   855
@@ -228,7 +240,7 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid summaryValues 
       Height          =   1815
       Left            =   7680
-      TabIndex        =   90
+      TabIndex        =   89
       Top             =   6360
       Visible         =   0   'False
       Width           =   615
@@ -246,7 +258,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   840
       MousePointer    =   1  'Arrow
-      TabIndex        =   89
+      TabIndex        =   88
       TabStop         =   0   'False
       Text            =   "price2BOX"
       Top             =   0
@@ -259,7 +271,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   600
       MousePointer    =   1  'Arrow
-      TabIndex        =   88
+      TabIndex        =   87
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -270,7 +282,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   0
       MousePointer    =   1  'Arrow
-      TabIndex        =   87
+      TabIndex        =   86
       Text            =   "poItemBox"
       Top             =   0
       Visible         =   0   'False
@@ -279,7 +291,7 @@ Begin VB.Form frmWarehouse
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid unitCombo 
       Height          =   495
       Left            =   10800
-      TabIndex        =   86
+      TabIndex        =   85
       TabStop         =   0   'False
       Top             =   5400
       Visible         =   0   'False
@@ -306,7 +318,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCompany 
       Height          =   375
       Left            =   1080
-      TabIndex        =   78
+      TabIndex        =   77
       Top             =   1320
       Width           =   615
       DataFieldList   =   "Column 0"
@@ -326,7 +338,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBCamChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   76
+      TabIndex        =   75
       Top             =   7320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -345,7 +357,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBStockType 
       Height          =   735
       Left            =   8520
-      TabIndex        =   75
+      TabIndex        =   74
       Top             =   7200
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -364,7 +376,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBUsChart 
       Height          =   735
       Left            =   8520
-      TabIndex        =   74
+      TabIndex        =   73
       Top             =   7200
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -383,7 +395,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleDBLocation 
       Height          =   735
       Left            =   8520
-      TabIndex        =   73
+      TabIndex        =   72
       Top             =   6960
       Width           =   975
       DataFieldList   =   "Column 0"
@@ -402,7 +414,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBDropDown SSOleCompany 
       Height          =   735
       Left            =   8520
-      TabIndex        =   72
+      TabIndex        =   71
       Top             =   6720
       Width           =   855
       DataFieldList   =   "Column 0"
@@ -416,16 +428,6 @@ Begin VB.Form frmWarehouse
       _ExtentY        =   1296
       _StockProps     =   77
       DataFieldToDisplay=   "Column 0"
-   End
-   Begin VB.TextBox remarks 
-      Height          =   3015
-      Left            =   120
-      MaxLength       =   7000
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   46
-      Top             =   6240
-      Width           =   11775
    End
    Begin VB.Timer Timer1 
       Left            =   2280
@@ -447,7 +449,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&New Transaction"
       Height          =   375
       Left            =   9240
-      TabIndex        =   62
+      TabIndex        =   61
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1695
@@ -456,7 +458,7 @@ Begin VB.Form frmWarehouse
       Height          =   1455
       Index           =   5
       Left            =   1560
-      TabIndex        =   58
+      TabIndex        =   57
       TabStop         =   0   'False
       Top             =   4515
       Visible         =   0   'False
@@ -486,7 +488,7 @@ Begin VB.Form frmWarehouse
       Left            =   5640
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   59
+      TabIndex        =   58
       Text            =   "NEWconditionBOX"
       Top             =   6600
       Visible         =   0   'False
@@ -506,7 +508,7 @@ Begin VB.Form frmWarehouse
       Height          =   240
       Index           =   5
       Left            =   1560
-      TabIndex        =   57
+      TabIndex        =   56
       Top             =   4290
       Visible         =   0   'False
       Width           =   1335
@@ -518,7 +520,7 @@ Begin VB.Form frmWarehouse
       Left            =   3000
       Locked          =   -1  'True
       MultiLine       =   -1  'True
-      TabIndex        =   56
+      TabIndex        =   55
       TabStop         =   0   'False
       Top             =   4290
       Visible         =   0   'False
@@ -530,7 +532,7 @@ Begin VB.Form frmWarehouse
       Height          =   285
       Left            =   8040
       Locked          =   -1  'True
-      TabIndex        =   53
+      TabIndex        =   52
       TabStop         =   0   'False
       Top             =   960
       Width           =   2775
@@ -542,7 +544,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   5880
       MousePointer    =   1  'Arrow
-      TabIndex        =   51
+      TabIndex        =   50
       TabStop         =   0   'False
       Text            =   "repairBOX"
       Top             =   6360
@@ -558,7 +560,7 @@ Begin VB.Form frmWarehouse
       Left            =   5880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   50
+      TabIndex        =   49
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   6120
@@ -569,7 +571,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Show &Remarks, FQA"
       Height          =   375
       Left            =   120
-      TabIndex        =   49
+      TabIndex        =   48
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1815
@@ -579,7 +581,7 @@ Begin VB.Form frmWarehouse
       Enabled         =   0   'False
       Height          =   375
       Left            =   2040
-      TabIndex        =   48
+      TabIndex        =   47
       TabStop         =   0   'False
       Top             =   9405
       Width           =   975
@@ -588,7 +590,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "&Print"
       Height          =   375
       Left            =   6960
-      TabIndex        =   47
+      TabIndex        =   46
       TabStop         =   0   'False
       Top             =   9405
       Width           =   1575
@@ -716,15 +718,15 @@ Begin VB.Form frmWarehouse
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0000
+            Picture         =   "frmWarehouse.frx":0083
             Key             =   "thing"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0142
+            Picture         =   "frmWarehouse.frx":01C5
             Key             =   "thing 0"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWarehouse.frx":0284
+            Picture         =   "frmWarehouse.frx":0307
             Key             =   "thing 1"
          EndProperty
       EndProperty
@@ -837,7 +839,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   22478851
+      Format          =   94437379
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1117,7 +1119,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDBCombo2 
       Height          =   375
       Left            =   2280
-      TabIndex        =   79
+      TabIndex        =   78
       Top             =   720
       Visible         =   0   'False
       Width           =   615
@@ -1133,7 +1135,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtStockType 
       Height          =   375
       Left            =   7680
-      TabIndex        =   80
+      TabIndex        =   79
       Top             =   1320
       Width           =   1095
       DataFieldList   =   "Column 0"
@@ -1153,7 +1155,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtUSChart 
       Height          =   375
       Left            =   5280
-      TabIndex        =   81
+      TabIndex        =   80
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1173,7 +1175,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtLocation 
       Height          =   375
       Left            =   2760
-      TabIndex        =   82
+      TabIndex        =   81
       Top             =   1320
       Width           =   1215
       DataFieldList   =   "Column 0"
@@ -1193,7 +1195,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo TxtCamChart 
       Height          =   375
       Left            =   10080
-      TabIndex        =   83
+      TabIndex        =   82
       Top             =   1320
       Width           =   1455
       DataFieldList   =   "Column 0"
@@ -1243,7 +1245,7 @@ Begin VB.Form frmWarehouse
       Index           =   0
       Left            =   2880
       MousePointer    =   1  'Arrow
-      TabIndex        =   84
+      TabIndex        =   83
       Text            =   "quantityBOX"
       Top             =   120
       Visible         =   0   'False
@@ -1258,7 +1260,7 @@ Begin VB.Form frmWarehouse
       Left            =   2880
       Locked          =   -1  'True
       MousePointer    =   1  'Arrow
-      TabIndex        =   85
+      TabIndex        =   84
       TabStop         =   0   'False
       Text            =   "unitBOX"
       Top             =   120
@@ -1268,7 +1270,7 @@ Begin VB.Form frmWarehouse
    Begin SSDataWidgets_B_OLEDB.SSOleDBGrid SSOleDBFQA 
       Height          =   2220
       Left            =   120
-      TabIndex        =   71
+      TabIndex        =   70
       Top             =   3840
       Visible         =   0   'False
       Width           =   12615
@@ -1369,7 +1371,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "nothing"
       Height          =   135
       Left            =   12720
-      TabIndex        =   105
+      TabIndex        =   104
       Top             =   600
       Visible         =   0   'False
       Width           =   975
@@ -1390,7 +1392,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   7845
-      TabIndex        =   101
+      TabIndex        =   100
       Top             =   0
       Visible         =   0   'False
       Width           =   1095
@@ -1411,7 +1413,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   9390
-      TabIndex        =   99
+      TabIndex        =   98
       Top             =   3840
       Width           =   2175
    End
@@ -1432,7 +1434,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   7845
-      TabIndex        =   98
+      TabIndex        =   97
       Top             =   3840
       Width           =   1335
    End
@@ -1441,7 +1443,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Label5"
       Height          =   255
       Left            =   10560
-      TabIndex        =   96
+      TabIndex        =   95
       Top             =   120
       Visible         =   0   'False
       Width           =   1335
@@ -1461,7 +1463,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   4440
-      TabIndex        =   95
+      TabIndex        =   94
       Top             =   4035
       Width           =   1215
    End
@@ -1471,7 +1473,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   2
       Left            =   3000
-      TabIndex        =   94
+      TabIndex        =   93
       Top             =   4035
       Width           =   1335
    End
@@ -1490,7 +1492,7 @@ Begin VB.Form frmWarehouse
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   0
-      TabIndex        =   91
+      TabIndex        =   90
       Top             =   0
       Visible         =   0   'False
       Width           =   1215
@@ -1499,7 +1501,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "US Chart#"
       Height          =   255
       Left            =   4200
-      TabIndex        =   70
+      TabIndex        =   69
       Top             =   1320
       Width           =   975
    End
@@ -1507,7 +1509,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Company"
       Height          =   255
       Left            =   120
-      TabIndex        =   77
+      TabIndex        =   76
       Top             =   1320
       Width           =   855
    End
@@ -1515,7 +1517,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Location"
       Height          =   255
       Left            =   1920
-      TabIndex        =   69
+      TabIndex        =   68
       Top             =   1320
       Width           =   615
    End
@@ -1524,7 +1526,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   6960
-      TabIndex        =   68
+      TabIndex        =   67
       Top             =   1320
       Width           =   375
    End
@@ -1532,7 +1534,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Cam. Chart #"
       Height          =   255
       Left            =   9000
-      TabIndex        =   67
+      TabIndex        =   66
       Top             =   1320
       Width           =   975
    End
@@ -1541,7 +1543,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   420
-      TabIndex        =   66
+      TabIndex        =   65
       Top             =   1380
       Width           =   1215
    End
@@ -1550,7 +1552,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   0
       Left            =   3000
-      TabIndex        =   65
+      TabIndex        =   64
       Top             =   1380
       Visible         =   0   'False
       Width           =   1215
@@ -1571,7 +1573,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   1
       Left            =   1560
-      TabIndex        =   61
+      TabIndex        =   60
       Top             =   4560
       Width           =   1335
    End
@@ -1581,15 +1583,15 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   4
       Left            =   120
-      TabIndex        =   60
+      TabIndex        =   59
       Top             =   4560
       Width           =   1335
    End
    Begin VB.Line Line2 
       X1              =   1500
       X2              =   1500
-      Y1              =   5035.042
-      Y2              =   4028.033
+      Y1              =   5035.043
+      Y2              =   4028.035
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -1597,7 +1599,7 @@ Begin VB.Form frmWarehouse
       Height          =   255
       Index           =   3
       Left            =   120
-      TabIndex        =   55
+      TabIndex        =   54
       Top             =   4320
       Width           =   1335
    End
@@ -1605,7 +1607,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "User"
       Height          =   255
       Left            =   8040
-      TabIndex        =   54
+      TabIndex        =   53
       Top             =   720
       Width           =   1575
    End
@@ -1613,7 +1615,7 @@ Begin VB.Form frmWarehouse
       Caption         =   "Summary"
       Height          =   255
       Left            =   120
-      TabIndex        =   52
+      TabIndex        =   51
       Top             =   5640
       Visible         =   0   'False
       Width           =   1695
@@ -1798,6 +1800,8 @@ Dim ctt2 As New cTreeTips
 Dim ctt3 As New cTreeTips
 
 
+Dim remarksFocus As Boolean
+
 Sub arrowKEYS(direction As String, Index As Integer)
 Dim grid As MSHFlexGrid
     With cell(Index)
@@ -1828,7 +1832,7 @@ Dim grid As MSHFlexGrid
                 grid.Visible = True
             End If
             grid.ZOrder
-            grid.TopRow = IIf(grid.row = 0, 1, grid.row)
+            grid.topROW = IIf(grid.row = 0, 1, grid.row)
             usingARROWS = True
             Call gridCOLORdark(grid, grid.row)
             grid.SetFocus
@@ -2249,7 +2253,7 @@ Screen.MousePointer = 11
                                         t = t + datax!stk_stcknumb + vbTab
                                         t = t + IIf(IsNull(datax!stk_desc), "", datax!stk_desc) + vbTab
                                         t = t + IIf(IsNull(datax!uni_desc), "", datax!uni_desc)
-                                        STOCKlist.AddItem t, 1
+                                        STOCKlist.addITEM t, 1
                                     End If
                                     datax.MoveNext
                                 Loop
@@ -2266,7 +2270,7 @@ Screen.MousePointer = 11
                 End If
             End If
         
-    STOCKlist.TopRow = 1
+    STOCKlist.topROW = 1
     Screen.MousePointer = 0
 End Sub
 
@@ -2642,7 +2646,7 @@ Dim shot
             rec = rec + IIf(IsNull(datax!toSUBLOCA), "", Trim(datax!toSUBLOCA)) + vbTab
             rec = rec + IIf(IsNull(datax!originalcondition), "", datax!originalcondition) + vbTab
             rec = rec + unit
-            .AddItem rec
+            .addITEM rec
             .TextMatrix(.Rows - 1, 20) = conditionCODE
             datax.MoveNext
             i = i + 1
@@ -2748,7 +2752,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
                     rec = rec + vbTab
                 End If
             Next
-            .AddItem rec
+            .addITEM rec
             If datax(clue) = box.tag Then
                 Flag = .Rows - 1
             End If
@@ -2952,7 +2956,7 @@ Dim qty As Double
                     rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPriceI1), 0, !UnitPriceI1), 2) + vbTab 'Primary Unit Price
                 End If
                 
-                STOCKlist.AddItem rowTEXT
+                STOCKlist.addITEM rowTEXT
                 STOCKlist.row = STOCKlist.Rows - 1
                 STOCKlist.TextMatrix(STOCKlist.row, 16) = !Unit1Code
                 STOCKlist.TextMatrix(STOCKlist.row, 17) = IIf(IsNull(!transactions), 0, !transactions)
@@ -2993,7 +2997,7 @@ Dim qty As Double
                         rowTEXT = rowTEXT + FormatNumber(IIf(IsNull(!UnitPriceI2), 0, !UnitPriceI2), 2) + vbTab 'Primary Unit Price
                     End If
                     
-                    STOCKlist.AddItem rowTEXT
+                    STOCKlist.addITEM rowTEXT
                     STOCKlist.row = STOCKlist.Rows - 1
                     STOCKlist.TextMatrix(STOCKlist.row, 15) = !UnitSwitch
                     STOCKlist.TextMatrix(STOCKlist.row, 16) = !Unit2Code
@@ -3014,7 +3018,7 @@ Dim qty As Double
                 End If
                 
                 STOCKlist.RowHeight(STOCKlist.row) = 240
-                STOCKlist.AddItem ""
+                STOCKlist.addITEM ""
                 STOCKlist.row = STOCKlist.Rows - 1
                 For i = 0 To STOCKlist.cols - 1
                     STOCKlist.col = i
@@ -3816,7 +3820,7 @@ Dim positionX, positionY, i, currentCOL, currentROW As Integer
                     positionX = positionX + .ColWidth(i)
                 Next
                 positionY = .Top + 20
-                For i = .TopRow - 1 To .row - IIf(.TopRow = 1, 1, 0)
+                For i = .topROW - 1 To .row - IIf(.topROW = 1, 1, 0)
                     positionY = positionY + .RowHeight(i)
                 Next
                 TextLINE.text = .text
@@ -4068,7 +4072,7 @@ Screen.MousePointer = 11
     For i = 1 To 3
         If cell(i) = "" And cell(i).Visible Then
             Screen.MousePointer = 0
-            MsgBox "Missing " + Label(i)
+            MsgBox "Missing " + label(i)
             cell(i).SetFocus
             Exit Sub
         End If
@@ -4819,7 +4823,7 @@ Dim cmd As New ADODB.Command
         .parameters.Append .CreateParameter("@USER", adChar, adParamInput, 20, CurrentUser)
         Call .Execute(, , adExecuteNoRecords)
     End With
-    PutReceiptRemarks = cmd.parameters(0).value = 0
+    PutReceiptRemarks = cmd.parameters(0).Value = 0
 End Function
 Private Function PutIssueRemarks() As Boolean
 Dim cmd As ADODB.Command
@@ -4835,7 +4839,7 @@ Dim cmd As ADODB.Command
     cmd.parameters("@USER") = CurrentUser
     
     Call cmd.Execute(0, , adExecuteNoRecords)
-    PutIssueRemarks = cmd.parameters(0).value = 0
+    PutIssueRemarks = cmd.parameters(0).Value = 0
 End Function
 
 Private Function PutInvtIssue(prefix) As Boolean
@@ -4870,7 +4874,7 @@ On Error GoTo errPutInvtIssue
     cmd.parameters("@ENTYNUMB") = Null
     cmd.parameters("@USER") = CurrentUser
     cmd.Execute
-    PutInvtIssue = cmd.parameters(0).value = 0
+    PutInvtIssue = cmd.parameters(0).Value = 0
     Exit Function
 
 errPutInvtIssue:
@@ -4992,7 +4996,7 @@ Dim i
     treeFrame.Refresh
     baseFrame.Refresh
     isReset = True
-    Label(0).Visible = False
+    label(0).Visible = False
     cell(0).Visible = False
     Command3.Enabled = False
     emailButton.Enabled = False
@@ -5103,7 +5107,7 @@ Screen.MousePointer = 11
                         If datax.RecordCount > 0 Then
                             combo(5).Rows = 2
                             Do While Not datax.EOF
-                                combo(5).AddItem Trim(datax!stk_stcknumb)
+                                combo(5).addITEM Trim(datax!stk_stcknumb)
                                 datax.MoveNext
                             Loop
                             Screen.MousePointer = 0
@@ -5127,7 +5131,7 @@ Screen.MousePointer = 11
                 If saveBUTTON.Enabled Or Index = 0 Then
                     If Index > 1 Then
                         If combo(Index - 1) = "" Then
-                            MsgBox "Please select " + Label(Index - 1) + " first"
+                            MsgBox "Please select " + label(Index - 1) + " first"
                             Screen.MousePointer = 0
                             Exit Sub
                         End If
@@ -5294,9 +5298,9 @@ Dim ratio As Integer
                 'user change the FROM Location
                 If (Index = 1 Or Index = 2 Or Index = 3) And Len(cell(Index).text) > 0 And HasUserSelectedAnyStocks = True Then
                   If Index = 2 Then
-                    labelname = Label(2).Caption
+                    labelname = label(2).Caption
                   ElseIf Index = 3 Then
-                    labelname = Label(3).Caption
+                    labelname = label(3).Caption
                   End If
                   Call MsgBox("Please select and remove each selected Line items before changing the " & labelname & " .", vbInformation, "Imswin")
                   Screen.MousePointer = 0
@@ -5582,7 +5586,7 @@ Dim ratio As Integer
                     cell(Index) = ""
                     cell(Index).tag = ""
                     If Index = 2 Then Call cleanSTOCKlist
-                    MsgBox Label(2) + " and " + Label(Index) + " can not be the same"
+                    MsgBox label(2) + " and " + label(Index) + " can not be the same"
                     cell(Index).SetFocus
                 End If
             End If
@@ -5625,7 +5629,7 @@ Private Sub DTPicker1_KeyDown(KeyCode As Integer, Shift As Integer)
     With DTPicker1
         Select Case KeyCode
             Case 13
-                cell(Val(.tag)).text = Format(.value, "MMMM/dd/yyyy")
+                cell(Val(.tag)).text = Format(.Value, "MMMM/dd/yyyy")
                 cell(Val(.tag) + 1).SetFocus
         End Select
     End With
@@ -5635,7 +5639,7 @@ Private Sub DTPicker1_LostFocus()
 Dim indexCELL As Integer
     With DTPicker1
         If IsNumeric(.tag) Then
-            cell(Val(.tag)).text = Format(.value, "MMMM/dd/yyyy")
+            cell(Val(.tag)).text = Format(.Value, "MMMM/dd/yyyy")
             indexCELL = Val(.tag)
             If Me.ActiveControl.name = "cell" Then
                 If Me.ActiveControl.Index <> Val(.tag) Then .Visible = False
@@ -5647,7 +5651,7 @@ Dim indexCELL As Integer
                 .Visible = False
             End If
         End If
-        .value = Now
+        .Value = Now
     End With
 End Sub
 
@@ -5679,6 +5683,8 @@ Dim rights As Boolean
     Call fillGRID(grid(2), sublocaBOX(0), 0)
     Call cleanDETAILS
     Call getEmail
+    
+    remarksFocus = False
 End Sub
 
 Public Sub setCN(conn As ADODB.Connection)
@@ -6088,17 +6094,13 @@ End Sub
 
 Private Sub remarks_GotFocus()
     remarks.backcolor = &HC0FFFF
+    remarksFocus = True
 End Sub
 
-
-Private Sub remarks_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        Call Command5_Click
-    End If
-End Sub
 
 Private Sub remarks_LostFocus()
     remarks.backcolor = vbWhite
+    remarksFocus = False
 End Sub
 
 
@@ -6212,11 +6214,11 @@ Private Sub searchFIELD_LostFocus(Index As Integer)
 End Sub
 
 Private Sub SSOleCompany_Click()
-SSOleDBFQA.columns("company").value = SSOleCompany.columns(0).text
+SSOleDBFQA.columns("company").Value = SSOleCompany.columns(0).text
 End Sub
 
 Private Sub SSOleDBCamChart_Click()
-SSOleDBFQA.columns("Camchart#").value = SSOleDBCamChart.columns(0).text
+SSOleDBFQA.columns("Camchart#").Value = SSOleDBCamChart.columns(0).text
 End Sub
 
 Private Sub SSOleDBFQA_BeforeRowColChange(Cancel As Integer)
@@ -6372,15 +6374,15 @@ SSOleDBUsChart.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBLocation_Click()
-SSOleDBFQA.columns("location").value = SSOleDBLocation.columns(0).text
+SSOleDBFQA.columns("location").Value = SSOleDBLocation.columns(0).text
 End Sub
 
 Private Sub SSOleDBStockType_Click()
-SSOleDBFQA.columns("stocktype").value = SSOleDBStockType.columns(0).text
+SSOleDBFQA.columns("stocktype").Value = SSOleDBStockType.columns(0).text
 End Sub
 
 Private Sub SSOleDBUsChart_Click()
-SSOleDBFQA.columns("UsChart#").value = SSOleDBUsChart.columns(0).text
+SSOleDBFQA.columns("UsChart#").Value = SSOleDBUsChart.columns(0).text
 End Sub
 
 Private Sub STOCKlist_Click()
@@ -6975,7 +6977,7 @@ summaryValueFirstTime = True
                                     rec = rec + NEWconditionBOX(i - differenceWithTable) + vbTab
                                     rec = rec + NEWconditionBOX(i - differenceWithTable).ToolTipText + vbTab
                                     rec = rec + unitBOX(i)
-                                    .AddItem rec
+                                    .addITEM rec
                                     Dim qtyArrayTxt, subLocationArrayTxt As String
                                     qtyArrayTxt = ""
                                     Dim counter
@@ -6983,7 +6985,7 @@ summaryValueFirstTime = True
                                         qtyArrayTxt = qtyArrayTxt + Format(qtyArray(counter))
                                     Next
                                     subLocationArrayTxt = Join(subLocationArray())
-                                    frmWarehouse.summaryValues.AddItem qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
+                                    frmWarehouse.summaryValues.addITEM qtyArrayTxt + vbTab + subLocationArrayTxt + vbTab + invoiceBOX(i - differenceWithTable) + vbTab + invoiceLineBOX(i - differenceWithTable)
                                     If summaryValueFirstTime And summaryValues.TextMatrix(1, 0) + summaryValues.TextMatrix(1, 1) + summaryValues.TextMatrix(1, 2) = "" Then
                                         summaryValues.RemoveItem (1)
                                         summaryValueFirstTime = False
@@ -7485,7 +7487,7 @@ Dim nody As node
 getOUT:
     Exit Sub
     If Err.Number = 91 Then
-        AddItem.Enabled = False
+        addITEM.Enabled = False
         deleteITEM.Enabled = True
         PopupMenu treeMENU
     End If
@@ -7546,7 +7548,7 @@ For i = 1 To SSOleDBFQA.Rows
     
     RsUnitPrice.source = " select sap_value, sap_value * (select top 1 curd_value from currencydetl where curd_code ='" & GExtendedCurrency & "' and"
     RsUnitPrice.source = RsUnitPrice.source & " getdate() > curd_from and getdate() < curd_to) Extnsapvalue from sap where sap_compcode ='" & Company & "' and sap_npecode ='" & nameSP & "'"
-    RsUnitPrice.source = RsUnitPrice.source & " and sap_loca='" & Location & "' and sap_stcknumb='" & SSOleDBFQA.columns("STOCKNUMBER").value & "' and sap_cond ='" & SSOleDBFQA.columns("tocond").value & "'"
+    RsUnitPrice.source = RsUnitPrice.source & " and sap_loca='" & Location & "' and sap_stcknumb='" & SSOleDBFQA.columns("STOCKNUMBER").Value & "' and sap_cond ='" & SSOleDBFQA.columns("tocond").Value & "'"
     RsUnitPrice.Open , cn
         
     RsInventoryFQA("BaseCURUnitPrice") = "0"
@@ -7569,11 +7571,11 @@ For i = 1 To SSOleDBFQA.Rows
     RsInventoryFQA("FromUsChar") = Trim(TxtUSChart)
     RsInventoryFQA("FromStockType") = Trim(TxtStockType)
     RsInventoryFQA("FromCamChar") = Trim(TxtCamChart)
-    RsInventoryFQA("ToCompany") = Trim(SSOleDBFQA.columns("company").value)
-    RsInventoryFQA("ToLocation") = Trim(SSOleDBFQA.columns("location").value)
-    RsInventoryFQA("ToUsChar") = Trim(SSOleDBFQA.columns("USChart#").value)
-    RsInventoryFQA("ToStockType") = Trim(SSOleDBFQA.columns("stocktype").value)
-    RsInventoryFQA("ToCamChar") = Trim(SSOleDBFQA.columns("CamChart#").value)
+    RsInventoryFQA("ToCompany") = Trim(SSOleDBFQA.columns("company").Value)
+    RsInventoryFQA("ToLocation") = Trim(SSOleDBFQA.columns("location").Value)
+    RsInventoryFQA("ToUsChar") = Trim(SSOleDBFQA.columns("USChart#").Value)
+    RsInventoryFQA("ToStockType") = Trim(SSOleDBFQA.columns("stocktype").Value)
+    RsInventoryFQA("ToCamChar") = Trim(SSOleDBFQA.columns("CamChart#").Value)
     RsInventoryFQA("TBS") = 1
     RsInventoryFQA("CreaUser") = CurrentUser
     RsInventoryFQA("CreaDate") = Now()
@@ -7733,7 +7735,7 @@ On Error GoTo ErrHand
 
     Do While Not rs.EOF
             
-        SSOleDBFQA.AddItem rs("StockNo") & vbTab & rs("toCompany") & vbTab & rs("toLocation") & vbTab & rs("toUsChar") & vbTab & rs("toStockType") & vbTab & rs("toCamChar") & vbTab & rs("ponumb") & "" & vbTab & rs("PoItemNo") & "" & vbTab & rs("ToCondition") & vbTab & rs("Quantity")
+        SSOleDBFQA.addITEM rs("StockNo") & vbTab & rs("toCompany") & vbTab & rs("toLocation") & vbTab & rs("toUsChar") & vbTab & rs("toStockType") & vbTab & rs("toCamChar") & vbTab & rs("ponumb") & "" & vbTab & rs("PoItemNo") & "" & vbTab & rs("ToCondition") & vbTab & rs("Quantity")
         'SSOleDBFQA.addITEM No & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
         rs.MoveNext
     Loop
@@ -7764,7 +7766,7 @@ RsCompany.Open , cn
 
 Do While Not RsCompany.EOF
 
-    SSOleCompany.AddItem RsCompany("FQA")
+    SSOleCompany.addITEM RsCompany("FQA")
     RsCompany.MoveNext
     
 Loop
@@ -7774,10 +7776,10 @@ RsLocation.source = "select distinct(FQA) from FQA where Namespace ='" & nameSP 
 
 RsLocation.Open , cn
 
-If RsLocation.RecordCount = 0 Then SSOleDBLocation.AddItem LocationCode
+If RsLocation.RecordCount = 0 Then SSOleDBLocation.addITEM LocationCode
 Do While Not RsLocation.EOF
 
-    SSOleDBLocation.AddItem RsLocation("FQA")
+    SSOleDBLocation.addITEM RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop
@@ -7792,7 +7794,7 @@ RsUC.Open , cn
 
 Do While Not RsUC.EOF
 
-    SSOleDBUsChart.AddItem RsUC("FQA")
+    SSOleDBUsChart.addITEM RsUC("FQA")
     RsUC.MoveNext
     
 Loop
@@ -7806,7 +7808,7 @@ RsCC.Open , cn
 
 Do While Not RsCC.EOF
 
-    SSOleDBCamChart.AddItem RsCC("FQA")
+    SSOleDBCamChart.addITEM RsCC("FQA")
     RsCC.MoveNext
     
 Loop
@@ -7961,7 +7963,7 @@ End If
                 TxtCompany.RemoveAll
                 Do While Not RsCompany.EOF
                     
-                    TxtCompany.AddItem RsCompany("FQA")
+                    TxtCompany.addITEM RsCompany("FQA")
                     RsCompany.MoveNext
                     
                 Loop
@@ -7980,7 +7982,7 @@ End If
                 TxtLocation.RemoveAll
                 Do While Not RsLocation.EOF
                                 
-                    TxtLocation.AddItem RsLocation("FQA")
+                    TxtLocation.addITEM RsLocation("FQA")
                     RsLocation.MoveNext
                     
                 Loop
@@ -8000,7 +8002,7 @@ End If
                 Do While Not RsUC.EOF
                 
                     'USChartFQA = RsUC("FQA")
-                    TxtUSChart.AddItem RsUC("FQA")
+                    TxtUSChart.addITEM RsUC("FQA")
                     RsUC.MoveNext
                     
                 Loop
@@ -8019,7 +8021,7 @@ End If
                 TxtCamChart.RemoveAll
                 Do While Not RsCC.EOF
                     
-                    TxtCamChart.AddItem RsCC("FQA")
+                    TxtCamChart.addITEM RsCC("FQA")
                     RsCC.MoveNext
                     
                 Loop
@@ -8030,7 +8032,7 @@ End If
             
             TxtStockType = StockType
             TxtStockType.RemoveAll
-            TxtStockType.AddItem "0000"
+            TxtStockType.addITEM "0000"
 
 Exit Function
 ErrHand:
@@ -8142,7 +8144,7 @@ Insert_delete = UCase(Insert_delete)
             
                 StockType = GDefaultFQA.StockType
                 
-                SSOleDBFQA.AddItem stockno & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
+                SSOleDBFQA.addITEM stockno & vbTab & GDefaultFQA.Company & vbTab & GDefaultFQA.Location & vbTab & GDefaultFQA.UsChart & vbTab & StockType & vbTab & GDefaultFQA.CamChart & vbTab & PONumb & vbTab & lineno & vbTab & Tocondition & vbTab & quantity
                 
         End If
         
@@ -8150,7 +8152,7 @@ Insert_delete = UCase(Insert_delete)
     SSOleDBFQA.MoveFirst
           For i = 0 To SSOleDBFQA.Rows - 1
           
-                If stockno = SSOleDBFQA.columns(0).value And i = RowPositionToBedeleted - 1 Then
+                If stockno = SSOleDBFQA.columns(0).Value And i = RowPositionToBedeleted - 1 Then
                       
                       SSOleDBFQA.RemoveItem i
                       Exit Function
@@ -8198,7 +8200,7 @@ RsCompany.Open , cn
 
 If RsCompany.EOF = False Then
     
-    GDefaultFQA.Company = RsCompany("FQA").value
+    GDefaultFQA.Company = RsCompany("FQA").Value
     
     Else
     
@@ -8227,7 +8229,7 @@ RsLocation.Open , cn
 
 If RsLocation.EOF = False Then
     
-    GDefaultFQA.Location = RsLocation("FQA").value
+    GDefaultFQA.Location = RsLocation("FQA").Value
     
     Else
     
@@ -8305,7 +8307,7 @@ End If
  
                         If RsCC.EOF = False Then
                             
-                            GDefaultFQA.CamChart = RsCC("FQA").value
+                            GDefaultFQA.CamChart = RsCC("FQA").Value
                             
                             Else
                             
@@ -8315,7 +8317,7 @@ End If
                         
                         If RsUC.EOF = False Then
                             
-                            GDefaultFQA.UsChart = RsUC("FQA").value
+                            GDefaultFQA.UsChart = RsUC("FQA").Value
                             
                             Else
                             
@@ -8397,7 +8399,7 @@ RsCompany.Open , cn
 
 If RsCompany.EOF = False Then
     
-    GDefaultFQA.Company = RsCompany("FQA").value
+    GDefaultFQA.Company = RsCompany("FQA").Value
     
     Else
     
@@ -8413,7 +8415,7 @@ RsLocation.Open , cn
 
 If RsLocation.EOF = False Then
     
-    GDefaultFQA.Location = RsLocation("FQA").value
+    GDefaultFQA.Location = RsLocation("FQA").Value
     
     Else
     
@@ -8471,7 +8473,7 @@ End If
 
     If RsCC.EOF = False Then
         
-        GDefaultFQA.CamChart = RsCC("FQA").value
+        GDefaultFQA.CamChart = RsCC("FQA").Value
         
         Else
         
@@ -8481,7 +8483,7 @@ End If
     
     If RsUC.EOF = False Then
         
-        GDefaultFQA.UsChart = RsUC("FQA").value
+        GDefaultFQA.UsChart = RsUC("FQA").Value
         
         Else
         
@@ -8565,7 +8567,7 @@ PopulateFROMCombosWithFQA = False
 If RsCompany.RecordCount > 0 Then
 Do While Not RsCompany.EOF
 
-    TxtCompany.AddItem RsCompany("FQA")
+    TxtCompany.addITEM RsCompany("FQA")
     RsCompany.MoveNext
     
 Loop
@@ -8574,7 +8576,7 @@ End If
 If RsLocation.RecordCount > 0 Then
 Do While Not RsLocation.EOF
 
-    TxtLocation.AddItem RsLocation("FQA")
+    TxtLocation.addITEM RsLocation("FQA")
     RsLocation.MoveNext
     
 Loop
@@ -8583,7 +8585,7 @@ End If
 If RsUC.RecordCount > 0 Then
 Do While Not RsUC.EOF
 
-    TxtUSChart.AddItem RsUC("FQA")
+    TxtUSChart.addITEM RsUC("FQA")
     RsUC.MoveNext
     
 Loop
@@ -8593,7 +8595,7 @@ End If
 If RsCC.RecordCount > 0 Then
 Do While Not RsCC.EOF
 
-    TxtCamChart.AddItem RsCC("FQA")
+    TxtCamChart.addITEM RsCC("FQA")
     RsCC.MoveNext
     
 Loop

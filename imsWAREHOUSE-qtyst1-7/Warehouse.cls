@@ -460,7 +460,7 @@ Screen.MousePointer = 11
                 .matrix.TextMatrix(8, 0) = ""
                                 
                 'cell 2
-                '.Label(2).Caption = "From Warehouse"
+                .label(2).Caption = "From Warehouse"
                 .label(2).Caption = translator.getIt(getName(transaction) + ".Label(2)")
                 
                 .matrix.TextMatrix(0, 2) = "Get_Location2"
