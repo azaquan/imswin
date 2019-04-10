@@ -1,4 +1,3 @@
 VBGROUP 5.0
-StartupProject=ims.vbp
-Project=ImspoX\IMSPOx.vbp
-Project=imsWAREHOUSE\imsWAREHOUSE.vbp
+StartupProject=imswin.vbp
+Project=imsWAREHOUSE-qtyst1-7\imsWAREHOUSE.vbp
