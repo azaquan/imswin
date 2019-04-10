@@ -943,7 +943,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   54329347
+            Format          =   95354883
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1605,7 +1605,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   54329347
+            Format          =   95354883
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2200,7 +2200,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54329347
+            Format          =   95354883
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -6227,7 +6227,7 @@ Private Sub NavBar1_OnEditClick()
     msg = translator.Trans("M00807")
     msg = IIf(msg = "", " Can not Edit this Document ,It is Closed", msg)
     msg2 = translator.Trans("M00808")
-    msg2 = IIf(msg2 = "", " You will Create a new Revision. Do You want to Continue ?", msg2)
+    msg2 = IIf(msg2 = "", " You will Create a h. Do You want to Continue ?", msg2)
     msg3 = translator.Trans("M00809")
     msg3 = IIf(msg3 = "", "The Transaction Order can not be modified. The Document type does not allow any Revisions.", msg3)
     msg4 = translator.Trans("M00810")
@@ -6246,7 +6246,7 @@ Private Sub NavBar1_OnEditClick()
                 If MsgBox(msg2, vbYesNo) = vbYes Then
                     
                     LblRevNumb.Caption = IIf(Len(LblRevNumb.Caption) = 0, 0, CInt(LblRevNumb.Caption) + 1)
-                    LblRevDate = Format(Now(), "MM/DD/YY")
+                    LblRevDate = Format(Now(), "MM/DD/YY hh:mm:ss AM/PM")
                     LblAppBy = ""
                     LblDateSent = ""
                     mSaveToPoRevision = True
@@ -8068,7 +8068,9 @@ SaveToPOHEADER = False
   
  Poheader.revinumb = LblRevNumb
  
- If Len(LblRevDate.Caption) > 0 Then Poheader.daterevi = LblRevDate
+ If mSaveToPoRevision Then 'added to avoid bug 2019-03-13 juan
+    If Len(LblRevDate.Caption) > 0 Then Poheader.daterevi = LblRevDate
+ End If
  
  Poheader.shipcode = Trim$(ssdcboShipper.Tag)
  

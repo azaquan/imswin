@@ -181,6 +181,7 @@ End Sub
 'get crystal report parameter an dapplication path
 
 Private Sub cmd_ok_Click()
+
 On Error GoTo ErrHandler
 
 With MDI_IMS.CrystalReport1
@@ -200,9 +201,10 @@ With MDI_IMS.CrystalReport1
         Call translator.Translate_Reports("histmovtstck.rpt") 'J added
         Call translator.Translate_SubReports 'J added
         '---------------------------------------------
-        
+
         .Action = 1: .Reset
 End With
+
         Exit Sub
     
 ErrHandler:
@@ -288,7 +290,7 @@ Private Sub Combo_fromstock_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Combo_fromstock_LostFocus()
-Call NormalBackground(combo_fromstock)
+    'Call NormalBackground(combo_fromstock)
 End Sub
 
 ' set to stock number equal to from stock  number
@@ -297,7 +299,7 @@ Private Sub Combo_fromstock_Validate(Cancel As Boolean)
     combo_tostock = combo_fromstock
     If Len(Trim$(combo_fromstock)) > 0 Then
          If Not combo_fromstock.IsItemInList Then
-               combo_fromstock.Text = ""
+               'combo_fromstock.Text = ""
             End If
             If Len(Trim$(combo_fromstock)) = 0 Then
             combo_fromstock.SetFocus
@@ -638,21 +640,22 @@ If combo_fromstock.Text = "ALL" Then
     combo_tostock.Enabled = False
 Else
 
-combo_tostock.Enabled = True
-'If X = 1 Then Exit Sub
- x = x + 1
-
+    'combo_tostock.Enabled = True
+    'If X = 1 Then Exit Sub
+     x = x + 1
     
-  
- 'rs.MoveFirst
-'Do While (Not rs.EOF)
-'  combo_tostock.AddItem (rs!qs1_stcknumb)
-'  rs.MoveNext
-'  Loop
+        
+      
+     'rs.MoveFirst
+    'Do While (Not rs.EOF)
+    '  combo_tostock.AddItem (rs!qs1_stcknumb)
+    '  rs.MoveNext
+    '  Loop
 End If
  combo_tostock.Bookmark = combo_fromstock.Bookmark
  combo_tostock.Text = combo_fromstock.Text
  combo_tostock.Enabled = True
+ 
 End Sub
 
 'get record set status

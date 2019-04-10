@@ -3,8 +3,8 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmWarehouse 
    ClientHeight    =   9960
    ClientLeft      =   165
@@ -24,6 +24,7 @@ Begin VB.Form frmWarehouse
       _ExtentX        =   24580
       _ExtentY        =   5318
       _Version        =   393217
+      Enabled         =   -1  'True
       TextRTF         =   $"frmWarehouse.frx":0000
    End
    Begin VB.PictureBox imsMsgBox 
@@ -839,7 +840,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   94437379
+      Format          =   78643203
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2556,16 +2557,17 @@ Dim shot
     summaryLABEL.Top = SUMMARYlist.Top - 240
     'summaryLABEL.Visible = True M
     summaryLABEL.Visible = False
-    
+    remarks.width = detailHEADER.width
     If newBUTTON.Enabled Then
 
         remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
-        remarks.Height = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
-        remarks.width = detailHEADER.width
+        remarks.Height = 4000 'Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
+        
     Else
-        remarks.Top = Tree.Top + 2000 + 600
+       ' remarks.Top = Tree.Top + 2000 + 600
+       remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200
         If Me.Height > (remarks.Top + 990) Then
-            remarks.Height = Me.Height - remarks.Top - 790
+            remarks.Height = 4000 'Me.Height - remarks.Top - 790
         End If
     End If
     remarks.Visible = True
@@ -2579,7 +2581,16 @@ Dim shot
     
     dateBOX = Format(datax!Date, "Short Date")
     userNAMEbox = getUSERname(datax!userCODE)
-    remarks = IIf(IsNull(datax!remarks), "", datax!remarks)
+    Dim remarksText As String
+    
+    If IsNull(datax!remarks) Then
+        remarksText = ""
+    Else
+        remarksText = datax!remarks
+    End If
+    remarks.text = remarksText
+    remarks.ZOrder 0
+    
     With SUMMARYlist
         .Rows = 2
         i = 0
@@ -4127,7 +4138,7 @@ Screen.MousePointer = 11
             'Call PutReceiptRemarks
         Case "02050200" 'AdjustmentEntry
             retval = PutReturnData2
-            Call InvtReceiptRem_Insert(nameSP, cell(1).tag, cell(2).tag, Format(Transnumb), remarks, CurrentUser, cn)
+            Call InvtReceiptRem_Insert(nameSP, cell(1).tag, cell(2).tag, Format(Transnumb), remarks.text, CurrentUser, cn)
             TranType = "IA"
         Case "02040200" 'WarehouseIssue
             retval = PutInvtIssue("I")
@@ -4153,7 +4164,7 @@ Screen.MousePointer = 11
             Transnumb = "R-" & GetTransNumb(nameSP, cn)
             If Err Then GoTo RollBack
             retval = InvtReceipt_Insert(NP, cell(4).tag, "R", cell(1).tag, ToWH, CurrentUser, cn, , FromWH, Format(Transnumb))
-            retval = InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks, CurrentUser, cn)
+            retval = InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks.text, CurrentUser, cn)
             TranType = "R"
         Case "02050400" 'Sales
             retval = PutInvtIssue("SL")
@@ -4161,7 +4172,7 @@ Screen.MousePointer = 11
             TranType = "SL"
         Case "02040300" 'Return from Well
             retval = PutReturnData("RT")
-            Call InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks, CurrentUser, cn)
+            Call InvtReceiptRem_Insert(NP, CompCode, ToWH, Format(Transnumb), remarks.text, CurrentUser, cn)
             TranType = "RT"
     End Select
     If Not retval Then Call RollbackTransaction(cn)
@@ -4819,7 +4830,7 @@ Dim cmd As New ADODB.Command
         .parameters.Append .CreateParameter("@WhareHouse", adChar, adParamInput, 10, cell(2).tag)
         .parameters.Append .CreateParameter("@TranNumb", adVarChar, adParamInput, 15, Transnumb)
         .parameters.Append .CreateParameter("@LINENUMB", adInteger, adParamInput, , 1)
-        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 7000, remarks)
+        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 7000, remarks.text)
         .parameters.Append .CreateParameter("@USER", adChar, adParamInput, 20, CurrentUser)
         Call .Execute(, , adExecuteNoRecords)
     End With
@@ -4831,7 +4842,7 @@ Dim cmd As ADODB.Command
     Set cmd = getCOMMAND("InvtIssuetRem_Insert")
     
     cmd.parameters("@LineNumb") = 1
-    cmd.parameters("@REMARKS") = remarks
+    cmd.parameters("@REMARKS") = remarks.text
     cmd.parameters("@TranNumb") = Transnumb
     cmd.parameters("@CompanyCode") = cell(1).tag
     cmd.parameters("@NAMESPACE") = nameSP
@@ -5715,7 +5726,7 @@ End Sub
 Sub SAVE()
 Dim header As New ADODB.Recordset
 Dim details As New ADODB.Recordset
-Dim remarks As New ADODB.Recordset
+Dim remarksRS As New ADODB.Recordset
 
 Dim INVitem As New ADODB.Recordset
 
@@ -5749,8 +5760,8 @@ On Error Resume Next
         'MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Remarks", msg1)
         Set header = New ADODB.Recordset
         sql = "SELECT * FROM transactionREM WHERE invr_ponumb = ''"
-        remarks.Open sql, cn, adOpenDynamic, adLockPessimistic
-        With remarks
+        remarksRS.Open sql, cn, adOpenDynamic, adLockPessimistic
+        With remarksRS
             .AddNew
             !invr_creauser = CurrentUser
             !invr_npecode = nameSP
@@ -5758,7 +5769,7 @@ On Error Resume Next
             
             !invr_ponumb = cell(0)
             !invr_invcnumb = cell(1)
-            !invr_rem = remarks
+            !invr_rem = remarks.text
             !invr_linenumb = 1
             .Update
         End With

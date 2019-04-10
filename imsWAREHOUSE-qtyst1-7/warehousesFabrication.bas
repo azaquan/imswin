@@ -38,7 +38,7 @@ On Error GoTo ErrHandler
         End If
         .ZOrder
         Dim newStocks As Integer
-        If .many(1).Value Then
+        If .many(1).Value Or .many(2).Value Then
             For i = 1 To .Tree.Nodes.Count
                 key = .Tree.Nodes(i).key
                 If InStr(key, "@newStock") Then key = "@newStock"
@@ -114,6 +114,9 @@ On Error GoTo ErrHandler
         For i = 1 To totalNode
             .Tree.Nodes(i).Expanded = True
         Next
+        If .many(2).Value = False Then
+            .priceBOX(nodePosition).Enabled = False
+        End If
         If Not .Visible Then
             Call fabSHOWdetails
         End If
@@ -255,10 +258,11 @@ On Error Resume Next
                                     Call fabPutBOX(.quantityBOX(i), .linesV(6).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
                                     Call fabPutBOX(.balanceBOX(i), .linesV(7).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
                                     .balanceBOX(i) = "0.00"
-                                    .quantityBOX(i).Enabled = True
+                                    '.quantityBOX(i).Enabled = True
                                     .quantityBOX(i) = "1.00"
                                     .NEWconditionBOX(i) = "01"
                                     .priceBOX(i).Enabled = True
+                                    .quantityBOX(i).Enabled = True
                                 End If
                             Case Else
                                 Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
@@ -273,7 +277,7 @@ On Error Resume Next
                         If .addFinalStock.Enabled Then
 '                            .priceBOX(i).Enabled = False
                         Else
-                            If .many(0).Value Then
+                            If .many(2).Value Then
 '                                .priceBOX(i).Enabled = False
                             Else
                                 .priceBOX(i).Enabled = True
@@ -1242,7 +1246,11 @@ Dim t As String
             .ScrollBars = flexScrollBarNone
         Else
             extraW = 280
-            .Height = 2340
+            If (350 * .Rows) > 4680 Then
+                .Height = 4680
+            Else
+                .Height = 350 * .Rows
+            End If
             .ScrollBars = flexScrollBarVertical
         End If
         If frmFabrication.cell(Index).width > (totalwidth + extraW) Then
@@ -1536,16 +1544,16 @@ submitted = False
 
             If frmFabrication.STOCKlist.TextMatrix(frmFabrication.STOCKlist.row, 1) = "" Then
             Else
-                If frmFabrication.many(1).Value Then
+                If frmFabrication.many(0).Value Then
+                    frmFabrication.oneStock = ""
+                    frmFabrication.addFinalStock.Caption = "&Add Final Stock #"
+                Else
                     frmFabrication.STOCKlist.Enabled = False
                     frmFabrication.oneStock = .TextMatrix(.row, 1) + "-- " + .TextMatrix(.row, 3)
                     frmFabrication.oneStock.Top = addFinalStock.Top
                     frmFabrication.oneStock.Visible = True
                     frmFabrication.addFinalStock.Caption = "&Add New Stock #"
                     firstNewMultipleNode = True
-                Else
-                    frmFabrication.oneStock = ""
-                    frmFabrication.addFinalStock.Caption = "&Add Final Stock #"
                 End If
                 Call fabPREdetails(ctt)
             End If
@@ -2112,8 +2120,6 @@ On Error Resume Next
             If IsNumeric(.Tree.Nodes.Count) Then
                 If .many(0).Value Then
                     .priceBOX(.Tree.Nodes.Count) = Format(finalPrice / CDbl(.quantityBOX(.Tree.Nodes.Count)), "0.00")
-                Else
-                    
                 End If
             Else
                 .priceBOX(.Tree.Nodes.Count) = Format(finalPrice, "0.00")
@@ -2133,7 +2139,7 @@ On Error Resume Next
 '                    .balanceBOX(i) = Format((totalCost - stockTotalPrice), "0.00")
                 Case "@newStock"
                     If newStocks > 0 Then
-                        If .many(0).Value Then
+                        If .many(2).Value = False Then
                             .priceBOX(i) = Format((totalCost / newStocks), "0.00")
                         Else
                             totalCostBalance = totalCostBalance - (CDbl(.priceBOX(i)) * .quantityBOX(i))

@@ -3,41 +3,39 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmFabrication 
+   BorderStyle     =   1  'Fixed Single
    ClientHeight    =   9945
-   ClientLeft      =   165
-   ClientTop       =   345
+   ClientLeft      =   150
+   ClientTop       =   330
    ClientWidth     =   14415
    MaxButton       =   0   'False
+   MinButton       =   0   'False
    ScaleHeight     =   9945
    ScaleWidth      =   14415
    Tag             =   "02040800"
-   Begin RichTextLib.RichTextBox remarks 
-      Height          =   3015
-      Left            =   120
-      TabIndex        =   133
-      Top             =   4560
-      Width           =   12735
-      _ExtentX        =   22463
-      _ExtentY        =   5318
-      _Version        =   393217
-      Enabled         =   -1  'True
-      TextRTF         =   $"frmFabrication.frx":0000
-   End
    Begin VB.PictureBox invoiceFrame 
       Appearance      =   0  'Flat
       BackColor       =   &H00C0E0FF&
       ForeColor       =   &H80000008&
       Height          =   5895
-      Left            =   -120
+      Left            =   240
       ScaleHeight     =   5865
       ScaleWidth      =   13785
-      TabIndex        =   122
-      Top             =   480
+      TabIndex        =   120
+      Top             =   1920
       Visible         =   0   'False
       Width           =   13815
+      Begin VB.CommandButton cancelInvoice 
+         Caption         =   "&No Invoice"
+         Height          =   435
+         Left            =   9720
+         TabIndex        =   137
+         Top             =   4920
+         Width           =   1395
+      End
       Begin VB.PictureBox Picture2 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
@@ -46,7 +44,7 @@ Begin VB.Form frmFabrication
          Left            =   11020
          ScaleHeight     =   3210
          ScaleWidth      =   0
-         TabIndex        =   132
+         TabIndex        =   130
          Top             =   1220
          Width           =   15
       End
@@ -54,7 +52,7 @@ Begin VB.Form frmFabrication
          Caption         =   "&Remove"
          Height          =   435
          Left            =   9720
-         TabIndex        =   128
+         TabIndex        =   126
          Top             =   240
          Width           =   1395
       End
@@ -71,7 +69,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   435
          Left            =   11280
-         TabIndex        =   127
+         TabIndex        =   125
          Top             =   240
          Width           =   1395
       End
@@ -81,17 +79,17 @@ Begin VB.Form frmFabrication
          Height          =   285
          Left            =   0
          MousePointer    =   1  'Arrow
-         TabIndex        =   126
+         TabIndex        =   124
          Text            =   "box"
          Top             =   0
          Visible         =   0   'False
          Width           =   1215
       End
       Begin VB.CommandButton invoiceClose 
-         Caption         =   "&Close"
+         Caption         =   "&Done"
          Height          =   435
          Left            =   11280
-         TabIndex        =   124
+         TabIndex        =   122
          Top             =   4920
          Width           =   1395
       End
@@ -99,7 +97,7 @@ Begin VB.Form frmFabrication
          CausesValidation=   0   'False
          Height          =   3615
          Left            =   600
-         TabIndex        =   123
+         TabIndex        =   121
          TabStop         =   0   'False
          Top             =   840
          Width           =   12075
@@ -130,7 +128,7 @@ Begin VB.Form frmFabrication
       Begin MSComCtl2.MonthView calendar 
          Height          =   2370
          Left            =   2400
-         TabIndex        =   129
+         TabIndex        =   127
          Top             =   -360
          Visible         =   0   'False
          Width           =   2700
@@ -140,7 +138,7 @@ Begin VB.Form frmFabrication
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
          Appearance      =   1
-         StartOfWeek     =   35258369
+         StartOfWeek     =   78249985
          CurrentDate     =   36972
       End
       Begin VB.Label totalInvoiceLabel 
@@ -158,7 +156,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   375
          Left            =   9240
-         TabIndex        =   131
+         TabIndex        =   129
          Top             =   4560
          Width           =   1815
       End
@@ -177,7 +175,7 @@ Begin VB.Form frmFabrication
          EndProperty
          Height          =   255
          Left            =   6360
-         TabIndex        =   130
+         TabIndex        =   128
          Top             =   4560
          Width           =   2775
       End
@@ -198,52 +196,109 @@ Begin VB.Form frmFabrication
          ForeColor       =   &H80000008&
          Height          =   255
          Left            =   600
-         TabIndex        =   125
+         TabIndex        =   123
          Top             =   480
          Width           =   7815
       End
    End
-   Begin VB.CommandButton setUpTransaction 
-      Caption         =   "Set up transaction"
+   Begin VB.CommandButton cancelButton 
+      Caption         =   "&Cancel"
+      Enabled         =   0   'False
       Height          =   255
-      Left            =   12720
-      TabIndex        =   119
+      Left            =   11400
+      TabIndex        =   136
       TabStop         =   0   'False
       Top             =   1800
-      Width           =   1455
+      Width           =   1095
    End
-   Begin VB.PictureBox Picture5 
+   Begin VB.PictureBox fabricationKind 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   390
-      Left            =   13080
-      Picture         =   "frmFabrication.frx":0083
-      ScaleHeight     =   390
-      ScaleWidth      =   870
-      TabIndex        =   116
-      ToolTipText     =   "You take one single item to fabricate many new ones"
-      Top             =   960
-      Width           =   870
+      Height          =   300
+      Index           =   2
+      Left            =   13320
+      Picture         =   "frmFabrication.frx":0000
+      ScaleHeight     =   0.294
+      ScaleMode       =   0  'User
+      ScaleWidth      =   0.181
+      TabIndex        =   135
+      Top             =   1280
+      Visible         =   0   'False
+      Width           =   900
    End
-   Begin VB.PictureBox Picture1 
+   Begin VB.PictureBox fabricationKind 
       Appearance      =   0  'Flat
+      AutoRedraw      =   -1  'True
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   390
-      Left            =   13080
-      Picture         =   "frmFabrication.frx":05EF
-      ScaleHeight     =   390
-      ScaleWidth      =   870
-      TabIndex        =   115
+      Height          =   300
+      Index           =   1
+      Left            =   13320
+      Picture         =   "frmFabrication.frx":11CD
+      ScaleHeight     =   0.294
+      ScaleMode       =   0  'User
+      ScaleWidth      =   0.181
+      TabIndex        =   134
+      Top             =   780
+      Width           =   900
+   End
+   Begin VB.PictureBox fabricationKind 
+      Appearance      =   0  'Flat
+      AutoRedraw      =   -1  'True
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   300
+      Index           =   0
+      Left            =   13320
+      Picture         =   "frmFabrication.frx":211B
+      ScaleHeight     =   0.294
+      ScaleMode       =   0  'User
+      ScaleWidth      =   0.181
+      TabIndex        =   133
+      Top             =   280
+      Visible         =   0   'False
+      Width           =   900
+   End
+   Begin VB.OptionButton many 
+      Caption         =   "one to one"
+      Height          =   375
+      Index           =   1
+      Left            =   12000
+      TabIndex        =   132
       ToolTipText     =   "You take many items to fabricate a unit of a new one"
-      Top             =   120
-      Width           =   870
+      Top             =   720
+      Value           =   -1  'True
+      Width           =   1335
+   End
+   Begin RichTextLib.RichTextBox remarks 
+      Height          =   3015
+      Left            =   120
+      TabIndex        =   131
+      Top             =   4560
+      Width           =   12735
+      _ExtentX        =   22463
+      _ExtentY        =   5318
+      _Version        =   393217
+      Enabled         =   -1  'True
+      TextRTF         =   $"frmFabrication.frx":3163
+   End
+   Begin VB.CommandButton setUpTransaction 
+      Caption         =   "&Validate Settings"
+      Enabled         =   0   'False
+      Height          =   255
+      Left            =   12480
+      TabIndex        =   117
+      TabStop         =   0   'False
+      Top             =   1800
+      Width           =   1695
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid stockCombo 
       Height          =   1215
@@ -288,7 +343,7 @@ Begin VB.Form frmFabrication
    Begin VB.CommandButton addFinalStock 
       Caption         =   "&Add Final Stock #"
       Height          =   375
-      Left            =   10560
+      Left            =   10320
       TabIndex        =   112
       Top             =   3840
       Visible         =   0   'False
@@ -707,7 +762,7 @@ Begin VB.Form frmFabrication
       TabIndex        =   52
       TabStop         =   0   'False
       Top             =   960
-      Width           =   2775
+      Width           =   2415
    End
    Begin VB.TextBox repairBOX 
       Alignment       =   1  'Right Justify
@@ -793,20 +848,20 @@ Begin VB.Form frmFabrication
    Begin VB.CommandButton hideDETAIL 
       Caption         =   "&Cancel"
       Height          =   375
-      Left            =   12360
+      Left            =   12120
       TabIndex        =   41
       Top             =   3840
       Visible         =   0   'False
       Width           =   855
    End
    Begin VB.CommandButton submitDETAIL 
-      Caption         =   "&Submit"
+      Caption         =   "&Pre-Submit"
       Height          =   375
-      Left            =   13320
+      Left            =   13080
       TabIndex        =   40
       Top             =   3840
       Visible         =   0   'False
-      Width           =   855
+      Width           =   1095
    End
    Begin VB.TextBox quantityBOX 
       Alignment       =   1  'Right Justify
@@ -890,15 +945,15 @@ Begin VB.Form frmFabrication
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0AFD
+            Picture         =   "frmFabrication.frx":31E6
             Key             =   "thing"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0C3F
+            Picture         =   "frmFabrication.frx":3328
             Key             =   "thing 0"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFabrication.frx":0D81
+            Picture         =   "frmFabrication.frx":346A
             Key             =   "thing 1"
          EndProperty
       EndProperty
@@ -960,12 +1015,12 @@ Begin VB.Form frmFabrication
       Appearance      =   0  'Flat
       BackColor       =   &H00FFFFC0&
       Height          =   285
-      Left            =   10920
+      Left            =   10560
       Locked          =   -1  'True
       TabIndex        =   15
       TabStop         =   0   'False
       Top             =   960
-      Width           =   975
+      Width           =   960
    End
    Begin VB.TextBox TextLINE 
       Alignment       =   1  'Right Justify
@@ -1011,7 +1066,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   35258371
+      Format          =   78249987
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1651,22 +1706,21 @@ Begin VB.Form frmFabrication
    Begin VB.OptionButton many 
       Caption         =   "one to many"
       Height          =   375
-      Index           =   1
-      Left            =   12840
-      TabIndex        =   118
+      Index           =   2
+      Left            =   12000
+      TabIndex        =   116
       ToolTipText     =   "You take one single item to fabricate many new ones"
-      Top             =   1320
+      Top             =   1200
       Width           =   1335
    End
    Begin VB.OptionButton many 
       Caption         =   "many to one"
       Height          =   375
       Index           =   0
-      Left            =   12840
-      TabIndex        =   117
+      Left            =   12000
+      TabIndex        =   115
       ToolTipText     =   "You take many items to fabricate a unit of a new one"
-      Top             =   480
-      Value           =   -1  'True
+      Top             =   240
       Width           =   1335
    End
    Begin VB.Label oneStock 
@@ -1685,14 +1739,14 @@ Begin VB.Form frmFabrication
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   120
-      TabIndex        =   121
+      TabIndex        =   119
       Top             =   3960
       Visible         =   0   'False
       Width           =   9975
    End
    Begin VB.Label manyLabel 
       Alignment       =   1  'Right Justify
-      Caption         =   "Fabricating Many to One"
+      Caption         =   "Fabricating One to One"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   13.5
@@ -1704,7 +1758,7 @@ Begin VB.Form frmFabrication
       EndProperty
       Height          =   375
       Left            =   8040
-      TabIndex        =   120
+      TabIndex        =   118
       Top             =   240
       Width           =   3855
    End
@@ -2003,9 +2057,9 @@ Begin VB.Form frmFabrication
    End
    Begin VB.Line Line1 
       X1              =   120
-      X2              =   11880
-      Y1              =   1285
-      Y2              =   1285
+      X2              =   11520
+      Y1              =   1290
+      Y2              =   1290
    End
    Begin VB.Label otherLABEL 
       Alignment       =   1  'Right Justify
@@ -2045,7 +2099,7 @@ Begin VB.Form frmFabrication
    Begin VB.Label Label2 
       Caption         =   "Date"
       Height          =   255
-      Left            =   10920
+      Left            =   10560
       TabIndex        =   14
       Top             =   720
       Width           =   1095
@@ -2931,16 +2985,31 @@ Private Sub addFinalStock_Click()
             addFinalStock.Enabled = False
             Call addFabricationNode
             submitDETAIL.Enabled = True
+        Else
+            Exit Sub
         End If
         factor = 2
     Else
-        Call addFabricationMultipleNode
-        submitDETAIL.Enabled = True
-        factor = 2
+        If many(1).Value Then
+            If firstAdding Then
+                STOCKlist.Enabled = False
+                addFinalStock.Enabled = False
+                Call addFabricationNode
+                submitDETAIL.Enabled = True
+                factor = 2
+            End If
+        Else
+            Call addFabricationMultipleNode
+            submitDETAIL.Enabled = True
+            factor = 2
+        End If
     End If
     If firstAdding Then
         fabCostBOX(Tree.Nodes.Count - factor).SelStart = 0
         fabCostBOX(Tree.Nodes.Count - factor).SelLength = 4
+        If (fabCostBOX(Tree.Nodes.Count - factor).Visible = False) Then
+            fabCostBOX(Tree.Nodes.Count - factor).Visible = True
+        End If
         fabCostBOX(Tree.Nodes.Count - factor).SetFocus
         'total cost line
         firstAdding = False
@@ -3050,6 +3119,25 @@ End Sub
 
 Private Sub calendar_LostFocus()
     calendar.Visible = False
+End Sub
+
+Private Sub cancelButton_Click()
+    setUpTransaction.Enabled = True
+    many(0).Enabled = True
+    many(1).Enabled = True
+    many(2).Enabled = True
+End Sub
+
+Private Sub cancelInvoice_Click()
+    With invoiceGrid
+        Dim i
+        .Rows = 2
+        For i = 0 To .cols - 1
+            .TextMatrix(1, i) = ""
+        Next
+    End With
+    totalInvoiceLabel = "0.00"
+    Call hideInvoiceFrame
 End Sub
 
 Private Sub Command4_Click()
@@ -3246,11 +3334,18 @@ End With
 End Sub
 
 Private Sub many_Click(Index As Integer)
-    If Index = 0 Then
-        manyLabel = "Fabricating Many to One"
-    Else
-        manyLabel = "Fabricating One to Many"
-    End If
+    fabricationKind(0).Visible = False
+    fabricationKind(1).Visible = False
+    fabricationKind(2).Visible = False
+    fabricationKind(Index).Visible = True
+    Select Case Index
+        Case 0
+            manyLabel = "Fabricating Many to One"
+        Case 1
+            manyLabel = "Fabricating One to One"
+        Case Else
+            manyLabel = "Fabricating One to Many"
+    End Select
 End Sub
 
 Private Sub newInvoice_Click()
@@ -3512,8 +3607,27 @@ End Sub
 
 Private Sub setUpTransaction_Click()
     Dim i As Integer
+    
+    If cell(1) = "" Then
+        MsgBox "Please enter a valid Company"
+        Exit Sub
+    Else
+        If cell(2) = "" Then
+            MsgBox "Please enter a From Warehouse value"
+            Exit Sub
+        Else
+            If cell(3) = "" Then
+                MsgBox "Please enter a To Warehouse value"
+                Exit Sub
+            End If
+        End If
+    End If
+    cell(1).Enabled = False
+    cell(2).Enabled = False
+    cell(3).Enabled = False
     many(0).Enabled = False
     many(1).Enabled = False
+    many(2).Enabled = False
     For i = 1 To 4
         cell(i).locked = True
     Next
@@ -3569,7 +3683,7 @@ End Sub
 Sub fabFillTRANSACTION(datax As ADODB.Recordset)
 Dim i, n, rec, condition, key, conditionCODE, fromlogic
 Dim fromSubLoca, unitCODE, unit, StockNumber, unitPRICE
-Dim shot
+Dim shot, issuesQty, receiptsQty
     Call cleanDETAILS
     Call fabFrmHideDETAILS
     STOCKlist.Visible = False
@@ -3584,16 +3698,18 @@ Dim shot
     SUMMARYlist.ZOrder
     summaryLABEL.Top = SUMMARYlist.Top - 240
     summaryLABEL.Visible = False
-    
+    remarks.width = detailHEADER.width
     If newBUTTON.Enabled Then
 
         remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
         remarks.Height = Tree.Top - detailHEADER.Top + Tree.Height '- SSOleDBFQA.Height
-        remarks.width = detailHEADER.width
+
     Else
-        remarks.Top = Tree.Top + 2000 + 600
+        'remarks.Top = Tree.Top + 2000 + 600
+        remarks.Top = SSOleDBFQA.Top + SSOleDBFQA.Height + 200   'detailHEADER.Top
         If Me.Height > (remarks.Top + 990) Then
-            remarks.Height = Me.Height - remarks.Top - 790
+            'remarks.Height = Me.Height - remarks.Top - 790
+            remarks.Height = Tree.Top - detailHEADER.Top + Tree.Height
         End If
     End If
     remarks.Visible = True
@@ -3618,7 +3734,13 @@ Dim shot
         directCLICK = True
         cell(3) = fabGetLOCATIONdescription(cell(3).tag)
 
+
         Do While Not datax.EOF
+            If (datax!TransactionType = "i") Then
+                issuesQty = issuesQty + 1
+            Else
+                receiptsQty = receiptsQty + 1
+            End If
             condition = "New"
             conditionCODE = "01"
             StockNumber = datax!StockNumber
@@ -3658,6 +3780,15 @@ Dim shot
         If .Rows > 2 Then
             If .TextMatrix(1, 0) + .TextMatrix(1, 1) = "" Then
                 .RemoveItem 1
+            End If
+            If issuesQty = receiptsQty Then
+                many(1).Value = True
+            Else
+                If issuesQty > receiptsQty Then
+                    many(0).Value = True
+                Else
+                    many(2).Value = True
+                End If
             End If
         End If
         Call reNUMBER(SUMMARYlist)
@@ -4120,6 +4251,8 @@ Dim translationSecondaryQty
     translationCondition = translator.getIt("translationCondition")
     translationLogicalWarehouse = translator.getIt("translationLogicalWarehouse")
     translationBalance = translator.getIt("translationBalance")
+    'temporary solution for this title
+    translationBalance = "Total Cost"
     translationSublocation = translator.getIt("translationSublocation")
     translationFrom = translator.getIt("translationFrom")
     translationTo = translator.getIt("translationTo")
@@ -4218,7 +4351,7 @@ Dim translationSecondaryQty
                 .TextMatrix(0, 2) = translationLogicalWarehouse
                 '.TextMatrix(0, 4) = "Condition"
                 .TextMatrix(0, 4) = translationCondition
-                .TextMatrix(0, 5) = "Price/Cost"
+                .TextMatrix(0, 5) = "Unit Cost"
                 '.TextMatrix(0, 6) = "Qty"
                 .TextMatrix(0, 6) = translationQty
                 '.TextMatrix(0, 7) = "Balance"
@@ -4997,6 +5130,7 @@ Screen.MousePointer = 11
         
         many(0).Enabled = True
         many(1).Enabled = True
+        many(2).Enabled = True
         setUpTransaction.Enabled = True
     End If
     Screen.MousePointer = 11
@@ -5206,7 +5340,7 @@ Dim cmd As New ADODB.Command
         .parameters.Append .CreateParameter("@WhareHouse", adChar, adParamInput, 10, cell(2).tag)
         .parameters.Append .CreateParameter("@TranNumb", adVarChar, adParamInput, 15, Transnumb)
         .parameters.Append .CreateParameter("@LINENUMB", adInteger, adParamInput, , 1)
-        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 7000, remarks)
+        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 7000, remarks.text)
         .parameters.Append .CreateParameter("@USER", adChar, adParamInput, 20, CurrentUser)
         Call .Execute(, , adExecuteNoRecords)
     End With
@@ -5218,7 +5352,7 @@ Dim cmd As ADODB.Command
     Set cmd = getCOMMAND("InvtIssuetRem_Insert")
     
     cmd.parameters("@LineNumb") = 1
-    cmd.parameters("@REMARKS") = remarks
+    cmd.parameters("@REMARKS") = remarks.text
     cmd.parameters("@TranNumb") = Transnumb
     cmd.parameters("@CompanyCode") = cell(1).tag
     cmd.parameters("@NAMESPACE") = nameSP
@@ -5284,7 +5418,11 @@ Screen.MousePointer = 11
         If many(0).Value Then
             .ReportFileName = reportPATH & "wareFabrication2.rpt"
         Else
-            .ReportFileName = reportPATH & "wareFabrication.rpt"
+            If many(1).Value Then
+                .ReportFileName = reportPATH & "wareFabrication2.rpt"
+            Else
+                .ReportFileName = reportPATH & "wareFabrication.rpt"
+                End If
         End If
         .ParameterFields(0) = "transnumb;" & cell(0) & ";TRUE"
         .ParameterFields(1) = "NAMESPACE;" & nameSP & ";TRUE"
@@ -5305,7 +5443,7 @@ Screen.MousePointer = 11
         Set thisrepo = CrystalReport1
         mainREPORT = True
         Call Translate_Reports(CrystalReport1.ReportFileName)
-        'Call Translate_SubReports
+        Call Translate_SubReports
         .Action = 1
         .Reset
     End With
@@ -5361,6 +5499,9 @@ Dim i
     'detailHEADER.Top = 4320
     'Tree.Top = 4560
     'Tree.Height = 3660
+    cell(1).Enabled = True
+    cell(2).Enabled = True
+    cell(3).Enabled = True
     cell(1).SetFocus
     saveBUTTON.Enabled = True
     newBUTTON.Enabled = False
@@ -5389,6 +5530,11 @@ Dim i
     
     remarks = ""
     STOCKlist.Enabled = False
+    setUpTransaction.Enabled = True
+    cancelButton.Enabled = True
+    many(0).Enabled = True
+    many(1).Enabled = True
+    many(2).Enabled = True
     firstAdding = True
     'frmFabrication.Height = 8910
     Call cell_Click(1)
@@ -5712,7 +5858,11 @@ Dim ratio As Integer
                         If n > 1 Then
                             many(0).Value = True
                         Else
-                            many(1).Value = True
+                            If n = 1 Then
+                                many(1).Value = True
+                            Else
+                                many(2).Value = True
+                            End If
                         End If
                     End If
                 Else
@@ -5882,7 +6032,14 @@ Dim rights As Boolean
     Call fabCleanDETAILS
     Call fabGetEmail
     Command5.Enabled = False
-    
+    setUpTransaction.Enabled = False
+    cancelButton.Enabled = False
+    many(0).Enabled = False
+    many(1).Enabled = False
+    many(2).Enabled = False
+    cell(1).Enabled = False
+    cell(2).Enabled = False
+    cell(3).Enabled = False
     remarksFocus = False
 End Sub
 
@@ -5917,7 +6074,7 @@ End Sub
 Sub SAVE()
 Dim header As New ADODB.Recordset
 Dim details As New ADODB.Recordset
-Dim remarks As New ADODB.Recordset
+Dim remarksRS As New ADODB.Recordset
 
 Dim INVitem As New ADODB.Recordset
 
@@ -5951,8 +6108,8 @@ On Error Resume Next
         'MDI_IMS.StatusBar1.Panels(1).Text = IIf(msg1 = "", "Saving Remarks", msg1)
         Set header = New ADODB.Recordset
         sql = "SELECT * FROM transactionREM WHERE invr_ponumb = ''"
-        remarks.Open sql, cn, adOpenDynamic, adLockPessimistic
-        With remarks
+        remarksRS.Open sql, cn, adOpenDynamic, adLockPessimistic
+        With remarksRS
             .AddNew
             !invr_creauser = CurrentUser
             !invr_npecode = nameSP
@@ -5960,7 +6117,7 @@ On Error Resume Next
             
             !invr_ponumb = cell(0)
             !invr_invcnumb = cell(1)
-            !invr_rem = remarks
+            !invr_rem = remarks.text
             !invr_linenumb = 1
             .Update
         End With
@@ -6158,7 +6315,13 @@ End Sub
 
 Private Sub quantityBOX_Change(Index As Integer)
     If doChanges Then
-        'Call quantityBOX_Validate(Index, True)
+        If Tree.Nodes.Count >= Index Then
+            If Left(Tree.Nodes(Index), 9) <> "New Stock" Then
+                Call quantityBOX_Validate(Index, True)
+            End If
+        Else
+            
+        End If
     Else
         doChanges = True
     End If
@@ -6255,9 +6418,14 @@ On Error Resume Next
                 Else
                     .text = "0.00"
                 End If
-                    If Err.Number = 0 Then
-                        Call calculationsFabrication(True, Index)
+                commodityLABEL = Tree.Nodes.Item(Index)
+                If Err.Number = 0 Then
+                    If Tree.Nodes.Count >= Index Then
+                        If Left(Tree.Nodes(Index), 9) <> "New Stock" Then 'to control to not update when last node
+                            Call calculationsFabrication(True, Index)
+                        End If
                     End If
+                End If
             Else
                 .text = "0.00"
             End If
@@ -6567,6 +6735,10 @@ Screen.MousePointer = 11
             If .MouseCol = 0 Then
                 .col = 0
                 If .row > 0 Then
+                
+                
+                
+                
                     stockListRow = .row
                     pointerCOL = 0
                     Call fabMarkROW(STOCKlist, , ctt)
@@ -6840,7 +7012,20 @@ Dim rowKey As String
 Dim datax As New ADODB.Recordset
 Dim summaryValueFirstTime As Boolean
 '-----------------------
-
+If cell(1) = "" Then
+    MsgBox "Please enter a valid Company"
+    Exit Sub
+Else
+    If cell(2) = "" Then
+        MsgBox "Please enter a From Warehouse value"
+        Exit Sub
+    Else
+        If cell(3) = "" Then
+            MsgBox "Please enter a To Warehouse value"
+            Exit Sub
+        End If
+    End If
+End If
 '-----> (gib 10/04) If no sub-location has been entered, exit this Sub(do not continue until user enters one).
 '
 Dim askForSubLocation As Boolean
@@ -6859,7 +7044,7 @@ For i = 2 To Tree.Nodes.Count
     If InStr(key, "@finalCost") Then key = "@finalCost"
     Select Case key
         Case "@finalCost"
-            If many(1).Value Then
+            If many(2).Value Then
                 If IsNumeric(balanceBOX(totalNode)) Then
                     If CDbl(balanceBOX(totalNode)) <> 0 Then
                         MsgBox "There is a balance to be allocated, please verify before submit."
@@ -7133,7 +7318,7 @@ Dim n
                 'quantity(totalNode).ForeColor = vbWhite
             End If
         End If
-        If many(1).Value Then
+        If many(2).Value Then
             If searchStock(n).Visible Then
 '                searchStock(n).Visible = False
             End If
@@ -7164,7 +7349,7 @@ On Error Resume Next
                 quantity(nodeSEL).ForeColor = vbBlack
             End If
             
-            If many(1).Value Then
+            If many(2).Value Then
                 If searchStock(nodeSEL).Visible = False Then
                     If x < 4000 Then
                         searchStock(nodeSEL).Visible = True
