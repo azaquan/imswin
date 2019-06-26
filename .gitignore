@@ -246,3 +246,6 @@ FOXUSER.DBF
 imsudl.txt
 imsudl.txt.old
 imsudl.txt
+*.vbw
+imsudl.txt
+deIms.DCA
