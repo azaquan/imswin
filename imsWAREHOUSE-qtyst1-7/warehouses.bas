@@ -176,7 +176,7 @@ On Error Resume Next
 End Sub
 
 
-Public Function InitializeReport(Report As CRAXDRT.Report, ParamsForCrystalReport() As String) As CRAXDRT.Report
+Public Function InitializeReport(Report As CRAXDDRT.Report, ParamsForCrystalReport() As String) As CRAXDDRT.Report
 Dim crxSubreport As CRAXDRT.Report
 Dim arrparam() As String
 On Error GoTo ErrHand
@@ -221,7 +221,7 @@ Err.Clear
 End Function
         
 
-Private Function FixDB(crxDatabaseTableS As CRAXDRT.DatabaseTables)
+Private Function FixDB(crxDatabaseTableS As CRAXDDRT.DatabaseTables)
 Dim crxDatabaseTable As CRAXDRT.DatabaseTable
 For Each crxDatabaseTable In crxDatabaseTableS
     crxDatabaseTable.SetLogOnInfo ConnInfo.dsnName, ConnInfo.InitCatalog, ConnInfo.uid, ConnInfo.pwd    ' "imsO", "pecten_dev", "sa", "scms"
@@ -265,22 +265,22 @@ With frmWarehouse
 End With
 Err.Clear
 End Sub
-Sub putThingsInsideExtension(Index As Integer) 'Juan 2014-02-02, for scrolling placement
+Sub putThingsInsideExtension(index As Integer) 'Juan 2014-02-02, for scrolling placement
 With frmWarehouse
-    .quantity(Index).Visible = False
-    .poItemBox(Index).Visible = False
-    .positionBox(Index).Visible = False
-    .quantity(Index).Visible = False
-    .logicBOX(Index).Visible = False
-    .sublocaBOX(Index).Visible = False
-    .quantityBOX(Index).Visible = False
-    .quantity2BOX(Index).Visible = False
-    .balanceBOX(Index).Visible = False
-    .NEWconditionBOX(Index).Visible = False
-    .priceBOX(Index).Visible = False
-    .unitBOX(Index).Visible = False
-    .unit2BOX(Index).Visible = False
-    .repairBOX(Index).Visible = False
+    .quantity(index).Visible = False
+    .poItemBox(index).Visible = False
+    .positionBox(index).Visible = False
+    .quantity(index).Visible = False
+    .logicBOX(index).Visible = False
+    .sublocaBOX(index).Visible = False
+    .quantityBOX(index).Visible = False
+    .quantity2BOX(index).Visible = False
+    .balanceBOX(index).Visible = False
+    .NEWconditionBOX(index).Visible = False
+    .priceBOX(index).Visible = False
+    .unitBOX(index).Visible = False
+    .unit2BOX(index).Visible = False
+    .repairBOX(index).Visible = False
 End With
 End Sub
 
@@ -489,7 +489,7 @@ End Sub
 
 
 
-Private Sub Export(Report As CRAXDRT.Report)
+Private Sub Export(Report As CRAXDDRT.Report)
     Report.ExportOptions.FormatType = crEFTPortableDocFormat
     Report.ExportOptions.DestinationType = crEDTDiskFile
     Report.ExportOptions.DiskFileName = ExportFilePath
@@ -787,7 +787,7 @@ Dim ctl As Control
 
 For Each ctl In frmWarehouse.Controls
     If ctl.name = controlNAME Then
-        If ctl.Index = controlIndex Then
+        If ctl.index = controlIndex Then
             controlExists = True
             Exit For
         End If
@@ -1122,7 +1122,7 @@ On Error GoTo ErrHandler:
                 Else
                     If .newBUTTON.Enabled Then
                         .quantity(n) = Format(datax!qty1, "0.00")
-                        cond = Trim(datax!OriginalCondition)
+                        cond = Trim(datax!originalcondition)
                         logic = Trim(datax!fromlogic)
                         subloca = Trim(datax!fromSubLoca)
                         newCOND = IIf(IsNull(datax!NEWcondition), "", datax!NEWcondition)
@@ -1216,7 +1216,7 @@ On Error GoTo ErrHandler:
                 .logicBOX(n).backcolor = &HC0C0FF
                 .logicBOX(n).ToolTipText = "Select a Logic Wareshouse"
                 .sublocaBOX(n) = ""
-                .sublocaBOX(Index).backcolor = &HC0C0FF
+                .sublocaBOX(index).backcolor = &HC0C0FF
                 .sublocaBOX(n).ToolTipText = "Select a Sub Location"
             End If
         Else
@@ -1682,7 +1682,7 @@ On Error GoTo ErrHandler
                     If frmWarehouse.tag = "02040100" Then 'WarehouseReceipt
                         currentCOND = IIf(IsNull(datax!NEWcondition), "", Trim(datax!NEWcondition))
                     Else
-                        currentCOND = IIf(IsNull(datax!OriginalCondition), "", Trim(datax!OriginalCondition))
+                        currentCOND = IIf(IsNull(datax!originalcondition), "", Trim(datax!originalcondition))
                     End If
                 Else
                     currentCOND = Trim(datax!condition)
@@ -1694,7 +1694,7 @@ On Error GoTo ErrHandler
                             cond = Trim(datax!NEWcondition)
                             condName = Trim(datax!NewConditionName)
                         Else
-                            cond = Trim(datax!OriginalCondition)
+                            cond = Trim(datax!originalcondition)
                             condName = Trim(datax!OriginalConditionName)
                         End If
                     Else
@@ -1995,14 +1995,14 @@ Resume Next
 End Sub
 
 
-Sub doCOMBO(Index, datax As ADODB.Recordset, list, totalwidth)
+Sub doCOMBO(index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
     Err.Clear
-    With frmWarehouse.combo(Index)
+    With frmWarehouse.combo(index)
         Do While Not datax.EOF
             rec = ""
-            For i = 0 To frmWarehouse.matrix.TextMatrix(1, Index) - 1
+            For i = 0 To frmWarehouse.matrix.TextMatrix(1, index) - 1
                 If list(i) = "error" Then
                     MsgBox "Definition error, please contact IMS"
                     Exit Sub
@@ -2032,16 +2032,16 @@ Dim t As String
             .Height = 2340
             .ScrollBars = flexScrollBarVertical
         End If
-        If frmWarehouse.cell(Index).width > (totalwidth + extraW) Then
-            .width = frmWarehouse.cell(Index).width
+        If frmWarehouse.cell(index).width > (totalwidth + extraW) Then
+            .width = frmWarehouse.cell(index).width
             .ColWidth(0) = .ColWidth(0) + (.width - totalwidth) - extraW
         Else
             .width = totalwidth + extraW
         End If
-        If (frmWarehouse.cell(Index).Left + .width) > frmWarehouse.width Then
+        If (frmWarehouse.cell(index).Left + .width) > frmWarehouse.width Then
             .Left = frmWarehouse.width - .width - 100
         Else
-            .Left = frmWarehouse.cell(Index).Left
+            .Left = frmWarehouse.cell(index).Left
         End If
         .RowHeightMin = 240
     End With
@@ -2367,11 +2367,11 @@ onDetailListInProcess = True
         If frmWarehouse.STOCKlist.Rows > 2 Then frmWarehouse.STOCKlist.RemoveItem (1)
         frmWarehouse.STOCKlist.RowHeightMin = 240
         frmWarehouse.STOCKlist.row = 0
-        If frmWarehouse.STOCKlist.TopRow = 0 Then ' uh oh needs fixing .
+        If frmWarehouse.STOCKlist.topROW = 0 Then ' uh oh needs fixing .
             If frmWarehouse.STOCKlist.Rows > 1 Then
                 frmWarehouse.STOCKlist.FixedRows = 0
                 frmWarehouse.STOCKlist.FixedRows = 1
-                frmWarehouse.STOCKlist.TopRow = 1
+                frmWarehouse.STOCKlist.topROW = 1
             End If
         End If
     End With
@@ -2747,7 +2747,7 @@ Sub putBOX(box As textBOX, Left, Top, width, backcolor)
     End With
 End Sub
 
-Function topNODE(Index) As Integer
+Function topNODE(index) As Integer
 Dim heightFactor, spaceFactor As Integer
     spaceFactor = 45
     heightFactor = 265
@@ -2781,7 +2781,7 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 240
             spaceFactor = 80
     End Select
-    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1))
+    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop - 1))
 End Function
 
 Sub textBOX(ByVal mainCONTROL As MSHFlexGrid, standard As Boolean)
@@ -2927,12 +2927,12 @@ Sub updateStockListBalance() 'Juan 2010-9-19 to re-load the proper values of the
     End With
 End Sub
 
-Sub validateQTY(box As textBOX, Index)
+Sub validateQTY(box As textBOX, index)
 Dim n
 Dim d As Integer
     noRETURN = True
     With box
-        If Index <> totalNode Then
+        If index <> totalNode Then
             If IsNumeric(.text) Then
                 If .name = "priceBOX" Then
                     d = 2
@@ -3761,7 +3761,7 @@ Sub alphaSEARCH(ByVal cellACTIVE As textBOX, ByVal gridACTIVE As MSHFlexGrid, co
 Dim i, ii As Integer
 Dim word As String
 Dim found As Boolean
-If cellACTIVE.Index = 1 Then Exit Sub
+If cellACTIVE.index = 1 Then Exit Sub
 If skipAlphaSearch = True Then
     skipAlphaSearch = False
     Exit Sub
@@ -3796,9 +3796,9 @@ End If
             End If
             If IsNumeric(.tag) Then
                 If .tag = "0" Then
-                    .TopRow = 1
+                    .topROW = 1
                 Else
-                    .TopRow = Val(.tag)
+                    .topROW = Val(.tag)
                 End If
             End If
         End With
