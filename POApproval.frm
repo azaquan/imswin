@@ -265,9 +265,9 @@ Screen.MousePointer = 11
             If .Columns("approve").value Then
             
                 Screen.MousePointer = 11
-                Call ApprovePo(.Columns("ponumb").text, .Columns(5).value, porejected, countarray)
+                Call ApprovePo(.Columns("ponumb").Text, .Columns(5).value, porejected, countarray)
                 Screen.MousePointer = 11
-                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").text, 1)
+                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").Text, 1)
                 Screen.MousePointer = 11
                 'MDI_IMS.WriteStatus ("Getting Po Numbers to be approved")
                 
@@ -641,21 +641,69 @@ Dim sql As String
 
             FieldName = "porc_rec"
 
-            subject = "Po Approval for PO Number " & PO
+            'added by Juan 2020/02/20
+            If deIms.NameSpace = "JA414" Then
+                sql = "select * from PO where po_ponumb = '" + PO + "' and " _
+                    + "po_npecode='" + deIms.NameSpace + "'"
+                Dim datax As New ADODB.Recordset
+                Set datax = New ADODB.Recordset
+                datax.Open sql, deIms.cnIms, adOpenForwardOnly
+                Dim SupplierCode As String
+                SupplierCode = ""
+                Dim companyCode As String
+                SupplierCode = ""
+                If datax.RecordCount > 0 Then
+                    SupplierCode = datax!po_suppcode
+                    SupplierCode = Trim(SupplierCode)
+                    companyCode = datax!po_compcode
+                    companyCode = Trim(companyCode)
+                End If
+                sql = ""
+
+                sql = "select * from company " _
+                    + "where com_npecode='" + deIms.NameSpace + "' " _
+                    + "and com_compcode = '" + companyCode + "'"
+                Set datax = New ADODB.Recordset
+                datax.Open sql, deIms.cnIms, adOpenForwardOnly
+                Dim companyName As String
+                companyName = ""
+                If datax.RecordCount > 0 Then
+                    companyName = datax!com_name
+                    companyName = Trim(companyName)
+                End If
+                
+                sql = "select * from supplier " _
+                    + "where sup_npecode='" + deIms.NameSpace + "'" _
+                    + "and sup_code = '" + SupplierCode + "'"
+                Set datax = New ADODB.Recordset
+                datax.Open sql, deIms.cnIms, adOpenForwardOnly
+                Dim supplierName As String
+                supplierName = ""
+                If datax.RecordCount > 0 Then
+                    supplierName = datax!sup_name
+                    supplierName = Trim(supplierName)
+                End If
+                
+                
+                datax.Close
+                subject = companyName + " - " + PO + " - " + supplierName
+            Else
+                subject = "Po Approval for PO Number " & PO
+            End If
 
             attention = "Attention Please "
 
             Message = "PO Approval"
             
-            Dim text As String
-            text = "Transaction Approval"
+            Dim Text As String
+            Text = "Transaction Approval"
             If translator.TR_LANGUAGE <> "US" Then
-                text = translator.Trans("L00458")
-                text = IIf(text = "", "Transaction Approval", text)
+                Text = translator.Trans("L00458")
+                Text = IIf(Text = "", "Transaction Approval", Text)
             End If
             If ConnInfo.EmailClient = Outlook Then
                 'Call sendOutlookEmailandFax("po.rpt", "Transaction Approval", MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, attention) 'JCG 2008/9/1
-                Call sendOutlookEmailandFax("po.rpt", text + "-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO) 'JCG 2008/9/1
+                Call sendOutlookEmailandFax("po.rpt", Text + "-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO) 'JCG 2008/9/1
                 'Call sendOutlookEmailandFax(Report_EmailFax_PO_name, "Transaction Approval-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO)  'JCG 2008/9/1
 
             ElseIf ConnInfo.EmailClient = ATT Then
@@ -815,7 +863,7 @@ End Function
 Private Sub SSDBGLine_DblClick()
     On Error GoTo ErrHandler
     Dim PO As String
-    PO = SSDBGLine.Columns("ponumb").text
+    PO = SSDBGLine.Columns("ponumb").Text
     
     With MDI_IMS.CrystalReport1
         .Reset
@@ -850,7 +898,7 @@ ErrHandler:
 End Sub
 
 Private Sub txtsearch_GotFocus()
-If Trim(txtsearch.text) = "Hit enter to see results" Then txtsearch = ""
+If Trim(txtsearch.Text) = "Hit enter to see results" Then txtsearch = ""
 End Sub
 
 Private Sub txtsearch_KeyUp(KeyCode As Integer, Shift As Integer)

@@ -30,7 +30,7 @@ Begin VB.Form frm_IntSupe
       ForeColor       =   -2147483630
       BackColor       =   -2147483633
       Appearance      =   1
-      StartOfWeek     =   54853633
+      StartOfWeek     =   94633985
       CurrentDate     =   37316
    End
    Begin MSComCtl2.MonthView MonthView2 
@@ -46,7 +46,7 @@ Begin VB.Form frm_IntSupe
       ForeColor       =   -2147483630
       BackColor       =   -2147483633
       Appearance      =   1
-      StartOfWeek     =   54853633
+      StartOfWeek     =   94633985
       CurrentDate     =   37316
    End
    Begin LRNavigators.NavBar NavBar1 
@@ -177,7 +177,7 @@ Begin VB.Form frm_IntSupe
             DataMember      =   "INtSupplier"
             DataSource      =   "deIms"
             Height          =   288
-            Left            =   2400
+            Left            =   1320
             MaxLength       =   35
             TabIndex        =   10
             Top             =   480
@@ -187,7 +187,7 @@ Begin VB.Form frm_IntSupe
             DataField       =   "sup_faxnumb"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
-            Left            =   2400
+            Left            =   1320
             MaxLength       =   50
             TabIndex        =   9
             Top             =   120
@@ -197,7 +197,7 @@ Begin VB.Form frm_IntSupe
             Alignment       =   1  'Right Justify
             Caption         =   "Contact Name"
             Height          =   255
-            Left            =   120
+            Left            =   -960
             TabIndex        =   39
             Top             =   480
             Width           =   2175
@@ -205,10 +205,10 @@ Begin VB.Form frm_IntSupe
          Begin VB.Label lbl_FaxNum 
             Alignment       =   1  'Right Justify
             BackStyle       =   0  'Transparent
-            Caption         =   "Fax #"
+            Caption         =   "Tax ID #"
             DataMember      =   "SUPPLIER"
             Height          =   210
-            Left            =   120
+            Left            =   -960
             TabIndex        =   38
             Top             =   120
             Width           =   2175
@@ -551,10 +551,10 @@ Begin VB.Form frm_IntSupe
       Begin VB.Frame Frame1 
          BorderStyle     =   0  'None
          Height          =   2535
-         Left            =   8160
+         Left            =   7080
          TabIndex        =   35
          Top             =   480
-         Width           =   3135
+         Width           =   4215
          Begin VB.TextBox Txt_contaFax 
             DataField       =   "sup_contaFax"
             DataMember      =   "INtSupplier"
@@ -606,17 +606,17 @@ Begin VB.Form frm_IntSupe
             MaxLength       =   59
             TabIndex        =   1
             Top             =   240
-            Width           =   3030
+            Width           =   4215
          End
          Begin VB.TextBox txt_Address2 
             DataField       =   "sup_adr2"
             DataMember      =   "INTSUPPLIER"
             Height          =   288
             Left            =   0
-            MaxLength       =   25
+            MaxLength       =   40
             TabIndex        =   3
             Top             =   600
-            Width           =   3024
+            Width           =   4215
          End
          Begin VB.TextBox txt_City 
             DataField       =   "sup_city"
@@ -626,35 +626,35 @@ Begin VB.Form frm_IntSupe
             MaxLength       =   25
             TabIndex        =   6
             Top             =   960
-            Width           =   3024
+            Width           =   4215
          End
       End
       Begin VB.Frame Frame3 
          BorderStyle     =   0  'None
-         Height          =   1695
-         Left            =   120
+         Height          =   2415
+         Left            =   -960
          TabIndex        =   40
          Top             =   600
-         Width           =   5535
+         Width           =   6615
          Begin VB.TextBox txt_Name 
             DataField       =   "sup_name"
             DataMember      =   "intsupplier"
             Height          =   285
             Left            =   2400
-            MaxLength       =   35
+            MaxLength       =   50
             TabIndex        =   45
             Top             =   120
-            Width           =   3015
+            Width           =   4215
          End
          Begin VB.TextBox txt_Address1 
             DataField       =   "sup_adr1"
             DataMember      =   "intsupplier"
             Height          =   288
             Left            =   2400
-            MaxLength       =   25
+            MaxLength       =   40
             TabIndex        =   2
             Top             =   480
-            Width           =   3024
+            Width           =   4215
          End
          Begin VB.TextBox txt_State 
             DataField       =   "sup_stat"
@@ -865,7 +865,7 @@ Begin VB.Form frm_IntSupe
          Alignment       =   1  'Right Justify
          Caption         =   "Contact Fax #"
          Height          =   255
-         Left            =   5880
+         Left            =   4800
          TabIndex        =   34
          Top             =   2280
          Width           =   2175
@@ -874,7 +874,7 @@ Begin VB.Form frm_IntSupe
          Alignment       =   1  'Right Justify
          Caption         =   "Contact Telephone #"
          Height          =   255
-         Left            =   5280
+         Left            =   4200
          TabIndex        =   33
          Top             =   2640
          Width           =   2775
@@ -885,7 +885,7 @@ Begin VB.Form frm_IntSupe
          BackStyle       =   0  'Transparent
          Caption         =   "Telephone #"
          Height          =   285
-         Left            =   6000
+         Left            =   4920
          TabIndex        =   32
          Top             =   1800
          Width           =   2085
@@ -896,7 +896,7 @@ Begin VB.Form frm_IntSupe
          BackStyle       =   0  'Transparent
          Caption         =   "Email ID"
          Height          =   285
-         Left            =   6000
+         Left            =   4920
          TabIndex        =   31
          Top             =   720
          Width           =   2085
@@ -907,7 +907,7 @@ Begin VB.Form frm_IntSupe
          BackStyle       =   0  'Transparent
          Caption         =   "Address"
          Height          =   285
-         Left            =   6000
+         Left            =   4920
          TabIndex        =   30
          Top             =   1080
          Width           =   2085
@@ -918,7 +918,7 @@ Begin VB.Form frm_IntSupe
          BackStyle       =   0  'Transparent
          Caption         =   "City"
          Height          =   285
-         Left            =   6000
+         Left            =   4920
          TabIndex        =   29
          Top             =   1440
          Width           =   2085

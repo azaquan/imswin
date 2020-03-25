@@ -43,7 +43,7 @@ On Error GoTo ErrHandler
         End If
         .ZOrder
         Dim newStocks As Integer
-        If .many(1).Value Or .many(2).Value Then
+        If .many(1).value Or .many(2).value Then
             For i = 1 To .Tree.Nodes.Count
                 key = .Tree.Nodes(i).key
                 If InStr(key, "@newStock") Then key = "@newStock"
@@ -60,7 +60,7 @@ On Error GoTo ErrHandler
                 Select Case key
                     Case "@newStock"
                         If newStocks > 0 Then
-                            If .many(0).Value Then
+                            If .many(0).value Then
                                 '.priceBOX(i) = Format((totalCost / newStocks), "0.00")
                             Else
                                 If .priceBOX(i) = "" Then
@@ -119,7 +119,7 @@ On Error GoTo ErrHandler
         For i = 1 To totalNode
             .Tree.Nodes(i).Expanded = True
         Next
-        If .many(2).Value = False Then
+        If .many(2).value = False Then
             .priceBOX(nodePosition).Enabled = False
         End If
         If Not .Visible Then
@@ -144,13 +144,32 @@ Resume Next
 End Sub
 Sub fillDetailListFabrication(datax As ADODB.Recordset)
 On Error GoTo ErrHandler
-    With frmFabrication.Tree
-        .width = frmFabrication.detailHEADER.width
+    Dim stockDone As Boolean
+    Dim parent As String
+    stockDone = False
+    With frmFabrication
+        .Tree.width = frmFabrication.detailHEADER.width
         '.Nodes.Clear
-        .Nodes.Add , tvwChild, "Fabrication", "Fabrication", "thing 0"
-        .Nodes("Fabrication").Bold = True
-        .Nodes("Fabrication").backcolor = &HE0E0E0
+        
+        .Tree.Nodes.Add , tvwChild, "Fabrication", "Fabrication", "thing 0"
+        .Tree.Nodes("Fabrication").Bold = True
+        .Tree.Nodes("Fabrication").backcolor = &HE0E0E0
         fabricationFirst = False
+        parent = "Fabrication"
+        
+        .invoiceLabel.Visible = flse
+        .invoiceLineLabel.Visible = False
+        .invoiceNumberLabel.Visible = False
+        .commodityLABEL.Visible = False
+        .descriptionLABEL.Visible = False
+        .Label4(0).Visible = False
+        .Label4(1).Visible = False
+        .otherLABEL(0).Visible = False
+        .otherLABEL(1).Visible = False
+        .unitLABEL(0).Visible = False
+        
+        lastLine = 8
+        
         Do While Not datax.EOF
             If frmFabrication.newBUTTON.Enabled Then
             'TODO
@@ -164,43 +183,45 @@ On Error GoTo ErrHandler
             '----------
             Dim condition
             condition = datax!condition
-            .Nodes.Add "Fabrication", tvwChild, "@" + currentStock + "?" + condition, currentStock, "thing 1"
-            frmFabrication.invoiceLabel.Visible = flse
-            frmFabrication.invoiceLineLabel.Visible = False
-            frmFabrication.invoiceNumberLabel.Visible = False
-            frmFabrication.commodityLABEL.Visible = False
-            frmFabrication.descriptionLABEL.Visible = False
-            frmFabrication.Label4(0).Visible = False
-            frmFabrication.Label4(1).Visible = False
-            frmFabrication.otherLABEL(0).Visible = False
-            frmFabrication.otherLABEL(1).Visible = False
-            frmFabrication.unitLABEL(0).Visible = False
-            Call fabSetupBOXES(.Nodes.Count, datax.Fields, False)
+            If Not stockDone Then
+                .Tree.Nodes.Add parent, tvwChild, "@" + currentStock, currentStock, "thing 1"
+                parent = "@" + currentStock
+                stockDone = True
+            End If
+            .Tree.Nodes.Add parent, tvwChild, "?" + condition + "-" + parent, "Condition " + condition, "thing 0"
+            Call fabSetupBOXES(.Tree.Nodes.Count, datax.Fields, False)
+            
+            'this was out of the loop, juan 2019-06-26
+            Call FabLineStuff(lastLine, thick)
+            Call fabWorkBOXESlist
+            '--------------------------
+            'Call fabShowBoxes(.Tree.Nodes.Count)
+            
             datax.MoveNext
         Loop
-        frmFabrication.quantity(0).Visible = False
-        frmFabrication.addFinalStock.Enabled = True
-    End With
-    
-    With frmFabrication
-        .addFinalStock.Visible = True
+        
+        If Not .Tree.Visible Then
+            Call fabSHOWdetails
+        End If
         totalNode = .Tree.Nodes.Count
         .combo(5).Visible = False
-        lastLine = 8
+        
         Call calculationsFabrication(False, .Tree.Nodes.Count)
         For i = 1 To totalNode
             .Tree.Nodes(i).Expanded = True
         Next
-        If Not .Tree.Visible Then
-            Call fabSHOWdetails
-        End If
+        .addFinalStock.Visible = True
+        frmFabrication.quantity(0).Visible = False
+        frmFabrication.addFinalStock.Enabled = True
+        
         .ZOrder
         .SUMMARYlist.Visible = .newBUTTON.Enabled
-        .SUMMARYlist.width = frmFabrication.detailHEADER.width
-        Call FabLineStuff(lastLine, thick)
-        Call fabWorkBOXESlist
+        .SUMMARYlist.width = frmFabrication.detailHEADER.width '
+        .Tree.Nodes(.Tree.Nodes.Count).EnsureVisible
     End With
-    frmFabrication.Tree.Nodes(1).EnsureVisible
+    
+
+
     Err.Clear
     treeTimes = treeTimes + 1
     frmFabrication.treeFrame.Top = 0
@@ -223,7 +244,7 @@ On Error Resume Next
 'On Error GoTo errHandler
     With frmFabrication
         topvalue = 120
-        topvalue2 = 0
+        topvalue2 = 60
         xPos = 0
         i = .Tree.Nodes.Count
         If i > 0 Then
@@ -270,21 +291,26 @@ On Error Resume Next
                                     .NEWconditionBOX(i) = "01"
                                     .priceBOX(i).Enabled = True
                                     .quantityBOX(i).Enabled = True
+                                    .logicBOX(i) = ""
+                                    .sublocaBOX(i) = ""
                                 End If
                             Case Else
-                                Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 20, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
-                                Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
-                                Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
-                                Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
-                                Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
-                                .balanceBOX(i) = "0.00"
-                                .quantityBOX(i).Enabled = True
-                                .quantityBOX(i) = "1.00"
+                                If Left(key, 1) = "?" Then
+                                    Call fabPutBOX(.quantityBOX(i), .linesV(qtyCol + point).Left + 20, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(qtyCol + point) - 50, &HC0C0C0)
+                                    Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, &HC0C0C0)
+                                    Call fabPutBOX(.priceBOX(i), .linesV(5).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(5) - 50, vbWhite)
+                                    Call fabPutBOX(.NEWconditionBOX(i), .linesV(4).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(4) - 50, vbWhite)
+                                    Call fabPutBOX(.balanceBOX(i), .linesV(balanceCol + point).Left + 30, fabTopNODE(i) + topvalue2, .detailHEADER.ColWidth(balanceCol + point) - 50, vbWhite)
+                                    .balanceBOX(i) = "0.00"
+                                    .quantityBOX(i).Enabled = True
+                                    .quantityBOX(i) = "0.00"
+                                    .priceBOX(i).Enabled = False
+                                End If
                         End Select
                         If .addFinalStock.Enabled Then
 '                            .priceBOX(i).Enabled = False
                         Else
-                            If .many(2).Value Then
+                            If .many(2).value Then
 '                                .priceBOX(i).Enabled = False
                             Else
                                 .priceBOX(i).Enabled = True
@@ -366,40 +392,64 @@ With frmFabrication
 End With
 Err.Clear
 End Sub
-Sub fabPutThingsInsideExtension(Index As Integer) 'Juan 2014-02-02, for scrolling placement
+Sub fabPutThingsInsideExtension(index As Integer) 'Juan 2014-02-02, for scrolling placement
 With frmFabrication
-    .quantity(Index).Visible = False
-    .poItemBox(Index).Visible = False
-    .positionBox(Index).Visible = False
-    .quantity(Index).Visible = False
-    .logicBOX(Index).Visible = False
-    .sublocaBOX(Index).Visible = False
-    .quantityBOX(Index).Visible = False
-    .quantity2BOX(Index).Visible = False
-    .balanceBOX(Index).Visible = False
-    .NEWconditionBOX(Index).Visible = False
-    .priceBOX(Index).Visible = False
-    .unitBOX(Index).Visible = False
-    .unit2BOX(Index).Visible = False
-    .repairBOX(Index).Visible = False
-    .searchStock(Index).Visible = False
+    .quantity(index).Visible = False
+    .poItemBox(index).Visible = False
+    .positionBox(index).Visible = False
+    .quantity(index).Visible = False
+    .logicBOX(index).Visible = False
+    .sublocaBOX(index).Visible = False
+    .quantityBOX(index).Visible = False
+    .quantity2BOX(index).Visible = False
+    .balanceBOX(index).Visible = False
+    .NEWconditionBOX(index).Visible = False
+    .priceBOX(index).Visible = False
+    .unitBOX(index).Visible = False
+    .unit2BOX(index).Visible = False
+    .repairBOX(index).Visible = False
+    .searchStock(index).Visible = False
 End With
 End Sub
-Sub fabShowBoxes(Index)
+Sub fabShowBoxes(index, Optional showCombos As Boolean)
+If showCombos = Null Then
+    showCombos = False
+End If
 On Error Resume Next
 With frmFabrication
-    .quantity(Index).Visible = True
-    .positionBox(Index).Visible = True
-    .logicBOX(Index).Visible = True
-    .sublocaBOX(Index).Visible = True
-    .quantityBOX(Index).Visible = True
-    .quantity2BOX(Index).Visible = True
-    .balanceBOX(Index).Visible = True
-    .NEWconditionBOX(Index).Visible = True
-    .priceBOX(Index).Visible = True
-    .unitBOX(Index).Visible = True
-    .unit2BOX(Index).Visible = True
-    .repairBOX(Index).Visible = True
+    .quantity(index).Visible = True
+    '.positionBox(Index).Visible = True
+    
+        .logicBOX(index).Visible = True
+        .sublocaBOX(index).Visible = True
+    
+    .quantityBOX(index).Visible = True
+    '.quantity2BOX(Index).Visible = True
+    .balanceBOX(index).Visible = True
+    .NEWconditionBOX(index).Visible = True
+    .priceBOX(index).Visible = True
+    .unitBOX(index).Visible = True
+    '.unit2BOX(Index).Visible = True
+    '.repairBOX(Index).Visible = True
+    
+    .quantity(index).ZOrder
+    .positionBox(index).ZOrder
+    
+        .logicBOX(index).ZOrder
+        .sublocaBOX(index).ZOrder
+    
+    .quantityBOX(index).ZOrder
+    .quantity2BOX(index).ZOrder
+    .balanceBOX(index).ZOrder
+    .NEWconditionBOX(index).ZOrder
+    .priceBOX(index).ZOrder
+    .unitBOX(index).ZOrder
+    .unit2BOX(index).ZOrder
+    .repairBOX(index).ZOrder
+    If Not showCombos Then
+        .logicBOX(index).backcolor = vbWhite
+        .sublocaBOX(index).backcolor = vbWhite
+    End If
 End With
 End Sub
 
@@ -707,7 +757,7 @@ Dim ctl As Control
 
 For Each ctl In frmFabrication.Controls
     If ctl.name = controlNAME Then
-        If ctl.Index = controlIndex Then
+        If ctl.index = controlIndex Then
             fabControlExists = True
             Exit For
         End If
@@ -832,11 +882,14 @@ Dim i As Integer
         .Command1.Caption = "&Show Only Selection"
     End With
 End Sub
-Sub fabSetupBOXES(n, datax As ADODB.Fields, serial As Boolean, Optional QTYpo)
+Sub fabSetupBOXES(n, datax As ADODB.Fields, serial As Boolean, Optional QTYpo, Optional showCombos As Boolean)
 Dim x, cond, logic, subloca, newCOND, serialPool
 serialPool = IIf(serial, "SERIAL", "POOL") 'Juan 2010-5-14
 Dim newButtonEnabled As Boolean
 On Error GoTo ErrHandler:
+    If showCombos = Null Then
+        showCombos = False
+    End If
 
     With frmFabrication
         newButtonEnabled = .newBUTTON.Enabled
@@ -873,8 +926,8 @@ On Error GoTo ErrHandler:
                 Else
                     .quantity(n) = Format(datax!qty, "0.00")
                     cond = Trim(datax!condition)
-                    logic = Trim(datax!logic)
-                    subloca = Trim(datax!subloca)
+                    'logic = Trim(datax!logic)
+                    'subloca = Trim(datax!subloca)
                     newCOND = datax!condition
                 End If
             End If
@@ -896,15 +949,21 @@ On Error GoTo ErrHandler:
         Load .sublocaBOX(n)
         .sublocaBOX(n).tabindex = tabindex + 1
         If summaryPOSITION = 0 Then
-            If .newBUTTON.Enabled Then
+            If .newBUTTON.Enabled Or showCombos = False Then
+                '.logicBOX(n) = datax!toLOGIC
+                .logicBOX(n) = datax!logicname
+                .logicBOX(n).backcolor = vbWhite
+                '.sublocaBOX(n) = datax!toSUBLOCA
+                .sublocaBOX(n) = datax!sublocaname
+                .sublocaBOX(n).backcolor = vbWhite
+            Else
                 .logicBOX(n) = datax!toLOGIC
                 .sublocaBOX(n) = datax!toSUBLOCA
-            Else
                 .logicBOX(n) = ""
                 .logicBOX(n).backcolor = &HC0C0FF
                 .logicBOX(n).ToolTipText = "Select a Logic Wareshouse"
                 .sublocaBOX(n) = ""
-                .sublocaBOX(Index).backcolor = &HC0C0FF
+                .sublocaBOX(index).backcolor = &HC0C0FF
                 .sublocaBOX(n).ToolTipText = "Select a Sub Location"
             End If
         Else
@@ -1088,7 +1147,7 @@ On Error GoTo ErrHandler
                 & "NameSpace = '" + nameSP + "' AND " _
                 & "Transaction# = '" + .cell(0).tag + "' AND " _
                 & "Stocknumber = '" + .commodityLABEL + "' " _
-                & "ORDER BY OriginalCondition, LogicName, SubLocaName"
+                & "ORDER BY OriginalCondition, c"
         Else
             If Not IsNull(StockNumber) Then
                 If StockNumber <> "" Then
@@ -1107,12 +1166,14 @@ On Error GoTo ErrHandler
                 End If
             End If
         
-            sql = "SELECT  * FROM StockInfoQTYST4 WHERE " _
+            sql = "SELECT  StockNumber, condition, conditionName, " _
+                & "sum(qty) AS qty, serialNumber,max(unitprice) as unitPrice " _
+                & "FROM StockInfoInventory5 WHERE " _
                 & "NameSpace = '" + nameSP + "' AND " _
                 & "Company = '" + .cell(1).tag + "' AND " _
                 & "Warehouse = '" + .cell(2).tag + "' AND " _
                 & "StockNumber = '" + .commodityLABEL + "' " _
-                & "ORDER BY Condition, LogicName, SubLocaName"
+                & "GROUP BY StockNumber, condition, conditionName, serialNumber"
             sqlKey = sql
         End If
     End With
@@ -1124,8 +1185,8 @@ On Error GoTo ErrHandler
         ReDim qtyArray(datax.RecordCount)
         ReDim subLocationArray(datax.RecordCount)
 
-                Call fillDetailListFabrication(datax)
-                Exit Sub
+        Call fillDetailListFabrication(datax)
+        Exit Sub
 
         datax.MoveLast
         Call fabWorkBOXESlistClean
@@ -1219,14 +1280,14 @@ Resume Next
 End Sub
 
 
-Sub fabDoCombo(Index, datax As ADODB.Recordset, list, totalwidth)
+Sub fabDoCombo(index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
     Err.Clear
-    With frmFabrication.combo(Index)
+    With frmFabrication.combo(index)
         Do While Not datax.EOF
             rec = ""
-            For i = 0 To frmFabrication.matrix.TextMatrix(1, Index) - 1
+            For i = 0 To frmFabrication.matrix.TextMatrix(1, index) - 1
                 If list(i) = "error" Then
                     MsgBox "Definition error, please contact IMS"
                     Exit Sub
@@ -1260,16 +1321,16 @@ Dim t As String
             End If
             .ScrollBars = flexScrollBarVertical
         End If
-        If frmFabrication.cell(Index).width > (totalwidth + extraW) Then
-            .width = frmFabrication.cell(Index).width
+        If frmFabrication.cell(index).width > (totalwidth + extraW) Then
+            .width = frmFabrication.cell(index).width
             .ColWidth(0) = .ColWidth(0) + (.width - totalwidth) - extraW
         Else
             .width = totalwidth + extraW
         End If
-        If (frmFabrication.cell(Index).Left + .width) > frmFabrication.width Then
+        If (frmFabrication.cell(index).Left + .width) > frmFabrication.width Then
             .Left = frmFabrication.width - .width - 100
         Else
-            .Left = frmFabrication.cell(Index).Left
+            .Left = frmFabrication.cell(index).Left
         End If
         .RowHeightMin = 240
     End With
@@ -1551,7 +1612,7 @@ submitted = False
 
             If frmFabrication.STOCKlist.TextMatrix(frmFabrication.STOCKlist.row, 1) = "" Then
             Else
-                If frmFabrication.many(0).Value Then
+                If frmFabrication.many(0).value Then
                     frmFabrication.oneStock = ""
                     frmFabrication.addFinalStock.Caption = "&Add Final Stock #"
                 Else
@@ -1578,7 +1639,7 @@ Sub fabSHOWdetails()
         .otherLABEL(0).Visible = True
         .commodityLABEL.Visible = True
         .descriptionLABEL.Visible = True
-        .remarksLabel.Visible = False
+        .remarksLABEL.Visible = False
         .remarks.Visible = False
         .SUMMARYlist.Visible = False
         .hideDETAIL.Visible = True
@@ -1603,16 +1664,16 @@ Sub fabPutBOX(box As textBOX, Left, Top, width, backcolor)
     End With
 End Sub
 
-Function fabTopNODE(Index) As Integer
+Function fabTopNODE(index) As Integer
 Dim heightFactor, spaceFactor, firstSpacer As Integer
     heightFactor = 240
     spaceFactor = 0
-    If Index = 2 Then
+    If index = 2 Then
         firstSpacer = 40
     Else
         firstSpacer = 0
     End If
-    fabTopNODE = frmFabrication.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1)) + firstSpacer
+    fabTopNODE = frmFabrication.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop - 1)) + firstSpacer
 End Function
 
 Sub fabUnlockBUNCH()
@@ -2034,10 +2095,16 @@ Dim sumByQtyBox, sumByLine, sumByQty, sumByLines
 Dim qtyBoxTotal  As Double
 Dim once As Boolean
 Dim originalQty As Double
+Dim datax As ADODB.Recordset
 once = True
 balanceTotal = 0
 Dim goAhead As Boolean
+Dim thisParent As String
+Dim more As Integer
 goAhead = False
+Dim keyCondition As String
+Dim keyQty As Double
+Dim sumConditionQty As Double
 
 On Error Resume Next
     With frmFabrication
@@ -2075,18 +2142,70 @@ On Error Resume Next
             End If
             'Step to update cells on screen-----------------
             If qBoxExists Then
+                key = .Tree.Nodes(i).key
                 If .quantityBOX(i) = 0 Then
-                    .quantity(i) = Format(originalQty, "0.00")
+                    If Left(key, 1) = "?" Then
+                        keyCondition = Mid(key, 2, 2)
+                        sql = "SELECT qty FROM StockInfoInventory5 WHERE NameSpace = '" + nameSP + "' AND " _
+                            & "Company = '" + .cell(1).tag + "' AND " _
+                            & "Warehouse = '" + .cell(2).tag + "' AND " _
+                            & "StockNumber = '" + .commodityLABEL + "' " _
+                            & "AND condition = '" + keyCondition + "'"
+                        Set datax = New ADODB.Recordset
+                        datax.Open sql, cn, adOpenStatic
+                        If datax.RecordCount > 0 Then
+                            .quantity(i) = Format(datax!qty, "0.00")
+                        End If
+                    Else
+                        .quantity(i) = Format(originalQty, "0.00")
+                    End If
+                    
+                    
+                    
+                    
+                    
                 Else
-                    key = .Tree.Nodes(i).key
                     If InStr(key, "@newStock") Then
                         .quantity(i) = .quantityBOX(i)
                     Else
                          If (originalQty - CDbl(.quantityBOX(i))) < 0 Then
                              .quantity(i) = "0.00"
                              .quantityBOX(i) = Format(originalQty, "0.00")
+                             sumConditionQty = originalQty
                          Else
-                            .quantity(i) = Format(originalQty - CDbl(.quantityBOX(i)), "0.00")
+                            If Left(key, 1) = "?" Then
+                                keyCondition = Mid(key, 2, 2)
+                                sql = "SELECT qty FROM StockInfoInventory5 WHERE NameSpace = '" + nameSP + "' AND " _
+                                    & "Company = '" + .cell(1).tag + "' AND " _
+                                    & "Warehouse = '" + .cell(2).tag + "' AND " _
+                                    & "StockNumber = '" + .commodityLABEL + "' " _
+                                    & "AND condition = '" + keyCondition + "'"
+                                Set datax = New ADODB.Recordset
+                                datax.Open sql, cn, adOpenStatic
+                                If datax.RecordCount > 0 Then
+                                    keyQty = datax!qty
+                                Else
+                                    keyQty = originalQty
+                                End If
+                                If keyQty - CDbl(.quantityBOX(i)) < 0 Then
+                                    .quantityBOX(i) = Format(keyQty, "0.00")
+                                End If
+
+                                thisParent = .Tree.Nodes(i).parent
+                                For ii = 2 To .Tree.Nodes.Count
+                                    If thisParent = Mid(.Tree.Nodes(ii).parent.key, 2) Then
+                                        sumConditionQty = sumConditionQty + CDbl(.quantityBOX(ii))
+                                    End If
+                                Next
+                                
+                                
+                                
+                                .quantity(i) = Format(keyQty - CDbl(.quantityBOX(i)), "0.00")
+                                .STOCKlist.TextMatrix(r, colTot) = Format(originalQty - sumConditionQty, "0.00")
+                            Else
+                                .quantity(i) = Format(originalQty - CDbl(.quantityBOX(i)), "0.00")
+                            End If
+                            
                          End If
                     End If
                     .quantityBOX(i) = Format(CDbl(.quantityBOX(i)), "0.00")
@@ -2102,7 +2221,14 @@ On Error Resume Next
             Err.Clear
         End If
         If updateStockList Then
-            .STOCKlist.TextMatrix(r, colTot) = .quantity(i)
+            If Left(key, 1) = "?" Then
+                If .quantityBOX(i) = 0 Then
+                Else
+                    .STOCKlist.TextMatrix(r, colTot) = Format(originalQty - sumConditionQty, "0.00")
+                End If
+            Else
+                .STOCKlist.TextMatrix(r, colTot) = .quantity(i)
+            End If
             stockReference = .STOCKlist.TextMatrix(mainItemRow, 1)
         End If
         Dim finalPrice As Double
@@ -2120,7 +2246,7 @@ On Error Resume Next
             Select Case key
                 Case "@finalCost"
                     finalRow = i
-                    If .many(2).Value = True Then
+                    If .many(2).value = True Then
                         .balanceBOX(i) = "0.00"
                     Else
                         .balanceBOX(i) = Format((stockTotalPrice + fabricationCost), "0.00")
@@ -2137,7 +2263,7 @@ On Error Resume Next
                     finalPrice = finalPrice + (CDbl(.priceBOX(i)) * CDbl(.quantityBOX(i)))
             End Select
         Next
-        If .many(2).Value = True Then
+        If .many(2).value = True Then
             If IsNull(fabricationCost) Then
                 fabricationCost = 0
             End If
@@ -2151,7 +2277,7 @@ On Error Resume Next
         
         If .Tree.Nodes(.Tree.Nodes.Count).key = "@newStock" Then
             If IsNumeric(.Tree.Nodes.Count) Then
-                If .many(2).Value = False Then
+                If .many(2).value = False Then
                     .priceBOX(.Tree.Nodes.Count) = Format((finalPrice * CDbl(.quantityBOX(.Tree.Nodes.Count))) / CDbl(.quantityBOX(.Tree.Nodes.Count)), "0.00")
                 End If
             Else
@@ -2172,7 +2298,7 @@ On Error Resume Next
 '                    .balanceBOX(i) = Format((totalCost - stockTotalPrice), "0.00")
                 Case "@newStock"
                     If newStocks > 0 Then
-                        If .many(2).Value = False Then
+                        If .many(2).value = False Then
                             .priceBOX(i) = Format((totalCost / newStocks), "0.00")
                         End If
                             'totalCostBalance = totalCostBalance - (CDbl(.priceBOX(i)) * .quantityBOX(i))
@@ -2186,14 +2312,24 @@ On Error Resume Next
                         
                     End If
                 Case Else
-                    If .Tree.Nodes(key).Parent.key = "Fabrication" Then
-                        Dim baseBalance As Double
-                        baseBalance = (CDbl(.priceBOX(i)) * .quantityBOX(i))
-                        .balanceBOX(i) = Format((baseBalance), "0.00")
-                        If (CDbl(.balanceBOX(i))) < 0 Then
-                            .balanceBOX(i).ForeColor = vbRed
-                        Else
-                            .balanceBOX(i).ForeColor = vbBlack
+                    If .Tree.Nodes(key).parent.key = "Fabrication" Then
+                        Dim thisNode As Integer
+                        If Left(key, 1) = "@" Then
+                            thisParent = .Tree.Nodes(i).key
+                            more = 1
+                            Do While thisParent = .Tree.Nodes(i + more).parent.key
+                                baseBalance = (CDbl(.priceBOX(i + more)) * .quantityBOX(i + more))
+                                .balanceBOX(i + more) = Format((baseBalance), "0.00")
+                                If (CDbl(.balanceBOX(i + more))) < 0 Then
+                                    .balanceBOX(morei).ForeColor = vbRed
+                                Else
+                                    .balanceBOX(i + more).ForeColor = vbBlack
+                                End If
+                                more = more + 1
+                                If i + more > .Tree.Nodes.Count Then
+                                    Exit Do
+                                End If
+                            Loop
                         End If
                     End If
             End Select
@@ -2223,7 +2359,7 @@ Function inTree(key As String)
     Return
 End Function
 
-Sub shortCalculationsFabrication(Index As Integer)
+Sub shortCalculationsFabrication(index As Integer)
 Dim this, r, summary, balance, balance2, balanceTotal, col
 Dim sumByQtyBox, sumByLine, sumByQty, sumByLines
 Dim qtyBoxTotal  As Double
@@ -2280,7 +2416,7 @@ On Error Resume Next
             Select Case key
                 Case "@finalCost"
                     totalCost = stockTotalPrice + fabricationCost
-                    If .many(2).Value = True Then
+                    If .many(2).value = True Then
                         .balanceBOX(i) = "0.00"
                     Else
                         .balanceBOX(i) = Format((stockTotalPrice + fabricationCost), "0.00")
@@ -2289,7 +2425,7 @@ On Error Resume Next
                     .priceBOX(i) = .balanceBOX(i)
                 Case "@newStock"
                     If newStocks > 0 Then
-                        If .many(2).Value = True Then
+                        If .many(2).value = True Then
                             .balanceBOX(i) = Format(totalCost - newStockCost, "0.00")
                         Else
                             If (totalCost > 0) Then
@@ -2307,7 +2443,7 @@ On Error Resume Next
                 Case "@processCost"
                     fabricationCost = .fabCostBOX(i)
                 Case Else
-                    If .Tree.Nodes(key).Parent.key = "Fabrication" Then
+                    If .Tree.Nodes(key).parent.key = "Fabrication" Then
                         Dim baseBalance As Double
                         baseBalance = (CDbl(.priceBOX(i)) * .quantityBOX(i))
                         .balanceBOX(i) = Format((baseBalance), "0.00")

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
 Begin VB.Form frm_logical 
    Caption         =   "Form1"
    ClientHeight    =   4635
@@ -478,7 +478,13 @@ Dim y As Integer
         End Select
         x = leftCOL(Col)
         box.Left = x
-        y = topROW(.row)
+        Dim n As Integer
+        If .Rows > 10 Then
+            n = 3
+        Else
+            n = 0
+        End If
+        y = topROW(.row - n)
         box.Top = y + .Top
         box.Width = .ColWidth(Col) - 20
         box.Visible = True
@@ -612,6 +618,7 @@ Private Sub NavBar1_BeforeNewClick()
         .Enabled = True
         oldRow = .row
         oldCol = .Col
+        .topROW = .Rows - 1
         Call showBOX(0)
     End With
 End Sub
@@ -660,7 +667,7 @@ End Sub
 
 Private Sub NavBar1_OnSaveClick()
     Dim i As Integer
-    Dim Sql, Code, Description, codeType, Active As String
+    Dim sql, Code, Description, codeType, Active As String
     On Error GoTo Err
     Call box_LostFocus
     With logwarGrid
@@ -678,14 +685,14 @@ Private Sub NavBar1_OnSaveClick()
                 Active = IIf(.TextMatrix(.row, 3) = "þ", "1", "0")
                 Select Case lblStatus.Caption
                     Case "Creation"
-                        Sql = "INSERT INTO logwar (lw_code, lw_npecode,  lw_desc, lw_actvflag, lw_type) VALUES (" _
+                        sql = "INSERT INTO logwar (lw_code, lw_npecode,  lw_desc, lw_actvflag, lw_type) VALUES (" _
                             + "'" + Code + "', " _
                             + "'" + deIms.NameSpace + "', " _
                             + "'" + Description + "', " _
                             + "" + Active + ", " _
                             + "'" + codeType + "' ) "
                     Case "Modify"
-                        Sql = "UPDATE logwar SET " _
+                        sql = "UPDATE logwar SET " _
                             + "lw_desc = '" + Description + "', " _
                             + "lw_actvflag = " + Active + ", " _
                             + "lw_type = '" + codeType + "'  " _
@@ -694,7 +701,7 @@ Private Sub NavBar1_OnSaveClick()
                 End Select
                 Dim cmd As New ADODB.Command
                 cmd.ActiveConnection = deIms.cnIms
-                cmd.CommandText = Sql
+                cmd.CommandText = sql
                 Call cmd.Execute(, , adExecuteNoRecords)
             End If
         Next

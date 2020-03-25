@@ -119,7 +119,7 @@ Begin VB.Form frmFabrication
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
          Appearance      =   1
-         StartOfWeek     =   94699521
+         StartOfWeek     =   33292289
          CurrentDate     =   36972
       End
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid invoiceGrid 
@@ -1066,7 +1066,7 @@ Begin VB.Form frmFabrication
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   94699523
+      Format          =   33292291
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2346,10 +2346,10 @@ Dim n As Integer
 End Function
 
 
-Sub fabArrowKEYS(direction As String, Index As Integer)
+Sub fabArrowKEYS(direction As String, index As Integer)
 Dim grid As MSHFlexGrid
-    With cell(Index)
-        Set grid = combo(Index)
+    With cell(index)
+        Set grid = combo(index)
             grid.Visible = True
             Call gridCOLORnormal(grid, Val(grid.tag))
             Select Case direction
@@ -2464,13 +2464,16 @@ Dim lineno As String
 Dim qty As String
 Dim datax As New ADODB.Recordset
 Dim ratioValue
-
+Dim isOldItem As Boolean
+Dim refNumber As Boolean
 
     For i = 2 To Tree.Nodes.Count
         condition = "01"
         description = ""
         Err.Clear
         key = Tree.Nodes(i).key
+        isOldItem = False
+        refNumber = False
         If InStr(key, "@newStock") Then key = "@newStock"
         Select Case key
             Case "@newStock"
@@ -2503,17 +2506,24 @@ Dim ratioValue
             Case "@finalCost"
                 qty = quantityBOX(i)
             Case Else
-                StockNumber = Mid(key, 2)
-                price = priceBOX(i)
-                qty = quantityBOX(i)
-                toLOGIC = "GENERAL"
-                toSUBLOCA = "GENERAL"
-                condition = NEWconditionBOX(i)
-                Set datax = getDATA("GetConditionDescription", Array(nameSP, condition))
-                If datax.RecordCount > 0 Then
-                    condDesc = datax!cond_desc
-                Else
-                    condDesc = ""
+                If Left(key, 1) = "@" Then
+                    StockNumber = Mid(key, 2)
+                    refNumber = True
+                End If
+                If Left(key, 1) = "?" Then
+                    isOldItem = True
+                    condition = Mid(key, 2, 2)
+                    price = priceBOX(i)
+                    qty = quantityBOX(i)
+                    toLOGIC = "GENERAL"
+                    toSUBLOCA = "GENERAL"
+                    
+                    Set datax = getDATA("GetConditionDescription", Array(nameSP, condition))
+                    If datax.RecordCount > 0 Then
+                        condDesc = datax!cond_desc
+                    Else
+                        condDesc = ""
+                    End If
                 End If
         End Select
         If key = "@processCost" Then
@@ -2521,47 +2531,53 @@ Dim ratioValue
             unit = ""
         Else
             If key <> "@finalCost" Then
-                Set datax = New ADODB.Recordset
-                sql = "select * from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + StockNumber + "'"
-                datax.Open sql, cn, adOpenStatic
-                If datax.RecordCount > 0 Then
-                    description = datax!stk_desc
-                    unit = datax!stk_primuon
-                Else
-                    MsgBox "Error when getting the de stock number description of: " + StockNumber
-                    description = ""
-                    unit = ""
+                If Left(key, 1) = "@" Then
+                    Set datax = New ADODB.Recordset
+                    sql = "select * from stockmaster where stk_npecode='" + nameSP + "' and stk_stcknumb = '" + StockNumber + "'"
+                    datax.Open sql, cn, adOpenStatic
+                    If datax.RecordCount > 0 Then
+                        description = datax!stk_desc
+                        unit = datax!stk_primuon
+                    Else
+                        MsgBox "Error when getting the de stock number description of: " + StockNumber
+                        description = ""
+                        unit = ""
+                    End If
                 End If
             End If
         End If
-        If key <> "@finalCost" Then
+        If key <> "@finalCost" And Not refNumber Then
             If Err.Number = 0 Then
-                rec = "" + vbTab
-                rec = rec + StockNumber + vbTab
-                serialText = "Pool"
-                rec = rec + serialText + vbTab
-                rec = rec + condition + vbTab
-                rec = rec + price + vbTab
-                rec = rec + description + vbTab
-                rec = rec + unitLABEL(0) + vbTab
-                rec = rec + qty + vbTab
-                rec = rec + Format(i) + vbTab
-                fromlogic = "GENERAL"
-                rec = rec + fromlogic + vbTab
-                fromSubLoca = "GENERAL"
-                rec = rec + fromSubLoca + vbTab
-                rec = rec + toLOGIC + vbTab
-                rec = rec + toSUBLOCA + vbTab
-                rec = rec + "01" + vbTab
-                rec = rec + condDesc + vbTab
-                rec = rec + unit
-                SUMMARYlist.addITEM rec
+                    If qty > 0 Then
+                    rec = "" + vbTab
+                    rec = rec + StockNumber + vbTab
+                    serialText = "Pool"
+                    rec = rec + serialText + vbTab
+                    rec = rec + condition + vbTab
+                    rec = rec + price + vbTab
+                    rec = rec + description + vbTab
+                    rec = rec + unitLABEL(0) + vbTab
+                    rec = rec + qty + vbTab
+                    rec = rec + Format(i) + vbTab
+                    fromlogic = "GENERAL"
+                    rec = rec + fromlogic + vbTab
+                    fromSubLoca = "GENERAL"
+                    rec = rec + fromSubLoca + vbTab
+                    rec = rec + toLOGIC + vbTab
+                    rec = rec + toSUBLOCA + vbTab
+                    rec = rec + "01" + vbTab
+                    rec = rec + condDesc + vbTab
+                    rec = rec + unit
+                    SUMMARYlist.addITEM rec
+                End If
             End If
-            Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
-            If datax.RecordCount > 0 Then
-                ratioValue = datax!realratio
-            Else
-                ratioValue = 1
+            If Not refNumber Then
+                Set datax = getDATA("getStockRatio", Array(nameSP, commodityLABEL))
+                If datax.RecordCount > 0 Then
+                    ratioValue = datax!realratio
+                Else
+                    ratioValue = 1
+                End If
             End If
 
             With SUMMARYlist
@@ -2589,12 +2605,14 @@ Dim ratioValue
                         Next
                         .TextMatrix(.Rows - 1, 26) = ""
                     Case Else
-                        .TextMatrix(.Rows - 1, 26) = cell(2).tag
-                    .TextMatrix(.Rows - 1, 25) = Format(ratioValue)
-                        PONumb = ""
-                        lineno = ""
-                        Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(StockNumber))
-                        Call VerifyAddDeleteFQAFromGrid(StockNumber, "insert", "01", PONumb, lineno, qty)
+                        If Left(key, 1) = "?" Then
+                            .TextMatrix(.Rows - 1, 26) = cell(2).tag
+                            .TextMatrix(.Rows - 1, 25) = Format(ratioValue)
+                            PONumb = ""
+                            lineno = ""
+                            Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag), Trim(StockNumber))
+                            Call VerifyAddDeleteFQAFromGrid(StockNumber, "insert", "01", PONumb, lineno, qty)
+                        End If
                     End Select
                     .TextMatrix(.Rows - 1, 20) = "01"
             End With
@@ -2638,33 +2656,33 @@ Dim datax As ADODB.Recordset
 End Function
 
 Sub hideInvoiceFrame()
-    Dim Index As Integer
+    Dim index As Integer
     Dim finalAmount As String
-    Index = Val(RTrim(LTrim(invoiceFrame.tag)))
+    index = Val(RTrim(LTrim(invoiceFrame.tag)))
     
-    fabCostBOX(Index) = "0.00"
+    fabCostBOX(index) = "0.00"
     finalAmount = totalInvoiceLabel
-    fabCostBOX(Index).text = finalAmount
-    Call calculationsFabrication(False, Index)
+    fabCostBOX(index).text = finalAmount
+    Call calculationsFabrication(False, index)
     invoiceFrame.Visible = False
 End Sub
-Sub showInvoiceFrame(Index)
+Sub showInvoiceFrame(index)
     DoEvents
-    invoiceFrame.tag = Index
+    invoiceFrame.tag = index
     invoiceFrame.Visible = True
     calendar.Value = Now
     invoiceFrame.ZOrder
 End Sub
 
-Sub limitQty(Index As Integer)
+Sub limitQty(index As Integer)
     Dim originalQty, sumQty As Double
     Dim i As Integer
     Dim row As Integer
     For i = 1 To STOCKlist.Rows - 1
         Dim stockToFind As String
-        stockToFind = Tree.Nodes(Index).key
+        stockToFind = Tree.Nodes(index).key
         If InStr(stockToFind, "@") > 0 Then
-            stockToFind = Mid(Tree.Nodes(Index).key, 2)
+            stockToFind = Mid(Tree.Nodes(index).key, 2)
         End If
         If stockToFind = STOCKlist.TextMatrix(i, 1) Then
             originalQty = CDbl(STOCKlist.TextMatrix(i, 6))
@@ -2672,14 +2690,14 @@ Sub limitQty(Index As Integer)
         End If
     Next
     If stockToFind = "newStock" Then
-        quantityBOX(Index) = Format(CDbl(quantityBOX(Index)), "0.00")
-        originalQty = quantityBOX(Index)
-        quantity(Index) = quantityBOX(Index)
+        quantityBOX(index) = Format(CDbl(quantityBOX(index)), "0.00")
+        originalQty = quantityBOX(index)
+        quantity(index) = quantityBOX(index)
     Else
-        If CDbl(quantityBOX(Index)) > originalQty Then
-            quantityBOX(Index).text = Format(originalQty, "0.00")
+        If CDbl(quantityBOX(index)) > originalQty Then
+            quantityBOX(index).text = Format(originalQty, "0.00")
         Else
-            quantityBOX(Index) = Format(CDbl(quantityBOX(Index)), "0.00")
+            quantityBOX(index) = Format(CDbl(quantityBOX(index)), "0.00")
         End If
     End If
 End Sub
@@ -2898,19 +2916,19 @@ Public Function GetFabricationTransactionNumber() As Long
         MTSRollback
     End If
 End Function
-Public Sub searchStockNumber(Index As Integer)
+Public Sub searchStockNumber(index As Integer)
 Dim datax As New ADODB.Recordset
 Dim sql, list, i, ii, t
 Screen.MousePointer = 11
       
-            If Index = 0 Then
+            If index = 0 Then
                 If frmFabrication.tag = "02050200" Then 'AdjustmentEntry
                     sql = "SELECT stk_stcknumb, stk_desc, uni_desc " _
                         & "FROM STOCKMASTER LEFT OUTER JOIN UNIT ON " _
                         & "stk_npecode = uni_npecode AND " _
                         & "stk_primuon = uni_code WHERE " _
                         & "(stk_npecode = '" + nameSP + "') AND " _
-                        & "(stk_stcknumb like '" + searchFIELD(Index).text + "%')"
+                        & "(stk_stcknumb like '" + searchFIELD(index).text + "%')"
                     datax.Open sql, cn, adOpenStatic
                     With STOCKlist
                         .Rows = 2
@@ -2940,7 +2958,7 @@ Screen.MousePointer = 11
                 End If
             Else
                 If frmFabrication.tag = "02050200" Then 'AdjustmentEntry
-                    If searchFIELD(Index) <> "" Then
+                    If searchFIELD(index) <> "" Then
                     sql = "SELECT stk_stcknumb, stk_desc, uni_desc " _
                         & "FROM STOCKMASTER LEFT OUTER JOIN UNIT ON " _
                         & "stk_npecode = uni_npecode AND " _
@@ -3244,10 +3262,10 @@ Select Case frmFabrication.tag
     Call updateEmail
 End Sub
 
-Private Sub fabCostBOX_Change(Index As Integer)
+Private Sub fabCostBOX_Change(index As Integer)
 
-    If IsNumeric(priceBOX(Index)) Then
-        fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
+    If IsNumeric(priceBOX(index)) Then
+        fabCostBOX(index) = Format(fabCostBOX(index), "0.00")
         'Call calculationsFabrication(False, Index)
 
     End If
@@ -3255,38 +3273,38 @@ Private Sub fabCostBOX_Change(Index As Integer)
 End Sub
 
 
-Private Sub fabCostBOX_Click(Index As Integer)
-    With fabCostBOX(Index)
+Private Sub fabCostBOX_Click(index As Integer)
+    With fabCostBOX(index)
         fabCostBoxValidation = False
         '.SelStart = 0
         '.SelLength = Len(.text)
         fabCostBoxValidation = False
-        Call showInvoiceFrame(Index)
+        Call showInvoiceFrame(index)
     End With
 End Sub
 
-Private Sub fabCostBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub fabCostBOX_KeyPress(index As Integer, KeyAscii As Integer)
 On Error Resume Next
     If KeyAscii = 13 Then
         If Err.Number = 6 Then Exit Sub
-        If IsNumeric(priceBOX(Index)) Then
-            fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
-            Call calculationsFabrication(False, Index)
+        If IsNumeric(priceBOX(index)) Then
+            fabCostBOX(index) = Format(fabCostBOX(index), "0.00")
+            Call calculationsFabrication(False, index)
         End If
     End If
 End Sub
 
 
-Private Sub fabCostBOX_LostFocus(Index As Integer)
-    If IsNumeric(priceBOX(Index)) Then
-        fabCostBOX(Index) = Format(fabCostBOX(Index), "0.00")
+Private Sub fabCostBOX_LostFocus(index As Integer)
+    If IsNumeric(priceBOX(index)) Then
+        fabCostBOX(index) = Format(fabCostBOX(index), "0.00")
         'Call calculationsFabrication(False, index)
     End If
 End Sub
 
-Private Sub fabCostBOX_Validate(Index As Integer, Cancel As Boolean)
+Private Sub fabCostBOX_Validate(index As Integer, Cancel As Boolean)
     If fabCostBoxValidation = True Then
-        Call validateQTY(fabCostBOX(Index), Index)
+        Call validateQTY(fabCostBOX(index), index)
     End If
 End Sub
 
@@ -3358,19 +3376,19 @@ Dim i As Integer
 End Sub
 
 
-Private Sub logicBOX_Validate(Index As Integer, Cancel As Boolean)
+Private Sub logicBOX_Validate(index As Integer, Cancel As Boolean)
 If skipExistance Then
     skipExistance = False
     Exit Sub
 End If
-If UCase(logicBOX(Index)) <> "GENERAL" Then
-    If DoesItemExist(logicBOX(Index), grid(1), 1) = False Then
+If UCase(logicBOX(index)) <> "GENERAL" Then
+    If DoesItemExist(logicBOX(index), grid(1), 1) = False Then
         Cancel = True
         MsgBox "Logic Warehouse does not exist, please select a valid one from the list.", vbInformation
         skipExistance = True
     End If
 End If
-With logicBOX(Index)
+With logicBOX(index)
     If .text = "" Then
         .backcolor = &HC0C0FF
     Else
@@ -3379,12 +3397,12 @@ With logicBOX(Index)
 End With
 End Sub
 
-Private Sub many_Click(Index As Integer)
+Private Sub many_Click(index As Integer)
     fabricationKind(0).Visible = False
     fabricationKind(1).Visible = False
     fabricationKind(2).Visible = False
-    fabricationKind(Index).Visible = True
-    Select Case Index
+    fabricationKind(index).Visible = True
+    Select Case index
         Case 0
             manyLabel = "Fabricating Many to One"
         Case 1
@@ -3432,7 +3450,7 @@ Private Sub noButton_Click()
     msgBoxResponse = False
 End Sub
 
-Private Sub quantity2BOX_Change(Index As Integer)
+Private Sub quantity2BOX_Change(index As Integer)
     'If doChanges Then
         'Call quantity2BOX_Validate(Index, True)
     'Else
@@ -3441,45 +3459,45 @@ Private Sub quantity2BOX_Change(Index As Integer)
 End Sub
 
 
-Private Sub quantity2BOX_Click(Index As Integer)
-    With quantity2BOX(Index)
+Private Sub quantity2BOX_Click(index As Integer)
+    With quantity2BOX(index)
         .SelStart = 0
         .SelLength = Len(.text)
     End With
 End Sub
 
 
-Private Sub quantity2BOX_GotFocus(Index As Integer)
-    If Index <> totalNode Then
+Private Sub quantity2BOX_GotFocus(index As Integer)
+    If index <> totalNode Then
         Call whitening
-        quantity2BOX(Index).backcolor = &H80FFFF
+        quantity2BOX(index).backcolor = &H80FFFF
     End If
 End Sub
 
-Private Sub quantity2BOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub quantity2BOX_KeyPress(index As Integer, KeyAscii As Integer)
     If KeyAscii = 13 Then
-        Call quantity2BOX_Validate(Index, True)
+        Call quantity2BOX_Validate(index, True)
     End If
 End Sub
 
-Private Sub quantity2BOX_LostFocus(Index As Integer)
-    Call quantity2BOX_Validate(Index, True)
-    If Index <> totalNode Then quantity2BOX(Index).backcolor = vbWhite
+Private Sub quantity2BOX_LostFocus(index As Integer)
+    Call quantity2BOX_Validate(index, True)
+    If index <> totalNode Then quantity2BOX(index).backcolor = vbWhite
 End Sub
 
-Private Sub quantity2BOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index > 0 And Index <> totalNode Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
-        quantity2BOX(Index).backcolor = &H80FFFF
+Private Sub quantity2BOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If index > 0 And index <> totalNode Then
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
+        quantity2BOX(index).backcolor = &H80FFFF
     End If
 End Sub
 
-Private Sub quantity2BOX_Validate(Index As Integer, Cancel As Boolean)
+Private Sub quantity2BOX_Validate(index As Integer, Cancel As Boolean)
 Dim qty, qty2
 On Error Resume Next
-    With quantity2BOX(Index)
-        If Index <> totalNode Then
+    With quantity2BOX(index)
+        If index <> totalNode Then
             If IsNumeric(.text) Then
                 If CDbl(.text) > 0 Then
                     'Juan 2010-6-5
@@ -3493,13 +3511,13 @@ On Error Resume Next
                             qty2 = CDbl(.text)
                             If qty2 > 0 Then
                                 qty = qty2 / ratioValue
-                                quantityBOX(Index).text = Format(qty, "0.00")
+                                quantityBOX(index).text = Format(qty, "0.00")
                             Else
-                                quantityBOX(Index).text = .text
+                                quantityBOX(index).text = .text
                             End If
                         End If
                     Else
-                        quantityBOX(Index).text = .text
+                        quantityBOX(index).text = .text
                     End If
 '                    If computerFactorValue > 0 Then
 '                        If IsNumeric(.text) Then
@@ -3553,7 +3571,7 @@ On Error Resume Next
 
 End Sub
 
-Private Sub quantityBOX_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub quantityBOX_KeyDown(index As Integer, KeyCode As Integer, Shift As Integer)
     submitted = False
 End Sub
 
@@ -3565,17 +3583,17 @@ Private Sub searchButton_Click()
     Call searchStockNumber(0)
 End Sub
 
-Private Sub searchStock_Change(Index As Integer)
+Private Sub searchStock_Change(index As Integer)
     If Not directCLICK Then
-        If Index <= Tree.Nodes.Count Then
-            Call alphaSEARCH(searchStock(Index), stockCombo(Index), 0)
+        If index <= Tree.Nodes.Count Then
+            Call alphaSEARCH(searchStock(index), stockCombo(index), 0)
         End If
     Else
         directCLICK = False
     End If
 End Sub
 
-Private Sub searchStock_Click(Index As Integer)
+Private Sub searchStock_Click(index As Integer)
 Dim datax As New ADODB.Recordset
 Dim sql As String
 Dim i
@@ -3585,21 +3603,21 @@ Screen.MousePointer = 11
     datax.Open sql, cn, adOpenStatic
     With searchStock(0)
         If datax.RecordCount > 0 Then
-            stockCombo(Index).Rows = datax.RecordCount + 1
+            stockCombo(index).Rows = datax.RecordCount + 1
             i = 1
             Do While Not datax.EOF
-                stockCombo(Index).TextMatrix(i, 0) = Trim(datax!stk_stcknumb)
+                stockCombo(index).TextMatrix(i, 0) = Trim(datax!stk_stcknumb)
                 datax.MoveNext
                 i = i + 1
             Loop
             Screen.MousePointer = 0
-            stockCombo(Index).Visible = True
-            stockCombo(Index).ZOrder
-            stockCombo(Index).RemoveItem 1
-            stockCombo(Index).ColWidth(0) = stockCombo(Index).width - 270
-            stockCombo(Index).ColAlignment(0) = 0
-            stockCombo(Index).TextMatrix(0, 0) = "Stock Number"
-            stockCombo(Index).ColAlignmentFixed(0) = 3
+            stockCombo(index).Visible = True
+            stockCombo(index).ZOrder
+            stockCombo(index).RemoveItem 1
+            stockCombo(index).ColWidth(0) = stockCombo(index).width - 270
+            stockCombo(index).ColAlignment(0) = 0
+            stockCombo(index).TextMatrix(0, 0) = "Stock Number"
+            stockCombo(index).ColAlignmentFixed(0) = 3
             .text = ""
             .SelLength = 0
             .SelStart = Len(.text)
@@ -3607,26 +3625,26 @@ Screen.MousePointer = 11
     End With
     '.SelStart = 0
     '.SelLength = Len(.text)
-    stockCombo(Index).Left = searchStock(Index).Left
-    stockCombo(Index).Top = searchStock(Index).Top + searchStock(Index).Height
-    stockCombo(Index).Visible = True
+    stockCombo(index).Left = searchStock(index).Left
+    stockCombo(index).Top = searchStock(index).Top + searchStock(index).Height
+    stockCombo(index).Visible = True
 Screen.MousePointer = 0
 End Sub
 
 
-Private Sub searchStock_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub searchStock_KeyDown(index As Integer, KeyCode As Integer, Shift As Integer)
 Dim activeARROWS As Boolean
     justCLICK = False
-    If Index <= Tree.Nodes.Count Then
-        With searchStock(Index)
+    If index <= Tree.Nodes.Count Then
+        With searchStock(index)
             If Not .locked Then
                     Select Case KeyCode
                         Case 27
-                            stockCombo(Index).Visible = False
+                            stockCombo(index).Visible = False
                         Case 40
-                            Call fabArrowKEYS2("down", stockCombo(Index))
+                            Call fabArrowKEYS2("down", stockCombo(index))
                         Case 38
-                            Call fabArrowKEYS2("up", stockCombo(Index))
+                            Call fabArrowKEYS2("up", stockCombo(index))
                         Case Else
                         Dim col
                     End Select
@@ -3635,19 +3653,19 @@ Dim activeARROWS As Boolean
     End If
 End Sub
 
-Private Sub searchStock_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub searchStock_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
-            Call stockCombo_Click(Index)
-            stockCombo(Index).Visible = False
+            Call stockCombo_Click(index)
+            stockCombo(index).Visible = False
         Case 27
-            stockCombo(Index).Visible = False
+            stockCombo(index).Visible = False
     End Select
 End Sub
 
-Private Sub searchStock_LostFocus(Index As Integer)
+Private Sub searchStock_LostFocus(index As Integer)
 
-        If stockCombo(Index).Visible = False Then searchStock(Index).Visible = False
+        If stockCombo(index).Visible = False Then searchStock(index).Visible = False
 
 End Sub
 
@@ -3681,35 +3699,35 @@ Private Sub setUpTransaction_Click()
     STOCKlist.Enabled = True
 End Sub
 
-Private Sub stockCombo_Click(Index As Integer)
+Private Sub stockCombo_Click(index As Integer)
 Dim i, name
 Dim data As New ADODB.Recordset
 skipAlphaSearch = True
 skipExistance = True
-    With stockCombo(Index)
+    With stockCombo(index)
         justCLICK = True
         Dim tempRow As Integer
         If .row = 0 Then Exit Sub
         tempRow = .row
         .row = tempRow
-        searchStock(Index) = .TextMatrix(.row, 0)
-        Tree.Nodes(Index).text = "New Stock " + searchStock(Index)
-        searchStock(Index).SetFocus
+        searchStock(index) = .TextMatrix(.row, 0)
+        Tree.Nodes(index).text = "New Stock " + searchStock(index)
+        searchStock(index).SetFocus
         .Visible = False
     End With
 End Sub
 
 
-Private Sub stockCombo_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub stockCombo_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13, 6
-            Call stockCombo_Click(Index)
+            Call stockCombo_Click(index)
         Case 27
     End Select
 End Sub
 
 
-Private Sub sublocaBOX_Validate(Index As Integer, Cancel As Boolean)
+Private Sub sublocaBOX_Validate(index As Integer, Cancel As Boolean)
 'juan 2012-1-14 to avoid t he problem when logical warehouse shows up with no reason
 If SUMMARYlist.Visible Then Exit Sub
 If Tree.Visible = False Then Exit Sub
@@ -3718,8 +3736,8 @@ If skipExistance Then
     skipExistance = False
     Exit Sub
 End If
-If UCase(sublocaBOX(Index)) <> "GENERAL" Then
-    If DoesItemExist(sublocaBOX(Index), grid(2), 0) = False Then
+If UCase(sublocaBOX(index)) <> "GENERAL" Then
+    If DoesItemExist(sublocaBOX(index), grid(2), 0) = False Then
         Cancel = True
         MsgBox "Sub Location does not exist, please select a valid one from the list.", vbInformation
     End If
@@ -3848,7 +3866,7 @@ Dim shot, issuesQty, receiptsQty
     directCLICK = False
 End Sub
 
-Sub fabFillGRID(ByRef grid As MSHFlexGrid, box As textBOX, Index)
+Sub fabFillGRID(ByRef grid As MSHFlexGrid, box As textBOX, index)
 'On Error Resume Next
 Dim paraVECTOR
 Dim i, n, rec, list, size, totalwidth, cols, wide(), title(), extraW, sql, clue, Flag
@@ -3932,7 +3950,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
         Else
             .width = totalwidth + extraW
         End If
-        .tag = Format(Index, "00") + box.name
+        .tag = Format(index, "00") + box.name
         
         n = 1
         Do While Not datax.EOF
@@ -3948,7 +3966,7 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
                 Flag = .Rows - 1
             End If
             If n = 6 And datax.RecordCount > 10 Then
-                Call showGRID(grid, Index, box, True)
+                Call showGRID(grid, index, box, True)
                 Screen.MousePointer = 11
                 .RemoveItem (1)
                 grid.Refresh
@@ -3971,22 +3989,22 @@ Dim translationLogical, translationCode, translationDescription, translationSubl
     Screen.MousePointer = 0
 End Sub
 
-Sub fabFillCOMBO(ByRef grid As MSHFlexGrid, Index)
+Sub fabFillCOMBO(ByRef grid As MSHFlexGrid, index)
 On Error Resume Next
 Dim paraVECTOR, sql
 Dim i, n, Params, shot, x, spot, rec, list, list2, size, totalwidth, extraW, align, clue
 Dim datax As New ADODB.Recordset
 Dim addCOMBO As Boolean
     Err.Clear
-    With combo(Index)
+    With combo(index)
         totalwidth = 0
         .Rows = 2
-        .cols = matrix.TextMatrix(1, Index)
-        Call doARRAYS("s", matrix.TextMatrix(8, Index), list)
-        Call doARRAYS("n", matrix.TextMatrix(9, Index), size)
-        Call doARRAYS("n", matrix.TextMatrix(5, Index), align)
+        .cols = matrix.TextMatrix(1, index)
+        Call doARRAYS("s", matrix.TextMatrix(8, index), list)
+        Call doARRAYS("n", matrix.TextMatrix(9, index), size)
+        Call doARRAYS("n", matrix.TextMatrix(5, index), align)
         n = 0
-        For i = 0 To matrix.TextMatrix(1, Index) - 1
+        For i = 0 To matrix.TextMatrix(1, index) - 1
             .TextMatrix(0, i) = list(i)
             .TextMatrix(1, i) = ""
             .ColWidth(i) = size(i)
@@ -3997,14 +4015,14 @@ Dim addCOMBO As Boolean
     End With
     
     Err.Clear
-    clue = matrix.TextMatrix(0, Index)
+    clue = matrix.TextMatrix(0, index)
     Select Case clue
         Case "WarehouseIssue"
             
         Case "Get_Location2"
-            Params = matrix.TextMatrix(6, Index)
+            Params = matrix.TextMatrix(6, index)
             Call doARRAYS("s", Params, list)
-            Call doARRAYS("s", matrix.TextMatrix(2, Index), list2)
+            Call doARRAYS("s", matrix.TextMatrix(2, index), list2)
             n = UBound(list)
             
             For i = 0 To n
@@ -4027,7 +4045,7 @@ Dim addCOMBO As Boolean
                 If addCOMBO Then
                     If datax.RecordCount > 0 Then
                         datax.Sort = "loc_name"
-                        Call fabDoCombo(Index, datax, list2, totalwidth)
+                        Call fabDoCombo(index, datax, list2, totalwidth)
                     End If
                 End If
             Next
@@ -4057,10 +4075,10 @@ Dim addCOMBO As Boolean
                 & "ORDER BY loc_name "
             datax.Open sql, cn, adOpenForwardOnly
         Case Else
-            Params = matrix.TextMatrix(6, Index)
+            Params = matrix.TextMatrix(6, index)
             If Params <> "" Then If Len(Params) = 0 Then Exit Sub
             If Err.Number = 0 Then
-                n = howMANY(matrix.TextMatrix(6, Index), ",")
+                n = howMANY(matrix.TextMatrix(6, index), ",")
                 ReDim paraVECTOR(n)
                 paraVECTOR(0) = ""
                 For i = 0 To n
@@ -4085,8 +4103,8 @@ Dim addCOMBO As Boolean
     End Select
             
     If datax.RecordCount < 1 Then Exit Sub
-    Call doARRAYS("s", matrix.TextMatrix(2, Index), list)
-    Call fabDoCombo(Index, datax, list, totalwidth)
+    Call doARRAYS("s", matrix.TextMatrix(2, index), list)
+    Call fabDoCombo(index, datax, list, totalwidth)
     Set datax = New ADODB.Recordset
 End Sub
 
@@ -4695,7 +4713,7 @@ Public Sub setUSER(user As String)
     CurrentUser = user
 End Sub
 
-Sub showGRID(ByRef grid As MSHFlexGrid, Index, box As textBOX, Optional noFILLING As Boolean)
+Sub showGRID(ByRef grid As MSHFlexGrid, index, box As textBOX, Optional noFILLING As Boolean)
 Dim n
     With grid
         'juan 2012-1-14 to avoid t he problem when logical warehouse shows up with no reason
@@ -4703,7 +4721,7 @@ Dim n
         If remarks.Visible Then Exit Sub
         If Tree.Visible = False Then Exit Sub
         '------------
-        If Not noFILLING Then Call fabFillGRID(grid, box, Index)
+        If Not noFILLING Then Call fabFillGRID(grid, box, index)
         If .Rows > 0 And .text <> "" Then
             n = box.Left + .width
             If n >= frmFabrication.width Then
@@ -4726,13 +4744,13 @@ Dim n
         End If
     End With
 End Sub
-Sub showCOMBO(ByRef grid As MSHFlexGrid, Index)
+Sub showCOMBO(ByRef grid As MSHFlexGrid, index)
     With grid
-        Call fabFillCOMBO(grid, Index)
+        Call fabFillCOMBO(grid, index)
         If .Rows > 0 And .text <> "" Then
             .Visible = True
             .ZOrder
-            If Index < 5 Then .Top = cell(Index).Top + 370
+            If index < 5 Then .Top = cell(index).Top + 370
         End If
         .MousePointer = 0
     End With
@@ -4867,7 +4885,7 @@ Private Sub addITEM_Click()
 Dim n As Integer
 Dim nody As node
     With Tree
-        n = .SelectedItem.Index + .SelectedItem.Children
+        n = .SelectedItem.index + .SelectedItem.Children
         Call moveBOXES(n, 1)
         .Nodes.Add .SelectedItem.key, tvwChild, .SelectedItem.key + "{{Serial", "Serial ", "thing 1"
         .Nodes(.SelectedItem.key + "{{Serial").Selected = True
@@ -4878,32 +4896,32 @@ Dim nody As node
         '----------------------------------------
     End With
 End Sub
-Private Sub cell_Change(Index As Integer)
+Private Sub cell_Change(index As Integer)
 Dim n As Integer
     If Not directCLICK Then
-        If Index = 4 Or Index = 0 Then
+        If index = 4 Or index = 0 Then
             n = 0
         Else
             n = 1
         End If
-        Call alphaSEARCH(cell(Index), combo(Index), n)
+        Call alphaSEARCH(cell(index), combo(index), n)
     Else
         directCLICK = False
     End If
 End Sub
 
-Private Sub combo_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub combo_KeyDown(index As Integer, KeyCode As Integer, Shift As Integer)
 Dim activeARROWS As Boolean
     justCLICK = False
-    With cell(Index)
+    With cell(index)
         If Not .locked Then
             Select Case KeyCode
                 Case 27
-                    combo(Index).Visible = False
+                    combo(index).Visible = False
                 Case 40
-                    Call fabArrowKEYS("down", Index)
+                    Call fabArrowKEYS("down", index)
                 Case 38
-                    Call fabArrowKEYS("up", Index)
+                    Call fabArrowKEYS("up", index)
                 Case Else
                 Dim col
             End Select
@@ -4911,21 +4929,21 @@ Dim activeARROWS As Boolean
     End With
 End Sub
 
-Private Sub combo_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub combo_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
-            Call combo_Click(Index)
+            Call combo_Click(index)
         Case 27
-            combo(Index).Visible = False
+            combo(index).Visible = False
             Exit Sub
     End Select
-    combo(Index).Visible = False
-    If Index > 0 Then
-        If Index < 4 Then
-            cell(Index + 1).SetFocus
-            Call cell_Click(Index + 1)
+    combo(index).Visible = False
+    If index > 0 Then
+        If index < 4 Then
+            cell(index + 1).SetFocus
+            Call cell_Click(index + 1)
         Else
-            cell(Index).SetFocus
+            cell(index).SetFocus
         End If
     End If
 End Sub
@@ -4935,7 +4953,7 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub deleteITEM_Click()
-    Tree.Nodes.Remove (Tree.SelectedItem.Index)
+    Tree.Nodes.Remove (Tree.SelectedItem.index)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -4954,11 +4972,11 @@ Dim imsLock As imsLock.Lock
     GDefaultValue = False
 End Sub
 
-Private Sub logicBOX_Change(Index As Integer)
-    Call alphaSEARCH(logicBOX(Index), grid(1), 0)
+Private Sub logicBOX_Change(index As Integer)
+    Call alphaSEARCH(logicBOX(index), grid(1), 0)
 End Sub
 
-Private Sub NEWconditionBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub NEWconditionBOX_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
             grid(0).Visible = False
@@ -4967,7 +4985,7 @@ Private Sub NEWconditionBOX_KeyPress(Index As Integer, KeyAscii As Integer)
     End Select
 End Sub
 
-Private Sub priceBOX_Change(Index As Integer)
+Private Sub priceBOX_Change(index As Integer)
     If noRETURN Then
         noRETURN = False
     Else
@@ -4975,57 +4993,57 @@ Private Sub priceBOX_Change(Index As Integer)
     End If
 End Sub
 
-Private Sub priceBOX_Click(Index As Integer)
-    With priceBOX(Index)
+Private Sub priceBOX_Click(index As Integer)
+    With priceBOX(index)
         .SelStart = 0
         .SelLength = Len(.text)
-        currentBOX = Index
+        currentBOX = index
     End With
 End Sub
 
 
-Private Sub priceBOX_GotFocus(Index As Integer)
-    If Left(Tree.Nodes(Index), 5) <> "Final" Then
+Private Sub priceBOX_GotFocus(index As Integer)
+    If Left(Tree.Nodes(index), 5) <> "Final" Then
         Call whitening
-        priceBOX(Index).backcolor = &H80FFFF
-        currentBOX = Index
+        priceBOX(index).backcolor = &H80FFFF
+        currentBOX = index
     End If
 End Sub
 
-Private Sub priceBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub priceBOX_KeyPress(index As Integer, KeyAscii As Integer)
 On Error Resume Next
     If KeyAscii = 13 Then
         If Err.Number = 6 Then Exit Sub
-        If IsNumeric(priceBOX(Index)) Then
-            priceBOX(Index) = Format(priceBOX(Index), "0.00")
+        If IsNumeric(priceBOX(index)) Then
+            priceBOX(index) = Format(priceBOX(index), "0.00")
         End If
-        Call priceBOX_Validate(Index, True)
+        Call priceBOX_Validate(index, True)
     End If
 End Sub
 
-Private Sub priceBOX_LostFocus(Index As Integer)
-    If Left(Tree.Nodes(Index), 5) <> "Final" Then
-        priceBOX(Index).backcolor = vbWhite
-        If IsNumeric(priceBOX(Index)) Then
-            priceBOX(Index) = Format(priceBOX(Index), "0.00")
+Private Sub priceBOX_LostFocus(index As Integer)
+    If Left(Tree.Nodes(index), 5) <> "Final" Then
+        priceBOX(index).backcolor = vbWhite
+        If IsNumeric(priceBOX(index)) Then
+            priceBOX(index) = Format(priceBOX(index), "0.00")
         End If
         currentBOX = -1
     End If
 End Sub
 
-Private Sub priceBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Left(Tree.Nodes(Index), 5) <> "Final" Then
-        If Index > 0 And Index <> totalNode Then
-            If currentBOX <> Index Then Call whitening
-            currentBOX = Index
-            priceBOX(Index).backcolor = &H80FFFF
+Private Sub priceBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If Left(Tree.Nodes(index), 5) <> "Final" Then
+        If index > 0 And index <> totalNode Then
+            If currentBOX <> index Then Call whitening
+            currentBOX = index
+            priceBOX(index).backcolor = &H80FFFF
         End If
     End If
 End Sub
 
-Private Sub priceBOX_Validate(Index As Integer, Cancel As Boolean)
-    Call validateQTY(priceBOX(Index), Index)
-    Call calculationsFabrication(False, Index)
+Private Sub priceBOX_Validate(index As Integer, Cancel As Boolean)
+    Call validateQTY(priceBOX(index), index)
+    Call calculationsFabrication(False, index)
 End Sub
 
 Private Sub PrintButton_Click()
@@ -5599,10 +5617,10 @@ End Sub
 Private Sub commodityLABEL_Change()
     Call whitening
 End Sub
-Private Sub grid_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub grid_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
-            Call grid_Click(Index)
+            Call grid_Click(index)
         Case 27
     End Select
 End Sub
@@ -5642,13 +5660,13 @@ Dim answer, i
     firstAdding = True
 End Sub
 
-Private Sub cell_Click(Index As Integer)
+Private Sub cell_Click(index As Integer)
 Dim datax As New ADODB.Recordset
 Dim sql As String
 Dim i
 Screen.MousePointer = 11
-    With cell(Index)
-        Select Case Index
+    With cell(index)
+        Select Case index
             Case 5
                 If saveBUTTON.Enabled Then
                     If Not combo(5).Visible Then
@@ -5677,16 +5695,16 @@ Screen.MousePointer = 11
                 End If
                 Screen.MousePointer = 0
             Case Else
-                If saveBUTTON.Enabled Or Index = 0 Then
-                    If Index > 1 Then
-                        If combo(Index - 1) = "" Then
-                            MsgBox "Please select " + label(Index - 1) + " first"
+                If saveBUTTON.Enabled Or index = 0 Then
+                    If index > 1 Then
+                        If combo(index - 1) = "" Then
+                            MsgBox "Please select " + label(index - 1) + " first"
                             Screen.MousePointer = 0
                             Exit Sub
                         End If
                 End If
-                If Not (saveBUTTON.Enabled And Index = 0) Then
-                        Call showCOMBO(combo(Index), Index)
+                If Not (saveBUTTON.Enabled And index = 0) Then
+                        Call showCOMBO(combo(index), index)
                     End If
                 End If
                 Screen.MousePointer = 0
@@ -5697,14 +5715,14 @@ Screen.MousePointer = 11
 Screen.MousePointer = 0
 End Sub
 
-Private Sub cell_GotFocus(Index As Integer)
-    If saveBUTTON.Enabled Or Index = 0 Then
-        If Not (saveBUTTON.Enabled And Index = 0) Then
-            With cell(Index)
+Private Sub cell_GotFocus(index As Integer)
+    If saveBUTTON.Enabled Or index = 0 Then
+        If Not (saveBUTTON.Enabled And index = 0) Then
+            With cell(index)
                 .backcolor = &H80FFFF
                 .Appearance = 1
                 .Refresh
-                activeCELL = Index
+                activeCELL = index
                 .SelLength = Len(.text)
                 .SelStart = 0
             End With
@@ -5712,83 +5730,83 @@ Private Sub cell_GotFocus(Index As Integer)
     End If
 End Sub
 
-Private Sub cell_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub cell_KeyDown(index As Integer, KeyCode As Integer, Shift As Integer)
 Dim activeARROWS As Boolean
     justCLICK = False
-    With cell(Index)
+    With cell(index)
         If Not .locked Then
                 Select Case KeyCode
                     Case 27
-                        combo(Index).Visible = False
+                        combo(index).Visible = False
                     Case 40
-                        Call fabArrowKEYS("down", Index)
+                        Call fabArrowKEYS("down", index)
                     Case 38
-                        Call fabArrowKEYS("up", Index)
+                        Call fabArrowKEYS("up", index)
                     Case Else
                     Dim col
                 End Select
         End If
     End With
 End Sub
-Private Sub cell_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub cell_KeyPress(index As Integer, KeyAscii As Integer)
 Dim i, t, n
 Dim gotIT As Boolean
-    With cell(Index)
+    With cell(index)
         Select Case KeyAscii
             Case 13
                 KeyAscii = 0
                 If Not .locked Then
                     justCLICK = False
                     gotIT = False
-                    If Index = 4 Or Index = 0 Then
+                    If index = 4 Or index = 0 Then
                         n = 0
                     Else
                         n = 1
                     End If
-                    t = UCase(combo(Index).TextMatrix(combo(Index).row, n))
+                    t = UCase(combo(index).TextMatrix(combo(index).row, n))
                     
-                    If UCase(cell(Index)) = Left(t, Len(cell(Index))) Then
+                    If UCase(cell(index)) = Left(t, Len(cell(index))) Then
                         gotIT = True
-                        i = combo(Index).row
+                        i = combo(index).row
                     Else
-                        For i = 1 To combo(Index).Rows - 1
-                            If UCase(cell(Index)) = UCase(combo(Index).TextMatrix(i, n)) Then
+                        For i = 1 To combo(index).Rows - 1
+                            If UCase(cell(index)) = UCase(combo(index).TextMatrix(i, n)) Then
                                 gotIT = True
                                 Exit For
                             End If
                         Next
                     End If
                     If gotIT Then
-                        Call combo_Click(Index)
+                        Call combo_Click(index)
                     Else
-                        cell(Index) = ""
+                        cell(index) = ""
                     End If
                 End If
             Case 27
-                combo(Index).Visible = False
-                Select Case Index
+                combo(index).Visible = False
+                Select Case index
                     Case 1, 5
-                        cell(Index) = cell(Index).tag
+                        cell(index) = cell(index).tag
                 End Select
         End Select
     End With
 End Sub
 
-Private Sub cell_LostFocus(Index As Integer)
+Private Sub cell_LostFocus(index As Integer)
 Dim continue As Boolean
     If usingARROWS Then
         usingARROWS = False
     Else
-        If saveBUTTON.Enabled Or Index = 0 Then
-            If Not (saveBUTTON.Enabled And Index = 0) Then
-                If Index < 6 Then
+        If saveBUTTON.Enabled Or index = 0 Then
+            If Not (saveBUTTON.Enabled And index = 0) Then
+                If index < 6 Then
                     combo(activeCELL).Visible = False
                 End If
             End If
         End If
     End If
-    If saveBUTTON.Enabled Or Index = 0 Then
-        With cell(Index)
+    If saveBUTTON.Enabled Or index = 0 Then
+        With cell(index)
             .backcolor = vbWhite
         End With
     End If
@@ -5797,11 +5815,11 @@ End Sub
 
 
 
-Public Sub cell_Validate(Index As Integer, Cancel As Boolean)
-    If findSTUFF(cell(Index), combo(Index), 0) = 0 Then cell(Index) = ""
+Public Sub cell_Validate(index As Integer, Cancel As Boolean)
+    If findSTUFF(cell(index), combo(index), 0) = 0 Then cell(index) = ""
 End Sub
 
-Private Sub combo_Click(Index As Integer)
+Private Sub combo_Click(index As Integer)
 Dim i, sql, t
 Dim cleanDETAILS As Boolean
 Dim datax As New ADODB.Recordset
@@ -5810,16 +5828,16 @@ Dim MSGBOXReply As VbMsgBoxResult
 Dim labelname As String
 Dim computerFactor As Double
 Dim ratio As Integer
-    combo(Index).Visible = False
+    combo(index).Visible = False
     DoEvents
     Screen.MousePointer = 11
     DoEvents
     directCLICK = True
     Set datax = New ADODB.Recordset
     DoEvents
-    With combo(Index)
+    With combo(index)
 '        STOCKlist.Enabled = True
-        If Index = 5 Then
+        If index = 5 Then
             Set datax = New ADODB.Recordset
             sql = "SELECT stk_desc,stk_ratio2 FROM STOCKMASTER WHERE " _
                 & "stk_npecode = '" + nameSP + "' and " _
@@ -5845,10 +5863,10 @@ Dim ratio As Integer
                 '------------------------------
                 'Added by Muzammil, this code check if stocks have already been selected, if yes then does not let the
                 'user change the FROM Location
-                If (Index = 1 Or Index = 2 Or Index = 3) And Len(cell(Index).text) > 0 And HasUserSelectedAnyStocks = True Then
-                  If Index = 2 Then
+                If (index = 1 Or index = 2 Or index = 3) And Len(cell(index).text) > 0 And HasUserSelectedAnyStocks = True Then
+                  If index = 2 Then
                     labelname = label(2).Caption
-                  ElseIf Index = 3 Then
+                  ElseIf index = 3 Then
                     labelname = label(3).Caption
                   End If
                   Call MsgBox("Please select and remove each selected Line items before changing the " & labelname & " .", vbInformation, "Imswin")
@@ -5856,12 +5874,12 @@ Dim ratio As Integer
                   Exit Sub
                 End If
                 '-------------------------------
-                cell(Index) = .TextMatrix(.row, 0)
+                cell(index) = .TextMatrix(.row, 0)
                 DoEvents
                 .Refresh
-                cell(Index).tag = .TextMatrix(.row, matrix.TextMatrix(10, Index))
+                cell(index).tag = .TextMatrix(.row, matrix.TextMatrix(10, index))
             End If
-            If Index < 2 Then
+            If index < 2 Then
                 For i = 2 To 4
                     cell(i) = ""
                     cell(i).tag = ""
@@ -5874,7 +5892,7 @@ Dim ratio As Integer
             Select Case frmFabrication.tag
 
                 Case "02040800" 'Fabrication
-                    Select Case Index
+                    Select Case index
                         Case 0
                             sql = "SELECT * FROM issues_receptions WHERE " _
                                 & "NAMESPACE = '" + nameSP + "' AND " _
@@ -5882,7 +5900,7 @@ Dim ratio As Integer
                                 & "ORDER BY TransactionLine"
                         Case 1, 2
                             If (Len(cell(1)) + Len(cell(2))) > Len(cell(1)) Then
-                                sql = "SELECT * FROM StockInfo WHERE " _
+                                sql = "SELECT * FROM StockInfoSummaryInventory5 WHERE " _
                                     & "NAMESPACE = '" + nameSP + "' AND " _
                                     & "Company = '" + cell(1).tag + "' AND " _
                                     & "Location = '" + cell(2).tag + "' AND qty>0" _
@@ -5899,7 +5917,7 @@ Dim ratio As Integer
             End Select
             If sql = "" Then
             Else
-                If Index = 0 Then
+                If index = 0 Then
                     datax.Open sql, cn, adOpenForwardOnly
                     If datax.RecordCount > 0 Then
                         Call fabFillTRANSACTION(datax)
@@ -5940,7 +5958,7 @@ Dim ratio As Integer
                          
                          If savingLABEL.Visible Then
                          
-                            If frmFabrication.tag = "02040200" And Index = 2 Then
+                            If frmFabrication.tag = "02040200" And index = 2 Then
                             
                                     'StockListDuplicate.Visible = True
                                     
@@ -5955,7 +5973,7 @@ Dim ratio As Integer
                             If savingLABEL.Visible Then
                                 Label3 = "SAVING..."
                                 savingLABEL.Visible = False
-                                If frmFabrication.tag = "02040200" And Index = 2 Then
+                                If frmFabrication.tag = "02040200" And index = 2 Then
                                     'StockListDuplicate.Visible = False
                                  End If
                             End If
@@ -5979,11 +5997,11 @@ Dim ratio As Integer
         Case "02040500" 'WellToWell
             If cell(2).tag + cell(3).tag <> "" Then
                 If cell(2).tag = cell(3).tag Then
-                    cell(Index) = ""
-                    cell(Index).tag = ""
-                    If Index = 2 Then Call cleanSTOCKlist
-                    MsgBox label(2) + " and " + label(Index) + " can not be the same"
-                    cell(Index).SetFocus
+                    cell(index) = ""
+                    cell(index).tag = ""
+                    If index = 2 Then Call cleanSTOCKlist
+                    MsgBox label(2) + " and " + label(index) + " can not be the same"
+                    cell(index).SetFocus
                 End If
             End If
         Case "02040700" 'InternalTransfer
@@ -5991,16 +6009,16 @@ Dim ratio As Integer
         Case "02040600" 'WarehouseToWarehouse
         Case "02040800" 'Fabrication
         Case "02040100" 'WarehouseReceip
-            If Index < 4 Then Call cleanSTOCKlist
+            If index < 4 Then Call cleanSTOCKlist
         Case "02050400" 'Sales
     End Select
     Dim x As String
     'Loads the FQA Details of the saved Transaction ( Only in the case of a modification)
-    If Index = 0 Then Call PopulateFQAOftheTransaction(combo(0))
+    If index = 0 Then Call PopulateFQAOftheTransaction(combo(0))
     'Gets the FQA code for the selected Location ( only in the case of a creation)
     'only for WarehouseReceipt,Well to Well, Return From Well
     'If Index = 2 And (Me.tag = "02040100" Or Me.tag = "02040500" Or Me.tag = "02040300") Then
-    If Index = 2 And (Me.tag = "02040100") Then
+    If index = 2 And (Me.tag = "02040100") Then
             Call LoadFromFQA(Trim(cell(1).tag), Trim(cell(2).tag))
     End If
         
@@ -6014,8 +6032,8 @@ Dim ratio As Integer
 End Sub
 
 
-Private Sub combo_LostFocus(Index As Integer)
-    combo(Index).Visible = False
+Private Sub combo_LostFocus(index As Integer)
+    combo(index).Visible = False
 End Sub
 
 
@@ -6039,8 +6057,8 @@ Dim indexCELL As Integer
             cell(Val(.tag)).text = Format(.Value, "MMMM/dd/yyyy")
             indexCELL = Val(.tag)
             If Me.ActiveControl.name = "cell" Then
-                If Me.ActiveControl.Index <> Val(.tag) Then .Visible = False
-                indexCELL = Me.ActiveControl.Index
+                If Me.ActiveControl.index <> Val(.tag) Then .Visible = False
+                indexCELL = Me.ActiveControl.index
             End If
             If Me.ActiveControl.name = "cell" Then
                 cell(indexCELL).SetFocus
@@ -6227,19 +6245,19 @@ On Error Resume Next
     End If
 End Sub
 
-Public Sub grid_Click(Index As Integer)
+Public Sub grid_Click(index As Integer)
 Dim i, name
 Dim data As New ADODB.Recordset
 skipAlphaSearch = True
 skipExistance = True
-    With grid(Index)
+    With grid(index)
         justCLICK = True
-        If Index = 0 Then
+        If index = 0 Then
             i = Val(Left(.tag, 2))
             name = Mid(.tag, 3)
         Else
             i = Val(.ToolTipText)
-            Select Case Index
+            Select Case index
                 Case 1
                     name = "logicBOX"
                 Case 2
@@ -6284,14 +6302,14 @@ skipExistance = True
     End With
 End Sub
 
-Private Sub logicBOX_Click(Index As Integer)
-    grid(1).ToolTipText = Format(Index, "00") + "logicBOX"
-    Call showGRID(grid(1), Index, logicBOX(Index), True)
+Private Sub logicBOX_Click(index As Integer)
+    grid(1).ToolTipText = Format(index, "00") + "logicBOX"
+    Call showGRID(grid(1), index, logicBOX(index), True)
 End Sub
 
-Private Sub logicBOX_GotFocus(Index As Integer)
+Private Sub logicBOX_GotFocus(index As Integer)
     Call whitening
-    With logicBOX(Index)
+    With logicBOX(index)
         .backcolor = &H80FFFF
         .SelStart = 0
         .SelLength = Len(.text)
@@ -6299,14 +6317,14 @@ Private Sub logicBOX_GotFocus(Index As Integer)
             grid(1).Visible = False
             justCLICK = False
         Else
-            grid(1).ToolTipText = Format(Index, "00") + "logicBOX"
-            Call showGRID(grid(1), Index, logicBOX(Index), True)
+            grid(1).ToolTipText = Format(index, "00") + "logicBOX"
+            Call showGRID(grid(1), index, logicBOX(index), True)
         End If
    End With
 End Sub
 
 
-Private Sub logicBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub logicBOX_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
             Call grid_Click(1)
@@ -6316,8 +6334,8 @@ Private Sub logicBOX_KeyPress(Index As Integer, KeyAscii As Integer)
     End Select
 End Sub
 
-Private Sub logicBOX_LostFocus(Index As Integer)
-    With logicBOX(Index)
+Private Sub logicBOX_LostFocus(index As Integer)
+    With logicBOX(index)
         If .text = "" Then
             .backcolor = &HC0C0FF
         Else
@@ -6328,44 +6346,44 @@ Private Sub logicBOX_LostFocus(Index As Integer)
 End Sub
 
 
-Private Sub logicBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index > 0 And Index <> totalNode Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
-        With logicBOX(Index)
+Private Sub logicBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If index > 0 And index <> totalNode Then
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
+        With logicBOX(index)
             .backcolor = &H80FFFF
         End With
     End If
 End Sub
 
-Private Sub NEWconditionBOX_Click(Index As Integer)
-    Call showGRID(grid(0), Index, NEWconditionBOX(Index))
+Private Sub NEWconditionBOX_Click(index As Integer)
+    Call showGRID(grid(0), index, NEWconditionBOX(index))
 End Sub
 
 
-Private Sub NEWconditionBOX_GotFocus(Index As Integer)
+Private Sub NEWconditionBOX_GotFocus(index As Integer)
     Call whitening
-    NEWconditionBOX(Index).backcolor = &H80FFFF
+    NEWconditionBOX(index).backcolor = &H80FFFF
 End Sub
 
 
-Private Sub NEWconditionBOX_LostFocus(Index As Integer)
-    NEWconditionBOX(Index).backcolor = vbWhite
+Private Sub NEWconditionBOX_LostFocus(index As Integer)
+    NEWconditionBOX(index).backcolor = vbWhite
     grid(0).Visible = False
 End Sub
 
-Private Sub NEWconditionBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index > 0 And Index <> totalNode Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
-        NEWconditionBOX(Index).backcolor = &H80FFFF
+Private Sub NEWconditionBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If index > 0 And index <> totalNode Then
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
+        NEWconditionBOX(index).backcolor = &H80FFFF
     End If
 End Sub
 
-Private Sub quantityBOX_Change(Index As Integer)
+Private Sub quantityBOX_Change(index As Integer)
     If doChanges Then
-        If Tree.Nodes.Count >= Index Then
-            If Left(Tree.Nodes(Index), 9) <> "New Stock" Then
+        If Tree.Nodes.Count >= index Then
+            If Left(Tree.Nodes(index), 9) <> "New Stock" Then
                 'Call quantityBOX_Validate(Index, True)
             End If
         Else
@@ -6376,72 +6394,77 @@ Private Sub quantityBOX_Change(Index As Integer)
     End If
 End Sub
 
-Private Sub quantityBOX_Click(Index As Integer)
-    With quantityBOX(Index)
+Private Sub quantityBOX_Click(index As Integer)
+    With quantityBOX(index)
         .SelStart = 0
         .SelLength = Len(.text)
     End With
 End Sub
 
-Private Sub quantityBOX_GotFocus(Index As Integer)
+Private Sub quantityBOX_GotFocus(index As Integer)
 Dim doIt As Boolean
     doIt = False
     Select Case frmFabrication.tag
         Case "02040800" 'Fabrication
             doIt = True
         Case Else
-            If Index <> totalNode Then doIt = True
+            If index <> totalNode Then doIt = True
     End Select
     If doIt Then
         Call whitening
-        quantityBOX(Index).backcolor = &H80FFFF
+        quantityBOX(index).backcolor = &H80FFFF
+        If Left(Tree.Nodes(index).parent.key, 1) = "@" Then
+            commodityLABEL = Tree.Nodes(index).parent.text
+        End If
     End If
 End Sub
 
-Private Sub quantityBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub quantityBOX_KeyPress(index As Integer, KeyAscii As Integer)
     If KeyAscii = 13 Then
         submitted = False
-        Call quantityBOX_Validate(Index, True)
+        Call quantityBOX_Validate(index, True)
     End If
 End Sub
 
-Private Sub quantityBOX_LostFocus(Index As Integer)
+Private Sub quantityBOX_LostFocus(index As Integer)
     If submitted Then Exit Sub
     If frmFabrication.tag <> "02040800" Then
-        Call quantityBOX_Validate(Index, True) 'fabrication
-        If Index <> totalNode Then quantityBOX(Index).backcolor = vbWhite
+        Call quantityBOX_Validate(index, True) 'fabrication
+        If index <> totalNode Then quantityBOX(index).backcolor = vbWhite
     End If
 End Sub
 
 
-Private Sub quantityBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub quantityBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
 Dim doIt As Boolean
     doIt = False
     Select Case frmFabrication.tag
         Case "02040800" 'Fabrication
-            If Index > 0 Then doIt = True
+            If index > 0 Then doIt = True
         Case Else
-            If Index > 0 And Index <> totalNode Then doIt = True
+            If index > 0 And index <> totalNode Then doIt = True
     End Select
     If doIt Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
-        quantityBOX(Index).backcolor = &H80FFFF
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
+        quantityBOX(index).backcolor = &H80FFFF
     End If
 End Sub
 
-Public Sub quantityBOX_Validate(Index As Integer, Cancel As Boolean)
+Public Sub quantityBOX_Validate(index As Integer, Cancel As Boolean)
 Dim qty, qty2, q
 On Error Resume Next
     If submitted Then Exit Sub
-    With quantityBOX(Index)
-        If Index <> totalNode Or frmFabrication.tag = "02040800" Then
+    With quantityBOX(index)
+        If index <> totalNode Or frmFabrication.tag = "02040800" Then
             If IsNumeric(.text) Then
                 If Err.Number = 0 Then
-                    If Tree.Nodes.Count >= Index Then
+                    If Tree.Nodes.Count >= index Then
                         'If Left(Tree.Nodes(Index), 9) <> "New Stock" Then 'to control to not update when last node
-                             commodityLABEL = Tree.Nodes(Index)
-                             Call calculationsFabrication(True, Index)
+                            If Left(Tree.Nodes(index).parent.key, 1) = "@" Then
+                                commodityLABEL = Tree.Nodes(index).parent.text
+                            End If
+                            Call calculationsFabrication(True, index)
                         'End If
                     End If
                 End If
@@ -6494,56 +6517,56 @@ Dim RowPosition As Integer
     End With
 End Sub
 
-Private Sub repairBOX_Change(Index As Integer)
-    If repairBOX(Index).Visible Then Call repairBOX_Validate(Index, True)
+Private Sub repairBOX_Change(index As Integer)
+    If repairBOX(index).Visible Then Call repairBOX_Validate(index, True)
 End Sub
 
-Private Sub repairBOX_Click(Index As Integer)
-    With repairBOX(Index)
+Private Sub repairBOX_Click(index As Integer)
+    With repairBOX(index)
         .SelStart = 0
         .SelLength = Len(.text)
     End With
 End Sub
 
 
-Private Sub repairBOX_GotFocus(Index As Integer)
+Private Sub repairBOX_GotFocus(index As Integer)
     Call whitening
-    repairBOX(Index).backcolor = &H80FFFF
+    repairBOX(index).backcolor = &H80FFFF
 End Sub
 
-Private Sub repairBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub repairBOX_KeyPress(index As Integer, KeyAscii As Integer)
 On Error Resume Next
     If KeyAscii = 13 Then
-        Call repairBOX_Validate(repairBOX(Index), True)
+        Call repairBOX_Validate(repairBOX(index), True)
         If Err.Number = 6 Then Exit Sub
         If IsNumeric(repairBOX) Then
-            repairBOX(Index) = Format(repairBOX(Index), "0.00")
+            repairBOX(index) = Format(repairBOX(index), "0.00")
         End If
     End If
 End Sub
 
-Private Sub repairBOX_LostFocus(Index As Integer)
-    repairBOX(Index).backcolor = vbWhite
-    If IsNumeric(repairBOX(Index)) Then
-        repairBOX(Index) = Format(repairBOX(Index), "0.00")
+Private Sub repairBOX_LostFocus(index As Integer)
+    repairBOX(index).backcolor = vbWhite
+    If IsNumeric(repairBOX(index)) Then
+        repairBOX(index) = Format(repairBOX(index), "0.00")
     End If
 End Sub
 
-Private Sub repairBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index <> totalNode Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
-        repairBOX(Index).backcolor = &H80FFFF
+Private Sub repairBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If index <> totalNode Then
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
+        repairBOX(index).backcolor = &H80FFFF
     End If
 End Sub
 
-Private Sub repairBOX_Validate(Index As Integer, Cancel As Boolean)
-    Call validateQTY(repairBOX(Index), Index)
+Private Sub repairBOX_Validate(index As Integer, Cancel As Boolean)
+    Call validateQTY(repairBOX(index), index)
 End Sub
 
-Private Sub searchFIELD_Change(Index As Integer)
+Private Sub searchFIELD_Change(index As Integer)
     With STOCKlist
-        If Index = 0 Then
+        If index = 0 Then
             If .row <> 1 Or .RowSel <> .Rows - 1 Then
                 .row = 1
                 .RowSel = .Rows - 1
@@ -6558,18 +6581,18 @@ Private Sub searchFIELD_Change(Index As Integer)
     End With
 End Sub
 
-Private Sub searchFIELD_GotFocus(Index As Integer)
-    searchFIELD(Index).backcolor = &H80FFFF
+Private Sub searchFIELD_GotFocus(index As Integer)
+    searchFIELD(index).backcolor = &H80FFFF
 End Sub
 
 
-Public Sub searchFIELD_KeyPress(Index As Integer, KeyAscii As Integer)
+Public Sub searchFIELD_KeyPress(index As Integer, KeyAscii As Integer)
     If KeyAscii = 13 Then
-        Call searchStockNumber(Index)
+        Call searchStockNumber(index)
     End If
 End Sub
-Private Sub searchFIELD_LostFocus(Index As Integer)
-    searchFIELD(Index).backcolor = &HC0E0FF
+Private Sub searchFIELD_LostFocus(index As Integer)
+    searchFIELD(index).backcolor = &HC0E0FF
 End Sub
 
 Private Sub SSOleCompany_Click()
@@ -6754,10 +6777,6 @@ Screen.MousePointer = 11
             If .MouseCol = 0 Then
                 .col = 0
                 If .row > 0 Then
-                
-                
-                
-                
                     stockListRow = .row
                     pointerCOL = 0
                     Call fabMarkROW(STOCKlist, , ctt)
@@ -6824,21 +6843,21 @@ Private Sub STOCKlist_RowColChange()
 '    End With
 End Sub
 
-Private Sub sublocaBOX_Change(Index As Integer)
-    Call alphaSEARCH(sublocaBOX(Index), grid(2), 0)
+Private Sub sublocaBOX_Change(index As Integer)
+    Call alphaSEARCH(sublocaBOX(index), grid(2), 0)
 End Sub
 
-Private Sub sublocaBOX_Click(Index As Integer)
-    grid(2).ToolTipText = Format(Index, "00") + "sublocaBOX"
-    Call showGRID(grid(2), Index, sublocaBOX(Index), True)
+Private Sub sublocaBOX_Click(index As Integer)
+    grid(2).ToolTipText = Format(index, "00") + "sublocaBOX"
+    Call showGRID(grid(2), index, sublocaBOX(index), True)
 End Sub
 
-Private Sub sublocaBOX_GotFocus(Index As Integer)
-If ("Sublocation: " + sublocaBOX(Index)) = RTrim(Tree.Nodes(Tree.Nodes.Count - 1).text) Then
+Private Sub sublocaBOX_GotFocus(index As Integer)
+If ("Sublocation: " + sublocaBOX(index)) = RTrim(Tree.Nodes(Tree.Nodes.Count - 1).text) Then
     'sublocaBOX(Index).text = ""
 Else
     Call whitening
-    With sublocaBOX(Index)
+    With sublocaBOX(index)
         .backcolor = &H80FFFF
         .SelStart = 0
         .SelLength = Len(.text)
@@ -6846,15 +6865,15 @@ Else
             grid(2).Visible = False
             justCLICK = False
         Else
-            grid(2).ToolTipText = Format(Index, "00") + "sublocaBOX"
-            Call showGRID(grid(2), Index, sublocaBOX(Index), True)
+            grid(2).ToolTipText = Format(index, "00") + "sublocaBOX"
+            Call showGRID(grid(2), index, sublocaBOX(index), True)
         End If
     End With
 End If
 End Sub
 
 
-Private Sub sublocaBOX_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub sublocaBOX_KeyPress(index As Integer, KeyAscii As Integer)
     Select Case KeyAscii
         Case 13
             Call grid_Click(2)
@@ -6864,8 +6883,8 @@ Private Sub sublocaBOX_KeyPress(Index As Integer, KeyAscii As Integer)
     End Select
 End Sub
 
-Private Sub sublocaBOX_LostFocus(Index As Integer)
-    With sublocaBOX(Index)
+Private Sub sublocaBOX_LostFocus(index As Integer)
+    With sublocaBOX(index)
         If .text = "" Then
             .backcolor = &HC0C0FF
         Else
@@ -6876,10 +6895,10 @@ Private Sub sublocaBOX_LostFocus(Index As Integer)
 End Sub
 
 
-Private Sub sublocaBOX_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Index > 0 And Index <> totalNode Then
-        If currentBOX <> Index Then Call whitening
-        currentBOX = Index
+Private Sub sublocaBOX_MouseMove(index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If index > 0 And index <> totalNode Then
+        If currentBOX <> index Then Call whitening
+        currentBOX = index
         With sublocaBOX(currentBOX)
             .backcolor = &H80FFFF
         End With
@@ -7109,10 +7128,10 @@ For i = 2 To Tree.Nodes.Count
             End If
         Case Else
             If controlExists("quantityBOX", i) Then
-                If CDbl(quantityBOX(i)) <= 0 Then
-                    MsgBox "A qty bigger than zero must be entered."
-                    Exit Sub
-                End If
+                'If CDbl(quantityBOX(i)) <= 0 Then
+                '    MsgBox "A qty bigger than zero must be entered."
+                '    Exit Sub
+                'End If
             End If
     End Select
     askForSubLocation = False
@@ -7279,7 +7298,7 @@ Dim datax As New ADODB.Recordset
 Dim n As Integer
     For Each nody In Tree.Nodes
         If nody.text = NewString Then
-            Tree.Nodes.Remove (Tree.SelectedItem.Index)
+            Tree.Nodes.Remove (Tree.SelectedItem.index)
             Exit For
         End If
     Next
@@ -7294,7 +7313,7 @@ Dim n As Integer
         & "qs6_primqty > 0"
     If sql = "" Then
         Cancel = True
-        Tree.Nodes.Remove (Tree.SelectedItem.Index)
+        Tree.Nodes.Remove (Tree.SelectedItem.index)
         Exit Sub
     Else
         Set datax = New ADODB.Recordset
@@ -7330,7 +7349,7 @@ Public Sub Tree_Click()
 On Error Resume Next
 Dim n
     With Tree
-        n = .SelectedItem.Index
+        n = .SelectedItem.index
         If n = totalNode Then
             If nodeSEL <> totalNode Then
                ' quantity(totalNode).backcolor = &H800000
@@ -7359,7 +7378,7 @@ End Sub
 Private Sub Tree_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 On Error Resume Next
     With Tree
-        nodeSEL = .SelectedItem.Index
+        nodeSEL = .SelectedItem.index
         If nodeSEL > 0 Then
             'quantity(totalNode).backcolor = &HC0C0C0
             quantity(totalNode).ForeColor = vbBlack

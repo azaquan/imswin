@@ -1476,15 +1476,23 @@ On Error GoTo errMESSAGE
         poNum = PO
         If poNum = "" Then poNum = subject
         
-        Dim text As String
-        text = "Please find here attached PO #"
+        Dim Text As String
+        Text = "Please find here attached PO #"
         If translator.TR_LANGUAGE <> "US" Then
-            text = translator.Trans("M00928")
-            text = IIf(text = "", "Please find here attached PO #", text)
+            Text = translator.Trans("M00928")
+            Text = IIf(Text = "", "Please find here attached PO #", Text)
         End If
         
-        attention = "Please find here attached PO #" + poNum  ' JCG 2008/7/12
-
+        'added by Juan 2020/02/20
+        If deIms.NameSpace = "JA414" Then
+            attention = "Buenos días estimados," + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
+                + "Adjunta encontrarán la Orden de Compra número: " + poNum + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
+                + "Por Favor proceder a iniciar la gestión de entrega de inmediato." + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
+                + "Un cordial saludo."
+        Else
+            attention = "Please find here attached PO #" + poNum  ' JCG 2008/7/12
+        End If
+        
          'Attachments = generateattachments(reportNAME, ReportCaption, ParamsForCrystalReports, CrystalControl)  ' JCG 2008/7/10
          
          ' JCG 2016-02-10
@@ -1737,7 +1745,7 @@ Public Function WriteParameterEfaxUsingPDFCreator(Attachments, Recipients, subje
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim sql, companyNAME
+     Dim sql, companyName
      Dim datax As New ADODB.Recordset
 
      Filename = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
@@ -1803,7 +1811,7 @@ Public Function WriteParameterEfax(Attachments, Recipients, subject, sender, att
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim sql, companyNAME
+     Dim sql, companyName
      Dim datax As New ADODB.Recordset
 
      'FileName = "Email" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"
@@ -1877,7 +1885,7 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
      Dim i As Integer, l As Integer
      Dim reports As String
      Dim recepientSTR As String
-     Dim sql, companyNAME
+     Dim sql, companyName
      Dim datax As New ADODB.Recordset
 
      Filename = "Fax" & "-" & deIms.NameSpace & "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".txt"

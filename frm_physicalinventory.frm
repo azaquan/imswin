@@ -3,14 +3,14 @@ Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
 Begin VB.Form frm_physicalinventory 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Physical Inventory"
-   ClientHeight    =   3045
+   ClientHeight    =   3615
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   3885
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
-   ScaleHeight     =   3045
+   ScaleHeight     =   3615
    ScaleWidth      =   3885
    Tag             =   "L00611"
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo Combo_compcode 
@@ -36,7 +36,7 @@ Begin VB.Form frm_physicalinventory
       Height          =   255
       Left            =   2160
       TabIndex        =   3
-      Top             =   1680
+      Top             =   2040
       Width           =   255
    End
    Begin VB.CheckBox Check1 
@@ -44,7 +44,7 @@ Begin VB.Form frm_physicalinventory
       Height          =   255
       Left            =   2160
       TabIndex        =   2
-      Top             =   1320
+      Top             =   1680
       Width           =   255
    End
    Begin VB.CommandButton cmd_cancel 
@@ -52,7 +52,7 @@ Begin VB.Form frm_physicalinventory
       Height          =   375
       Left            =   2160
       TabIndex        =   6
-      Top             =   2400
+      Top             =   2640
       Width           =   1092
    End
    Begin VB.CommandButton cmd_ok 
@@ -60,7 +60,7 @@ Begin VB.Form frm_physicalinventory
       Height          =   375
       Left            =   840
       TabIndex        =   5
-      Top             =   2400
+      Top             =   2640
       Width           =   1092
    End
    Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOleDB_location 
@@ -82,14 +82,41 @@ Begin VB.Form frm_physicalinventory
       ForeColor       =   -2147483640
       BackColor       =   -2147483643
    End
+   Begin SSDataWidgets_B_OLEDB.SSOleDBCombo logicalWH 
+      Height          =   315
+      Left            =   2160
+      TabIndex        =   10
+      Top             =   1200
+      Width           =   1575
+      DataFieldList   =   "Column 0"
+      _Version        =   196617
+      DataMode        =   2
+      Cols            =   2
+      FieldSeparator  =   ";"
+      RowHeight       =   423
+      Columns(0).Width=   3200
+      _ExtentX        =   2778
+      _ExtentY        =   556
+      _StockProps     =   93
+      ForeColor       =   -2147483640
+      BackColor       =   -2147483643
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Logical Ware House"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   11
+      Top             =   1260
+      Width           =   1995
+   End
    Begin VB.Label showzero 
       BackStyle       =   0  'Transparent
       Caption         =   "Show Zero"
       Height          =   375
       Left            =   120
       TabIndex        =   9
-      Top             =   1680
-      Width           =   2000
+      Top             =   2040
+      Width           =   1995
    End
    Begin VB.Label showqty 
       BackStyle       =   0  'Transparent
@@ -97,8 +124,8 @@ Begin VB.Form frm_physicalinventory
       Height          =   255
       Left            =   120
       TabIndex        =   8
-      Top             =   1320
-      Width           =   2000
+      Top             =   1680
+      Width           =   1995
    End
    Begin VB.Label lbl_locacode 
       Caption         =   "Location Code"
@@ -123,6 +150,49 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+
+
+Private Sub getLogicalWH()
+On Error Resume Next
+Dim str As String
+Dim cmd As ADODB.Command
+Dim rst As ADODB.Recordset
+
+
+    Set cmd = MakeCommand(deIms.cnIms, adCmdText)
+    
+    With cmd
+        .CommandText = " SELECT lw_code,lw_desc "
+        .CommandText = .CommandText & " From LOGWAR "
+        .CommandText = .CommandText & " WHERE lw_npecode = '" & deIms.NameSpace & "'"
+        .CommandText = .CommandText & " and lw_actvflag = 1 "
+        .CommandText = .CommandText & " order by lw_desc"
+         Set rst = .Execute
+    End With
+
+
+    str = Chr$(1)
+    logicalWH.FieldSeparator = str
+    If rst.RecordCount = 0 Then GoTo CleanUp
+       
+    rst.MoveFirst
+
+    logicalWH.RemoveAll
+    logicalWH = ""
+       
+
+        Do While ((Not rst.EOF))
+            logicalWH.AddItem rst!lw_code & str & (rst!lw_desc & "")
+            rst.MoveNext
+        Loop
+
+      
+CleanUp:
+    rst.Close
+    Set cmd = Nothing
+    Set rst = Nothing
+If Err Then Call LogErr(Name & "::GetLogicalWH", Err.Description, Err.number, True)
+End Sub
 
 
 Private Sub Check1_GotFocus()
@@ -162,6 +232,7 @@ With MDI_IMS.CrystalReport1
         .ParameterFields(2) = "ware;" + Trim$(SSOleDB_location.Text) + ";true"
         .ParameterFields(3) = "showqty;" + IIf(Check1.value = 0, "N", "Y") + ";true"
         .ParameterFields(4) = "showzero;" + IIf(Check2.value = 0, "N", "Y") + ";true"
+        .ParameterFields(5) = "logical;" + Trim$(logicalWH.Text) + ";TRUE"
         
         'Modified by Juan (9/13/2000) for Multilingual
         msg1 = translator.Trans("M00185") 'J added
@@ -182,7 +253,8 @@ ErrHandler:
 End Sub
 
 Private Sub Combo_compcode_Click()
-GetlocationName
+    GetlocationName
+    'getLogicalWH
 End Sub
 
 Private Sub Combo_compcode_DropDown()
@@ -288,6 +360,8 @@ frm_physicalinventory.Caption = frm_physicalinventory.Caption + " - " + frm_phys
 Me.Left = Round((Screen.Width - Me.Width) / 2)
 Me.Top = Round((Screen.Height - Me.Height) / 2)
 
+getLogicalWH
+logicalWH.Text = "ALL"
 End Sub
 
 
@@ -338,7 +412,6 @@ CleanUp:
     Set rst = Nothing
 If Err Then Call LogErr(Name & "::GetlocationName", Err.Description, Err.number, True)
 End Sub
-
 
 'THIS PROCEDURE WILL NOT BE USED IF LOGICAL WAREHOUSE IS USED INSTEAD OF SUBLOCATION MUZAMMIL  11/06/00
 'SQL statement get all location list for location combo
@@ -414,6 +487,31 @@ Private Sub Form_Unload(Cancel As Integer)
     If open_forms <= 5 Then ShowNavigator
 End Sub
 
+
+Private Sub logicalWH_GotFocus()
+    Call HighlightBackground(logicalWH)
+End Sub
+
+Private Sub logicalWH_InitColumnProps()
+    logicalWH.Columns(0).Caption = "Code"
+    logicalWH.Columns(1).Caption = "Name"
+End Sub
+
+Private Sub logicalWH_KeyDown(KeyCode As Integer, Shift As Integer)
+    If Not logicalWH.DroppedDown Then logicalWH.DroppedDown = True
+End Sub
+
+Private Sub logicalWH_Validate(Cancel As Boolean)
+    If Len(Trim$(logicalWH)) > 0 Then
+        If Not logicalWH.IsItemInList Then
+            logicalWH.Text = ""
+        End If
+        If Len(Trim$(logicalWH)) = 0 Then
+            logicalWH.SetFocus
+            Cancel = True
+        End If
+    End If
+End Sub
 
 Private Sub SSOleDB_location_GotFocus()
 Call HighlightBackground(SSOleDB_location)
