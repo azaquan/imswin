@@ -265,22 +265,22 @@ With frmWarehouse
 End With
 Err.Clear
 End Sub
-Sub putThingsInsideExtension(Index As Integer) 'Juan 2014-02-02, for scrolling placement
+Sub putThingsInsideExtension(index As Integer) 'Juan 2014-02-02, for scrolling placement
 With frmWarehouse
-    .quantity(Index).Visible = False
-    .poItemBox(Index).Visible = False
-    .positionBox(Index).Visible = False
-    .quantity(Index).Visible = False
-    .logicBOX(Index).Visible = False
-    .sublocaBOX(Index).Visible = False
-    .quantityBOX(Index).Visible = False
-    .quantity2BOX(Index).Visible = False
-    .balanceBOX(Index).Visible = False
-    .NEWconditionBOX(Index).Visible = False
-    .priceBOX(Index).Visible = False
-    .unitBOX(Index).Visible = False
-    .unit2BOX(Index).Visible = False
-    .repairBOX(Index).Visible = False
+    .quantity(index).Visible = False
+    .poItemBox(index).Visible = False
+    .positionBox(index).Visible = False
+    .quantity(index).Visible = False
+    .logicBOX(index).Visible = False
+    .sublocaBOX(index).Visible = False
+    .quantityBOX(index).Visible = False
+    .quantity2BOX(index).Visible = False
+    .balanceBOX(index).Visible = False
+    .NEWconditionBOX(index).Visible = False
+    .priceBOX(index).Visible = False
+    .unitBOX(index).Visible = False
+    .unit2BOX(index).Visible = False
+    .repairBOX(index).Visible = False
 End With
 End Sub
 
@@ -787,7 +787,7 @@ Dim ctl As Control
 
 For Each ctl In frmWarehouse.Controls
     If ctl.name = controlNAME Then
-        If ctl.Index = controlIndex Then
+        If ctl.index = controlIndex Then
             controlExists = True
             Exit For
         End If
@@ -1110,6 +1110,7 @@ On Error GoTo ErrHandler:
         '---------------------
         Load .priceBOX(n)
         Load .NEWconditionBOX(n)
+        Load .oldConditionBox(n)
         
         Load .invoiceBOX(n)
         Load .invoiceLineBOX(n)
@@ -1179,6 +1180,7 @@ On Error GoTo ErrHandler:
                 
         End Select
         .NEWconditionBOX(n) = .NEWconditionBOX(n).tag
+        .oldConditionBox(n) = .NEWconditionBOX(n)
         
         Load .poItemBox(n)
 
@@ -1216,7 +1218,7 @@ On Error GoTo ErrHandler:
                 .logicBOX(n).backcolor = &HC0C0FF
                 .logicBOX(n).ToolTipText = "Select a Logic Wareshouse"
                 .sublocaBOX(n) = ""
-                .sublocaBOX(Index).backcolor = &HC0C0FF
+                .sublocaBOX(index).backcolor = &HC0C0FF
                 .sublocaBOX(n).ToolTipText = "Select a Sub Location"
             End If
         Else
@@ -1251,6 +1253,7 @@ On Error GoTo ErrHandler:
         
             .NEWconditionBOX(n).tag = newCOND
             .NEWconditionBOX(n) = Format(newCOND, "00")
+            .oldConditionBox(n) = .NEWconditionBOX(n)
         Else
             .NEWconditionBOX(n).tag = .SUMMARYlist.TextMatrix(summaryPOSITION, 13)
             .NEWconditionBOX(n) = Format(.NEWconditionBOX(n).tag, "00")
@@ -1995,14 +1998,14 @@ Resume Next
 End Sub
 
 
-Sub doCOMBO(Index, datax As ADODB.Recordset, list, totalwidth)
+Sub doCOMBO(index, datax As ADODB.Recordset, list, totalwidth)
 Dim rec, i, extraW
 Dim t As String
     Err.Clear
-    With frmWarehouse.combo(Index)
+    With frmWarehouse.combo(index)
         Do While Not datax.EOF
             rec = ""
-            For i = 0 To frmWarehouse.matrix.TextMatrix(1, Index) - 1
+            For i = 0 To frmWarehouse.matrix.TextMatrix(1, index) - 1
                 If list(i) = "error" Then
                     MsgBox "Definition error, please contact IMS"
                     Exit Sub
@@ -2032,16 +2035,16 @@ Dim t As String
             .Height = 2340
             .ScrollBars = flexScrollBarVertical
         End If
-        If frmWarehouse.cell(Index).width > (totalwidth + extraW) Then
-            .width = frmWarehouse.cell(Index).width
+        If frmWarehouse.cell(index).width > (totalwidth + extraW) Then
+            .width = frmWarehouse.cell(index).width
             .ColWidth(0) = .ColWidth(0) + (.width - totalwidth) - extraW
         Else
             .width = totalwidth + extraW
         End If
-        If (frmWarehouse.cell(Index).Left + .width) > frmWarehouse.width Then
+        If (frmWarehouse.cell(index).Left + .width) > frmWarehouse.width Then
             .Left = frmWarehouse.width - .width - 100
         Else
-            .Left = frmWarehouse.cell(Index).Left
+            .Left = frmWarehouse.cell(index).Left
         End If
         .RowHeightMin = 240
     End With
@@ -2747,7 +2750,7 @@ Sub putBOX(box As textBOX, Left, Top, width, backcolor)
     End With
 End Sub
 
-Function topNODE(Index) As Integer
+Function topNODE(index) As Integer
 Dim heightFactor, spaceFactor As Integer
     spaceFactor = 45
     heightFactor = 265
@@ -2781,7 +2784,7 @@ Dim heightFactor, spaceFactor As Integer
             heightFactor = 240
             spaceFactor = 80
     End Select
-    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (Index - nodeONtop - 1))
+    topNODE = frmWarehouse.Tree.Top + spaceFactor + (heightFactor * (index - nodeONtop - 1))
 End Function
 
 Sub textBOX(ByVal mainCONTROL As MSHFlexGrid, standard As Boolean)
@@ -2927,12 +2930,12 @@ Sub updateStockListBalance() 'Juan 2010-9-19 to re-load the proper values of the
     End With
 End Sub
 
-Sub validateQTY(box As textBOX, Index)
+Sub validateQTY(box As textBOX, index)
 Dim n
 Dim d As Integer
     noRETURN = True
     With box
-        If Index <> totalNode Then
+        If index <> totalNode Then
             If IsNumeric(.text) Then
                 If .name = "priceBOX" Then
                     d = 2
@@ -3761,7 +3764,7 @@ Sub alphaSEARCH(ByVal cellACTIVE As textBOX, ByVal gridACTIVE As MSHFlexGrid, co
 Dim i, ii As Integer
 Dim word As String
 Dim found As Boolean
-If cellACTIVE.Index = 1 Then Exit Sub
+If cellACTIVE.index = 1 Then Exit Sub
 If skipAlphaSearch = True Then
     skipAlphaSearch = False
     Exit Sub

@@ -650,19 +650,19 @@ Dim sql As String
                 datax.Open sql, deIms.cnIms, adOpenForwardOnly
                 Dim SupplierCode As String
                 SupplierCode = ""
-                Dim companyCode As String
+                Dim CompanyCode As String
                 SupplierCode = ""
                 If datax.RecordCount > 0 Then
                     SupplierCode = datax!po_suppcode
                     SupplierCode = Trim(SupplierCode)
-                    companyCode = datax!po_compcode
-                    companyCode = Trim(companyCode)
+                    CompanyCode = datax!po_compcode
+                    CompanyCode = Trim(CompanyCode)
                 End If
                 sql = ""
 
                 sql = "select * from company " _
                     + "where com_npecode='" + deIms.NameSpace + "' " _
-                    + "and com_compcode = '" + companyCode + "'"
+                    + "and com_compcode = '" + CompanyCode + "'"
                 Set datax = New ADODB.Recordset
                 datax.Open sql, deIms.cnIms, adOpenForwardOnly
                 Dim companyName As String

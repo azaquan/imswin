@@ -24,7 +24,6 @@ Begin VB.Form frmWarehouse
       _ExtentX        =   24580
       _ExtentY        =   5318
       _Version        =   393217
-      Enabled         =   -1  'True
       TextRTF         =   $"frmWarehouse.frx":0000
    End
    Begin VB.PictureBox imsMsgBox 
@@ -840,7 +839,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   93782019
+      Format          =   94633987
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -1367,6 +1366,16 @@ Begin VB.Form frmWarehouse
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+   End
+   Begin VB.Label oldConditionBox 
+      Caption         =   "oldCondition"
+      Height          =   255
+      Index           =   0
+      Left            =   2880
+      TabIndex        =   112
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   1215
    End
    Begin VB.Label nothing 
       Caption         =   "nothing"
@@ -4185,13 +4194,14 @@ Screen.MousePointer = 11
             'Juan 2010-11-24 to obtain original price for AE
             Select Case frmWarehouse.tag
                 Case "02040300" 'Return from Well
-                    Dim r
-                    r = findSTUFF(stocknumb, STOCKlist, 1)
-                    If r > 0 Then
-                        unitPRICE = CDbl(STOCKlist.TextMatrix(r, 2))
-                    Else
-                        unitPRICE = 0
-                    End If
+'                    Dim r
+'                    r = findSTUFF(stocknumb, STOCKlist, 1)
+'                    If r > 0 Then
+'                        unitPRICE = CDbl(STOCKlist.TextMatrix(r, 2))
+'                    Else
+'                        unitPRICE = 0
+'                    End If
+                    unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
                 Case Else
                     unitPRICE = CDbl(IIf(SUMMARYlist.TextMatrix(i, 4) = "", 0, SUMMARYlist.TextMatrix(i, 4)))
             End Select
@@ -4564,14 +4574,15 @@ Screen.MousePointer = 11
                     If condition = NEWcondition Then
                         newUNITprice = unitPRICE
                     Else
-                        Set data = getDATA("conditionVALUE", Array(NP, unitPRICE, NEWcondition))
-                        If data.RecordCount = 0 Then
-                            Call RollbackTransaction(cn)
-                            MsgBox "Error in Transaction"
-                            Exit Sub
-                        Else
-                            newUNITprice = CDbl(data(0))
-                        End If
+                        newUNITprice = unitPRICE
+'                        Set data = getDATA("conditionVALUE", Array(NP, unitPRICE, NEWcondition))
+'                        If data.RecordCount = 0 Then
+'                            Call RollbackTransaction(cn)
+'                            MsgBox "Error in Transaction"
+'                            Exit Sub
+'                        Else
+'                            newUNITprice = CDbl(data(0))
+'                        End If
                     End If
                     retval = PutDataInsert2(i, newUNITprice)
                     If retval = False Then Call RollbackTransaction(cn)
@@ -5873,7 +5884,8 @@ skipExistance = True
                 NEWconditionBOX(i).ToolTipText = .TextMatrix(.row, 1)
                 NEWconditionBOX(i).SetFocus
                 'Juan 2010-10-31 to get new price after changing condition
-                Set data = getDATA("conditionVALUE", Array(nameSP, priceBOX(i), NEWconditionBOX(i)))
+                'Set data = getDATA("conditionVALUE", Array(nameSP, priceBOX(i), NEWconditionBOX(i)))
+                Set data = getDATA("conditionVALUEnewApproach", Array(nameSP, priceBOX(i), oldConditionBox(i), NEWconditionBOX(i)))
                 If data.RecordCount = 0 Then
                 Else
                     Select Case frmWarehouse.tag

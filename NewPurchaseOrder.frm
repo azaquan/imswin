@@ -19,39 +19,6 @@ Begin VB.Form frm_NewPurchase
    ScaleHeight     =   8670
    ScaleWidth      =   9420
    Tag             =   "02020100"
-   Begin VB.CommandButton CmdConvert 
-      Caption         =   "Convert a transaction"
-      Enabled         =   0   'False
-      Height          =   375
-      Left            =   7080
-      TabIndex        =   148
-      Top             =   120
-      Width           =   2175
-   End
-   Begin LRNavigators.LROleDBNavBar NavBar1 
-      Height          =   375
-      Left            =   120
-      TabIndex        =   64
-      Top             =   8040
-      Width           =   4215
-      _ExtentX        =   7435
-      _ExtentY        =   661
-      AllowCustomize  =   0   'False
-      EMailVisible    =   -1  'True
-      FirstEnabled    =   0   'False
-      LastEnabled     =   0   'False
-      NewEnabled      =   -1  'True
-      NextEnabled     =   0   'False
-      PreviousEnabled =   0   'False
-      AllowDelete     =   0   'False
-      DeleteVisible   =   -1  'True
-      CommandType     =   8
-      EditEnabled     =   0   'False
-      EditVisible     =   0   'False
-      SaveToolTipText =   "Save changes made to the current record"
-      CancelToolTipText=   "Undo the changes made to the current Screen"
-      EditToolTipText =   "Allows you to make modification"
-   End
    Begin TabDlg.SSTab sst_PO 
       Height          =   7665
       Left            =   120
@@ -88,42 +55,42 @@ Begin VB.Form frm_NewPurchase
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Line1"
-      Tab(1).Control(1)=   "lbl_Recipients"
-      Tab(1).Control(2)=   "Lbl_search"
-      Tab(1).Control(3)=   "dgRecipientList"
-      Tab(1).Control(4)=   "fra_FaxSelect"
-      Tab(1).Control(5)=   "cmd_Add"
+      Tab(1).Control(0)=   "OptEmail"
+      Tab(1).Control(1)=   "OptFax"
+      Tab(1).Control(2)=   "Text1"
+      Tab(1).Control(3)=   "CmdAddSupEmail"
+      Tab(1).Control(4)=   "cmdRemove"
+      Tab(1).Control(5)=   "dgRecepients"
       Tab(1).Control(6)=   "txt_Recipient"
-      Tab(1).Control(7)=   "dgRecepients"
-      Tab(1).Control(8)=   "cmdRemove"
-      Tab(1).Control(9)=   "CmdAddSupEmail"
-      Tab(1).Control(10)=   "Text1"
-      Tab(1).Control(11)=   "OptFax"
-      Tab(1).Control(12)=   "OptEmail"
+      Tab(1).Control(7)=   "cmd_Add"
+      Tab(1).Control(8)=   "fra_FaxSelect"
+      Tab(1).Control(9)=   "dgRecipientList"
+      Tab(1).Control(10)=   "Lbl_search"
+      Tab(1).Control(11)=   "lbl_Recipients"
+      Tab(1).Control(12)=   "Line1"
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fra_LineItem"
+      Tab(2).Control(0)=   "fra_LI"
       Tab(2).Control(1)=   "Fra_ToFqa"
-      Tab(2).Control(2)=   "fra_LI"
+      Tab(2).Control(2)=   "fra_LineItem"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtRemarks"
+      Tab(3).Control(0)=   "Txt_RemNo"
       Tab(3).Control(1)=   "CmdcopyLI(1)"
-      Tab(3).Control(2)=   "Txt_RemNo"
+      Tab(3).Control(2)=   "txtRemarks"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Txt_ClsNo"
-      Tab(4).Control(1)=   "CmdcopyLI(2)"
-      Tab(4).Control(2)=   "txtClause"
-      Tab(4).Control(3)=   "cmd_Addterms"
-      Tab(4).Control(3).Enabled=   0   'False
+      Tab(4).Control(0)=   "cmd_Addterms"
+      Tab(4).Control(0).Enabled=   0   'False
+      Tab(4).Control(1)=   "txtClause"
+      Tab(4).Control(2)=   "CmdcopyLI(2)"
+      Tab(4).Control(3)=   "Txt_ClsNo"
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
          BorderStyle     =   0  'None
@@ -922,7 +889,7 @@ Begin VB.Form frm_NewPurchase
          Begin VB.TextBox txt_ChargeTo 
             Height          =   525
             Left            =   1200
-            MaxLength       =   60
+            MaxLength       =   80
             MultiLine       =   -1  'True
             TabIndex        =   3
             Top             =   810
@@ -1052,7 +1019,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   94896131
+            Format          =   95551491
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1714,7 +1681,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   94896131
+            Format          =   95551491
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2309,7 +2276,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   94896131
+            Format          =   95551491
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -3688,6 +3655,39 @@ Begin VB.Form frm_NewPurchase
          Y2              =   2880
       End
    End
+   Begin VB.CommandButton CmdConvert 
+      Caption         =   "Convert a transaction"
+      Enabled         =   0   'False
+      Height          =   375
+      Left            =   7080
+      TabIndex        =   148
+      Top             =   120
+      Width           =   2175
+   End
+   Begin LRNavigators.LROleDBNavBar NavBar1 
+      Height          =   375
+      Left            =   120
+      TabIndex        =   64
+      Top             =   8040
+      Width           =   4215
+      _ExtentX        =   7435
+      _ExtentY        =   661
+      AllowCustomize  =   0   'False
+      EMailVisible    =   -1  'True
+      FirstEnabled    =   0   'False
+      LastEnabled     =   0   'False
+      NewEnabled      =   -1  'True
+      NextEnabled     =   0   'False
+      PreviousEnabled =   0   'False
+      AllowDelete     =   0   'False
+      DeleteVisible   =   -1  'True
+      CommandType     =   8
+      EditEnabled     =   0   'False
+      EditVisible     =   0   'False
+      SaveToolTipText =   "Save changes made to the current record"
+      CancelToolTipText=   "Undo the changes made to the current Screen"
+      EditToolTipText =   "Allows you to make modification"
+   End
    Begin VB.PictureBox freeText01 
       Appearance      =   0  'Flat
       BackColor       =   &H00C0FFC0&
@@ -3703,14 +3703,15 @@ Begin VB.Form frm_NewPurchase
       Begin VB.CommandButton Command2 
          Caption         =   "&Update"
          Height          =   615
-         Left            =   3240
+         Left            =   3120
          TabIndex        =   186
          Top             =   5400
-         Width           =   1335
+         Width           =   1575
       End
       Begin VB.TextBox freeTextField 
          Height          =   4095
          Left            =   240
+         MaxLength       =   1250
          MultiLine       =   -1  'True
          TabIndex        =   185
          Top             =   960
@@ -3793,10 +3794,10 @@ Begin VB.Form frm_NewPurchase
          Caption         =   "&Update"
          Default         =   -1  'True
          Height          =   615
-         Left            =   3240
+         Left            =   3120
          TabIndex        =   192
          Top             =   3600
-         Width           =   1335
+         Width           =   1575
       End
       Begin VB.Label freeText02Title 
          Appearance      =   0  'Flat
@@ -3985,6 +3986,7 @@ Private Sub saveExtraField(kind As String)
              + "where namespace='" + deIms.NameSpace + "' and po='" + Poheader.Ponumb + "' and from_field='" + kind + "'"
         End If
     Else
+        freeTextValues(n) = Replace(freeTextValues(n), "'", "-")
         sql = "select from_field from po_extra_00 where namespace='" + deIms.NameSpace + "' and po='" + Poheader.Ponumb + "' and from_field='" + kind + "'"
         datay.Open sql, deIms.cnIms, adOpenForwardOnly
         If datay.RecordCount < 1 Then
@@ -4457,18 +4459,12 @@ If FormMode <> mdvisualization And dtpRequestedDate.value < Now() Then
 End If
 End Sub
 
-Private Sub Form_Activate()
-    Me.Left = Round((Screen.Width - Me.Width) / 2)
-    Me.Top = Round((Screen.Height - Me.Height) / 2) - 200
-End Sub
-
 Private Sub freeTextButton_Click(Index As Integer)
     freeTextChoice = Index
     sst_PO.Enabled = False
     freeTextField.Text = ""
     If Index < 3 Then
         freeText01.Visible = True
-        Command2.Default = True
         freeText01.ZOrder
         freeTextField.SetFocus
         If freeTextValues(freeTextChoice) <> "" Then
@@ -4495,15 +4491,15 @@ Private Sub freeTextButton_Click(Index As Integer)
             End If
         Case 2
             If deIms.NameSpace = "JA414" Then
-                freeText01Title.Caption = "Aprobador"
+                freeText01Title.Caption = "Aprobado por"
             Else
                 freeText01Title.Caption = "Approved By"
             End If
         Case 3
             If deIms.NameSpace = "JA414" Then
-                freeText01Title.Caption = "Enviar A"
+                freeText02Title.Caption = "Enviar A"
             Else
-                freeText01Title.Caption = "Ship To"
+                freeText02Title.Caption = "Ship To"
             End If
     End Select
 End Sub
@@ -5414,7 +5410,7 @@ If Not FormMode = mdCreation Then
         Dim sql As String
             sql = "Select po_ponumb from po where  po_npecode = '" + FNameSpace + "' and " _
                 & "po_date >=  dateadd(year, -1, getdate())" _
-                & "ORDER BY po_ponumb, po_date, po_reqddelvdate"
+                & "ORDER BY po_date desc"
             deIms.rsPonumb.Close
             deIms.rsPonumb.Source = sql
             deIms.rsPonumb.Open
@@ -7579,6 +7575,9 @@ Dim Count As Integer
             freeTextButton(3).Visible = True
         End If
     End If
+    
+    Me.Left = Round((Screen.Width - Me.Width) / 2)
+    Me.Top = Round((Screen.Height - Me.Height) / 2) - 200
 End Sub
 
 
@@ -7662,7 +7661,9 @@ End If
 
 txt_ChargeTo = Poheader.chrgto
 
+
 SSOleDBPriority.Tag = Poheader.priocode
+
 
 deIms.rsPRIORITY.MoveFirst
 deIms.rsPRIORITY.Find ("pri_code='" & Poheader.priocode & "'")
@@ -8472,12 +8473,11 @@ SaveToPOHEADER = False
         If Len(LblRevDate.Caption) > 0 Then Poheader.daterevi = LblRevDate
     End If
     
-    'added by Juan 2020/03/12
-    If FNameSpace = "JA414" Then
-        Poheader.priocode = Trim$(SSOleDBPriority.value)
-        Poheader.orig = SSOleDBOriginator.value
-        Poheader.shipto = Trim$(SSOleDBShipTo.value)
-    End If
+
+    Poheader.priocode = Trim$(SSOleDBPriority.value)
+    Poheader.orig = SSOleDBOriginator.value
+    Poheader.shipto = Trim$(SSOleDBShipTo.value)
+
     
     Poheader.shipcode = Trim$(ssdcboShipper.Tag)
     Poheader.chrgto = txt_ChargeTo
@@ -10290,15 +10290,17 @@ Dim i As Long
     Else
         If Trim$(SSOleDBOriginator.Text) = "NA" Or Trim$(SSOleDBOriginator.Text) = "N/A" Then
             If Len(freeTextValues(1)) < 1 Then
-                MsgBox "Creador no puede quedar vacío"
+                MsgBox "Requisidor no puede quedar vacío"
                 SSOleDBOriginator.SetFocus: Exit Function
             End If
         End If
     End If
     
-    If Len(freeTextValues(2)) < 1 Then
-        MsgBox "Aprobador no puede quedar vacío"
-        Exit Function
+    If freeTextButton(2).Visible Then
+        If Len(freeTextValues(2)) < 1 Then
+            MsgBox "Aprobado por no puede quedar vacío"
+            Exit Function
+        End If
     End If
     
         

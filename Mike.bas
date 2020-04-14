@@ -89,6 +89,26 @@ Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long) 'JCG 2008
 ''Function and procedures created by Mike Lavery
 
 
+Function GetSupplierName(NameSpace, Code) As String
+    Dim datax As New ADODB.Recordset
+    Dim sql, Name As String
+    Name = ""
+    sql = "select sup_name from supplier where " _
+        & "sup_npecode = '" + NameSpace + "' and  sup_code = '" + Code + "'"
+    Set datax = New ADODB.Recordset
+    datax.Open sql, deIms.cnIms, adOpenForwardOnly
+    If Not datax.EOF Then
+        datax.MoveFirst
+        If IsNull(datax!sup_name) Then
+            Name = ""
+        Else
+            Name = Trim(datax!sup_name)
+        End If
+    End If
+    datax.Close
+    GetSupplierName = Name
+End Function
+
 Public Function Print_Crystal_Rpt(rpt_filename As String) As Integer
 'Created By Mike Lavery
  On Error Resume Next
@@ -1300,6 +1320,10 @@ Public Function generateattachmentsPDF(reportNAME As String, ReportCaption As St
   Set rs = New ADODB.Recordset
   Dim sql, DocType, confirm, msg As String
   Dim Flag As Integer
+  Dim company As String
+  Dim supplier As String
+  Dim supplierName As String
+  Dim revision As String
 On Error GoTo errMESSAGE
     sql = "select * from po where po_npecode='" + deIms.NameSpace + "' and po_ponumb = '" + poNum + "' "
     rs.Source = sql
@@ -1308,6 +1332,21 @@ On Error GoTo errMESSAGE
     If rs.RecordCount > 0 Then
         DocType = rs!po_docutype
         confirm = rs!po_confordr
+        company = rs!po_compcode
+        company = Trim(company)
+        revision = Format(rs!po_revinumb)
+        supplier = rs!po_suppcode
+        If deIms.NameSpace = "JA414" Then
+            If Not IsNull(supplier) Then
+                supplierName = GetSupplierName(deIms.NameSpace, supplier)
+                supplierName = Replace(supplierName, " ", "_")
+                supplierName = Replace(supplierName, "/", "_")
+                supplierName = Replace(supplierName, ":", "_")
+                supplierName = Replace(supplierName, ".", "_")
+                supplierName = Replace(supplierName, ",", "_")
+                supplierName = Replace(supplierName, "'", "")
+            End If
+        End If
     Else
         DocType = ""
         confirm = ""
@@ -1317,9 +1356,17 @@ On Error GoTo errMESSAGE
     If docKind = "receipt" Then
         Attachments(0) = "Receipt-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
     ElseIf docKind = "document" Then
-        Attachments(0) = "Document-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
+        If deIms.NameSpace = "JA414" Then
+            Attachments(0) = company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+        Else
+            Attachments(0) = "Document-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
+        End If
     Else
-        Attachments(0) = "PO-" + poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
+        If deIms.NameSpace = "JA414" Then
+            Attachments(0) = company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+        Else
+            Attachments(0) = poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
+        End If
     End If
      'Filename = App.Path + "\messages\" + Attachments(0)
      fileNameString = Attachments(0)
@@ -1486,8 +1533,16 @@ On Error GoTo errMESSAGE
         'added by Juan 2020/02/20
         If deIms.NameSpace = "JA414" Then
             attention = "Buenos días estimados," + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
-                + "Adjunta encontrarán la Orden de Compra número: " + poNum + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
-                + "Por Favor proceder a iniciar la gestión de entrega de inmediato." + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
+                + "Adjunta encontrarán la Orden de Compra número: " + poNum + "." + Chr(13) + Chr(10) + Chr(13) + Chr(10) _
+                + "Por Favor proceder a iniciar la gestión de entrega de inmediato." + Chr(13) + Chr(10) _
+                + "" + Chr(10) + Chr(13) _
+                + "Ingreso a Campo: " + Chr(10) + Chr(13) _
+                + "En caso de tratarse de servicios y que vuestra compañía deba ingresar a Yacimiento/Planta, debe ponerse en contacto con Estudio Oreste " + Chr(10) + Chr(13) _
+                + "(npardo@auditsuppliers.com.ar) para tramitar el alta y verificación de toda la documentación aplicable. Sin cumplir con estos requisitos," + Chr(10) + Chr(13) _
+                + "no podrá ingresar a la locación" + Chr(10) + Chr(13) _
+                + "" + Chr(10) + Chr(13) _
+                + "Muchas gracias." + Chr(10) + Chr(13) _
+                + "" + Chr(10) + Chr(13) _
                 + "Un cordial saludo."
         Else
             attention = "Please find here attached PO #" + poNum  ' JCG 2008/7/12
