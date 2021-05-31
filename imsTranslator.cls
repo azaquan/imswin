@@ -223,11 +223,13 @@ Public Sub Translate_SubReports()
     Dim i As Integer
     translator.mainREPORT = False
     With thisREPO
-        For i = 0 To .GetNSubreports - 1
-            repo = .GetNthSubreportName(i)
-            .SubreportToChange = repo
-            Call translator.Translate_Reports(repo)
-        Next
+        If .GetNSubreports > 2 Then
+            For i = 0 To .GetNSubreports - 1
+                repo = .GetNthSubreportName(i)
+                .SubreportToChange = repo
+                Call translator.Translate_Reports(repo)
+            Next
+        End If
         translator.mainREPORT = True
         .SubreportToChange = ""
     End With

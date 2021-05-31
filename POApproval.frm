@@ -265,9 +265,9 @@ Screen.MousePointer = 11
             If .Columns("approve").value Then
             
                 Screen.MousePointer = 11
-                Call ApprovePo(.Columns("ponumb").Text, .Columns(5).value, porejected, countarray)
+                Call ApprovePo(.Columns("ponumb").text, .Columns(5).value, porejected, countarray)
                 Screen.MousePointer = 11
-                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").Text, 1)
+                Call MDI_IMS.WriteStatus("Approving PO Number " & .Columns("ponumb").text, 1)
                 Screen.MousePointer = 11
                 'MDI_IMS.WriteStatus ("Getting Po Numbers to be approved")
                 
@@ -559,7 +559,7 @@ On Error GoTo Handled
 
 'Dim Rs As ADODB.Recordset 'JCG 2008/8/28
 
-Dim Filename As String
+Dim fileName As String
 Dim cmd As ADODB.Command
 Dim sql As String
 
@@ -695,15 +695,15 @@ Dim sql As String
 
             Message = "PO Approval"
             
-            Dim Text As String
-            Text = "Transaction Approval"
+            Dim text As String
+            text = "Transaction Approval"
             If translator.TR_LANGUAGE <> "US" Then
-                Text = translator.Trans("L00458")
-                Text = IIf(Text = "", "Transaction Approval", Text)
+                text = translator.Trans("L00458")
+                text = IIf(text = "", "Transaction Approval", text)
             End If
             If ConnInfo.EmailClient = Outlook Then
                 'Call sendOutlookEmailandFax("po.rpt", "Transaction Approval", MDI_IMS.CrystalReport1, ParamsForCrystalReports, Rs, subject, attention) 'JCG 2008/9/1
-                Call sendOutlookEmailandFax("po.rpt", Text + "-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO) 'JCG 2008/9/1
+                Call sendOutlookEmailandFax("po.rpt", text + "-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO) 'JCG 2008/9/1
                 'Call sendOutlookEmailandFax(Report_EmailFax_PO_name, "Transaction Approval-" & PO & "-", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rs, subject, attention, , , PO)  'JCG 2008/9/1
 
             ElseIf ConnInfo.EmailClient = ATT Then
@@ -863,7 +863,7 @@ End Function
 Private Sub SSDBGLine_DblClick()
     On Error GoTo ErrHandler
     Dim PO As String
-    PO = SSDBGLine.Columns("ponumb").Text
+    PO = SSDBGLine.Columns("ponumb").text
     
     With MDI_IMS.CrystalReport1
         .Reset
@@ -898,7 +898,7 @@ ErrHandler:
 End Sub
 
 Private Sub txtsearch_GotFocus()
-If Trim(txtsearch.Text) = "Hit enter to see results" Then txtsearch = ""
+If Trim(txtsearch.text) = "Hit enter to see results" Then txtsearch = ""
 End Sub
 
 Private Sub txtsearch_KeyUp(KeyCode As Integer, Shift As Integer)

@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{4A4AA691-3E6F-11D2-822F-00104B9E07A1}#3.0#0"; "ssdw3bo.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F8D97923-5EB1-11D3-BA04-0040F6348B67}#9.1#0"; "LRNavigatorsX.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form Frm_TrackingPONew 
    Caption         =   "Tracking Message for PO"
    ClientHeight    =   7095
@@ -14,6 +14,38 @@ Begin VB.Form Frm_TrackingPONew
    ScaleHeight     =   7095
    ScaleWidth      =   8925
    Tag             =   "02020200"
+   Begin VB.PictureBox popup 
+      Appearance      =   0  'Flat
+      BackColor       =   &H0000FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   1695
+      Left            =   3000
+      ScaleHeight     =   1665
+      ScaleWidth      =   2865
+      TabIndex        =   36
+      Top             =   2880
+      Visible         =   0   'False
+      Width           =   2895
+      Begin VB.Label Label8 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000FFFF&
+         Caption         =   "GENERATING MESSAGE, PLEASE WAIT"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   615
+         Left            =   240
+         TabIndex        =   37
+         Top             =   720
+         Width           =   2415
+      End
+   End
    Begin TabDlg.SSTab SSTab1 
       Height          =   6285
       Left            =   120
@@ -583,6 +615,54 @@ Dim FormMode As FormMode
 Dim WithEvents st As frm_ShipTerms
 Attribute st.VB_VarHelpID = -1
 
+Sub sendEmail(ReportCaption As String, CrystalControl As Crystal.CrystalReport, rsReceptList As ADODB.Recordset, subject As String, bodyTExt As String, Attachments() As String)
+Dim Params(1) As String
+Dim i As Integer
+Dim Recepients() As String
+Dim str As String
+
+On Error GoTo errMESSAGE
+    If rsReceptList.RecordCount > 0 Then
+        Dim poNum As String
+        Dim size As Integer
+        Recepients = ToArrayFromRecordset(rsReceptList) ' the First field in the recordset are the email Addresses.
+        Call WriteParameterFiles(Recepients, "", Attachments, subject, bodyTExt)
+    Else
+        MsgBox "No Recipients to Send", , "Imswin"
+    End If
+
+errMESSAGE:
+    If Err.number <> 0 Then
+        MsgBox "Process sendOutlookEmailandFax " + Err.Description
+    End If
+End Sub
+
+Sub doAttachmentsPDF(CrystalControl As Crystal.CrystalReport, Filename As String)
+On Error GoTo errMESSAGE
+
+    Call pdfStuff(Filename)
+    Dim oldPrinter As String
+    oldPrinter = Printer.DeviceName
+    Dim w As New WshNetwork
+    w.SetDefaultPrinter ("PDFCreator")
+    Set w = Nothing
+
+    With CrystalControl
+        .Destination = crptToPrinter
+        .PrintReport
+    End With
+   
+    Dim ww As New WshNetwork
+    ww.SetDefaultPrinter (oldPrinter)
+    Set ww = Nothing
+    Sleep 3000
+
+errMESSAGE:
+
+    If Err.number <> 0 Then
+        MsgBox "Process generateattachmentsPDF -flag:" + Err.Description
+    End If
+End Sub
 Private Sub cmd_Add_Click()
 On Error Resume Next
 If (OptEmail.value = True Or OptFax.value = True) Then
@@ -643,7 +723,7 @@ Private Sub CmdSupEmail_Click()
 
 Dim RsSupEmail As New ADODB.Recordset
 
-RsSupEmail.Source = "select sup_mail from po, supplier where po_npecode = '" & deIms.NameSpace & "' and  sup_code=  po_suppcode and po_ponumb ='" & ssOleDbPO & "'"
+RsSupEmail.Source = "select sup_mail from po, supplier where po_npecode = '" & deIms.NameSpace & "' and  sup_code=  po_suppcode and po_ponumb ='" & SSOleDBPO & "'"
 
 RsSupEmail.ActiveConnection = deIms.cnIms
 
@@ -665,7 +745,7 @@ Private Sub CmdSupFax_Click()
 
 Dim RsSupFax As New ADODB.Recordset
 
-RsSupFax.Source = "select sup_faxnumb from po, supplier where po_npecode = '" & deIms.NameSpace & "' and  sup_code=  po_suppcode and po_ponumb ='" & ssOleDbPO & "'"
+RsSupFax.Source = "select sup_faxnumb from po, supplier where po_npecode = '" & deIms.NameSpace & "' and  sup_code=  po_suppcode and po_ponumb ='" & SSOleDBPO & "'"
 
 RsSupFax.ActiveConnection = deIms.cnIms
 
@@ -726,7 +806,7 @@ Dim rst As Recordset
 
     rst.MoveFirst
     Do While ((Not rst.EOF))
-        ssOleDbPO.AddItem rst!PO_PONUMB & ""
+        SSOleDBPO.AddItem rst!PO_PONUMB & ""
         rst.MoveNext
     Loop
 
@@ -771,94 +851,88 @@ End Sub
 
 Private Sub NavBar1_OnEMailClick()
 Dim IFile As IMSFile
-Dim Filename(1) As String
+Dim pdfFiles(1) As String
 Dim Recepients() As String
 Dim rsr As ADODB.Recordset
-Dim rptinfo As RPTIFileInfo
+Dim rs As ADODB.Recordset
 Dim subject As String
 Dim attention As String
-Dim ParamsForCrystalReports() As String
-Dim ParamsForRPTI() As String
 Dim FieldName As String
-Dim Message As String
-
+Dim bodyTExt As String
+Dim poNum As String
+Dim sql As String
 ReDim ParamsForCrystalReports(2)
-ReDim ParamsForRPTI(2)
-
-    Set rsr = GetObsRecipients(deIms.NameSpace, ssOleDbPO, SScmbMessage.Text)
-    
-    ParamsForCrystalReports(0) = "namespace;" + deIms.NameSpace + ";TRUE"
-    
-    ParamsForCrystalReports(1) = "mesgnumb;" + SScmbMessage + ";TRUE"
-    
-    ParamsForCrystalReports(2) = "ponumb;" + ssOleDbPO + ";true"
-    
-    ParamsForRPTI(0) = "namespace=" & deIms.NameSpace
-    
-    ParamsForRPTI(1) = "mesgnumb=" + SScmbMessage
-    
-    ParamsForRPTI(2) = "ponumb=" + ssOleDbPO
-    
+    Screen.MousePointer = 11
+    popup.Visible = True
+    poNum = Trim(SSOleDBPO)
+    Set rsr = GetObsRecipients(deIms.NameSpace, SSOleDBPO, SScmbMessage.Text)
     FieldName = "Recipient"
+    subject = "Tracking Message for PO -" & SSOleDBPO
+    bodyTExt = "Please find attached the " + subject
     
-    subject = "Tracking Message for PO -" & ssOleDbPO
-    
-    If ConnInfo.EmailClient = Outlook Then
-    
-        Call sendOutlookEmailandFax(Report_EmailFax_TrackingPo, "Tracking Message Header", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rsr, subject, attention)
-    
-    ElseIf ConnInfo.EmailClient = ATT Then
-    
-        Call SendAttFaxAndEmail("obs.rpt", ParamsForRPTI, MDI_IMS.CrystalReport1, ParamsForCrystalReports, rsr, subject, Message, FieldName)
-
-    ElseIf ConnInfo.EmailClient = Unknown Then
-    
-        MsgBox "Email is not set up Properly. Please configure the database for emails.", vbCritical, "Imswin"
-
-    End If
-
+    MDI_IMS.CrystalReport1.Reset
+    SetOBsReportParam
+    Call translator.Translate_Reports("obs.rpt")
+    pdfFiles(0) = "tracking_message_for_PO-" + SSOleDBPO + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".PDF"
+    Call doAttachmentsPDF(MDI_IMS.CrystalReport1, pdfFiles(0))
 
     If chkYesorNo.value = 1 Then
-    
-        ReDim ParamsForCrystalReports(1)
+        MDI_IMS.CrystalReport1.Reset
+        SetPOReportParam
+        Call translator.Translate_Reports("po.rpt")
         
-        ReDim ParamsForRPTI(1)
-    
-    
-            ParamsForCrystalReports(0) = "namespace;" + deIms.NameSpace + ";TRUE"
-            
-            ParamsForCrystalReports(1) = "ponumb;" + ssOleDbPO + ";true"
-            
-            ParamsForRPTI(0) = "namespace=" & deIms.NameSpace
-            
-            ParamsForRPTI(1) = "ponumb=" + ssOleDbPO
-            
-            FieldName = "Recipient"
-            
-            If ConnInfo.EmailClient = Outlook Then
-            
-                'Call sendOutlookEmailandFax("PO.rpt", "Tracking Message", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rsr, subject, attention)  MM  / using CR 11 report for emails now
-                Call sendOutlookEmailandFax(Report_EmailFax_PO_name, "Tracking Message PO", MDI_IMS.CrystalReport1, ParamsForCrystalReports, rsr, subject, attention)
-            
-            ElseIf ConnInfo.EmailClient = ATT Then
-            
-                Call SendAttFaxAndEmail("PO.rpt", ParamsForRPTI, MDI_IMS.CrystalReport1, ParamsForCrystalReports, rsr, subject, Message, FieldName)
-        
-            ElseIf ConnInfo.EmailClient = Unknown Then
-            
-                MsgBox "Email is not set up Properly. Please configure the database for emails.", vbCritical, "Imswin"
-        
+        If deIms.NameSpace = "JA414" Then
+            sql = "select * from po where po_npecode='" + deIms.NameSpace + "' and po_ponumb = '" + poNum + "' "
+            Set rs = New ADODB.Recordset
+            rs.Source = sql
+            rs.ActiveConnection = deIms.cnIms
+            rs.Open
+            If rs.RecordCount > 0 Then
+                Dim DocType As String
+                Dim confirm As String
+                Dim Company As String
+                Dim supplier As String
+                Dim supplierName As String
+                Dim revision As String
+                DocType = rs!po_docutype
+                confirm = rs!po_confordr
+                Company = rs!po_compcode
+                Company = Trim(Company)
+                revision = Format(rs!po_revinumb)
+                supplier = rs!po_suppcode
+                If deIms.NameSpace = "JA414" Then
+                    If Not IsNull(supplier) Then
+                        supplierName = GetSupplierName(deIms.NameSpace, supplier)
+                        supplierName = Replace(supplierName, " ", "_")
+                        supplierName = Replace(supplierName, "/", "_")
+                        supplierName = Replace(supplierName, ":", "_")
+                        supplierName = Replace(supplierName, ".", "_")
+                        supplierName = Replace(supplierName, ",", "_")
+                        supplierName = Replace(supplierName, "'", "")
+                    End If
+                End If
+            Else
+                DocType = ""
+                confirm = ""
             End If
-
+            pdfFiles(0) = Company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+            
+        Else
+            pdfFiles(0) = poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
+        End If
+        Call doAttachmentsPDF(MDI_IMS.CrystalReport1, pdfFiles(0))
     End If
-    
-End Sub
+    pdfFiles(0) = ConnInfo.EmailOutFolder + pdfFiles(0)
 
+    Call sendEmail("Tracking Message Header", MDI_IMS.CrystalReport1, rsr, subject, bodyTExt, pdfFiles)
+    Screen.MousePointer = 0
+    popup.Visible = False
+End Sub
 
 Private Sub NavBar1_OnNewClick()
 Dim str As String
        
-   If Len(Trim(ssOleDbPO)) > 0 Then
+   If Len(Trim(SSOleDBPO)) > 0 Then
 
         Call Clearform
         Call ChangeMode(mdCreation)
@@ -927,7 +1001,7 @@ Private Sub SetOBsReportParam()
 
         .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
         .ParameterFields(1) = "mesgnumb;" + SScmbMessage + ";TRUE"
-        .ParameterFields(2) = "ponumb;" + ssOleDbPO + ";true"
+        .ParameterFields(2) = "ponumb;" + SSOleDBPO + ";true"
     End With
 End Sub
 'get po report parameters to print po report
@@ -945,7 +1019,7 @@ Private Sub SetPOReportParam()
             '---------------------------------------------
 
             .ParameterFields(0) = "namespace;" + deIms.NameSpace + ";TRUE"
-            .ParameterFields(1) = "ponumb;" + ssOleDbPO + ";true"
+            .ParameterFields(1) = "ponumb;" + SSOleDBPO + ";true"
         End With
     End If
 
@@ -1005,10 +1079,10 @@ Dim rec(7) As String
   Loop
 
 
-Call InsertandUpdateTable(ssOleDbPO, SScmbMessage, txtMessage, 1, rec, TxtSubject, txtRemark, chkYesorNo)
+Call InsertandUpdateTable(SSOleDBPO, SScmbMessage, txtMessage, 1, rec, TxtSubject, txtRemark, chkYesorNo)
 
 
-    If Len(Trim(ssOleDbPO)) <> 0 And Len(Trim(SScmbMessage)) <> 0 Then
+    If Len(Trim(SSOleDBPO)) <> 0 And Len(Trim(SScmbMessage)) <> 0 Then
         NavBar1.CancelEnabled = False
         NavBar1.SaveEnabled = False
         NavBar1.PrintEnabled = True
@@ -1039,7 +1113,7 @@ Dim cmd As ADODB.Command
 
         .parameters.Append .CreateParameter("@NAMESPACE", adVarChar, adParamInput, 5, deIms.NameSpace)
 
-        .parameters.Append .CreateParameter("@PONUMB", adVarChar, adParamInput, 15, ssOleDbPO)
+        .parameters.Append .CreateParameter("@PONUMB", adVarChar, adParamInput, 15, SSOleDBPO)
 '        .Parameters.Append .CreateParameter("@MESSAGE", adVarChar, adParamInput, 15, SScmbMessage.Columns(0).Text)
         .parameters.Append .CreateParameter("@STRING", adVarChar, adParamOutput, 15, GetMessageNumber)
 
@@ -1074,13 +1148,13 @@ Public Sub GetSupplierPhoneDirEmails()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim Sql As String
+Dim sql As String
 
-Sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
+sql = " select sup_name Names,  upper( sup_mail) Emails  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_mail is not null and len(sup_mail) > 0   union "
 
-Sql = Sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
+sql = sql & " select phd_name Names, upper(phd_mail) Emails from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_mail is not null and len(phd_mail)>0 order by names "
 
-rst.Source = Sql
+rst.Source = sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -1113,13 +1187,13 @@ Public Sub GetSupplierPhoneDirFAX()
 Dim str As String
 Dim cmd As Command
 Dim rst As New Recordset
-Dim Sql As String
+Dim sql As String
 
-Sql = "select sup_name Names,  upper( sup_faxnumb) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_faxnumb is not null and len(sup_faxnumb) > 0   union"
+sql = "select sup_name Names,  upper( sup_faxnumb) Fax  from supplier where sup_npecode='" & deIms.NameSpace & "' and sup_faxnumb is not null and len(sup_faxnumb) > 0   union"
 
-Sql = Sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
+sql = sql & " select phd_name Names, upper(phd_faxnumb) Fax from phonedir  where phd_npecode='" & deIms.NameSpace & "'and phd_faxnumb is not null and len(phd_faxnumb)>0 order by names"
 
-rst.Source = Sql
+rst.Source = sql
 
 rst.ActiveConnection = deIms.cnIms
 
@@ -1215,7 +1289,7 @@ Dim query As String
     
     Call Clearform
     
-    If Len(ssOleDbPO) Then Call GetOBSMessagelist
+    If Len(SSOleDBPO) Then Call GetOBSMessagelist
          
 '-----------------------------------
 'Commented out by Muzammil 07/11. Added the last line instead of all
@@ -1257,7 +1331,7 @@ Dim query As String
     
  '--------------------------------------------------
  
-          exist = CheckMessageNumber(ssOleDbPO)
+          exist = CheckMessageNumber(SSOleDBPO)
         
         If exist > 0 Then
            ' EnableControls (False)
@@ -1285,7 +1359,7 @@ Dim rst As ADODB.Recordset
         .CommandText = .CommandText & " FROM OBS INNER JOIN PO "
         .CommandText = .CommandText & " ON OBS.ob_ponumb = PO.po_ponumb AND "
         .CommandText = .CommandText & " OBS.ob_npecode = PO.po_npecode "
-        .CommandText = .CommandText & " WHERE (OBS.ob_ponumb = '" & ssOleDbPO & "') AND "
+        .CommandText = .CommandText & " WHERE (OBS.ob_ponumb = '" & SSOleDBPO & "') AND "
         .CommandText = .CommandText & " OBS.ob_npecode  = '" & deIms.NameSpace & "'"
         .CommandText = .CommandText & " AND OBS.ob_flag  = 1 "
          Set rst = .Execute
@@ -1335,7 +1409,7 @@ Dim rst As Recordset
         .CommandText = "GetOBSList"
         Set .ActiveConnection = deIms.cnIms
         
-        .parameters.Append .CreateParameter("@ponumb", adVarChar, adParamInput, 15, ssOleDbPO)
+        .parameters.Append .CreateParameter("@ponumb", adVarChar, adParamInput, 15, SSOleDBPO)
         .parameters.Append .CreateParameter("@NAMESPACE", adVarChar, adParamInput, 5, deIms.NameSpace)
         .parameters.Append .CreateParameter("@mesgnumb", adVarChar, adParamInput, 15, SScmbMessage)
         
@@ -1392,7 +1466,7 @@ TxtSubject = ""
 End Sub
 
 Public Function InsertandUpdateTable(PO As String, Message As String, MessageDate As Date, Flag As Boolean, _
-                                     rec() As String, subject As String, remark As String, Inflag As Boolean) _
+                                     rec() As String, subject As String, Remark As String, Inflag As Boolean) _
                                     As Boolean
 
 On Error GoTo Noinsert
@@ -1424,7 +1498,7 @@ Dim cmd As ADODB.Command
         .parameters.Append .CreateParameter("@eta", adVarChar, adParamInput, 12, Null)
         .parameters.Append .CreateParameter("@shipvia", adVarChar, adParamInput, 2, Null)
         .parameters.Append .CreateParameter("@inclmesg", adBoolean, adParamInput, 1, Inflag)
-        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 1000, remark)
+        .parameters.Append .CreateParameter("@REMARKS", adVarChar, adParamInput, 1000, Remark)
         .parameters.Append .CreateParameter("@USER", adVarChar, adParamInput, 20, CurrentUser)
         
         
@@ -1443,15 +1517,15 @@ End Function
 
 
 Private Sub SSOleDBPO_GotFocus()
- Call HighlightBackground(ssOleDbPO)
+ Call HighlightBackground(SSOleDBPO)
 End Sub
 
 Private Sub ssOleDbPO_KeyPress(KeyAscii As Integer)
-  If Not ssOleDbPO.DroppedDown Then ssOleDbPO.DroppedDown = True
+  If Not SSOleDBPO.DroppedDown Then SSOleDBPO.DroppedDown = True
 End Sub
 
 Private Sub SSOleDBPO_LostFocus()
-Call NormalBackground(ssOleDbPO)
+Call NormalBackground(SSOleDBPO)
 End Sub
 
 Private Sub SSOleDBPO_Validate(Cancel As Boolean)
@@ -1460,9 +1534,9 @@ Dim Count As Integer
 
 Count = 1
 
-Do While Not ssOleDbPO.Rows = Count
+Do While Not SSOleDBPO.Rows = Count
 
-If ssOleDbPO = ssOleDbPO.Columns(0).value Then
+If SSOleDBPO = SSOleDBPO.Columns(0).value Then
 
     Exit Sub
 
@@ -1474,9 +1548,9 @@ Loop
 MsgBox "Please make sure that you have entered a valid Transaction Number.", vbInformation, "Imswin"
 Cancel = True
 
-ssOleDbPO.SetFocus
-ssOleDbPO.SelLength = 0
-ssOleDbPO.SelStart = 0
+SSOleDBPO.SetFocus
+SSOleDBPO.SelLength = 0
+SSOleDBPO.SelStart = 0
 
 End Sub
 

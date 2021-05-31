@@ -19,6 +19,61 @@ Begin VB.Form frm_NewPurchase
    ScaleHeight     =   8670
    ScaleWidth      =   9420
    Tag             =   "02020100"
+   Begin VB.PictureBox mailForm 
+      Appearance      =   0  'Flat
+      BackColor       =   &H0000FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   1695
+      Left            =   3000
+      ScaleHeight     =   1665
+      ScaleWidth      =   4185
+      TabIndex        =   198
+      Top             =   4680
+      Visible         =   0   'False
+      Width           =   4215
+      Begin VB.CommandButton Command5 
+         Caption         =   "&Cancel"
+         Height          =   375
+         Left            =   2640
+         TabIndex        =   202
+         Top             =   1080
+         Width           =   1335
+      End
+      Begin VB.CommandButton sendEmailButton 
+         Caption         =   "&Send"
+         Height          =   375
+         Left            =   240
+         TabIndex        =   201
+         Top             =   1080
+         Width           =   1335
+      End
+      Begin VB.TextBox recipient 
+         Height          =   285
+         Left            =   240
+         TabIndex        =   200
+         Text            =   "email"
+         Top             =   600
+         Width           =   3735
+      End
+      Begin VB.Label Label16 
+         BackColor       =   &H0000FFFF&
+         Caption         =   "This PO will be emailed to:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   240
+         TabIndex        =   199
+         Top             =   240
+         Width           =   2415
+      End
+   End
    Begin TabDlg.SSTab sst_PO 
       Height          =   7665
       Left            =   120
@@ -55,42 +110,42 @@ Begin VB.Form frm_NewPurchase
       TabCaption(1)   =   "Recipients"
       TabPicture(1)   =   "NewPurchaseOrder.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "OptEmail"
-      Tab(1).Control(1)=   "OptFax"
-      Tab(1).Control(2)=   "Text1"
-      Tab(1).Control(3)=   "CmdAddSupEmail"
-      Tab(1).Control(4)=   "cmdRemove"
-      Tab(1).Control(5)=   "dgRecepients"
+      Tab(1).Control(0)=   "Line1"
+      Tab(1).Control(1)=   "lbl_Recipients"
+      Tab(1).Control(2)=   "Lbl_search"
+      Tab(1).Control(3)=   "dgRecipientList"
+      Tab(1).Control(4)=   "fra_FaxSelect"
+      Tab(1).Control(5)=   "cmd_Add"
       Tab(1).Control(6)=   "txt_Recipient"
-      Tab(1).Control(7)=   "cmd_Add"
-      Tab(1).Control(8)=   "fra_FaxSelect"
-      Tab(1).Control(9)=   "dgRecipientList"
-      Tab(1).Control(10)=   "Lbl_search"
-      Tab(1).Control(11)=   "lbl_Recipients"
-      Tab(1).Control(12)=   "Line1"
+      Tab(1).Control(7)=   "dgRecepients"
+      Tab(1).Control(8)=   "cmdRemove"
+      Tab(1).Control(9)=   "CmdAddSupEmail"
+      Tab(1).Control(10)=   "Text1"
+      Tab(1).Control(11)=   "OptFax"
+      Tab(1).Control(12)=   "OptEmail"
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "Line Items"
       TabPicture(2)   =   "NewPurchaseOrder.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fra_LI"
+      Tab(2).Control(0)=   "fra_LineItem"
       Tab(2).Control(1)=   "Fra_ToFqa"
-      Tab(2).Control(2)=   "fra_LineItem"
+      Tab(2).Control(2)=   "fra_LI"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "Remarks"
       TabPicture(3)   =   "NewPurchaseOrder.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Txt_RemNo"
+      Tab(3).Control(0)=   "txtRemarks"
       Tab(3).Control(1)=   "CmdcopyLI(1)"
-      Tab(3).Control(2)=   "txtRemarks"
+      Tab(3).Control(2)=   "Txt_RemNo"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "Notes/Instructions"
       TabPicture(4)   =   "NewPurchaseOrder.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cmd_Addterms"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "txtClause"
-      Tab(4).Control(2)=   "CmdcopyLI(2)"
-      Tab(4).Control(3)=   "Txt_ClsNo"
+      Tab(4).Control(0)=   "Txt_ClsNo"
+      Tab(4).Control(1)=   "CmdcopyLI(2)"
+      Tab(4).Control(2)=   "txtClause"
+      Tab(4).Control(3)=   "cmd_Addterms"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame fra_LI 
          BorderStyle     =   0  'None
@@ -1019,7 +1074,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   95551491
+            Format          =   94830595
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo ssdcboShipper 
@@ -1681,7 +1736,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentX        =   2937
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   95551491
+            Format          =   94830595
             CurrentDate     =   36402
          End
          Begin SSDataWidgets_B_OLEDB.SSOleDBCombo SSOledbSrvCode 
@@ -2276,7 +2331,7 @@ Begin VB.Form frm_NewPurchase
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   95551491
+            Format          =   94830595
             CurrentDate     =   36405
          End
          Begin VB.TextBox txt_TotalLIs 
@@ -4024,7 +4079,7 @@ On Error GoTo getError
                         If cont = dgRecipientList.Columns(0).Text Then
                             PoReceipients.MoveFirst
                             Do While Not PoReceipients.EOF
-                                If PoReceipients.Receipient = cont Then
+                                If PoReceipients.receipient = cont Then
                                     PoReceipients.DeleteCurrentLI (dgRecipientList.Columns(0).Text)
                                     Exit Do
                                 End If
@@ -4063,7 +4118,7 @@ On Error GoTo getError
                         .AddNew
                         .Linenumb = PoReceipients.Count
                         .Ponumb = Poheader.Ponumb
-                        .Receipient = RecipientName
+                        .receipient = RecipientName
                         .NameSpace = deIms.NameSpace
                     End With
                 End If ' JCG 2008/8/16
@@ -4077,6 +4132,28 @@ On Error GoTo getError
 getError:
     Resume Next
     '---------------------
+End Sub
+
+Sub sendIt(ReportCaption As String, CrystalControl As Crystal.CrystalReport, recipient, subject As String, bodyText As String, Attachments() As String)
+Dim Params(1) As String
+Dim i As Integer
+Dim Recepients(1) As String
+Dim str As String
+
+On Error GoTo errMESSAGE
+    If recipient <> "" Then
+        Dim poNum As String
+        Dim size As Integer
+        Recepients(0) = recipient
+        Call WriteParameterFiles(Recepients, "", Attachments, subject, bodyText)
+    Else
+        MsgBox "No Recipients to Send", , "Imswin"
+    End If
+
+errMESSAGE:
+    If Err.number <> 0 Then
+        MsgBox "Process sendIt " + Err.Description
+    End If
 End Sub
 
 Private Sub chk_ConfirmingOrder_GotFocus()
@@ -4385,12 +4462,16 @@ Private Sub Command4_Click()
 End Sub
 
 
+Private Sub Command5_Click()
+    mailForm.Visible = False
+End Sub
+
 Private Sub dgRecipientList_BeforeColUpdate(ByVal ColIndex As Integer, ByVal oldVALUE As Variant, Cancel As Integer)
 If PoReceipients.Count > 0 Then PoReceipients.MoveFirst
  If Trim$(Len(dgRecipientList.Columns(0).Text)) > 0 Then
    Do While Not PoReceipients.EOF
-       If PoReceipients.Receipient = Trim$(oldVALUE) Then
-         PoReceipients.Receipient = Trim$(dgRecipientList.Columns(0).Text)
+       If PoReceipients.receipient = Trim$(oldVALUE) Then
+         PoReceipients.receipient = Trim$(dgRecipientList.Columns(0).Text)
          Exit Sub
        End If
        PoReceipients.MoveNext
@@ -4665,20 +4746,19 @@ Dim PoHeaderErrors As Boolean
 End Sub
 
 Private Sub NavBar1_OnEMailClick()
-On Error Resume Next
-
-Dim i As RPTIFileInfo
-Dim Params(1) As String
-
-'Call sendOutlookEmailandFax
-If Poheader.stas <> "OH" Then 'JCG 2008/11/15
-    If Poheader.stas <> "CL" Then  'JCG 2008/11/15
-        If Poheader.stas <> "CA" Then  'JCG 2008/11/15
-            Call SelectGatewayAndSendOutMails
-        End If
+    Dim dataUSER As ADODB.Recordset
+    Set dataUSER = New ADODB.Recordset
+    Dim sql As String
+    sql = "SELECT email FROM XUSERPROFILE WHERE usr_npecode = '" + deIms.NameSpace + "' AND usr_userid = '" + CurrentUser + "'"
+    dataUSER.Open sql, deIms.cnIms, adOpenForwardOnly
+    If dataUSER.RecordCount > 0 Then
+        recipient.Text = dataUSER!Email
+    Else
+        recipient.Text = ""
     End If
-End If
-
+    dataUSER.Close
+    Set dataUSER = Nothing
+    mailForm.Visible = True
 End Sub
 
 Private Sub NavBar1_OnPrintClick()
@@ -4776,6 +4856,17 @@ Dim i As Integer
   End If
   
 
+End Sub
+
+Private Sub sendEmailButton_Click()
+    Screen.MousePointer = 11
+    If (recipient.Text = "") Then
+        MsgBox "Email can't be empty"
+    Else
+        Call sendEmail(recipient.Text)
+        mailForm.Visible = False
+        Screen.MousePointer = 0
+    End If
 End Sub
 
 Private Sub showAll_Click(Index As Integer)
@@ -5588,7 +5679,12 @@ If rsSUPPLIER.RecordCount > 0 Then
    rsSUPPLIER.Filter = "sup_actvflag=1"
     rsSUPPLIER.MoveFirst
     Do While Not rsSUPPLIER.EOF
-       SSoledbSupplier.AddItem rsSUPPLIER!sup_code & ";" & rsSUPPLIER!sup_name & ";" & rsSUPPLIER!sup_city & ";" & rsSUPPLIER!sup_phonnumb & ";" & rsSUPPLIER!sup_faxnumb
+        'If FNameSpace = "JA414" Then
+            'SSoledbSupplier.AddItem rsSUPPLIER!sup_code & ";" & rsSUPPLIER!sup_name & ";" & rsSUPPLIER!sup_city & ";" & rsSUPPLIER!sup_phonnumb
+            'SSoledbSupplier.Columns(4).Visible = False
+        'Else
+            SSoledbSupplier.AddItem rsSUPPLIER!sup_code & ";" & rsSUPPLIER!sup_name & ";" & rsSUPPLIER!sup_city & ";" & rsSUPPLIER!sup_phonnumb & ";" & rsSUPPLIER!sup_faxnumb
+        'End If
        rsSUPPLIER.MoveNext
     Loop
    rsSUPPLIER.Filter = ""
@@ -8695,6 +8791,8 @@ Dim RSDocautodist As ADODB.Recordset
 On Error GoTo Handler
 If Len(SSoledbSupplier.Text) > 0 Then
 
+    
+
     deIms.rsActiveSupplier.MoveFirst
     deIms.rsActiveSupplier.Find ("sup_code='" & SSoledbSupplier.Columns(0).Text & "'")
     Txt_supContaName.Text = IIf(IsNull(deIms.rsActiveSupplier!sup_contaname), "", deIms.rsActiveSupplier!sup_contaname)
@@ -8729,7 +8827,11 @@ If Len(SSoledbSupplier.Text) > 0 Then
     
     If Not IsNull(deIms.rsActiveSupplier!sup_faxnumb) And Not Len(deIms.rsActiveSupplier!sup_faxnumb) = 0 Then
         If LTrim(RTrim(DocCode)) <> "R" Then 'JCG 2009/10/26
-             suppAddress = "" & Trim$(deIms.rsActiveSupplier!sup_faxnumb)  'D
+            If FNameSpace = "JA414" Then
+                suppAddress = ""
+            Else
+                suppAddress = "" & Trim$(deIms.rsActiveSupplier!sup_faxnumb)  'D
+            End If
         End If 'JCG 2009/10/26
     End If
     
@@ -10026,8 +10128,8 @@ mLoadMode = loadingPoRemark
 dgRecipientList.RemoveAll
 If PoReceipients.Count > 0 Then PoReceipients.MoveFirst
  Do While Not PoReceipients.EOF
-    If LTrim(PoReceipients.Receipient) <> "" Then ' JCG 2008/8/16
-        dgRecipientList.AddItem PoReceipients.Receipient
+    If LTrim(PoReceipients.receipient) <> "" Then ' JCG 2008/8/16
+        dgRecipientList.AddItem PoReceipients.receipient
     End If ' JCG 2008/8/16
     PoReceipients.MoveNext
  Loop
@@ -10086,7 +10188,7 @@ Dim retval As Long
 '''         End If AM
         
         .Ponumb = Poheader.Ponumb 'AM
-        .Receipient = RecipientName
+        .receipient = RecipientName
         .NameSpace = deIms.NameSpace
         
        
@@ -10123,7 +10225,7 @@ If PoReceipients.Count > 0 Then PoReceipients.MoveFirst
 
 Do While Not PoReceipients.EOF
   
-   If PoReceipients.Receipient = RecepientName Then
+   If PoReceipients.receipient = RecepientName Then
               IsRecipientInList = True
               Exit Do
    End If
@@ -10767,7 +10869,7 @@ On Error Resume Next
 End Sub
 
 
-Public Sub SendEmailAndFax(Recipients As PoReceipients, FieldName As String, _
+Public Sub SendEmailAndFax(recipients As PoReceipients, FieldName As String, _
                            subject As String, Message As String, Attachment As String, _
                            Optional Orientation As OrientationConstants)
     Dim address() As String
@@ -10776,7 +10878,7 @@ Public Sub SendEmailAndFax(Recipients As PoReceipients, FieldName As String, _
 
     On Error Resume Next
 
-    address = ToArrayFromRec(Recipients, FieldName, i, str)
+    address = ToArrayFromRec(recipients, FieldName, i, str)
     
     Dim faxAddresses() As String: faxAddresses = filterAddresses(address, True)
     If UBound(faxAddresses) > 0 Then
@@ -10818,7 +10920,7 @@ On Error GoTo ErrHandler
     Do While Not rs.EOF
         UpperBound = UpperBound + 1
         ReDim Preserve str(UpperBound)
-        str(UpperBound) = rs.Receipient
+        str(UpperBound) = rs.receipient
         rs.MoveNext
     Loop
     
@@ -11199,7 +11301,116 @@ Else
 End If
 
 End Function
-Public Function sendOutlookEmailandFax()
+Public Function sendEmail(recipient As String)
+Dim Params(1) As String
+Dim i As Integer
+Dim Attachments() As String
+Dim subject As String
+Dim reports(0) As String
+Dim Recepients() As String
+Dim bodyText As String
+Dim poNum As String
+Dim sql As String
+Dim rs As ADODB.Recordset
+Dim pdfFiles(0) As String
+
+On Error GoTo errMESSAGE
+    BeforePrint
+    If recipient <> "" Then
+        poNum = Poheader.Ponumb
+        subject = "PO -" & poNum
+        bodyText = "Please find attached the " + subject
+        Dim ParamsForCrystalReports(1) As String
+        ParamsForCrystalReports(0) = "namespace;" + deIms.NameSpace + ";true"
+        ParamsForCrystalReports(1) = "ponumb;" + Poheader.Ponumb + ";true"
+        Call translator.Translate_Reports("po.rpt")
+        
+        If deIms.NameSpace = "JA414" Then
+            sql = "select * from po where po_npecode='" + deIms.NameSpace + "' and po_ponumb = '" + poNum + "' "
+            Set rs = New ADODB.Recordset
+            rs.Source = sql
+            rs.ActiveConnection = deIms.cnIms
+            rs.Open
+            If rs.RecordCount > 0 Then
+                Dim DocType As String
+                Dim confirm As String
+                Dim Company As String
+                Dim supplier As String
+                Dim supplierName As String
+                Dim revision As String
+                DocType = rs!po_docutype
+                confirm = rs!po_confordr
+                Company = rs!po_compcode
+                Company = Trim(Company)
+                revision = Format(rs!po_revinumb)
+                supplier = rs!po_suppcode
+                If deIms.NameSpace = "JA414" Then
+                    If Not IsNull(supplier) Then
+                        supplierName = GetSupplierName(deIms.NameSpace, supplier)
+                        supplierName = Replace(supplierName, " ", "_")
+                        supplierName = Replace(supplierName, "/", "_")
+                        supplierName = Replace(supplierName, ":", "_")
+                        supplierName = Replace(supplierName, ".", "_")
+                        supplierName = Replace(supplierName, ",", "_")
+                        supplierName = Replace(supplierName, "'", "")
+                    End If
+                End If
+            Else
+                DocType = ""
+                confirm = ""
+            End If
+            pdfFiles(0) = Company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+        Else
+            pdfFiles(0) = poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
+        End If
+        Call doAttachmentsPDF(MDI_IMS.CrystalReport1, pdfFiles(0))
+        pdfFiles(0) = ConnInfo.EmailOutFolder + pdfFiles(0)
+        Call sendIt("PO report", MDI_IMS.CrystalReport1, recipient, subject, bodyText, pdfFiles)
+    Else
+        msg = translator.Trans("M00876")
+        msg = IIf(msg = "", "No Recipients to Send", msg)
+        MsgBox msg, , "Imswin"
+    End If
+    
+    
+    
+errMESSAGE:
+    
+    If Err.number <> 0 Then
+        
+        MsgBox Err.Description
+    
+    End If
+
+End Function
+
+Sub doAttachmentsPDF(CrystalControl As Crystal.CrystalReport, Filename As String)
+On Error GoTo errMESSAGE
+
+    Call pdfStuff(Filename)
+    Dim oldPrinter As String
+    oldPrinter = Printer.DeviceName
+    Dim w As New WshNetwork
+    w.SetDefaultPrinter ("PDFCreator")
+    Set w = Nothing
+
+    With CrystalControl
+        .Destination = crptToPrinter
+        .PrintReport
+    End With
+   
+    Dim ww As New WshNetwork
+    ww.SetDefaultPrinter (oldPrinter)
+    Set ww = Nothing
+    Sleep 3000
+
+errMESSAGE:
+
+    If Err.number <> 0 Then
+        MsgBox "Process generateattachmentsPDF -flag:" + Err.Description
+    End If
+End Sub
+Public Function sendOutlookEmailandFax(recipient As String)
 Dim Params(1) As String
 Dim i As Integer
 Dim Attachments() As String
@@ -11292,7 +11503,7 @@ End Function
 '''
 '''End Function
 
-Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, attention)
+Public Function WriteParameterFileFax(Attachments, recipients, subject, sender, attention)
     On Error GoTo errMESSAGE
     
      Dim Filename As String
@@ -11310,8 +11521,8 @@ Public Function WriteParameterFileFax(Attachments, Recipients, subject, sender, 
      
      Filename = ConnInfo.EmailParameterFolder & Filename
 
-    For i = 0 To UBound(Recipients)
-            recepientSTR = recepientSTR & Trim$(Recipients(i) & ";")
+    For i = 0 To UBound(recipients)
+            recepientSTR = recepientSTR & Trim$(recipients(i) & ";")
     Next
 
       i = 0
@@ -11351,7 +11562,7 @@ errMESSAGE:
 End Function
 
 
-Public Function WriteParameterFileEmail(Attachments() As String, Recipients() As String, subject As String, sender As String, attention As String) As String
+Public Function WriteParameterFileEmail(Attachments() As String, recipients() As String, subject As String, sender As String, attention As String) As String
 On Error GoTo errMESSAGE
      Dim Filename As String
      Dim FileNumb As Integer
@@ -11366,8 +11577,8 @@ On Error GoTo errMESSAGE
      
      Filename = ConnInfo.EmailParameterFolder & Filename
 
-    For i = 0 To UBound(Recipients)
-            recepientSTR = recepientSTR & Trim$(Recipients(i) & ";")
+    For i = 0 To UBound(recipients)
+            recepientSTR = recepientSTR & Trim$(recipients(i) & ";")
     Next
 
       i = 0
@@ -11623,25 +11834,6 @@ Dim Params(1) As String
 
 End Sub
 
-Private Sub SelectGatewayAndSendOutMails()
-
-If ConnInfo.EmailClient = Outlook Then
-    
-    Call sendOutlookEmailandFax
-
-ElseIf ConnInfo.EmailClient = ATT Then
-    
-    Call SendAttEmailandFax
-
-ElseIf ConnInfo.EmailClient = Outlook Then
-    '2015-06-23 juan
-    msg = translator.Trans("M00877")
-    msg = IIf(msg = "", "Email is not set up properly. Please Configure the database for Emails.", msg)
-    MsgBox msg, vbInformation, "Imswin"
-
-End If
-
-End Sub
 
 Public Function CanDocTypeBeRevised(DocCode As String) As Boolean
 
