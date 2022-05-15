@@ -654,7 +654,7 @@ On Error GoTo errorHandler
     
      Set cmd = MakeCommand(deIms.cnIms, ADODB.CommandTypeEnum.adCmdStoredProc)
             
-   
+   Attachments = Replace(Attachments, ";", "")
     With cmd
         .CommandText = "InsertEmailFax"
         .parameters.Append .CreateParameter("@Subject", adVarChar, adParamInput, 4000, subject)
@@ -946,14 +946,14 @@ End Function
 
 'print file
 
-Public Sub WriteToFile(str As String, FileNumber As Integer)
-    Print #FileNumber, str
+Public Sub WriteToFile(str As String, fileNumber As Integer)
+    Print #fileNumber, str
 End Sub
 
 'close file
 
-Public Sub CloseFile(FileNumber As Integer)
-    Close #FileNumber
+Public Sub CloseFile(fileNumber As Integer)
+    Close #fileNumber
 End Sub
 
 'get file information
@@ -1320,7 +1320,7 @@ Public Function generateattachmentsPDF(reportNAME As String, ReportCaption As St
   Set rs = New ADODB.Recordset
   Dim sql, DocType, confirm, msg As String
   Dim Flag As Integer
-  Dim company As String
+  Dim Company As String
   Dim supplier As String
   Dim supplierName As String
   Dim revision As String
@@ -1332,8 +1332,8 @@ On Error GoTo errMESSAGE
     If rs.RecordCount > 0 Then
         DocType = rs!po_docutype
         confirm = rs!po_confordr
-        company = rs!po_compcode
-        company = Trim(company)
+        Company = rs!po_compcode
+        Company = Trim(Company)
         revision = Format(rs!po_revinumb)
         supplier = rs!po_suppcode
         If deIms.NameSpace = "JA414" Then
@@ -1357,13 +1357,13 @@ On Error GoTo errMESSAGE
         Attachments(0) = "Receipt-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
     ElseIf docKind = "document" Then
         If deIms.NameSpace = "JA414" Then
-            Attachments(0) = company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+            Attachments(0) = Company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
         Else
             Attachments(0) = "Document-" + poNum + "-" & Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") & ".pdf"
         End If
     Else
         If deIms.NameSpace = "JA414" Then
-            Attachments(0) = company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
+            Attachments(0) = Company + "-" + poNum + "-rev" + revision + "-" + supplierName + ".pdf"
         Else
             Attachments(0) = poNum + "-" + Replace(Replace(Replace(Now(), "/", "_"), " ", "-"), ":", "_") + ".pdf"
         End If
@@ -1407,7 +1407,7 @@ On Error GoTo errMESSAGE
             .Formulas(101) = "lbl_doc_desc = '" + lbl_doc_desc + "'"
         End If
 
-        If confirm And translator.TR_LANGUAGE <> "US" Then
+        If confirm <> "" And translator.TR_LANGUAGE <> "US" Then
             msg = translator.Trans("M00881")
             If msg <> "" Then
                 .Formulas(100) = "confirmingorder = '" + msg + "'"
@@ -1761,6 +1761,8 @@ If UBound(Attachments) > 0 Then
 
     ElseIf UBound(Attachments) = 0 Then
        reports = reports & Trim$(Attachments(i))
+       
+    reports = Replace(reports, ";", "")
 End If
 'JCG 2008/7/5
     'Open Filename For Output As FileNumb

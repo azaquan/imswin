@@ -24,6 +24,7 @@ Begin VB.Form frmWarehouse
       _ExtentX        =   24580
       _ExtentY        =   5318
       _Version        =   393217
+      Enabled         =   -1  'True
       TextRTF         =   $"frmWarehouse.frx":0000
    End
    Begin VB.PictureBox imsMsgBox 
@@ -839,7 +840,7 @@ Begin VB.Form frmWarehouse
       _Version        =   393216
       CalendarBackColor=   16777215
       CustomFormat    =   "MMMM/dd/yyyy"
-      Format          =   94633987
+      Format          =   95813635
       CurrentDate     =   36867
    End
    Begin MSHierarchicalFlexGridLib.MSHFlexGrid STOCKlist 
@@ -2150,7 +2151,7 @@ Sub limitQty(index As Integer)
                 Else
                     If CDbl(quantityBOX(index)) > (originalQty - sumQty) Then
                         If Left(STOCKlist.TextMatrix(i, 7), 1) = "@" Then
-                            If CDbl(quantityBOX(index)) > (quantity(index)) Then
+                            If CDbl(quantityBOX(index)) >= (quantity(index)) Then
                                 quantityBOX(index) = quantity(index)
                             Else
                                 quantityBOX(index).text = Format((originalQty - sumQty), "0.00")
