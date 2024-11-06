@@ -1,1 +1,1 @@
-Provider=SQLOLEDB.1;PASSWORD=0egxpx4;Persist security info=true;user id=sa;initial catalog=EXXON_TEST_DEV;data source=DEV
+Provider=SQLOLEDB.1;PASSWORD=0egxpx4;Persist security info=true;user id=imswin;initial catalog=EXXON_PROD;data source=GLSTS02\SQLEXPRESS

@@ -455,7 +455,7 @@ Dim ctl As Control
     Screen.MousePointer = vbDefault
 End Sub
 
-Sub showBOX(Col As Integer)
+Sub showBOX(Col As Integer, Optional bottom As Boolean)
 Dim x As Integer
 Dim y As Integer
     With logwarGrid
@@ -484,8 +484,14 @@ Dim y As Integer
         Else
             n = 0
         End If
-        y = topROW(.row - n)
-        box.Top = y + .Top
+        ''y = topROW(.row - n)
+        y = .RowPos(.row) + 20
+        If (y > .Height) Then
+            y = .RowPos(.row) + .Top - .row + 30
+        Else
+            y = y + .Top
+        End If
+        box.Top = y
         box.Width = .ColWidth(Col) - 20
         box.Visible = True
         oldVALUE(Col) = .TextMatrix(.row, Col)
@@ -593,6 +599,10 @@ Private Sub logwarGrid_GotFocus()
     If dontClose Then box.SetFocus
 End Sub
 
+Private Sub logwarGrid_Scroll()
+    box.Visible = False
+End Sub
+
 Private Sub NavBar1_BeforeNewClick()
     Dim i As Integer
     NavBar1.CancelEnabled = True
@@ -619,7 +629,7 @@ Private Sub NavBar1_BeforeNewClick()
         oldRow = .row
         oldCol = .Col
         .topROW = .Rows - 1
-        Call showBOX(0)
+        Call showBOX(0, True)
     End With
 End Sub
 
